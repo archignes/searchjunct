@@ -88,6 +88,11 @@
   border: 1px solid black;
 }
 
+#state-button.showing_state {
+  background-color: #6c757d;
+  color: white;
+}
+
 #reshuffle-button:hover,
 #state-button:hover {
   background-color: rgba(0,0,0,0.1);

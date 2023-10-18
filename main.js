@@ -32,7 +32,6 @@ function handleSearch(system) {
     if (!query) {
         autoresizingTextarea.classList.add('flash-error');
         setTimeout(() => autoresizingTextarea.classList.remove('flash-error'), 500);
-        searchBar.focus();
         return false;
     }
 
@@ -197,14 +196,14 @@ window.onload = function () {
         updateButtonStyles();
         updateStatusLabels();
         const stateButton = document.getElementById('state-button');
-        if (stateButton.classList.contains('active')) {
+        if (stateButton.classList.contains('showing_state')) {
             toggleStatusLabels();
         }
     });
 
     // Event listener for the state button
     document.getElementById('state-button').addEventListener('click', function () {
-        this.classList.toggle('active');
+        this.classList.toggle('showing_state');
         toggleStatusLabels();
     });
 
