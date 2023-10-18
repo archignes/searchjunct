@@ -7,9 +7,13 @@
     <title>SearchJunct</title>
     <link rel="icon" type="image/x-icon" href="/images/searchjunct.svg">
 
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <style>
-        #reshuffle-button,
-        #state-button {
+        .special-action-button {
             margin: 0;
             padding: 0 1px;
             background-color: transparent;
@@ -17,11 +21,7 @@
             border: 1px solid black;
         }
     </style>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
+    
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
@@ -40,12 +40,23 @@
                     <input type="hidden" id="search-bar" name="query" class="form-control">
                 </form>
                 <div id="settings-container" class="m-0 p-0 mt-1">
-                    <button id="reshuffle-button" class="btn btn-secondary">
+                    <button id="reshuffle-button" class="btn btn-secondary special-action-button" title="Reshuffle">
                         <i class="bi bi-arrow-clockwise"></i>
                     </button>
-                    <button id="state-button" class="btn btn-secondary">
+                    <button id="state-button" class="btn btn-secondary special-action-button" title="State">
                         <i class="bi bi-file-text"></i>
                     </button>
+                    <button id="history-button" class="btn btn-secondary special-action-button" title="History">
+                        <i class="bi bi-clock-history"></i>
+                    </button>
+                </div>
+                <div id="search-history-container" class="mt-1 p-1 py-3">
+                    <button id="close-history" class="btn btn-secondary" title="Close History">
+                        <i class="bi bi-x"></i>
+                    </button>
+                    <h4 class="text-center">Search History</h4>
+                    <button id="download-history" class="btn btn-secondary" title="Download History">
+                        <i class="bi bi-download"></i>
                     </button>
                 </div>
                 <!-- Search system options -->

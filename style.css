@@ -78,28 +78,16 @@
   /* This will create a smooth transition effect */
 }
 
-
-#reshuffle-button,
-#state-button {
-  margin: 0;
-  padding: 0 1px;
-  background-color: transparent;
-  color: black;
-  border: 1px solid black;
-}
-
 #state-button.showing_state {
   background-color: #6c757d;
   color: white;
 }
 
-#reshuffle-button:hover,
-#state-button:hover {
+.special-action-button:hover {
   background-color: rgba(0,0,0,0.1);
 }
 
-#reshuffle-button:hover:active,
-#state-button:hover:active {
+.special-action-button:hover:active {
   background-color: transparent;
 }
 
@@ -116,4 +104,65 @@
 .status-label.visible {
   /* When the 'visible' class is added, the status label is shown */
   display: block;
+}
+
+
+/* Base styles for #search-history-container */
+#search-history-container {
+  display: none; /* It will be 'none' by default until the 'visible' class is added */
+  position: relative;
+}
+
+/* The '.visible' class styles */
+#search-history-container.visible,
+#close-history.visible,
+#download-history.visible {
+  display: block; /* The element becomes visible */
+}
+
+/* Base styles for #close-history and #download-history when they are hidden */
+#close-history,
+#download-history {
+  display: none; /* It will be 'none' by default until the 'visible' class is added */
+}
+
+/* Common styles for #close-history and #download-history when they are visible */
+#close-history.visible,
+#download-history.visible {
+  position: absolute;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border-radius: 3px;
+  margin: 0;
+  padding: 0 1px;
+  background-color: transparent;
+  border: none;
+  color: black;
+}
+
+/* Specific position styles for #close-history and #download-history */
+#close-history.visible {
+  top: 0;
+  right: 0;
+}
+
+#download-history.visible {
+    bottom: 2px;
+    right: 0;
+    margin-right: 3px;
+}
+
+/* Common hover effect */
+#close-history:hover,
+#download-history:hover,.delete-history:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+
+.delete-history {
+    margin: 0;
+      padding: 0 1px;
+      background-color: transparent;
+      border: none;
+      color: black;
 }
