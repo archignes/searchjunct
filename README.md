@@ -38,5 +38,24 @@ The following is a high-level roadmap for the development of SearchJunct. Specif
 ## Contributing
 Contributions are welcome. Please see the issues on the [GitHub](#) for areas where you can help. For new features or bug reports, create a new issue so we can track and discuss it.
 
+## Somewhat Similar Projects
+
+- https://github.com/danielsgriffin/qrs
+- https://comparethesearchengines.com/
+- https://searchaggregate.com/
+- https://justsearchportal.com/
+    - https://github.com/larspontoppidan/just-search-portal
+- https://www.gnod.com/search/
+- https://meta.softwarejourney.net/
+- https://randsearch.daniel.priv.no/
+- https://www.letssearch.org/
+- https://searx.github.io/searx/
+    - No longer maintained: https://github.com/searx/searx
+
+Note: This is _not_ intended to be a [metasearch engine](https://en.wikipedia.org/wiki/Metasearch_engine) or search aggregator so much as a search router, a guide to exploring new search tools, and a support for diversifying your search sources.
+
+
+
+
 ## Contact
 For inquiries or collaboration, please contact Daniel Griffin at [danielsgriffin@berkeley.edu](mailto:danielsgriffin@berkeley.edu).

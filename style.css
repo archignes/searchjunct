@@ -1,0 +1,107 @@
+.status-label {
+    /* This is the style for the label */
+    white-space: nowrap; /* Prevents the text from breaking into multiple lines */
+    position: absolute; /* Positions the label relative to the nearest positioned ancestor */
+    left: 100%; /* Positions the label starting from the right side of the container */
+    top: 50%; /* Vertically aligns the label with the container */
+    transform: translateY(-50%); /* Perfectly centers the label vertically */
+}
+
+.button-container {
+    display: flex;
+    align-items: center; /* Align vertically */
+    justify-content: space-between; /* Give space between the button and the label */
+    width: 100%; /* Full width to stretch across its parent container */
+}
+
+.btn {
+    flex-grow: 1; /* Allow the button to grow and occupy available space */
+}
+
+
+.grow-wrap {
+  display: grid;
+}
+
+.grow-wrap::after {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+}
+
+.grow-wrap > textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+.grow-wrap > textarea,
+.grow-wrap::after {
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: 0.35rem;
+  font: inherit;
+  line-height: 1.4;
+  font-family: sans-serif;
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+
+
+#textarea-container {
+    position: relative;
+}
+
+#magnifying-glass {
+    position: absolute;
+    bottom: 3px;
+    right: 1px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    border-radius: 3px;
+}
+
+#magnifying-glass:hover {
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+
+#clear-textarea {
+  position: absolute;
+  top: 0px;
+  right: -15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border-radius: 3px;
+}
+
+#clear-textarea:hover {
+  background: rgba(0,0,0,0.1);
+  border-radius: 3px;
+}
+
+.flash-error {
+  background-color: #ff7f7f;
+  /* Change this to the red color you want for the error flash */
+  transition: background-color 0.5s ease;
+  /* This will create a smooth transition effect */
+}
+
+
+#reshuffle-button,
+#state-button {
+  margin: 0;
+  padding: 0 1px;
+  background-color: transparent;
+  color: black;
+  border: 1px solid black;
+}
+
+#reshuffle-button:hover,
+#state-button:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+#reshuffle-button:hover:active,
+#state-button:hover:active {
+  background-color: transparent;
+}

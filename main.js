@@ -1,0 +1,235 @@
+// main.js
+import { initDatabase, logSearchEvent } from './indexedDBOperations.js';
+import { initializeTextarea } from './textareaHandler.js';
+
+// Global variable to keep track of the current search system index
+window.currentSystemIndex = 0;
+
+// Function to reshuffle the array of systems
+function reshuffleSystems(systemsArray) {
+    if (!systemsArray) {
+        console.error('No systems array provided to reshuffle.');
+        return;
+    }
+    for (let i = systemsArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [systemsArray[i], systemsArray[j]] = [systemsArray[j], systemsArray[i]]; // Swap
+    }
+    updateSystemIndex();
+    updateButtonLabels();
+}
+
+function handleSearch(system) {
+    const searchBar = document.getElementById('search-bar');
+    const autoresizingTextarea = document.getElementById('autoresizing-textarea');
+
+    if (!searchBar || !autoresizingTextarea) {
+        console.error('Required elements not found in the DOM');
+        return false;
+    }
+    console.log("asdlkj")
+    const query = searchBar.value;
+    if (!query) {
+        autoresizingTextarea.classList.add('flash-error');
+        setTimeout(() => autoresizingTextarea.classList.remove('flash-error'), 500);
+        searchBar.focus();
+        return false;
+    }
+
+    const searchUrl = system.url + encodeURIComponent(query);
+    const timestamp = new Date();
+    logSearchEvent(timestamp, query, system, searchUrl);
+    window.open(searchUrl, '_blank');
+}
+
+// Function to update the visual state of buttons
+function updateButtonStyles() {
+    const allButtons = document.querySelectorAll('#search-systems-container button');
+
+    allButtons.forEach((button) => {
+        if (button.dataset.searched === 'true') {
+            button.className = 'btn btn-dark btn-block'; // Already clicked systems, dark grey
+        } else if (Array.from(allButtons).indexOf(button) === currentSystemIndex) {
+            button.className = 'btn btn-secondary btn-block'; // Current system, secondary color
+        } else {
+            button.className = 'btn btn-light btn-block'; // Rest of the systems, light grey
+        }
+    });
+    allButtons.forEach((button) => {
+        const label = button.nextSibling;
+ 
+    });
+}
+
+function updateSystemIndex() {
+    const buttons = document.querySelectorAll('#search-systems-container button');
+    // Iterate through the buttons
+    for (let index = 0; index < buttons.length; index++) {
+        // Check the 'data-searched' attribute of the button
+        if (buttons[index].getAttribute('data-searched') !== 'true') {
+            // If the button hasn't been searched, return its index
+            currentSystemIndex = index;
+            return
+        }
+    }
+    // If all buttons have been searched, return null
+    return null;
+}
+
+
+
+
+function populateSearchSystems(systems, refreshButtons = false) {
+    const container = document.getElementById('search-systems-container');
+    container.className = 'col-10 mx-auto'
+    let oldButtons = [];
+    if (!refreshButtons) {
+        oldButtons = Array.from(container.children);
+    }
+    container.innerHTML = ''; // Clear existing content
+
+    systems.forEach((system, index) => {
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container d-flex align-items-center my-1';
+
+        // Create the button
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.id = system.name
+        button.textContent = system.name; // Set button text to the system's name
+        button.className = 'btn btn-light flex-grow-1'; // Make the button grow to take available space
+
+        // Create the label
+        const statusLabel = document.createElement('span');
+        statusLabel.className = 'status-label small ml-2'; // Use margin for a bit of spacing
+        statusLabel.style.display = 'none'; // Hide the label by default
+
+        // Append button and label to the container
+        buttonContainer.appendChild(button);
+        buttonContainer.appendChild(statusLabel); // This will be placed next to the button due to the 'flex' display
+
+        // Set the click event for each button
+        button.addEventListener('click', () => {
+            console.log("Click found.")
+            const searchOpened = handleSearch(system);   // Handle the search action
+            if (searchOpened !== false) {
+                button.dataset.searched = 'true'; // Add a data attribute to the button
+                const timestamp = new Date();
+                button.dataset.search_timestamp = timestamp.toISOString();
+                
+                updateSystemIndex();
+                updateButtonStyles();       // Update styles after search
+                updateButtonLabels();       // Update labels after search
+            }
+        });
+
+        // If the button was previously created and refreshButtons is false, maintain its dataset and label
+        if (!refreshButtons) {
+            oldButtons.forEach(oldButton => {
+                const oldButtonElement = oldButton.querySelector('button');        
+                if (oldButtonElement && oldButtonElement.id === button.id) {
+                    button.dataset.searched = oldButtonElement.dataset.searched;
+                    button.dataset.search_timestamp = oldButtonElement.dataset.search_timestamp;
+                    statusLabel.textContent = oldButtonElement.nextSibling.textContent;
+                }
+            });
+        }
+        container.appendChild(buttonContainer); // Append the button to the container
+    });
+
+    // After populating, update the labels for the first time
+    updateButtonLabels();
+}
+
+// Function to toggle the visibility of all status labels
+function toggleStatusLabels() {
+    const allStatusLabels = document.querySelectorAll('.status-label');
+    allStatusLabels.forEach((label) => {
+        if (label.style.display === 'none' || label.style.display === '') {
+            label.style.display = 'block';
+        } else {
+            label.style.display = 'none';
+        }
+    });
+}
+
+// Function to update the labels on the buttons based on their state
+function updateButtonLabels() {
+    // Get all the button containers
+    const allButtonContainers = document.querySelectorAll('.button-container');
+
+    allButtonContainers.forEach((container, index) => {
+        // Safely attempt to find and update the status label within each container
+        const statusLabel = container.querySelector('.status-label');
+        const button = container.querySelector('button');
+        if (statusLabel && button) {
+            if (button.dataset.searched === 'true') {
+                const timestamp = new Date(button.dataset.search_timestamp);
+                statusLabel.textContent = "Searched " + timestamp.toLocaleString();
+            } else if (index === currentSystemIndex) {
+                statusLabel.textContent = 'Next to be searched...';
+            } else {
+                statusLabel.textContent = 'To be searched...';
+            }
+        }
+    });
+}
+
+// Function to reset and repopulate the search systems
+function resetSearchSystems() {
+    reshuffleSystems(searchSystems); // Reshuffle the array
+    const refreshButtons = true
+    populateSearchSystems(searchSystems, refreshButtons); // Repopulate the buttons
+    currentSystemIndex = 0
+    updateButtonStyles(); // Update buttons' visual states
+    updateButtonLabels();
+}
+
+
+
+// This function will run once the HTML is loaded
+window.onload = function () {
+    initDatabase();
+    initializeTextarea(); // initialize the textarea logic
+
+    // Event listener for the reshuffle button
+    document.getElementById('reshuffle-button').addEventListener('click', function () {
+        reshuffleSystems(searchSystems);
+        populateSearchSystems(searchSystems); // Repopulate the buttons
+        updateSystemIndex();
+        updateButtonStyles();
+        updateButtonLabels();
+        const stateButton = document.getElementById('state-button');
+        if (stateButton.classList.contains('active')) {
+            toggleStatusLabels();
+        }
+    });
+
+    // Event listener for the state button
+    document.getElementById('state-button').addEventListener('click', function () {
+        this.classList.toggle('active');
+        toggleStatusLabels();
+    });
+
+    document.getElementById('magnifying-glass').addEventListener('click', function () {
+        const allButtons = document.querySelectorAll('#search-systems-container button');
+        if (currentSystemIndex < allButtons.length) {
+            allButtons[currentSystemIndex].click();
+        }
+    });
+
+    document.getElementById('autoresizing-textarea').addEventListener('input', function () {
+        if (this.value === '') {
+            const allButtons = document.querySelectorAll('#search-systems-container button');
+            const anySearchesDone = Array.from(allButtons).some(button => button.dataset.searched === 'true');
+            if (anySearchesDone) {
+                resetSearchSystems();
+            }
+        }
+    });
+
+
+    // Call functions to set the initial state
+    resetSearchSystems();
+};
+
