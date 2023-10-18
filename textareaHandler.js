@@ -39,7 +39,9 @@ export function initializeTextarea() {
             }
         }
     });
+}
 
+window.onload = function () {
     // Handling auto-resizing of text areas
     document.querySelectorAll('textarea').forEach(el => {
         el.addEventListener('input', function () {
@@ -48,6 +50,7 @@ export function initializeTextarea() {
             this.style.height = this.scrollHeight + 'px';
         });
 
+        // Trigger the 'input' event immediately on page load
         el.dispatchEvent(new Event('input', {
             bubbles: true,
             cancelable: true

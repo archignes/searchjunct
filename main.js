@@ -27,7 +27,6 @@ function handleSearch(system) {
         console.error('Required elements not found in the DOM');
         return false;
     }
-    console.log("asdlkj")
     const query = searchBar.value;
     if (!query) {
         autoresizingTextarea.classList.add('flash-error');
@@ -108,7 +107,6 @@ function populateSearchSystems(systems, refreshButtons = false) {
 
         // Set the click event for each button
         button.addEventListener('click', () => {
-            console.log("Click found.")
             const searchOpened = handleSearch(system);   // Handle the search action
             if (searchOpened !== false) {
                 button.dataset.searched = 'true'; // Add a data attribute to the button

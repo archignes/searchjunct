@@ -9,7 +9,7 @@ export function initDatabase() {
     };
 
     request.onsuccess = event => {
-        console.log("Database opened successfully");
+        // console.log("Database opened successfully");
         db = request.result;
     };
 
