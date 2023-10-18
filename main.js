@@ -102,7 +102,6 @@ function populateSearchSystems(systems, refreshButtons = false) {
         // Create the label
         const statusLabel = document.createElement('span');
         statusLabel.className = 'status-label small ml-2'; // Use margin for a bit of spacing
-        statusLabel.style.display = 'none'; // Hide the label by default
 
         // Append button and label to the container
         buttonContainer.appendChild(button);
@@ -155,11 +154,9 @@ function toggleStatusLabels() {
 
 // Function to update the labels on the buttons based on their state
 function updateStatusLabels() {
-    // Get all the button containers
     const allButtonContainers = document.querySelectorAll('.button-container');
 
     allButtonContainers.forEach((container, index) => {
-        // Safely attempt to find and update the status label within each container
         const statusLabel = container.querySelector('.status-label');
         const button = container.querySelector('button');
         if (statusLabel && button) {
