@@ -1,4 +1,5 @@
 // textareaHandler.js
+import { clearSearch } from './main.js'; // Adjust the path as necessary
 
 // This function updates the hidden input based on the textarea's content
 function updateHiddenInput(element) {
@@ -9,6 +10,15 @@ function updateHiddenInput(element) {
 
 export function initializeTextarea() {
     const textarea = document.getElementById('autoresizing-textarea');
+    const clearButton = document.getElementById('clear-textarea'); // Assuming the id of your clear button is 'clear-textarea'
+
+    // Add event listener to clear button
+    clearButton.addEventListener('click', function () {
+        textarea.value = ''; // Clear the textarea
+        updateHiddenInput(textarea); // Update the hidden input
+        clearSearch()
+    });
+
     textarea.oninput = function () {
         updateHiddenInput(this);
     };

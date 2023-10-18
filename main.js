@@ -181,7 +181,13 @@ function resetSearchSystems() {
     updateStatusLabels();
 }
 
-
+export function clearSearch() {
+    const allButtons = document.querySelectorAll('#search-systems-container button');
+    const anySearchesDone = Array.from(allButtons).some(button => button.dataset.searched === 'true');
+    if (anySearchesDone) {
+        resetSearchSystems();
+    }
+}
 
 // This function will run once the HTML is loaded
 window.onload = function () {
@@ -216,11 +222,7 @@ window.onload = function () {
 
     document.getElementById('autoresizing-textarea').addEventListener('input', function () {
         if (this.value === '') {
-            const allButtons = document.querySelectorAll('#search-systems-container button');
-            const anySearchesDone = Array.from(allButtons).some(button => button.dataset.searched === 'true');
-            if (anySearchesDone) {
-                resetSearchSystems();
-            }
+            clearSearch();
         }
     });
 
