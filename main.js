@@ -16,7 +16,7 @@ function reshuffleSystems(systemsArray) {
         [systemsArray[i], systemsArray[j]] = [systemsArray[j], systemsArray[i]]; // Swap
     }
     updateSystemIndex();
-    updateButtonLabels();
+    updateStatusLabels();
 }
 
 function handleSearch(system) {
@@ -119,7 +119,7 @@ function populateSearchSystems(systems, refreshButtons = false) {
                 
                 updateSystemIndex();
                 updateButtonStyles();       // Update styles after search
-                updateButtonLabels();       // Update labels after search
+                updateStatusLabels();       // Update labels after search
             }
         });
 
@@ -138,23 +138,23 @@ function populateSearchSystems(systems, refreshButtons = false) {
     });
 
     // After populating, update the labels for the first time
-    updateButtonLabels();
+    updateStatusLabels();
 }
 
 // Function to toggle the visibility of all status labels
 function toggleStatusLabels() {
     const allStatusLabels = document.querySelectorAll('.status-label');
     allStatusLabels.forEach((label) => {
-        if (label.style.display === 'none' || label.style.display === '') {
-            label.style.display = 'block';
+        if (label.classList.contains('visible')) {
+            label.classList.remove('visible');
         } else {
-            label.style.display = 'none';
+            label.classList.add('visible');
         }
     });
 }
 
 // Function to update the labels on the buttons based on their state
-function updateButtonLabels() {
+function updateStatusLabels() {
     // Get all the button containers
     const allButtonContainers = document.querySelectorAll('.button-container');
 
@@ -182,7 +182,7 @@ function resetSearchSystems() {
     populateSearchSystems(searchSystems, refreshButtons); // Repopulate the buttons
     currentSystemIndex = 0
     updateButtonStyles(); // Update buttons' visual states
-    updateButtonLabels();
+    updateStatusLabels();
 }
 
 
@@ -198,7 +198,7 @@ window.onload = function () {
         populateSearchSystems(searchSystems); // Repopulate the buttons
         updateSystemIndex();
         updateButtonStyles();
-        updateButtonLabels();
+        updateStatusLabels();
         const stateButton = document.getElementById('state-button');
         if (stateButton.classList.contains('active')) {
             toggleStatusLabels();
