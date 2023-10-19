@@ -190,6 +190,26 @@ export function clearSearch() {
 document.addEventListener('DOMContentLoaded', function () {
     var textarea = document.getElementById('autoresizing-textarea');
     textarea.focus();
+
+    // This function updates the page title
+    function updateTitle() {
+        var newText = textarea.value;
+        if (newText.trim()) { // checks if there's any non-space character
+            document.title = `[${newText}]`;
+        } else {
+            document.title = 'SearchJunct'; // revert to original if textarea is empty
+        }
+    }
+
+    // Event listener for input on the textarea
+    textarea.addEventListener('input', updateTitle);
+
+    // Additional feature: if you want to capture when someone pastes text as well
+    textarea.addEventListener('paste', function (event) {
+        // This ensures the pasted content is picked up in the 'input' event
+        setTimeout(updateTitle, 0);
+    });
+
 });
 
 // This function will run once the HTML is loaded
