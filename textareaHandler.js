@@ -8,6 +8,17 @@ function updateHiddenInput(element) {
     element.parentNode.dataset.replicatedValue = value;
 }
 
+// This function checks the URL for a "q" parameter and sets it as the textarea value if it exists.
+export function setTextareaFromParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
+    const textarea = document.getElementById('autoresizing-textarea');
+    if (query) {
+        textarea.value = decodeURIComponent(query);
+    }
+    updateHiddenInput(textarea)
+}
+
 export function initializeTextarea() {
     const textarea = document.getElementById('autoresizing-textarea');
     const clearButton = document.getElementById('clear-textarea'); // Assuming the id of your clear button is 'clear-textarea'

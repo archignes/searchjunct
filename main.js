@@ -1,6 +1,6 @@
 // main.js
 import { initDatabase, logSearchEvent } from './indexedDBOperations.js';
-import { initializeTextarea } from './textareaHandler.js';
+import { initializeTextarea, setTextareaFromParams } from './textareaHandler.js';
 
 // Global variable to keep track of the current search system index
 window.currentSystemIndex = 0;
@@ -187,6 +187,11 @@ export function clearSearch() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    var textarea = document.getElementById('autoresizing-textarea');
+    textarea.focus();
+});
+
 // This function will run once the HTML is loaded
 window.onload = function () {
     initDatabase();
@@ -227,5 +232,6 @@ window.onload = function () {
 
     // Call functions to set the initial state
     resetSearchSystems();
+    setTextareaFromParams()
 };
 
