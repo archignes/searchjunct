@@ -59,7 +59,7 @@ window.deleteLog = deleteLog;
 
 
 export function displayHistory() {
-    let historyContainer = document.getElementById('search-history-container');
+    let historyContainer = document.getElementById('history-container');
     let objectStore = db.transaction("search_logs").objectStore("search_logs");
 
     objectStore.openCursor().onsuccess = (event) => {
@@ -93,12 +93,6 @@ export function displayHistory() {
 
 
 }
-
-document.getElementById('history-button').addEventListener('click', displayHistory);
-
-document.getElementById('close-history').addEventListener('click', () => {
-    document.getElementById('search-history-container').classList.remove('visible');
-});
 
 // ... (Other functions like displayData, deleteLog, downloadLogs)
 

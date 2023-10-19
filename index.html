@@ -49,8 +49,23 @@
                     <button id="history-button" class="btn btn-secondary special-action-button" title="History">
                         <i class="bi bi-clock-history"></i>
                     </button>
+                    <button id="shortcut-help-button" class="btn btn-secondary special-action-button" title="Shortcut help">
+                        <i class="bi bi-slash-lg"></i>
+                    </button>
                 </div>
-                <div id="search-history-container" class="mt-1 p-1 py-3">
+                <div id="shortcut-help-popup" class="mt-1 border rounded p-1 py-3">
+                    <p class="p-1 m-1">
+                        You can use <kbd>Tab</kbd> and <kbd>Enter</kbd> to jump to the next <code>special-action-button</code> and <code>search-system-button</code> and interact with it.
+                    </p><p class="p-1 m-1">
+                        Using this tool may require switching often between tabs (as the links open in new tabs by default). 
+                        You can switch between tabs with <kbd>Cmd+Option</kbd> and left/right arrows. Or you can use <kbd>Cmd+Shift+A</kbd>. 
+                        </p>
+                        <div class="px-3 p-1 m-1"style="font-size: 0.8em;">
+                            Note: The tabs for SearchJunct will be labeled by the query, with square bracket notation: [search query]. 
+                            As this is rare you can likely simply type an opening bracket (<kbd>[</kbd>) to find all the SearchJunct tabs.
+                        </div>
+                </div>
+                <div id="history-container" class="mt-1 p-1 py-3">
                     <button id="close-history" class="btn btn-secondary" title="Close History">
                         <i class="bi bi-x"></i>
                     </button>

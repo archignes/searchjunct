@@ -1,5 +1,5 @@
 // main.js
-import { initDatabase, logSearchEvent } from './indexedDBOperations.js';
+import { initDatabase, logSearchEvent, displayHistory } from './indexedDBOperations.js';
 import { initializeTextarea, setTextareaFromParams } from './textareaHandler.js';
 
 // Global variable to keep track of the current search system index
@@ -230,10 +230,25 @@ window.onload = function () {
         }
     });
 
-    // Event listener for the state button
     document.getElementById('state-button').addEventListener('click', function () {
         this.classList.toggle('showing_state');
         toggleStatusLabels();
+    });
+
+    document.getElementById('shortcut-help-button').addEventListener('click', function () {
+        this.classList.toggle('showing_state'); 
+        const shortcutHelpPopup = document.getElementById('shortcut-help-popup');
+        shortcutHelpPopup.classList.toggle('visible');
+    });
+
+    document.getElementById('history-button').addEventListener('click', function () {
+        this.classList.toggle('showing_state');
+        const historyContainer = document.getElementById('history-container');
+        if (this.classList.contains('showing_state')) {
+            displayHistory();
+        } else {
+            document.getElementById('history-container').classList.remove('visible');
+        }
     });
 
     document.getElementById('magnifying-glass').addEventListener('click', function () {
