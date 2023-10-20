@@ -2,7 +2,7 @@
 <img width="200" alt="image showing the start page with search box, special-action-buttons, and search systems" src="https://github.com/danielsgriffin/searchjunct/assets/6070690/2297381f-b9fc-4a61-8425-049556cb5c42">
 
 ## Overview
-SearchJunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative design prototype, providing a platform for exploration and cogitation, particularly around user interaction with multiple search engines and finding the best tool for the job.
+SearchJunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.
 
 ## Features
 - **Multi-Engine Search Selection:** Enables queries through multiple search engines based on user selection.

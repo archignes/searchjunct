@@ -235,11 +235,17 @@ window.onload = function () {
         toggleStatusLabels();
     });
 
-    document.getElementById('shortcut-help-button').addEventListener('click', function () {
-        this.classList.toggle('showing_state'); 
-        const shortcutHelpPopup = document.getElementById('shortcut-help-popup');
-        shortcutHelpPopup.classList.toggle('visible');
-    });
+    function togglePopup(buttonId, popupId) {
+        document.getElementById(buttonId).addEventListener('click', function () {
+            this.classList.toggle('showing_state');
+            const popup = document.getElementById(popupId);
+            popup.classList.toggle('visible');
+        });
+    }
+
+    togglePopup('shortcut-help-button', 'shortcut-help-popup');
+    togglePopup('about-help-button', 'about-help-popup');
+    togglePopup('privacy-button', 'privacy-popup');
 
     document.getElementById('history-button').addEventListener('click', function () {
         this.classList.toggle('showing_state');

@@ -45,8 +45,9 @@
 
 #magnifying-glass {
     position: absolute;
-    bottom: 3px;
+    bottom: 1px;
     right: 1px;
+    height: 34px;
     cursor: pointer;
     transition: background 0.3s ease;
     border-radius: 3px;
@@ -78,18 +79,25 @@
   /* This will create a smooth transition effect */
 }
 
-#state-button.showing_state, #shortcut-help-button.showing_state, #history-button.showing_state {
+.flash-good {
+  background-color: #7fa8ff;
+  /* Change this to the red color you want for the error flash */
+  transition: background-color 0.5s ease;
+  /* This will create a smooth transition effect */
+}
+
+.special-action-button.showing_state {
   background-color: #6c757d;
   color: white;
 }
 
-#settings-container {
+#action-container {
     display: flex;
     justify-content: center;
     align-items: stretch;
 }
 
-#settings-container .special-action-button {
+#action-container .special-action-button {
     flex: 1 1 auto;
     max-width: 20px; /* Set the maximum width */
     margin: 0 2px; /* Add space on the left and right */
@@ -113,11 +121,11 @@
   transform: translateY(-50%);
 }
 
-#shortcut-help-popup {
+.popup {
   display: none;
 }
 
-.status-label.visible, #shortcut-help-popup.visible {
+.status-label.visible, .popup.visible {
   /* When the 'visible' class is added, the status label is shown */
   display: block;
 }
@@ -181,10 +189,4 @@
       background-color: transparent;
       border: none;
       color: black;
-}
-
-
-#about-help-button {
-    color: #000; /* Change the color to black */
-    opacity: 0.7; /* Reduce opacity to make it appear lighter */
 }

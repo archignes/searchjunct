@@ -33,13 +33,13 @@
             <div id="main-content" class="col-12">
                 <form id="search-form" action="#" method="GET" onsubmit="return false;">
                     <div id="textarea-container" class="grow-wrap">
-                        <textarea id="autoresizing-textarea" class="pr-4" rows="1" placeholder="Enter your search..."></textarea>
+                        <textarea id="autoresizing-textarea" class="pr-4" rows="1" placeholder="Type your query here..."></textarea>
                         <i id="clear-textarea" class="bi bi-x"></i>
-                        <img id="magnifying-glass" src="/images/searchjunct.svg" alt="Search">
+                        <img id="magnifying-glass" src="/images/searchjunct.svg" title="SearchJunct search button" alt="Search">
                     </div>
                     <input type="hidden" id="search-bar" name="query" class="form-control">
                 </form>
-                <div id="settings-container" class="m-0 p-0 mt-1">
+                <div id="action-container" class="m-0 p-1 col-6 mx-auto rounded mt-1">
                     <button id="reshuffle-button" class="btn special-action-button" title="Reshuffle">
                         <i class="bi bi-arrow-clockwise"></i>
                     </button>
@@ -52,12 +52,45 @@
                     <button id="shortcut-help-button" class="btn special-action-button" title="Shortcut help">
                         <i class="bi bi-slash-lg"></i>
                     </button>
+                    <button id="privacy-button" class="btn special-action-button" title="Privacy help">
+                        <i class="bi bi-shield"></i>
+                    </button>
                     <button id="about-help-button" class="btn special-action-button" title="About & Guide">
                         <i class="bi bi-question-lg"></i>
-                        
                     </button>
                 </div>
-                <div id="shortcut-help-popup" class="mt-1 border rounded p-1 py-3">
+                <div id="privacy-popup" class="popup mt-1 border rounded p-1 py-3">
+                    <h5 class="px-1 mx-1 py-0 my-0">Privacy</h5>
+                    <p class="p-1 mx-1 mt-0 mb-1">SearchJunct runs locally on your browser and only sends queries to the selected search engines when a search is initiated. It also saves your search history to an IndexedDB setup in your browser for your convenience. Please note that currently, history can only be deleted individually unless you are familiar with JavaScript or access the Developer Tools to do it yourself. This application is under active development, and future updates will include options to block certain search systems and to search and delete history in bulk.</p>
+                    <h6 class="px-1 mx-1 py-0 my-0">Data Collection</h6>
+                    <p class="p-1 mx-1 mt-0 mb-1">SearchJunct only collects data locally in your browser. This data is stored in an IndexedDB database called "SearchJunctDB".</p>
+                    <h6 class="px-1 mx-1 py-0 my-0">Data Usage</h6>
+                    <p class="p-1 mx-1 mt-0 mb-1">The collected data is used locally to enhance your user experience, such as remembering your search history. In the future, we may introduce an option to share anonymous usage data to help us improve SearchJunct.</p>
+                    <h6 class="px-1 mx-1 py-0 my-0">Data Sharing</h6>
+                    <p class="p-1 mx-1 mt-0 mb-1">Your data is stored locally on your device and is not shared with any third parties. When you initiate a search, your query is sent to the selected search engine, but no other information is shared.</p>
+                    <h6 class="px-1 mx-1 py-0 my-0">Cookies</h6>
+                    <p class="p-1 mx-1 mt-0 mb-1">SearchJunct currently does not use cookies. However, in the future, we may use cookies to remember your preferences and provide a more personalized experience.</p>
+                    <h6 class="px-1 mx-1 py-0 my-0">User Control</h6>
+                    <p class="p-1 mx-1 mt-0 mb-1">You have full control over your data. You can view, delete, or export your search history at any time. Please note that currently, history can only be deleted individually unless you are familiar with JavaScript or access the Developer Tools to do it yourself. Currently, export also requires such technical familiarity (please contact us for support).</p>
+                    <h6 class="px-1 mx-1 py-0 my-0">Policy Updates</h6>
+                    <p class="p-1 mx-1 mt-0 mb-1">We will notify you of any significant changes to this privacy policy. Please check this section regularly for updates.</p>
+                </div>
+                <div id="about-help-popup" class="popup mt-1 border rounded p-1 py-3">
+                    <h5 class="px-1 mx-1 py-0 my-0">About</h5>
+                    <p class="p-1 mx-1 mt-0 mb-1">SearchJunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.</p>
+                    <h5 class="px-1 mx-1 py-0 my-0">Usage</h5>
+                    <p class="p-1 m-1">(1) Type a query into the <a href="#" onmouseover="document.getElementById('autoresizing-textarea').classList.add('flash-good'); setTimeout(() => document.getElementById('autoresizing-textarea').classList.remove('flash-good'), 500);" onclick="document.getElementById('autoresizing-textarea').focus(); document.getElementById('autoresizing-textarea').classList.add('flash-good'); setTimeout(() => document.getElementById('autoresizing-textarea').classList.remove('flash-good'), 500); return false;">search-bar</a>.
+                    <br>(2) Then either hover over or click the <a href="#" onmouseover="document.getElementById('magnifying-glass').classList.add('flash-good'); setTimeout(() => document.getElementById('magnifying-glass').classList.remove('flash-good'), 500);" onclick="document.getElementById('magnifying-glass').classList.add('flash-good'); setTimeout(() => document.getElementById('magnifying-glass').classList.remove('flash-good'), 500); return false;">SearchJunct search button</a>, press <kbd>Enter</kbd>, or click a search system button to initiate a search.
+                    <br>The query will be sent to the selected or next search system and search results will open in a new tab.<sup>*</sup>
+                    </p>
+                    <p class="p-1 mx-1 mt-0 mb-1">The <a href="#" onmouseover="document.getElementById('action-container').classList.add('flash-good'); setTimeout(() => document.getElementById('action-container').classList.remove('flash-good'), 500);" onclick="document.getElementById('action-container').classList.add('flash-good'); setTimeout(() => document.getElementById('action-container').classList.remove('flash-good'), 500); return false;">action container</a> includes special action buttons to: <b>Reshuffle</b> <button id="reshuffle-button" class="btn special-action-button" title="Reshuffle"><i class="bi bi-arrow-clockwise"></i></button> the order of the search system buttons, show the <b>State</b> <button id="state-button" class="btn special-action-button" title="State"><i class="bi bi-file-text"></i></button> with status labels on the right of the buttons, show the <b>History</b> <button id="history-button" class="btn special-action-button" title="History"><i class="bi bi-clock-history"></i></button>, show the <b>Shortcut help</b> <button id="shortcut-help-button" class="btn special-action-button" title="Shortcut help"><i class="bi bi-slash-lg"></i></button>, and show the <b>About help</b> <button id="about-help-button" class="btn special-action-button" title="About & Guide"><i class="bi bi-question-lg"></i></button></p>
+                    <div class="px-3 p-1 m-1" style="font-size: 0.8em;">
+                    <sup>*</sup>Note: The query for Andi will have to be manually pasted because it does not support search-by-URL.
+                    </div>
+                    <h5 class="px-1 mx-1 py-0 my-0">Team</h5>
+                    <p class="p-1 mx-1 mt-0 mb-1">SearchJunct is actively developed by <a href="https://danielsgriffin.com" target="_blank">Daniel Griffin</a><sup>↗</sup><br>You can email him <a href="mailto:daniel.griffin@berkeley.edu?subject=[SearchJunct]"><i class="bi bi-envelope-fill"></i></a> with any questions, suggestions, or concerns or start an issue on <a href="https://github.com/danielsgriffin/searchjunct/issues/new"><i class="bi bi-github"></i> Github</a></p>
+                </div>
+                <div id="shortcut-help-popup" class="popup mt-1 border rounded p-1 py-3">
                     <p class="p-1 m-1">
                         You can use <kbd>Tab</kbd> and <kbd>Enter</kbd> to jump to the next <code>special-action-button</code> and <code>search-system-button</code> and interact with it.
                     </p><p class="p-1 m-1">
