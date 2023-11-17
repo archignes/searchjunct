@@ -247,18 +247,6 @@ window.onload = function () {
     togglePopup('about-help-button', 'about-help-popup');
     togglePopup('privacy-button', 'privacy-popup');
     togglePopup('tips-button', 'tips-popup');
-    // Make the tips-popup visible briefly at the start
-    setTimeout(function() {
-        const tipsButton = document.getElementById('tips-button');
-        tipsButton.classList.toggle('showing_state');
-        const tipsPopup = document.getElementById('tips-popup');
-        tipsPopup.classList.add('visible');
-        // Hide the popup after a short delay
-        setTimeout(function() {
-            tipsButton.classList.toggle('showing_state');
-            tipsPopup.classList.remove('visible');
-        }, 2000); // 2000ms = 2 seconds
-    }, 0);
 
     document.getElementById('history-button').addEventListener('click', function () {
         this.classList.toggle('showing_state');
