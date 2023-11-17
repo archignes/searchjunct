@@ -4,6 +4,28 @@
 ## Overview
 SearchJunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.
 
+## Running Locally
+
+```bash
+http-server . -p 8000
+```
+
+### with "P(rocess) M(anager) 2" (pm2)
+
+```zsh
+searchjunct % pm2 start "http-server . -p 8000" --name searchjunct
+[PM2] Starting /bin/bash in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ searchjunct        │ fork     │ 0    │ online    │ 0%       │ 480.0kb  │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+```
+
+Note: See also: https://www.npmjs.com/package/pm2 for `pm2 list`, `pm2 stop`, `pm2 restart`, and `pm2 delete`.
+
+
 ## Features
 - **Multi-Engine Search Selection:** Enables queries through multiple search engines based on user selection.
 - **Client-Side Operation:** All functionalities, including search logging (if opted by the user), operate on the client side to support user privacy.
