@@ -1,0 +1,267 @@
+[
+  {
+    "name": "Exa",
+    "id": "exa",
+    "search_link": "https://exa.ai/search?&q=%s",
+    "twitter_link": "https://twitter.com/ExaAILabs",
+    "discord_link": "https://discord.com/invite/HCShtBqbfV",
+    "github_link": "https://github.com/exa-labs"
+  },
+  {
+    "name": "Brave",
+    "id": "brave",
+    "search_link": "https://search.brave.com/search?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Brave_Search",
+    "twitter_link": "https://twitter.com/brave",
+    "github_link": "https://github.com/brave"
+  },
+  {
+    "name": "YouChat - Research",
+    "id": "youchat-research",
+    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=research",
+    "twitter_link": "https://twitter.com/YouSearchEngine"
+  },
+  {
+    "name": "YouChat - Agent",
+    "id": "youchat-agent",
+    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=agent",
+    "twitter_link": "https://twitter.com/YouSearchEngine"
+  },
+  {
+    "name": "YouChat - Custom",
+    "id": "youchat-custom",
+    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=custom",
+    "twitter_link": "https://twitter.com/YouSearchEngine"
+  },
+  {
+    "name": "Perplexity AI",
+    "id": "perplexity-ai",
+    "search_link": "https://www.perplexity.ai/search/?q=%s",
+    "mobile_app_breaks_links_warning": true,
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Perplexity.ai",
+    "twitter_link": "https://twitter.com/perplexity_ai"
+  },
+  {
+    "name": "You.com",
+    "id": "you-com",
+    "search_link": "https://you.com/search?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",
+    "twitter_link": "https://twitter.com/YouSearchEngine"
+  },
+  {
+    "name": "X (formerly Twitter)",
+    "id": "twitter",
+    "search_link": "https://twitter.com/search?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Twitter",
+    "web_search_system": false,
+    "twitter_link": "https://twitter.com/Twitter"
+  },
+  {
+    "name": "ChatGPT - 3.5",
+    "id": "chatgpt-3-5",
+    "account_required": true,
+    "search_link": "https://chat.openai.com/?model=text-davinci-002-render-sha",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/ChatGPT",
+    "twitter_link": "https://twitter.com/OpenAI"
+  },
+  {
+    "name": "ChatGPT - 4",
+    "id": "chatgpt-4",
+    "account_required": true,
+    "search_link": "https://chat.openai.com/?model=gpt-4",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/ChatGPT",
+    "twitter_link": "https://twitter.com/OpenAI",
+    "github_link": "https://github.com/openai/"
+  },
+  {
+    "name": "Bing",
+    "id": "bing",
+    "search_link": "https://www.bing.com/search?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)"
+  },
+  {
+    "name": "DuckDuckGo",
+    "id": "duckduckgo",
+    "search_link": "https://duckduckgo.com/?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/DuckDuckGo"
+  },
+  {
+    "name": "Microsoft Copilot",
+    "id": "microsoft-copilot",
+    "search_link": "https://copilot.microsoft.com/",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Microsoft_Copilot"
+  },
+  {
+    "name": "Ecosia",
+    "id": "ecosia",
+    "search_link": "https://www.ecosia.org/search?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Ecosia",
+    "nonprofit_verification": "https://www.bcorporation.net/en-us/find-a-b-corp/company/ecosia-gmbh/",
+    "twitter_link": "https://twitter.com/ecosia"
+  },
+  {
+    "name": "Andi Search",
+    "id": "andi-search",
+    "search_link": "https://andisearch.com/",
+    "twitter_link": "https://twitter.com/andi_search",
+    "discord_link": "https://discord.com/invite/andi",
+    "linkedin_link": "https://www.linkedin.com/company/andisearch/"
+  },
+  {
+    "name": "Marginalia Search",
+    "id": "marginalia-search",
+    "about-link": "https://www.marginalia.nu/marginalia-search/about/",
+    "search_link": "https://search.marginalia.nu/search?query=%s",
+    "github_link": "https://github.com/Marginalia/search",
+    "twitter_link": "https://twitter.com/MarginaliaNu",
+    "open_source_license": "GNU Affero General Public License v3.0"
+  },
+  {
+    "name": "Perplexity AI - Pro",
+    "id": "perplexity-ai-pro",
+    "search_link": "https://www.perplexity.ai/search?q=%s&copilot=true",
+    "account_required": true,
+    "mobile_app_breaks_links_warning": true,
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Perplexity.ai"
+  },
+  {
+    "name": "Qwant",
+    "id": "qwant",
+    "search_link": "https://www.qwant.com/?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Qwant"
+  },
+  {
+    "name": "YouChat",
+    "id": "youchat",
+    "base_url_for": [
+      "YouChat - Research mode"
+    ],
+    "account_required": true,
+    "search_link": "https://you.com/search?q=%s&tbm=youchat&cfr=chat",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",
+    "twitter_link": "https://twitter.com/YouSearchEngine"
+  },
+  {
+    "name": "Phind Search",
+    "id": "phind-search",
+    "search_link": "https://www.phind.com/search?q=%s",
+    "twitter_link": "https://twitter.com/phindsearch"
+  },
+  {
+    "name": "Kagi",
+    "id": "kagi",
+    "account_required": true,
+    "search_link": "https://kagi.com/search?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Kagi_(search_engine)",
+    "twitter_link": "https://twitter.com/KagiHQ"
+  },
+  {
+    "name": "Komo",
+    "id": "komo",
+    "search_link": "https://komo.ai/"
+  },
+  {
+    "name": "SciPhi",
+    "id": "sciphi",
+    "search_link": "https://search.sciphi.ai/search?q=%s",
+    "github_link": "https://github.com/SciPhi-AI/agent-search",
+    "open_source_license": "Apache License 2.0"
+  },
+  {
+    "name": "Cohere Coral",
+    "id": "cohere-coral",
+    "account_required": true,
+    "search_link": "https://coral.cohere.com/",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Cohere"
+  },
+  {
+    "name": "Tavily",
+    "id": "tavily",
+    "account_required": true,
+    "search_link": "https://app.tavily.com/playground"
+  },
+  {
+    "name": "HuggingChat",
+    "id": "huggingchat",
+    "search_link": "https://huggingface.co/chat/",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Hugging_Face",
+    "github_link": "https://github.com/huggingface/chat-ui",
+    "open_source_license": "Apache License 2.0"
+  },
+  {
+    "name": "Lepton Search",
+    "id": "lepton-search",
+    "search_link": "https://search.lepton.run/search?q=%s",
+    "github_link": "https://github.com/leptonai/search_with_lepton",
+    "open_source_license": "Apache License 2.0",
+    "twitter_link": "https://twitter.com/leptonai"
+  },
+  {
+    "id": "wikipedia",
+    "name": "Wikipedia",
+    "search_link": "https://en.wikipedia.org/w/index.php?search=%s",
+    "nondistinct_url": false,
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Wikipedia",
+    "twitter_link": "https://twitter.com/wikipedia",
+    "nonprofit_verification":"https://projects.propublica.org/nonprofits/organizations/200049703",
+    "web_search_system": false
+  },
+  {
+    "name": "Swisscows",
+    "id": "swisscows",
+    "search_link": "https://swisscows.com/en/web?query=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Swisscows",
+    "twitter_link": "https://twitter.com/swisscows_ch"
+  },
+  {
+    "name": "Yandex",
+    "id": "yandex",
+    "search_link": "https://yandex.com/search/?text=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Yandex"
+  },
+  {
+    "name": "Yep",
+    "id": "yep",
+    "search_link": "https://yep.com/web?q=%s",
+    "twitter_link": "https://twitter.com/yepsearch"
+  },
+  {"name": "Wayback Machine",
+  "id": "wayback-machine",
+  "search_link": "https://web.archive.org/web/*/%s",
+  "wikipedia_link": "https://en.wikipedia.org/wiki/Wayback_Machine",
+  "twitter_link": "https://twitter.com/waybackmachine"
+  },
+  {
+    "name": "Mojeek",
+    "id": "mojeek",
+    "search_link": "https://www.mojeek.com/search?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Mojeek"
+  },
+  {
+    "name": "MetaGer",
+    "id": "metager",
+    "search_link": "https://metager.org/meta/meta.ger3?eingabe=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/MetaGer"
+  },
+  {
+    "name": "Startpage",
+    "id": "startpage",
+    "search_link": "https://www.startpage.com/do/search?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Startpage.com" 
+  },
+  {
+    "name": "Stract",
+    "id": "stract",
+    "search_link": "https://stract.com/search?q=%s",
+    "github_link": "https://github.com/StractOrg/stract",
+    "open_source_license": "GNU Affero General Public License v3.0"
+  },
+  {
+    "name": "Google",
+    "id": "google",
+    "search_link": "https://www.google.com/search?q=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Google_Search",
+    "twitter_link": "https://twitter.com/Google",
+    "github_link": "https://github.com/google"
+  }
+]
