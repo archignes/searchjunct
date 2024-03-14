@@ -85,8 +85,8 @@ const HomePage = () => {
       </Head>
       <Header />
       <div className="mx-1 w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4">
-      <div className="flex justify-center items-center space-x-2">
-        <div className="search-box-container w-full mx-1 justify-center items-center flex flex-wrap space-x-2">
+        <div id="search-bar" className="flex justify-center items-center space-x-2">
+          <div className="w-full mx-1 justify-center items-center flex flex-wrap space-x-2">
             <form className="flex space-x-2 w-full items-center input-group justify-center search-bar no-link"
             role="search"
             aria-label="Website Search"

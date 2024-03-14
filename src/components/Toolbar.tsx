@@ -42,7 +42,7 @@ const Toolbar = () => {
 
   return (
     <>
-    <div className="flex flex-row space-x-1 mt-1 justify-center items-center">
+    <div id="toolbar" className="flex flex-row space-x-1 mt-1 justify-center items-center">
       <Button id="shuffle-button" variant="outline" title="Shuffle" onClick={setShuffleSystems} className="w-full">
         <ShuffleIcon />
       </Button>

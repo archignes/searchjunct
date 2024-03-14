@@ -54,7 +54,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         // Update the systemsSearched object directly
         const updatedSystemsSearched = { ...systemsSearched, [system.id]: true };
         setSystemSearched(system.id);
-        sessionStorage.setItem('searchInitiatedBloc', 'true');
+        sessionStorage.setItem('searchInitiatedBlock', 'true');
         console.log('Searchjunct: searched: ', system.id);
 
         // Find the next unsearched system based on the updated systemsSearched object

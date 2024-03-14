@@ -4,9 +4,7 @@ interface StorageContextType {
     initiateSearchImmediately: boolean;
     setInitiateSearchImmediately: (value: boolean) => void;
     searchInitiatedBlock: boolean;
-    searchedValues: Record<string, any>;
     updateSearchInitiatedBlock: (value: boolean) => void;
-    updateSearchedValues: (system: string, value: boolean) => void;
     systemsDisabled: Record<string, boolean>;
     setSystemDisabled: (systemId: string, value: boolean) => void;
     systemsDeleted: Record<string, boolean>;
@@ -24,9 +22,7 @@ const StorageContext = createContext<StorageContextType>({
     initiateSearchImmediately: false,
     setInitiateSearchImmediately: () => { },
     searchInitiatedBlock: false,
-    searchedValues: {},
     updateSearchInitiatedBlock: () => { },
-    updateSearchedValues: () => { },
     systemsDisabled: {},
     setSystemDisabled: () => { },
     systemsDeleted: {},
@@ -61,13 +57,6 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         return false;
     });
 
-    const [searchedValues, setSearchedValues] = useState<Record<string, any>>(() => {
-        if (typeof window !== 'undefined') {
-            const storedValue = sessionStorage.getItem('searchedValues');
-            return storedValue ? JSON.parse(storedValue) : {};
-        }
-        return {};
-    });
 
     // LocalStorage
     const [initiateSearchImmediately, setInitiateSearchImmediately] = useState<boolean>(() => {
@@ -127,8 +116,7 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     // Update sessionStorage when values change
     useEffect(() => {
         sessionStorage.setItem('searchInitiatedBlock', searchInitiatedBlock ? 'true' : 'false');
-        sessionStorage.setItem('searchedValues', JSON.stringify(searchedValues));       
-    }, [searchInitiatedBlock, searchedValues]);
+    }, [searchInitiatedBlock]);
 
     // Update localStorage when values change
     useEffect(() => {
@@ -143,11 +131,6 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     // Functions to update values
     const updateSearchInitiatedBlock = (value: boolean) => {
         setSearchInitiatedBlock(value);
-    };
-
-    const updateSearchedValues = (system: string, value: boolean) => {
-        setSearchedValues(prev => ({ ...prev, [system]: value }));
-        console.log(`Searched values updated to ${JSON.stringify(searchedValues)}`);
     };
 
     const updateSystemsSearched = (systemId: string, value: boolean) => {
@@ -172,9 +155,7 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             initiateSearchImmediately,
             setInitiateSearchImmediately,
             searchInitiatedBlock,
-            searchedValues,
             updateSearchInitiatedBlock,
-            updateSearchedValues,
             systemsDisabled,
             systemsDeleted,
             setSystemDeleted: updateSystemDeleted,
@@ -191,12 +172,10 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         [
             initiateSearchImmediately,
             searchInitiatedBlock,
-            searchedValues,
             systemsDisabled,
             systemsDeleted,
             systemsCustomOrder,
             systemsSearched,
-            updateSearchedValues,
             customModeOnLoad,
             setCustomModeOnLoad
         ]

@@ -32,14 +32,19 @@ const InfoCard: React.FC = () => {
                 SearchJunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.
               </p>
               <p>
-                Usage: Type a query into the search-bar. Then either hover over or click the SearchJunct search button, press Enter, or click a search system button to initiate a search. The query will be sent to the selected or next search system and search results will open in a new tab.
+                Type a query into the search bar. Then either click the SearchJunct search button, press Enter, or click a search system button in the systems list to initiate a search. The query will be sent to the selected or next search system and search results will open in a new tab. Once you have conducted a search with a system, its search button will change color.
               </p>
               <p>
-                The action container includes special action buttons to: Reshuffle the order of the search system buttons.
+                The toolbar includes special action buttons to:
+                - Shuffle the order of the search system buttons.
+                - Sort the systems alphabetically, or with a custom sort.
+                - Refresh the systems list (removing the .searched attribute from the systems).
+                - Open this Info modal.
+                - Open the Settings modal.
               </p>
-              <p>Note: The query for some systems will have to be manually pasted because they does not support search-by-URL.</p>
+              <p>Note: The query for some systems will have to be manually pasted because they does not support search-by-URL. The query will be added to your clipboard when you click the search button.</p>
               <p>
-                Team: SearchJunct is actively developed by Daniel Griffin. You can email him with any questions, suggestions, or concerns or start an issue on Github.
+                Team: SearchJunct is actively developed by Daniel Griffin. You can email him at daniel.griffin@berkeley.edu or reach him on [Twitter](https://twitter.com/danielsgriffin) with any questions, suggestions, or concerns or start an issue on [Github](https://github.com/danielsgriffin/searchjunct).
               </p>
             </div>
           </CardContent>
@@ -53,14 +58,20 @@ const InfoCard: React.FC = () => {
             </CardDescription>
             <div className="space-y-4">
               <p>
-                SearchJunct runs locally on your browser and only sends queries to the selected search engines when a search is initiated. It also saves your search history to an IndexedDB setup in your browser for your convenience. Please note that currently, history can only be deleted individually unless you are familiar with JavaScript or access the Developer Tools to do it yourself. This application is under active development, and future updates will include options to block certain search systems and to search and delete history in bulk.
+                SearchJunct runs locally on your browser and only sends queries to the selected search engines when a search is initiated. This application is under active development.
               </p>
-              <p>Data Collection: SearchJunct only collects data locally in your browser. This data is stored in an IndexedDB database called "SearchJunctDB".</p>
-              <p>Data Usage: The collected data is used locally to enhance your user experience, such as remembering your search history. In the future, we may introduce an option to share anonymous usage data to help us improve SearchJunct.</p>
-              <p>Data Sharing: Your data is stored locally on your device and is not shared with any third parties outside of actions you take. When you initiate a search, your query is sent to the selected search engine, but no other information is shared.</p>
-              <p>Cookies: SearchJunct currently does not use cookies. However, in the future, we may use cookies to remember your preferences and provide a more personalized experience.</p>
-              <p>User Control: You have full control over your data. You can view, delete, or export your search history at any time. Please note that currently, history can only be deleted individually unless you are familiar with JavaScript or access the Developer Tools to do it yourself. Currently, export also requires such technical familiarity (please contact us for support).</p>
-              <p>Policy Updates: We will notify you of any significant changes to this privacy policy. Please check this section regularly for updates.</p>
+              <p>
+                Data Collection: SearchJunct only collects data locally in your browser. Data is saved to your browser's session storage and local storage. You can inspect this through your browser's developer tools or in the code. The code that handles storage can be found in the [StorageContext.tsx](https://github.com/danielsgriffin/searchjunct/blob/main/src/components/StorageContext.tsx) file in the open source code.</p>                
+              <p>
+                Data Usage: The collected data is used locally to enhance your user experience, enabling custom sorting of the search systems, and disabling or deleting systems.</p>
+              <p>
+                Data Sharing: Your data is stored locally on your device and is not shared with any third parties outside of actions you take. When you initiate a search, your query is sent to the selected search engine, but no other information is shared.</p>
+              <p>
+                Cookies: SearchJunct currently does not use cookies.</p>
+              <p>
+                User Control: You have full control over your data. You can view, delete, or export your search history at any time through the website.</p>
+              <p>
+                Policy Updates: We will notify you here of any significant changes to this privacy policy. Please check this section regularly for updates.</p>
             </div>
           </CardContent>
         </Card>
@@ -74,10 +85,7 @@ const InfoCard: React.FC = () => {
 
               <div className="space-y-4">
               <p>
-                You can use Tab and Enter to jump to the next special-action-button and search-system-button and interact with it. Using this tool may require switching often between tabs (as the links open in new tabs by default). You can switch between tabs with Cmd+Option and left/right arrows. Or you can use Cmd+Shift+A.
-              </p>
-              <p>
-                Note: The tabs for SearchJunct will be labeled by the query, with square bracket notation: [search query]. As this is rare you can likely simply type an opening bracket ([) to find all the SearchJunct tabs.
+                You can use Tab and Enter to jump to the next toolbar buttons and search system buttons and interact with them. Using this tool may require switching often between tabs (as the links open in new tabs by default). You can switch between tabs with Cmd+Option and left/right arrows. Or you can use Cmd+Shift+A and your up/down arrows.
               </p>
               </div>
           </CardContent>

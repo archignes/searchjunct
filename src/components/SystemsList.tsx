@@ -22,7 +22,7 @@ const SystemList = () => {
   const getDeletedSystems = () => systemsCurrentOrder.filter((system) => systemsDeleted[system.id]);
 
   return (
-    <div id="system-list" className="flex flex-col space-y-1 mt-1">
+    <div id="systems-list" className="flex flex-col space-y-1 mt-1">
       <SortingContainer filterOut={getDeletedSystems()}/>
     </div>
   );
