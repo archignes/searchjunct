@@ -1,6 +1,6 @@
 // SystemsContext.tsx
 
-import React, { createContext, useContext, useCallback, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useStorage } from "./StorageContext"; 
 import systemsData from "src/data/systems.json";
 const systems: System[] = systemsData as System[];
@@ -118,13 +118,27 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const [activeSystem, setActiveSystemState] = useState<System | undefined>(() => systems[0]);
     const [sortStatus, setSortStatus] = useState<'abc' | 'zyx' | 'custom' | 'shuffled'>('shuffled');
 
+    const customSort = () => {
+        if (sortStatus === 'custom') {
+            alert("Custom sort order is already active.");
+            return;
+        }
+        if (!systemsCustomOrder || systemsCustomOrder.length === 0) {
+            alert("No custom sort order has been saved. Please set up a custom sort order in Settings first.");
+            return;
+        }
+        const order: string[] = systemsCustomOrder
+        const sortedSystems = order.map(id => systemsState.find(system => system.id === id)).filter(system => system) as System[];
+        setSystemsState(sortedSystems);
+        setSystemsCurrentOrder(sortedSystems);
+        setSortStatus('custom');
+    };
+
     useEffect(() => {
         if (customModeOnLoad && systemsCustomOrder.length > 0) {
-            setSystemsCurrentOrder(
-                systemsCustomOrder.map(id => systems.find(system => system.id === id))
-                .filter((system): system is System => system !== undefined)
-            );
-            setSortStatus('custom');
+            customSort();
+        } else {
+            shuffleSystems();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -148,6 +162,7 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
             systems.find((system) => system.id === id)
             ).filter((system): system is System => system !== undefined)
         );
+        setSortStatus('custom');
     }, [systemsCustomOrder]);
    
     const shuffleSystems = () => {
@@ -195,6 +210,10 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     }
 
     const reloadSystems = () => {
+        if (Object.values(systemsSearched).length === 0) {
+            alert("No systems have been searched in this session.")
+            return;
+        }
         console.log('reloadSystems')
         Object.keys(systemsSearched).forEach(key => {
             systemsSearched[key] = false;
@@ -221,16 +240,7 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
         }
     };
 
-    const customSort = () => {
-        if (!systemsCustomOrder || systemsCustomOrder.length === 0) {
-            alert("No custom sort order has been saved. Please set up a custom sort order in Settings first.");
-            return;
-        }
-        const order: string[] = systemsCustomOrder
-        const sortedSystems = order.map(id => systemsState.find(system => system.id === id)).filter(system => system) as System[];
-        setSystemsState(sortedSystems);
-        setSystemsCurrentOrder(sortedSystems);
-    };
+
 
     const toggleSystemDisabled = (systemId: string) => {
         setSystemDisabled(systemId, !systemsDisabled[systemId]);

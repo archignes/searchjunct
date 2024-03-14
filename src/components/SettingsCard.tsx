@@ -14,7 +14,8 @@ const SettingsCard: React.FC = () => {
   const { isResetDisabled } = useSystemsContext();
   const { resetLocalStorage, updateSearchInitiatedBlock,
           initiateSearchImmediately, setInitiateSearchImmediately,
-          customModeOnLoad, setCustomModeOnLoad
+          customModeOnLoad, setCustomModeOnLoad,
+          systemsCustomOrder
         } = useStorage();
 
 
@@ -37,15 +38,18 @@ const SettingsCard: React.FC = () => {
           </Label>
           <div className="inline-flex items-center">
             <Switch
-              id="default-custom-mode"
-              checked={customModeOnLoad}
-              onCheckedChange={() => setCustomModeOnLoad(!customModeOnLoad)}
-              className="focus-visible:ring-primary"
-            />
+                id="default-custom-mode"
+                checked={customModeOnLoad}
+                onCheckedChange={() => setCustomModeOnLoad(!customModeOnLoad)}
+                className="focus-visible:ring-primary"
+              />
             <span className={`ml-2 text-sm font-semibold ${customModeOnLoad ? 'text-green-500' : 'text-red-500'}`}>
               {customModeOnLoad ? 'Enabled' : 'Disabled'}
             </span>
           </div>
+          {systemsCustomOrder.length === 0 && (
+            <p className="ml-2 text-sm text-gray-500">Note: You do <span className='underline'>not</span> currently have a custom order is set.</p>
+          )}
           </div>
         </div>
         <div className='border rounded-md p-4 flex flex-col space-y-1 mx-2 mb-4'>
