@@ -135,7 +135,7 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
-        if (customModeOnLoad && systemsCustomOrder.length > 0) {
+        if (customModeOnLoad) {
             customSort();
         } else {
             shuffleSystems();

@@ -1,11 +1,11 @@
 import os
 
 # Directory where the component files are located
-components_path = '/Users/dsg/searchjunct2/src/components'
+components_path = '/Users/dsg/searchjunct/src/components'
 # Additional files with their respective paths
 additional_files = [
-    '/Users/dsg/searchjunct2/pages/index.tsx',
-    '/Users/dsg/searchjunct2/pages/_app.tsx'
+    '/Users/dsg/searchjunct/pages/index.tsx',
+    '/Users/dsg/searchjunct/pages/_app.tsx'
 ]
 
 # List of filenames to concatenate within the components directory
@@ -25,7 +25,7 @@ filenames = [
 
 
 # Output file
-output_file = '/Users/dsg/searchjunct2_concat.tsx'
+output_file = '/Users/dsg/searchjunct_concat.tsx'
 
 # Get all the files in the components directory (without entering subdirectories)
 filenames = [file for file in os.listdir(components_path) if file.endswith('.tsx')]
