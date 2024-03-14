@@ -1,6 +1,6 @@
 //Toolbar.tsx
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSystemsContext } from './SystemsContext';
 import { useStorage } from './StorageContext';
 import { Button } from "./ui/button";
@@ -12,7 +12,7 @@ import SettingsCard from "./SettingsCard"
 
 
 const Toolbar = () => {
-  const { sortStatus, shuffleSystems, reloadSystems, toggleAlphabeticalSortOrder, customSort } = useSystemsContext();
+  const { sortStatus, reloadSystems, toggleAlphabeticalSortOrder, customSort, setShuffleSystems } = useSystemsContext();
   // Separate state for each popover
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -21,10 +21,29 @@ const Toolbar = () => {
   const toggleInfoOpen = () => setIsInfoOpen(!isInfoOpen);
   const toggleSettingsOpen = () => setIsSettingsOpen(!isSettingsOpen);
 
+  const [disableCustomSortButton, setDisableCustomSortButton] = useState(true);
+  useEffect(() => {
+    if (systemsCustomOrder.length === 0) {
+      setDisableCustomSortButton(true);
+      return;
+    }
+    setDisableCustomSortButton(false);
+  }, [systemsCustomOrder]);
+
+  const [fillStarIcon, setFillStarIcon] = useState(false);
+  useEffect(() => {
+    if (sortStatus === 'custom') {
+      setFillStarIcon(true);
+    } else {
+      setFillStarIcon(false);
+    }
+  }, [sortStatus]);
+
 
   return (
+    <>
     <div className="flex flex-row space-x-1 mt-1 justify-center items-center">
-      <Button id="shuffle-button" variant="outline" title="Shuffle" onClick={shuffleSystems} className="w-full">
+      <Button id="shuffle-button" variant="outline" title="Shuffle" onClick={setShuffleSystems} className="w-full">
         <ShuffleIcon />
       </Button>
       <Button id="sort-button" variant="outline" title={sortStatus === 'abc' ? "Sort Reverse Alphabetically" : "Sort Alphabetically"} onClick={toggleAlphabeticalSortOrder} className="w-full">
@@ -34,14 +53,11 @@ const Toolbar = () => {
         id="custom-sort-button"
         variant="outline"
         title="Custom Sort"
-        onClick={customSort}
-        className={`
-          w-full
-          ${systemsCustomOrder.length > 0  ? '' : 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300'}
-        `}
-        aria-disabled={systemsCustomOrder.length === 0 ? "true" : "false"}
+        onClick={() => customSort("click")}
+          className={`w-full ${disableCustomSortButton && 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300'}`}
+          aria-disabled={disableCustomSortButton ? "true" : "false"}
       >
-        {sortStatus !== 'custom' ? <StarIcon /> : <StarFilledIcon />}
+          {fillStarIcon ? <StarFilledIcon /> : <StarIcon />}
       </Button>
       <Button
         id="reload-button"
@@ -77,6 +93,7 @@ const Toolbar = () => {
         </PopoverContent>
       </Popover>
     </div>
+    </>
   );
 };
 export default Toolbar;

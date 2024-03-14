@@ -1,6 +1,6 @@
 // SystemsContext.tsx
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { useStorage } from "./StorageContext"; 
 import systemsData from "src/data/systems.json";
 const systems: System[] = systemsData as System[];
@@ -35,10 +35,9 @@ interface SystemProviderProps {
 
 interface SystemsContextType {
     systems: System[];
-    sortStatus: 'abc' | 'zyx' | 'custom' | 'shuffled';
+    sortStatus: 'abc' | 'zyx' | 'custom' | 'shuffled' | 'initial';
     activeSystem: System | undefined;
-    customSort: () => void;
-    shuffleSystems: () => void;
+    customSort: (type?: string) => void;
     reloadSystems: () => void;
     setActiveSystem: (systemId: string) => void;
     setSystemSearched: (systemId: string) => void;
@@ -48,17 +47,30 @@ interface SystemsContextType {
     toggleSystemDeleted: (systemId: string) => void;
     systemsCurrentOrder: System[];
     setSystemsCurrentOrder: (newOrder: System[]) => void;
+    setShuffleSystems: () => void;
+    updateDragOrder: (newOrderedSystems: System[]) => void;
     isResetDisabled: boolean;
 }
+
+export const shuffleSystems = () => {
+    let shuffledSystems = [...systems];
+    for (let i = shuffledSystems.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledSystems[i], shuffledSystems[j]] = [shuffledSystems[j], shuffledSystems[i]];
+    }
+    console.log("shuffledSystems", shuffledSystems)
+    return shuffledSystems;
+};
+
+
 
 // Create the context with a default value
 const SystemsContext = createContext<SystemsContextType>(
     {
         systems: [], 
         activeSystem: systems[0],
-        sortStatus: 'shuffled',
+        sortStatus: 'initial',
         customSort: () => { },
-        shuffleSystems: () => { },
         reloadSystems: () => { },
         setActiveSystem: () => { },
         setSystemSearched: () => { },
@@ -66,8 +78,10 @@ const SystemsContext = createContext<SystemsContextType>(
         resetSystemsState: () => { },
         toggleSystemDisabled: () => { },
         toggleSystemDeleted: () => { },
-        systemsCurrentOrder: systems,
-        setSystemsCurrentOrder: () => {},
+        systemsCurrentOrder: shuffleSystems(),
+        setSystemsCurrentOrder: () => { },
+        setShuffleSystems: () => { },
+        updateDragOrder: (newOrderedSystems: System[]) => { },
         isResetDisabled: true
     });
 
@@ -92,13 +106,16 @@ export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ 
     );
 };
 
+
+
+
 // Export the useContext hook for SystemsContext
 export const useSystemsContext = () => useContext(SystemsContext);
 
 export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const { systemsDisabled, systemsDeleted, systemsCustomOrder, systemsSearched, customModeOnLoad } = useStorage();
-    const { setSystemDisabled, setSystemDeleted, setSystemsStateSearched } = useStorage()
-    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(systems);
+    const { setSystemDisabled, setSystemsCustomOrder, setSystemDeleted, setSystemsStateSearched } = useStorage()
+    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems());
     const [isResetDisabled, setIsResetDisabled] = useState<boolean>(true);
     
     const initializeSystemsState = (
@@ -116,32 +133,38 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const [systemsState, setSystemsState] = useState<System[]>(
         () => initializeSystemsState(systemsDisabled, systemsDeleted, systemsSearched));
     const [activeSystem, setActiveSystemState] = useState<System | undefined>(() => systems[0]);
-    const [sortStatus, setSortStatus] = useState<'abc' | 'zyx' | 'custom' | 'shuffled'>('shuffled');
+    const [sortStatus, setSortStatus] = useState<'abc' | 'zyx' | 'custom' | 'shuffled' | 'initial'>('initial');
 
-    const customSort = () => {
-        if (sortStatus === 'custom') {
-            alert("Custom sort order is already active.");
-            return;
+    const updateSortStatus = (newStatus: 'abc' | 'zyx' | 'custom' | 'shuffled' | 'initial') => {
+        console.log("in updateSortStatus, new:", newStatus)
+        setSortStatus(newStatus);
+    }
+
+    const customSort = useCallback((type?: string) => {
+        if (type === "click" || type === "initial") {
+            if (sortStatus === 'custom') {
+                alert("Custom sort order is already active.");
+                return;
+            }
+            if (!systemsCustomOrder || systemsCustomOrder.length === 0) {
+                alert("No custom sort order has been saved. Please set up a custom sort order in Settings first.");
+                return;
+            }
+            const order: string[] = systemsCustomOrder
+            const sortedSystems = order.map(id => systemsState.find(system => system.id === id)).filter(system => system) as System[];
+            setSystemsState(sortedSystems);
+            setSystemsCurrentOrder(sortedSystems);
+            updateSortStatus('custom');
+        } else if (customModeOnLoad && sortStatus === 'initial') {
+            customSort(type="initial");
         }
-        if (!systemsCustomOrder || systemsCustomOrder.length === 0) {
-            alert("No custom sort order has been saved. Please set up a custom sort order in Settings first.");
-            return;
-        }
-        const order: string[] = systemsCustomOrder
-        const sortedSystems = order.map(id => systemsState.find(system => system.id === id)).filter(system => system) as System[];
-        setSystemsState(sortedSystems);
-        setSystemsCurrentOrder(sortedSystems);
-        setSortStatus('custom');
-    };
+    }, [systemsCustomOrder, systemsState, sortStatus, customModeOnLoad]);
 
     useEffect(() => {
-        if (customModeOnLoad) {
+        if (customModeOnLoad && sortStatus === 'initial') {
             customSort();
-        } else {
-            shuffleSystems();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [customModeOnLoad, customSort, sortStatus]);
 
     useEffect(() => {
         const defaultSystemOrder = systems.map(system => system.id);
@@ -154,30 +177,12 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
 
     useEffect(() => {
         if (systemsCustomOrder.length === 0) {
-            setSystemsCurrentOrder(systems);
+            updateSortStatus('shuffled');
             return;
         }
-
-        setSystemsCurrentOrder(systemsCustomOrder.map((id) =>
-            systems.find((system) => system.id === id)
-            ).filter((system): system is System => system !== undefined)
-        );
-        setSortStatus('custom');
     }, [systemsCustomOrder]);
    
-    const shuffleSystems = () => {
-        setSystemsState(currentSystems => {
-            let shuffledSystems = [...currentSystems];
-            for (let i = shuffledSystems.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffledSystems[i], shuffledSystems[j]] = [shuffledSystems[j], shuffledSystems[i]]; // swap
-            }
-            setActiveSystemState(shuffledSystems[0]);
-            setSystemsCurrentOrder(shuffledSystems);
-            return shuffledSystems;
-        });
-        setSortStatus('shuffled');
-    };
+
 
     const setSystemSearched = (systemId: string) => {
         setSystemsStateSearched(systemId, true);
@@ -229,14 +234,14 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
                 setSystemsCurrentOrder(sortedSystems); // Update systemsCurrentOrder
                 return sortedSystems;
             });
-            setSortStatus('zyx');
+            updateSortStatus('zyx');
         } else {
             setSystemsState(currentSystems => {
                 const sortedSystems = [...currentSystems].sort((a, b) => a.name.localeCompare(b.name));
                 setSystemsCurrentOrder(sortedSystems); // Update systemsCurrentOrder
                 return sortedSystems;
             });
-            setSortStatus('abc');
+            updateSortStatus('abc');
         }
     };
 
@@ -266,13 +271,23 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
         );
     }, [systemsDisabled, systemsDeleted, systemsSearched]);
 
+    const setShuffleSystems = () => {
+        setSystemsCurrentOrder(shuffleSystems());
+        updateSortStatus('shuffled');
+    }
+
+    const updateDragOrder = (newOrderedSystems: System[]) => {
+        setSystemsCurrentOrder(newOrderedSystems);
+        setSystemsCustomOrder(newOrderedSystems.map(item => item.id));
+        setSortStatus('custom');
+    }
+
     return (
         <SystemsContext.Provider value={
             { 
                 systems: systemsState,
                 sortStatus,
                 customSort,
-                shuffleSystems,
                 reloadSystems,
                 setActiveSystem,
                 setSystemSearched,
@@ -283,7 +298,9 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
                 toggleSystemDeleted,
                 systemsCurrentOrder,
                 setSystemsCurrentOrder,
-                isResetDisabled
+                isResetDisabled,
+                setShuffleSystems,
+                updateDragOrder
             }}>
             {children}
         </SystemsContext.Provider>

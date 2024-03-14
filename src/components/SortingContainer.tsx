@@ -11,10 +11,9 @@ interface SortingContainerProps {
 }
 
 const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, filterOut = [] }) => {
-    const { toggleSystemDeleted, toggleSystemDisabled, systemsCurrentOrder, setSystemsCurrentOrder } = useSystemsContext();
+    const { toggleSystemDeleted, updateDragOrder, toggleSystemDisabled, systemsCurrentOrder } = useSystemsContext();
     const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
-    const {
-        setSystemsCustomOrder, systemsDeleted, systemsDisabled, systemsSearched
+    const { systemsDeleted, systemsDisabled, systemsSearched
     } = useStorage();
 
     const sensors = useSensors(
@@ -31,8 +30,7 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
             const oldIndex = systemsCurrentOrder.findIndex(system => system.id === active.id);
             const newIndex = systemsCurrentOrder.findIndex(system => system.id === over.id);
             const newOrderedSystems = arrayMove(systemsCurrentOrder, oldIndex, newIndex);
-            setSystemsCurrentOrder(newOrderedSystems);
-            setSystemsCustomOrder(newOrderedSystems.map(item => item.id));
+            updateDragOrder(newOrderedSystems);
         }
     };
 
