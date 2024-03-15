@@ -16,9 +16,9 @@ import SystemList from "../src/components/SystemsList";
 
 
 const title = "Searchjunct"
-const description = "Search."
-const url = process.env.NEXT_PUBLIC_DOMAIN;
-const image = `${url}/screenshots/home.png`;
+const description = "Search.";
+const url = "https://searchjunct.com";
+const image = "https://searchjunct.com/screenshots/home.png";
 
 const HomePage = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
