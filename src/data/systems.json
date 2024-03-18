@@ -156,6 +156,13 @@
     "twitter_link": "https://twitter.com/KagiHQ"
   },
   {
+    "name":"Globe Explorer",
+    "id":"globe-explorer",
+    "search_link": "https://explorer.globe.engineer/?q=%s",
+    "twitter_link": "https://twitter.com/globe_engineer",
+    "product_hunt_link": "https://www.producthunt.com/products/globe-explorer"
+  },
+  {
     "name": "Komo",
     "id": "komo",
     "search_link": "https://komo.ai/"
@@ -191,7 +198,7 @@
   {
     "name": "Lepton Search",
     "id": "lepton-search",
-    "search_link": "https://search.lepton.run/search?q=%s",
+    "search_link": "https://search.lepton.run/",
     "github_link": "https://github.com/leptonai/search_with_lepton",
     "open_source_license": "Apache License 2.0",
     "twitter_link": "https://twitter.com/leptonai"
