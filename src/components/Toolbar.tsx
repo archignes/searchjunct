@@ -1,18 +1,21 @@
 //Toolbar.tsx
 
 import React, { useEffect, useState } from 'react';
-import { useSystemsContext } from './SystemsContext';
+import { useSystemsContext, System } from './SystemsContext';
 import { useStorage } from './StorageContext';
 import { Button } from "./ui/button";
 import { StarFilledIcon, StarIcon, CaretDownIcon, CaretUpIcon, ReloadIcon, ShuffleIcon, GearIcon, QuestionMarkIcon } from "@radix-ui/react-icons";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import InfoCard from "./InfoCard"
 import SettingsCard from "./SettingsCard"
-
+import ShareDropdownMenu from "./ShareDropdownMenu"
 
 
 const Toolbar = () => {
-  const { sortStatus, reloadSystems, toggleAlphabeticalSortOrder, customSort, setShuffleSystems } = useSystemsContext();
+  const { sortStatus, systems,
+    reloadSystems, toggleAlphabeticalSortOrder,
+    customSort,
+    setShuffleSystems } = useSystemsContext();
   // Separate state for each popover
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -20,7 +23,6 @@ const Toolbar = () => {
   // Toggle functions for each popover
   const toggleInfoOpen = () => setIsInfoOpen(!isInfoOpen);
   const toggleSettingsOpen = () => setIsSettingsOpen(!isSettingsOpen);
-
   const [disableCustomSortButton, setDisableCustomSortButton] = useState(true);
   useEffect(() => {
     if (systemsCustomOrder.length === 0) {
@@ -47,7 +49,7 @@ const Toolbar = () => {
         <ShuffleIcon />
       </Button>
       <Button id="sort-button" variant="outline" title={sortStatus === 'abc' ? "Sort Reverse Alphabetically" : "Sort Alphabetically"} onClick={toggleAlphabeticalSortOrder} className="w-full">
-        <div className="flex items-center text-xs font-light tracking-tighter">{sortStatus === 'abc' ? <CaretUpIcon /> : <CaretDownIcon />}<span>abc</span></div>
+        <div className="flex items-center text-xs font-light tracking-tighter">{sortStatus === 'abc' ? <CaretUpIcon /> : <CaretDownIcon />}</div>
       </Button>
       <Button
         id="custom-sort-button"
@@ -74,8 +76,11 @@ const Toolbar = () => {
       </Button>
       <Popover open={isInfoOpen} onOpenChange={toggleInfoOpen}>
         <PopoverTrigger asChild>
-          <Button id="info-button" variant="outline" title="Info" className="w-full">
-            <QuestionMarkIcon />
+          <Button id="info-button" variant="outline" title="Info"
+              className={`w-full ${isInfoOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-gray-100'}`}
+          >
+            <QuestionMarkIcon
+                className={`${isInfoOpen ? 'text-white' : 'text-current'}`} />
           </Button>
         </PopoverTrigger>
         <PopoverContent align='end' style={{ width: "100vw" }} className='border-none bg-transparent shadow-none p-0'>
@@ -84,14 +89,21 @@ const Toolbar = () => {
       </Popover>
       <Popover open={isSettingsOpen} onOpenChange={toggleSettingsOpen}>
         <PopoverTrigger asChild>
-          <Button id="settings-button" variant="outline" title="Settings" className="w-full">
-            <GearIcon />
-          </Button>
+            <Button
+              id="settings-button"
+              variant="outline"
+              title="Settings"
+              className={`w-full ${isSettingsOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-gray-100'}`}
+            >
+              <GearIcon
+                className={`${isSettingsOpen ? 'text-white' : 'text-current'}`} />
+            </Button>
         </PopoverTrigger>
         <PopoverContent align='end' style={{ width: "100vw" }} className='border-none bg-transparent shadow-none p-0'>
           <SettingsCard />
         </PopoverContent>
       </Popover>
+      <ShareDropdownMenu/>
     </div>
     </>
   );

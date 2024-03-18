@@ -25,7 +25,8 @@ const SettingsCard: React.FC = () => {
   }
 
   return (
-      <Card className='w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4" rounded-md mx-auto'>
+      <Card id="settings-modal" 
+          className='w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4" rounded-md mx-auto'>
         <CardContent>
           <CardHeader>
             <CardTitle>Settings</CardTitle>
@@ -64,7 +65,8 @@ const SettingsCard: React.FC = () => {
                 onCheckedChange={toggleInitiateSearchImmediately}
                 className="focus-visible:ring-primary"
               />
-              <span className={`ml-2 text-sm font-semibold ${initiateSearchImmediately ? 'text-green-500' : 'text-red-500'}`}>
+            <span id="initiate-search-immediately-status"
+              className={`ml-2 text-sm font-semibold ${initiateSearchImmediately ? 'text-green-500' : 'text-red-500'}`}>
                 {initiateSearchImmediately ? 'Enabled' : 'Disabled'}
               </span>
             </div>

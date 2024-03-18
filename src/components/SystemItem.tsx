@@ -90,7 +90,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
         style={style}
         {...attributes}
         {...listeners}
-        className={`min-h-9 py-1 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 pl-3 mx-3
+        className={`min-h-9 py-1 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 pl-3 mx-1
                     ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
                     ${systemsDeleted?.[system.id] ? 'bg-red-500' : ''}

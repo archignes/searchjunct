@@ -45,7 +45,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
           <DeleteSystemButton system={system} />
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter id="system-card-footer" data-testid="system-card-footer">
         <div className="flex flex-col items-center w-full">
         {system.about_link && <div className="flex flex-row flex-grow space-x-1 justify-center items-center">
           <a href={system.about_link} target="_blank" rel="noopener noreferrer" className="block">About</a>

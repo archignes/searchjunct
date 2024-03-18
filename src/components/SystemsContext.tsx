@@ -2,7 +2,9 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { useStorage } from "./StorageContext"; 
-import systemsData from "src/data/systems.json";
+import systemsData from "../data/systems.json";
+import { useRouter } from 'next/router';
+
 const systems: System[] = systemsData as System[];
 
 export interface System {
@@ -50,14 +52,44 @@ interface SystemsContextType {
     setShuffleSystems: () => void;
     updateDragOrder: (newOrderedSystems: System[]) => void;
     isResetDisabled: boolean;
+    initializeSystemsState: (systemsDisabled: any, systemsDeleted: any, systemsSearched: any) => System[];
 }
 
 export const shuffleSystems = () => {
     let shuffledSystems = [...systems];
-    for (let i = shuffledSystems.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledSystems[i], shuffledSystems[j]] = [shuffledSystems[j], shuffledSystems[i]];
+    let isSameOrder = true;
+
+    if (typeof window !== 'undefined') {
+        const currentURL = window.location.href;
+        if (currentURL.includes("?systems=")) {
+            const systemIDs = currentURL.split('?systems=')[1].split(',');
+            if (Array.isArray(systemIDs)) {
+                const foundSystems = systemIDs.map(systemID => systems.find((system: System) => system.id === systemID)).filter(system => system !== undefined);
+                if (foundSystems.length > 0) {
+                    return foundSystems;
+                } else {
+                    throw new Error("No systems found for the given IDs.");
+                }
+            }
+        }
     }
+
+    // Ensure the shuffled array is different from the original
+    while (isSameOrder) {
+        for (let i = shuffledSystems.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledSystems[i], shuffledSystems[j]] = [shuffledSystems[j], shuffledSystems[i]];
+        }
+
+        // Check if the order is different from the original
+        isSameOrder = shuffledSystems.every((system, index) => system === systems[index]);
+
+        // If the order is still the same, reset shuffledSystems to original and try again
+        if (isSameOrder) {
+            shuffledSystems = [...systems];
+        }
+    }
+
     console.log("shuffledSystems", shuffledSystems)
     return shuffledSystems;
 };
@@ -78,11 +110,12 @@ const SystemsContext = createContext<SystemsContextType>(
         resetSystemsState: () => { },
         toggleSystemDisabled: () => { },
         toggleSystemDeleted: () => { },
-        systemsCurrentOrder: shuffleSystems(),
+        systemsCurrentOrder: shuffleSystems() as System[],
         setSystemsCurrentOrder: () => { },
         setShuffleSystems: () => { },
         updateDragOrder: (newOrderedSystems: System[]) => { },
-        isResetDisabled: true
+        isResetDisabled: true,
+        initializeSystemsState: () => { return systems },
     });
 
 export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ system, className }) => {
@@ -115,8 +148,9 @@ export const useSystemsContext = () => useContext(SystemsContext);
 export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const { systemsDisabled, systemsDeleted, systemsCustomOrder, systemsSearched, customModeOnLoad } = useStorage();
     const { setSystemDisabled, setSystemsCustomOrder, setSystemDeleted, setSystemsStateSearched } = useStorage()
-    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems());
+    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems() as System[]);
     const [isResetDisabled, setIsResetDisabled] = useState<boolean>(true);
+
     
     const initializeSystemsState = (
         systemsDisabled: Record<string, boolean> = {},
@@ -272,7 +306,7 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     }, [systemsDisabled, systemsDeleted, systemsSearched]);
 
     const setShuffleSystems = () => {
-        setSystemsCurrentOrder(shuffleSystems());
+        setSystemsCurrentOrder(shuffleSystems() as System[]);
         updateSortStatus('shuffled');
     }
 
@@ -300,7 +334,8 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
                 setSystemsCurrentOrder,
                 isResetDisabled,
                 setShuffleSystems,
-                updateDragOrder
+                updateDragOrder,
+                initializeSystemsState,
             }}>
             {children}
         </SystemsContext.Provider>
