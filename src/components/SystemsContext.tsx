@@ -90,7 +90,6 @@ export const shuffleSystems = () => {
         }
     }
 
-    console.log("shuffledSystems", shuffledSystems)
     return shuffledSystems;
 };
 
