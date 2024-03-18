@@ -14,6 +14,11 @@ const url = "https://searchjunct.com";
 const image = "https://searchjunct.com/screenshots/home.png";
 
 const HomePage = () => {
+  
+
+  
+
+
   return (
     <>
     <Head>

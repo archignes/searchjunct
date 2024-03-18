@@ -26,7 +26,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const handleSearch = (system?: System, urlQuery?: string) => {
         let currentQuery = urlQuery || query;
         let encodedQuery = encodeURIComponent(currentQuery).replace(/%20/g, '+');
-
+        
         system = system || getNextUnsearchedSystem();
         if (!system) {
             return;
@@ -57,6 +57,9 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         sessionStorage.setItem('searchInitiatedBlock', 'true');
         console.log('Searchjunct: searched: ', system.id);
 
+        console.log('Updating document title:', `[${currentQuery}] - Searchjunct`);
+        document.title = `[${currentQuery}] - Searchjunct`;
+        
         // Find the next unsearched system based on the updated systemsSearched object
         const nextUnsearchedSystem = getNextUnsearchedSystem(updatedSystemsSearched);
         if (nextUnsearchedSystem) {
