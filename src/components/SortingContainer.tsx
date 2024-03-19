@@ -24,7 +24,7 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
     const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
 
     const sensors = useSensors(
-        useSensor(PointerSensor, { activationConstraint: { delay: 150, tolerance: 5 } }),
+        useSensor(PointerSensor, { activationConstraint: { delay: 100, tolerance: 5 } }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         })
