@@ -1,21 +1,26 @@
 //Toolbar.tsx
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSystemsContext, System } from './SystemsContext';
 import { useStorage } from './StorageContext';
+import { Checkbox } from "./ui/checkbox";
 import { Button } from "./ui/button";
-import { StarFilledIcon, StarIcon, CaretDownIcon, CaretUpIcon, ReloadIcon, ShuffleIcon, GearIcon, QuestionMarkIcon } from "@radix-ui/react-icons";
+import { StarFilledIcon, StarIcon, ChevronDownIcon, ChevronUpIcon, ReloadIcon, ShuffleIcon, GearIcon, QuestionMarkIcon, BoxIcon, CheckboxIcon, MinusIcon, DotFilledIcon } from "@radix-ui/react-icons";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import InfoCard from "./InfoCard"
 import SettingsCard from "./SettingsCard"
 import ShareDropdownMenu from "./ShareDropdownMenu"
+import { useSearch } from './SearchContext';
 
 
 const Toolbar = () => {
-  const { sortStatus, systems,
-    reloadSystems, toggleAlphabeticalSortOrder,
+  const { sortStatus,
+    reloadSystems,
     customSort,
-    setShuffleSystems } = useSystemsContext();
+    setShuffleSystems,
+    toggleExpandAll,
+    expandAllStatus
+     } = useSystemsContext();
   // Separate state for each popover
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -32,6 +37,10 @@ const Toolbar = () => {
     setDisableCustomSortButton(false);
   }, [systemsCustomOrder]);
 
+  const { systemsCurrentOrder, checkboxStatuses } = useSystemsContext();
+
+
+
   const [fillStarIcon, setFillStarIcon] = useState(false);
   useEffect(() => {
     if (sortStatus === 'custom') {
@@ -41,22 +50,78 @@ const Toolbar = () => {
     }
   }, [sortStatus]);
 
+  const { multiSelect, setMultiSelect } = useSearch();
+
+  const isAllChecked = useMemo(() => {
+    return systemsCurrentOrder.every((system) => checkboxStatuses[system.id]);
+  }, [systemsCurrentOrder, checkboxStatuses]);
+
+  const isSomeChecked = useMemo(() => {
+    return systemsCurrentOrder.some((system) => checkboxStatuses[system.id]) && !isAllChecked;
+  }, [systemsCurrentOrder, checkboxStatuses, isAllChecked]);
+
+  const handleMultiSelect = () => {
+    if (multiSelect === "closed") {
+      setMultiSelect("open");
+    } else if (multiSelect === "open") {
+      setMultiSelect("all");
+    } else if (multiSelect === "some") {
+      setMultiSelect("all");
+    } else if (multiSelect === "all") {
+      setMultiSelect("closed");
+    }
+  };
 
   return (
     <>
     <div id="toolbar" className="flex flex-row space-x-1 mt-1 justify-center items-center">
-      <Button id="shuffle-button" variant="outline" title="Shuffle" onClick={setShuffleSystems} className="w-full">
+        {/* <Button
+          id="multi-select-button"
+          variant="outline"
+          title="Select"
+          onClick={handleMultiSelect}
+          className="p-1 w-full"
+        >
+          <div className="relative w-max h-max">
+            <Checkbox
+              checked={multiSelect === "all"}
+              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+                ${multiSelect === "closed" ? "bg-gray-200" : "bg-white"
+                }`}
+              onCheckedChange={handleMultiSelect}
+            />
+            {isSomeChecked && (
+              <>
+                <DotFilledIcon
+                  className="h-6 w-6 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  style={{ zIndex: 2 }}
+                />
+              </>
+            )}
+          </div>
+        </Button> */}
+      <Button id="shuffle-button" variant="outline" title="Shuffle" onClick={setShuffleSystems}
+          className="p-1 w-full">
         <ShuffleIcon />
       </Button>
-      <Button id="sort-button" variant="outline" title={sortStatus === 'abc' ? "Sort Reverse Alphabetically" : "Sort Alphabetically"} onClick={toggleAlphabeticalSortOrder} className="w-full">
-        <div className="flex items-center text-xs font-light tracking-tighter">{sortStatus === 'abc' ? <CaretUpIcon /> : <CaretDownIcon />}</div>
-      </Button>
+        <Button
+          id="expand-collapse-button"
+          variant="outline"
+          title={expandAllStatus ? "Collapse" : "Expand"}
+          onClick={toggleExpandAll}
+          className="p-1 w-full"
+        >
+          <ChevronDownIcon
+            className={`${expandAllStatus ? 'rotate-180' : ''
+              } h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200`}
+          />
+        </Button>
       <Button
         id="custom-sort-button"
         variant="outline"
         title="Custom Sort"
         onClick={() => customSort("click")}
-          className={`w-full ${disableCustomSortButton && 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300'}`}
+          className={`p-1 w-full ${disableCustomSortButton && 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300'}`}
           aria-disabled={disableCustomSortButton ? "true" : "false"}
       >
           {fillStarIcon ? <StarFilledIcon /> : <StarIcon />}
@@ -67,7 +132,7 @@ const Toolbar = () => {
         title="Reload"
         onClick={reloadSystems}
         className={`
-          w-full
+          p-1 w-full
           ${Object.values(systemsSearched).some(searched => searched) ? '' : 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300'}
         `}
         aria-disabled={!Object.values(systemsSearched).some(searched => searched) ? "true" : "false"}
@@ -77,7 +142,7 @@ const Toolbar = () => {
       <Popover open={isInfoOpen} onOpenChange={toggleInfoOpen}>
         <PopoverTrigger asChild>
           <Button id="info-button" variant="outline" title="Info"
-              className={`w-full ${isInfoOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-gray-100'}`}
+              className={`p-1 w-full ${isInfoOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-gray-100'}`}
           >
             <QuestionMarkIcon
                 className={`${isInfoOpen ? 'text-white' : 'text-current'}`} />
@@ -93,7 +158,7 @@ const Toolbar = () => {
               id="settings-button"
               variant="outline"
               title="Settings"
-              className={`w-full ${isSettingsOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-gray-100'}`}
+              className={`p-1 w-full ${isSettingsOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-gray-100'}`}
             >
               <GearIcon
                 className={`${isSettingsOpen ? 'text-white' : 'text-current'}`} />

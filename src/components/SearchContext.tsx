@@ -5,19 +5,28 @@ import { useSystemsContext, System } from './SystemsContext';
 import { useStorage } from './StorageContext';
 
 
-const SearchContext = createContext<{ handleSearch: (system?: System, urlQuery?: string) => void, query: string, setQuery: (query: string) => void }>({
+const SearchContext = createContext<{ 
+        handleSearch: (system?: System, urlQuery?: string) => void,
+        query: string,
+        setQuery: (query: string) => void,
+        multiSelect: 'closed' | 'open' | 'some' | 'all',
+        setMultiSelect: (multiSelect: 'closed' | 'open' | 'some' | 'all') => void,
+    }>({
     handleSearch: () => { },
     query: '',
     setQuery: () => { },
+    multiSelect: 'closed',
+    setMultiSelect: (multiSelect: 'closed' | 'open' | 'some' | 'all') => { }
 });
+
 
 export const useSearch = () => useContext(SearchContext);
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
+    const [multiSelect, setMultiSelect] = useState<'closed' | 'open' | 'some' | 'all'>('closed');
     const { setSystemSearched, systemsCurrentOrder, setActiveSystem } = useSystemsContext();
     const { systemsSearched, systemsDeleted, systemsDisabled } = useStorage();
     const [query, setQuery] = useState('');
-
     const getNextUnsearchedSystem = (updatedSystemsSearched?: Record<string, boolean>) => {
         const searched = updatedSystemsSearched || systemsSearched
         return systemsCurrentOrder.find(s => !searched[s.id] && !systemsDisabled[s.id] && !systemsDeleted[s.id]);
@@ -66,10 +75,16 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             console.log("Next unsearched system: ", nextUnsearchedSystem);
             setActiveSystem(nextUnsearchedSystem.id);
         }
+
     };
 
     return (
-        <SearchContext.Provider value={{ handleSearch, query, setQuery }}>
+        <SearchContext.Provider value={{
+            handleSearch,
+            query,
+            setQuery,
+            multiSelect,
+            setMultiSelect }}>
             {children}
         </SearchContext.Provider>
     );

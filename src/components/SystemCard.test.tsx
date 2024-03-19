@@ -15,11 +15,7 @@ const system = {
 };
 
 describe('SystemCard', () => {
-  it('renders with correct title', () => {
-    render(<SystemCard system={system} />);
 
-    expect(screen.getByText(system.name)).toBeInTheDocument();
-  });
   it('renders with correct search link', () => {
     render(<SystemCard system={system} />);
 

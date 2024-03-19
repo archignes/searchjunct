@@ -53,6 +53,10 @@ interface SystemsContextType {
     updateDragOrder: (newOrderedSystems: System[]) => void;
     isResetDisabled: boolean;
     initializeSystemsState: (systemsDisabled: any, systemsDeleted: any, systemsSearched: any) => System[];
+    expandAllStatus: boolean;
+    toggleExpandAll: () => void;
+    checkboxStatuses: Record<string, boolean>;
+    setCheckboxStatus: (systemId: string, status: boolean) => void;
 }
 
 export const shuffleSystems = () => {
@@ -115,6 +119,10 @@ const SystemsContext = createContext<SystemsContextType>(
         updateDragOrder: (newOrderedSystems: System[]) => { },
         isResetDisabled: true,
         initializeSystemsState: () => { return systems },
+        expandAllStatus: false,
+        toggleExpandAll: () => { },
+        checkboxStatuses: {},
+        setCheckboxStatus: (systemId: string, status: boolean) => { },
     });
 
 export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ system, className }) => {
@@ -125,16 +133,16 @@ export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ 
     }, []);
 
     return (
-        <span className={`flex items-center ${className}`}>
+        <div className={`flex items-center m-0 p-0 ${className}`}>
             {hasMounted ? (
                 <>
                     <img src={`/favicons/${system.id}.ico`} alt={`${system.name} favicon`} className="w-5 h-5 mr-2" />
                     {system.name}
                 </>
             ) : (
-                <span>Loading...</span>
+                <div>Loading...</div>
             )}
-        </span>
+        </div>
     );
 };
 
@@ -172,6 +180,12 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
         console.log("in updateSortStatus, new:", newStatus)
         setSortStatus(newStatus);
     }
+
+    const [expandAllStatus, setExpandAllStatus] = useState(false);
+
+    const toggleExpandAll = () => {
+        setExpandAllStatus(!expandAllStatus);
+    };
 
     const customSort = useCallback((type?: string) => {
         if (type === "click" || type === "initial") {
@@ -279,6 +293,11 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     };
 
 
+    const [checkboxStatuses, setCheckboxStatuses] = useState<Record<string, boolean>>({});
+
+    const setCheckboxStatus = (systemId: string, status: boolean) => {
+        setCheckboxStatuses({...checkboxStatuses, [systemId]: status});
+    }
 
     const toggleSystemDisabled = (systemId: string) => {
         setSystemDisabled(systemId, !systemsDisabled[systemId]);
@@ -315,6 +334,8 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
         setSortStatus('custom');
     }
 
+
+
     return (
         <SystemsContext.Provider value={
             { 
@@ -335,6 +356,10 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
                 setShuffleSystems,
                 updateDragOrder,
                 initializeSystemsState,
+                expandAllStatus,
+                toggleExpandAll,
+                checkboxStatuses,
+                setCheckboxStatus,
             }}>
             {children}
         </SystemsContext.Provider>

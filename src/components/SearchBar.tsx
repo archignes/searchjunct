@@ -53,8 +53,6 @@ const SearchBar = () => {
     }
   }, []); // Empty dependency array means this effect runs once on mount
 
-
-
   return (
     <div id="search-bar" className="flex justify-center items-center space-x-2">
       <div className="w-full mx-1 justify-center items-center flex flex-wrap space-x-2">

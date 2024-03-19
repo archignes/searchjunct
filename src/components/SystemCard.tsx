@@ -23,14 +23,9 @@ interface SystemCardProps {
 const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
 
   return (
-    <Card>
-      <CardContent>
-        <CardHeader>
-          <CardTitle>
-            <SystemTitle system={system} />
-          </CardTitle>
-        </CardHeader>
-        <CardDescription>
+    <Card className="border-none shadow-none">
+      <CardContent className="pl-0 pr-2 pb-3">
+        <CardHeader className="p-0">
           <span>ID: {system.id}</span>
           <span>
             Search Link: <a href={system.search_link} target="_blank" rel="noopener noreferrer">
@@ -39,6 +34,9 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
           </span>
           {system.account_required && <span className="text-red-500">Account Required</span>}
           {system.mobile_app_breaks_links_warning && <span className="text-red-500">Warning: Links may not work in mobile app</span>}
+        </CardHeader>
+        <CardDescription>
+          
         </CardDescription>
         <div className="flex flex-row flex-grow space-x-1 mt-2 justify-center items-center">
           <DisableSystemButton system={system} />
@@ -46,7 +44,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
         </div>
       </CardContent>
       <CardFooter id="system-card-footer" data-testid="system-card-footer">
-        <div className="flex flex-col items-center w-full">
+        <div className="border-t pt-1 flex flex-col items-center w-full">
         {system.about_link && <div className="flex flex-row flex-grow space-x-1 justify-center items-center">
           <a href={system.about_link} target="_blank" rel="noopener noreferrer" className="block">About</a>
         </div>}

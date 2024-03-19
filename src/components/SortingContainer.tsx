@@ -1,9 +1,16 @@
-import React, {useState } from 'react';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+// SortingContainer.tsx 
+
+import React, { useState, useEffect } from 'react';
+import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { System, useSystemsContext } from './SystemsContext';
 import { useStorage } from './StorageContext';
 import SearchSystemItem from './SystemItem';
+import {
+    Form,
+} from "./ui/form"
+import { useForm, FormProvider, SubmitHandler, useWatch } from 'react-hook-form';
+import { useSearch } from './SearchContext';
 
 interface SortingContainerProps {
     showDisableDeleteButtons?: boolean;
@@ -11,10 +18,11 @@ interface SortingContainerProps {
 }
 
 const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, filterOut = [] }) => {
-    const { toggleSystemDeleted, updateDragOrder, toggleSystemDisabled, systemsCurrentOrder } = useSystemsContext();
+    const { toggleSystemDeleted, updateDragOrder, toggleSystemDisabled, systemsCurrentOrder, expandAllStatus } = useSystemsContext();
     const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
-    const { systemsDeleted, systemsDisabled, systemsSearched
-    } = useStorage();
+    const { systemsDeleted, systemsDisabled, systemsSearched } = useStorage();
+    const { multiSelect, setMultiSelect } = useSearch();
+    const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { delay: 150, tolerance: 5 } }),
@@ -23,46 +31,58 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
         })
     );
 
-    const handleDragEnd = (event: { active: { id: string }, over: { id: string } }) => {
+    const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
 
-        if (active.id !== over.id) {
-            const oldIndex = systemsCurrentOrder.findIndex(system => system.id === active.id);
-            const newIndex = systemsCurrentOrder.findIndex(system => system.id === over.id);
+        if (!over || active.id === over.id) {
+            return; // No reordering needed
+        }
+
+        // Assuming systemsCurrentOrder is an array of {id: string} objects
+        const oldIndex = systemsCurrentOrder.findIndex(system => system.id === active.id);
+        const newIndex = systemsCurrentOrder.findIndex(system => system.id === over.id);
+        if (oldIndex !== -1 && newIndex !== -1) {
             const newOrderedSystems = arrayMove(systemsCurrentOrder, oldIndex, newIndex);
             updateDragOrder(newOrderedSystems);
         }
     };
 
+    const form = useForm<{
+        systems: string[];
+    }>({
+        defaultValues: {
+            systems: [],
+        },
+    });
+
+    
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>, itemId: string) => {
         event.preventDefault();
-        console.log(`Dragging over item: ${itemId}`);
         setHoveredItemId(itemId);
-        console.log(`Hovered Item ID set to: ${itemId}`);
     };
 
     return (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={(event) => handleDragEnd({
-            active: { id: event.active.id.toString() },
-            over: { id: event.over?.id.toString() || '' }
-        })}>
-            <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
-                {systemsCurrentOrder.filter(system => !filterOut.includes(system)).map(system => (
-                    <div key={system.id} onDragOver={(event) => handleDragOver(event, system.id)}>
-                        <SearchSystemItem
-                            id={system.id}
-                            system={system}
-                            showDisableDeleteButtons={showDisableDeleteButtons}
-                            toggleSystemDisabled={toggleSystemDisabled}
-                            toggleSystemDeleted={toggleSystemDeleted}
-                            systemsDeleted={systemsDeleted}
-                            systemsDisabled={systemsDisabled}
-                            systemsSearched={systemsSearched}
-                            hoveredItemId={hoveredItemId}
-                        />
-                    </div>
-                ))}
-            </SortableContext>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <FormProvider {...form}>
+                <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
+                    {systemsCurrentOrder.filter(system => !filterOut.includes(system)).map(system => (
+                        <div key={system.id} onDragOver={(event) => handleDragOver(event, system.id)} className="w-full">
+                            <SearchSystemItem
+                                id={system.id}
+                                system={system}
+                                showDisableDeleteButtons={showDisableDeleteButtons}
+                                toggleSystemDisabled={toggleSystemDisabled}
+                                toggleSystemDeleted={toggleSystemDeleted}
+                                systemsDeleted={systemsDeleted}
+                                systemsDisabled={systemsDisabled}
+                                systemsSearched={systemsSearched}
+                                hoveredItemId={hoveredItemId}
+                                expandAllStatus={expandAllStatus}
+                            />
+                        </div>
+                    ))}
+                </SortableContext>
+            </FormProvider>
         </DndContext>
     );
 };
