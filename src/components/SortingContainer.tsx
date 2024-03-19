@@ -5,7 +5,7 @@ import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor,
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { System, useSystemsContext } from './SystemsContext';
 import { useStorage } from './StorageContext';
-import SearchSystemItem from './SystemItem';
+import SearchSystemItem from './ListItem';
 import {
     Form,
 } from "./ui/form"
@@ -19,7 +19,6 @@ interface SortingContainerProps {
 
 const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, filterOut = [] }) => {
     const { toggleSystemDeleted, updateDragOrder, toggleSystemDisabled, systemsCurrentOrder, expandAllStatus } = useSystemsContext();
-    const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
     const { systemsDeleted, systemsDisabled, systemsSearched } = useStorage();
     const { multiSelect, setMultiSelect } = useSearch();
     const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
@@ -56,17 +55,13 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
     });
 
     
-    const handleDragOver = (event: React.DragEvent<HTMLDivElement>, itemId: string) => {
-        event.preventDefault();
-        setHoveredItemId(itemId);
-    };
 
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <FormProvider {...form}>
                 <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
                     {systemsCurrentOrder.filter(system => !filterOut.includes(system)).map(system => (
-                        <div key={system.id} onDragOver={(event) => handleDragOver(event, system.id)} className="w-full">
+                        <div key={system.id} className="w-full">
                             <SearchSystemItem
                                 id={system.id}
                                 system={system}
@@ -76,7 +71,6 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
                                 systemsDeleted={systemsDeleted}
                                 systemsDisabled={systemsDisabled}
                                 systemsSearched={systemsSearched}
-                                hoveredItemId={hoveredItemId}
                                 expandAllStatus={expandAllStatus}
                             />
                         </div>

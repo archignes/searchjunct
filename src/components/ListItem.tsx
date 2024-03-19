@@ -1,4 +1,4 @@
-// SystemItem.tsx 
+// ListItem.tsx 
 
 import React, { useState, useEffect } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
@@ -36,7 +36,6 @@ interface SortableItemProps {
   systemsDeleted: Record<string, boolean>;
   systemsDisabled: Record<string, boolean>;
   systemsSearched: Record<string, boolean>;
-  hoveredItemId: string | null;
   expandAllStatus: boolean;
 }
 
@@ -49,14 +48,11 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   systemsDeleted,
   systemsDisabled,
   systemsSearched,
-  hoveredItemId,
   expandAllStatus
 }) => {
   const { handleSearch } = useSearch();
   const { setValue } = useFormContext();
 
-
-  const [openSystemId, setOpenSystemId] = useState<string | null>(null);
   const { isOver } = useDroppable({
     id,
   });
@@ -78,7 +74,8 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    boxShadow: isDragging ? '0px 0px 10px rgba(0,0,0,0.5)' : 'none',
+    boxShadow: isDragging ? 'shadow-lg' : '',
+    zIndex: isDragging ? 'z-50' : 'z-0',
   };
 
 
@@ -109,9 +106,10 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     setCheckboxStatus(system.id, checked);
   };
 
-
+   
   return (
     <>
+      <div className={`${isOver ? 'bg-blue-100' : ''}`}>
       <div
         ref={setItemRef}
         id={`sortable-item-${system.id}`}
@@ -121,13 +119,9 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                     ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
                     ${systemsDeleted?.[system.id] ? 'bg-red-500' : ''}
-                    ${openSystemId === system.id ? 'border-blue-500' : ''}
-                    ${isDragging ? 'opacity-75 z-10' : 'opacity-100'}
-                    ${isOver ? 'bg-blue-100' : ''}`}
+                    ${isDragging ? 'opacity-75 z-50' : 'opacity-100'}
+                    ${isOver ? 'opacity-50' : ''}`}
       >
-        {hoveredItemId === system.id && (
-          <div className="drop-indicator bg-blue-500 h-1 w-full"></div>
-        )}
         <Accordion 
           type="single"
           className="w-full"
@@ -157,9 +151,9 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
               id={`${system.id}-drag-handle`}
               {...attributes}
               {...listeners}
-              className="handle"
+              className="handle py-4 px-3"
             >
-              <DragHandleDots2Icon className="w-4 h-4" />
+              <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
             </div>
                 {expandAllStatus ? (
                   <button className="flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
@@ -192,6 +186,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
         )}            
           </AccordionItem>
         </Accordion>
+      </div>
       </div>
     </>
   );
