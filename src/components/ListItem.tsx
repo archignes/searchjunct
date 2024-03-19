@@ -77,7 +77,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     boxShadow: isDragging ? 'shadow-lg' : '',
     zIndex: isDragging ? 'z-50' : 'z-0',
   };
-
+  const { preppedSearchLink, query } = useSearch();
 
   const [isItemExpandable, setIsItemExpandable] = useState(false);
   const [isItemExpanded, setIsItemExpanded] = useState(false);
@@ -136,8 +136,10 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                     className="w-5 h-5"
                     onCheckedChange={handleCheckboxChange}
                   />
-            ) : (
-              <MagnifyingGlassIcon onClick={() => handleSearch(system)} className="w-6 h-6 cursor-pointer" />
+            ) : (<a className="p-3"
+                href={preppedSearchLink(system, query)} onClick={() => handleSearch(system)}>
+                <MagnifyingGlassIcon className="w-4 h-4 cursor-pointer" />
+              </a>
             )}
             <SystemTitle
               className={`w-full py-1 rounded-md px-1 flex items-center

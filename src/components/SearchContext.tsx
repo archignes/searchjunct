@@ -11,12 +11,14 @@ const SearchContext = createContext<{
         setQuery: (query: string) => void,
         multiSelect: 'closed' | 'open' | 'some' | 'all',
         setMultiSelect: (multiSelect: 'closed' | 'open' | 'some' | 'all') => void,
+        preppedSearchLink: (system: System, query: string) => string
     }>({
     handleSearch: () => { },
     query: '',
     setQuery: () => { },
     multiSelect: 'closed',
-    setMultiSelect: (multiSelect: 'closed' | 'open' | 'some' | 'all') => { }
+    setMultiSelect: (multiSelect: 'closed' | 'open' | 'some' | 'all') => { },
+    preppedSearchLink: (system: System, query: string) => { return '' }
 });
 
 
@@ -30,6 +32,10 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const getNextUnsearchedSystem = (updatedSystemsSearched?: Record<string, boolean>) => {
         const searched = updatedSystemsSearched || systemsSearched
         return systemsCurrentOrder.find(s => !searched[s.id] && !systemsDisabled[s.id] && !systemsDeleted[s.id]);
+    }
+
+    const preppedSearchLink = (system: System, query: string) => {
+        return system.search_link.replace('%s', encodeURIComponent(query)).replace(/%20/g, '+');
     }
 
     const handleSearch = (system?: System, urlQuery?: string) => {
@@ -84,7 +90,8 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             query,
             setQuery,
             multiSelect,
-            setMultiSelect }}>
+            setMultiSelect,
+            preppedSearchLink }}>
             {children}
         </SearchContext.Provider>
     );
