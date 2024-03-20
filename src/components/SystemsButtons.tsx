@@ -16,7 +16,7 @@ export const DisableSystemButton: React.FC<{ system: System }> = ({ system }) =>
   return (
     <Button
       variant="outline"
-      className={`h-6 w-1/2 border-none hover:bg-red-300 ${!systemsDisabled?.[system.id] ? 'bg-orange-300' : 'text-green-500 bg-white hover:bg-blue-100'
+      className={`h-6 w-1/2 border-none shadow-none hover:bg-red-300 ${!systemsDisabled?.[system.id] ? 'bg-orange-300' : 'text-white-500 bg-gray-300 hover:bg-blue-100'
         }`}
       onClick={() => toggleSystemDisabled?.(system.id)}
     >
