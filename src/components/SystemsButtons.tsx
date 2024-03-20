@@ -16,7 +16,7 @@ export const DisableSystemButton: React.FC<{ system: System }> = ({ system }) =>
   return (
     <Button
       variant="outline"
-      className={`h-6 w-1/2 border-none mr-2 ${!systemsDisabled?.[system.id] ? 'bg-orange-300' : 'text-green-500 bg-white'
+      className={`h-6 w-1/2 border-none hover:bg-red-300 ${!systemsDisabled?.[system.id] ? 'bg-orange-300' : 'text-green-500 bg-white hover:bg-blue-100'
         }`}
       onClick={() => toggleSystemDisabled?.(system.id)}
     >
@@ -32,7 +32,7 @@ export const DeleteSystemButton: React.FC<{ system: System }> = ({ system }) => 
   return (
     <Button
       variant={`${!systemsDeleted[system.id] ? 'destructive' : 'outline'}`}
-      className={`h-6 w-1/2 mr-2 ml-1 ${!systemsDeleted[system.id] ? '' : 'w-2/3 mx-auto bg-white'
+      className={`h-6 w-1/2 mr-2 hover:text-black ${!systemsDeleted[system.id] ? '' : 'w-2/3 mx-auto hover:bg-blue-100 bg-white'
         }`}
       onClick={(event) => {
         event.stopPropagation();

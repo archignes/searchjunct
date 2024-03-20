@@ -72,8 +72,12 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         sessionStorage.setItem('searchInitiatedBlock', 'true');
         console.log('Searchjunct: searched: ', system.id);
 
-        console.log('Updating document title:', `[${currentQuery}] - Searchjunct`);
-        document.title = `[${currentQuery}] - Searchjunct`;
+        if (currentQuery === "") {
+            document.title = "Searchjunct";
+        } else {
+            console.log('Updating document title:', `[${currentQuery}] - Searchjunct`);
+            document.title = `[${currentQuery}] - Searchjunct`;
+        }
         
         // Find the next unsearched system based on the updated systemsSearched object
         const nextUnsearchedSystem = getNextUnsearchedSystem(updatedSystemsSearched);

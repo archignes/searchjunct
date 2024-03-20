@@ -4,10 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useSystemsContext, System, SystemTitle } from './SystemsContext';
-import { Button } from './ui/button';
-import { MagnifyingGlassIcon, DragHandleDots2Icon, ChevronDownIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
+import { MagnifyingGlassIcon, DragHandleDots2Icon, ChevronDownIcon } from '@radix-ui/react-icons';
 import SystemCard from './SystemCard';
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { useSearch } from './SearchContext';
 import { useDroppable } from '@dnd-kit/core';
 import { useFormContext } from 'react-hook-form';
@@ -18,12 +16,6 @@ import {
   AccordionTrigger,
 } from "./ui/accordion"
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "./ui/form";
 import { Checkbox } from './ui/checkbox';
 
 
@@ -119,7 +111,10 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
         ref={setItemRef}
         id={`sortable-item-${system.id}`}
         key={system.id}
-        style={style}
+        style={{
+          ...style,
+          touchAction: 'none', // Add this line to apply touch-action: none
+        }}
         className={`min-h-9 py-1 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mx-1 w-5/7
                     ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
@@ -132,12 +127,12 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
           className="w-full"
           collapsible
         >
-          <AccordionItem value="item-1" className="border-none pr-2">
+          <AccordionItem value="item-1" className="border-none">
             <div className="w-full">
               <div className="flex items-center">
                   <a className="w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
                    href={preppedSearchLink(system, query)}
-                   onClick={() => handleSearch(system)}>
+                   onClick={(e) => { e.preventDefault(); handleSearch(system); }}>
                     {multiSelect ? (
                       <Checkbox
                         checked={isChecked}
@@ -147,10 +142,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                       <MagnifyingGlassIcon className="w-4 h-4 cursor-pointer" />
                     )}
                 <SystemTitle
-                  className={`py-1 rounded-md px-1 flex items-center flex-grow
-                      ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
-                      ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
-                      ${systemsDeleted?.[system.id] ? 'bg-white' : ''}`}
+                  className={`py-1 rounded-md px-1 flex items-center flex-grow`}
                   system={system}
                 />
               </a>
@@ -164,30 +156,30 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
               <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
             </div>
                 {expandAllStatus ? (
-                  <button className="flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
+                    <button className="px-2 mr-1 hover:bg-blue-100 hover:rounded-md flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
                     onClick={toggleItemExpanded}
                     title={isItemExpanded ? "Collapse" : "Expand"}
                   >
                     <ChevronDownIcon className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${isItemExpanded ? 'rotate-180' : ''}`} />
                   </button>
                   ) : (
-                      <AccordionTrigger className="hover:rounded-md hover:bg-blue-100 px-2" />
+                      <AccordionTrigger className="mr-1 hover:rounded-md hover:bg-blue-100 px-2" />
                   )}
               </div>
               {expandAllStatus && isItemExpanded ? (
                 <div className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                  <div className="pb-4 pt-0">
+                  <div className="p-0 pb-1">
                     <SystemCard system={system} />
                   </div>
                 </div>
               ) : (
-                <AccordionContent>
-                  <SystemCard system={system} />
+                    <AccordionContent className="p-0 pb-1">
+                      <SystemCard system={system} />
                 </AccordionContent>
               )}
             </div>
         {showDisableDeleteButtons && (
-          <div className="flex justify-between w-1/3">
+          <div className="flex justify-center space-x-1 pl-1 w-1/3">
             <DisableSystemButton system={system} />
             <DeleteSystemButton system={system} />
           </div>

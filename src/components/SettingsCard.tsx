@@ -99,7 +99,7 @@ const SettingsCard: React.FC = () => {
           You can drag and drop the systems to reorder them. Your changes will be saved automatically in your browser.
         </Label>
         </div>
-      <SortingContainer showDisableDeleteButtons={true}/>
+      <SortingContainer showDisableDeleteButtons={true} isInsideSettingsCard={true} />
       </Card>
   );
 };

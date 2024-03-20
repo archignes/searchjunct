@@ -11,9 +11,11 @@ import InfoCard from "./InfoCard"
 import SettingsCard from "./SettingsCard"
 import ShareDropdownMenu from "./ShareDropdownMenu"
 import { useSearch } from './SearchContext';
+import { useAppContext } from './AppContext';
 
 
 const Toolbar = () => {
+  const { setSettingsCardActive } = useAppContext();
   const { sortStatus,
     reloadSystems,
     customSort,
@@ -27,7 +29,14 @@ const Toolbar = () => {
   const { systemsSearched, systemsCustomOrder } = useStorage();
   // Toggle functions for each popover
   const toggleInfoOpen = () => setIsInfoOpen(!isInfoOpen);
-  const toggleSettingsOpen = () => setIsSettingsOpen(!isSettingsOpen);
+  
+  
+  const toggleSettingsOpen = () => {
+    setIsSettingsOpen(!isSettingsOpen);
+    setSettingsCardActive(!isSettingsOpen);
+  };
+
+
   const [disableCustomSortButton, setDisableCustomSortButton] = useState(true);
   useEffect(() => {
     if (systemsCustomOrder.length === 0) {

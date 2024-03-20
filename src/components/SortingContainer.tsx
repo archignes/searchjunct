@@ -6,6 +6,8 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { System, useSystemsContext } from './SystemsContext';
 import { useStorage } from './StorageContext';
 import SearchSystemItem from './ListItem';
+import { isMobile } from 'react-device-detect';
+
 import {
     Form,
 } from "./ui/form"
@@ -15,6 +17,7 @@ import { useSearch } from './SearchContext';
 interface SortingContainerProps {
     showDisableDeleteButtons?: boolean;
     filterOut?: System[];
+    isInsideSettingsCard?: boolean;
 }
 
 const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, filterOut = [] }) => {
@@ -24,7 +27,11 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
     const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
 
     const sensors = useSensors(
-        useSensor(PointerSensor, { activationConstraint: { delay: 100, tolerance: 5 } }),
+        useSensor(PointerSensor, {
+            activationConstraint: isMobile
+                ? { delay: 50, tolerance: 10 } // Adjusted settings for mobile
+                : { delay: 100, tolerance: 5 } // Default settings for desktop
+        }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         })

@@ -1,18 +1,18 @@
-// SystemList.tsx
+// SystemCard.tsx
 
 import React from 'react';
-import { System, SystemTitle } from './SystemsContext';
+import { System } from './SystemsContext';
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from './ui/card';
 import { DiscordLogoIcon, GitHubLogoIcon, LinkedInLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import CIcon from '@coreui/icons-react';
 import { cibWikipedia } from '@coreui/icons';
+import { useAppContext } from './AppContext';
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
 
 
@@ -21,10 +21,10 @@ interface SystemCardProps {
 }
 
 const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
-
+  const { settingsCardActive } = useAppContext();
   return (
-    <Card className="border-none shadow-none">
-      <CardContent className="pl-0 pr-2 pb-3">
+    <Card className="border-none mt-1 mx-2 p-2 shadow-none">
+      <CardContent className="px-0 pb-3">
         <CardHeader className="p-0">
           <span>ID: {system.id}</span>
           <span>
@@ -38,10 +38,12 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
         <CardDescription>
           
         </CardDescription>
-        <div className="flex flex-row flex-grow space-x-1 mt-2 justify-center items-center">
-          <DisableSystemButton system={system} />
-          <DeleteSystemButton system={system} />
-        </div>
+        {!settingsCardActive && (
+          <div className="flex flex-row flex-grow space-x-1 mt-2 justify-center items-center">
+            <DisableSystemButton system={system} />
+            <DeleteSystemButton system={system} />
+          </div>
+        )}
       </CardContent>
       <CardFooter id="system-card-footer" data-testid="system-card-footer">
         <div className="border-t pt-1 flex flex-col items-center w-full">
