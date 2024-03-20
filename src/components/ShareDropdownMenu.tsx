@@ -48,7 +48,7 @@ const ShareDropdownMenu = () => {
           onClick={() => {
             initiateShare(query);
           }}
-          className={`w-full ${isSharePopoverOpen ? 'bg-blue-500 text-white' : 'text-current'}`}
+          className={`w-full ${isSharePopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
         >
           <Share2Icon className={`${isSharePopoverOpen ? 'text-white' : 'text-current'}`} />
         </Button>

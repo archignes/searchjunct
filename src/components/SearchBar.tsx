@@ -88,7 +88,7 @@ const SearchBar = () => {
           </div>
           <div className="w-3/4 sm:w-auto">
             <Button id="search-button" variant="outline"
-              className="w-full md:w-auto p-1" type="submit" aria-label="Submit Search">
+              className="w-full md:w-auto p-1 hover:bg-blue-100" type="submit" aria-label="Submit Search">
               <Image
                 id="magnifying-glass-logo-search"
                 src="/searchjunct.svg"

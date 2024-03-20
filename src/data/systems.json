@@ -133,9 +133,6 @@
   {
     "name": "YouChat",
     "id": "youchat",
-    "base_url_for": [
-      "YouChat - Research mode"
-    ],
     "account_required": true,
     "search_link": "https://you.com/search?q=%s&tbm=youchat&cfr=chat",
     "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",

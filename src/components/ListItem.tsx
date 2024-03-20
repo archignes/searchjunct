@@ -106,7 +106,12 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     setCheckboxStatus(system.id, checked);
   };
 
-   
+
+  // useEffect(() => {
+  //   console.log(checkboxStatuses)
+  // }, [checkboxStatuses]);
+  
+  
   return (
     <>
       <div className={`${isOver ? 'bg-blue-100' : ''}`}>
@@ -115,7 +120,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
         id={`sortable-item-${system.id}`}
         key={system.id}
         style={style}
-        className={`min-h-9 py-1 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 pl-3 mx-1 w-5/7
+        className={`min-h-9 py-1 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mx-1 w-5/7
                     ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
                     ${systemsDeleted?.[system.id] ? 'bg-red-500' : ''}
@@ -130,30 +135,31 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
           <AccordionItem value="item-1" className="border-none pr-2">
             <div className="w-full">
               <div className="flex items-center">
-                {multiSelect === "open" || multiSelect === "some" || multiSelect === "all" ? (
-                  <Checkbox
-                    checked={isChecked}
-                    className="w-5 h-5"
-                    onCheckedChange={handleCheckboxChange}
-                  />
-            ) : (<a className="p-3"
-                href={preppedSearchLink(system, query)} onClick={() => handleSearch(system)}>
-                <MagnifyingGlassIcon className="w-4 h-4 cursor-pointer" />
+                  <a className="w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
+                   href={preppedSearchLink(system, query)}
+                   onClick={() => handleSearch(system)}>
+                    {multiSelect ? (
+                      <Checkbox
+                        checked={isChecked}
+                        className="w-4 h-4 m-3"
+                        onCheckedChange={handleCheckboxChange}/>
+                        ) : (
+                      <MagnifyingGlassIcon className="w-4 h-4 cursor-pointer" />
+                    )}
+                <SystemTitle
+                  className={`py-1 rounded-md px-1 flex items-center flex-grow
+                      ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
+                      ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
+                      ${systemsDeleted?.[system.id] ? 'bg-white' : ''}`}
+                  system={system}
+                />
               </a>
-            )}
-            <SystemTitle
-              className={`w-full py-1 rounded-md px-1 flex items-center
-                          ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
-                          ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
-                          ${systemsDeleted?.[system.id] ? 'bg-white' : ''}`}
-              system={system}
-            />
             <div
               ref={setDragHandleRef}
               id={`${system.id}-drag-handle`}
               {...attributes}
               {...listeners}
-              className="handle py-4 px-3"
+                    className="handle py-4 px-3 hover:bg-blue-100 hover:rounded-md"
             >
               <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
             </div>
@@ -165,7 +171,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                     <ChevronDownIcon className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${isItemExpanded ? 'rotate-180' : ''}`} />
                   </button>
                   ) : (
-                  <AccordionTrigger />
+                      <AccordionTrigger className="hover:rounded-md hover:bg-blue-100 px-2" />
                   )}
               </div>
               {expandAllStatus && isItemExpanded ? (

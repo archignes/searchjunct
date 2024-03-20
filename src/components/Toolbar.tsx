@@ -52,25 +52,16 @@ const Toolbar = () => {
 
   const { multiSelect, setMultiSelect } = useSearch();
 
-  const isAllChecked = useMemo(() => {
-    return systemsCurrentOrder.every((system) => checkboxStatuses[system.id]);
-  }, [systemsCurrentOrder, checkboxStatuses]);
-
-  const isSomeChecked = useMemo(() => {
-    return systemsCurrentOrder.some((system) => checkboxStatuses[system.id]) && !isAllChecked;
-  }, [systemsCurrentOrder, checkboxStatuses, isAllChecked]);
-
   const handleMultiSelect = () => {
-    if (multiSelect === "closed") {
-      setMultiSelect("open");
-    } else if (multiSelect === "open") {
-      setMultiSelect("all");
-    } else if (multiSelect === "some") {
-      setMultiSelect("all");
-    } else if (multiSelect === "all") {
-      setMultiSelect("closed");
+    if (multiSelect === false) {
+      setMultiSelect(true);
+    } else if (multiSelect === true) {
+      setMultiSelect(false);
     }
   };
+
+
+  
 
   return (
     <>
@@ -84,24 +75,16 @@ const Toolbar = () => {
         >
           <div className="relative w-max h-max">
             <Checkbox
-              checked={multiSelect === "all"}
+              checked={multiSelect}
               className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-                ${multiSelect === "closed" ? "bg-gray-200" : "bg-white"
+                ${!multiSelect ? "bg-gray-200" : "bg-white"
                 }`}
               onCheckedChange={handleMultiSelect}
             />
-            {isSomeChecked && (
-              <>
-                <DotFilledIcon
-                  className="h-6 w-6 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                  style={{ zIndex: 2 }}
-                />
-              </>
-            )}
           </div>
         </Button> */}
       <Button id="shuffle-button" variant="outline" title="Shuffle" onClick={setShuffleSystems}
-          className="p-1 w-full">
+          className="p-1 w-full hover:bg-blue-100">
         <ShuffleIcon />
       </Button>
         <Button
@@ -109,7 +92,7 @@ const Toolbar = () => {
           variant="outline"
           title={expandAllStatus ? "Collapse" : "Expand"}
           onClick={toggleExpandAll}
-          className="p-1 w-full"
+          className="hover:bg-blue-100 p-1 w-full"
         >
           <ChevronDownIcon
             className={`${expandAllStatus ? 'rotate-180' : ''
@@ -121,7 +104,7 @@ const Toolbar = () => {
         variant="outline"
         title="Custom Sort"
         onClick={() => customSort("click")}
-          className={`p-1 w-full ${disableCustomSortButton && 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300'}`}
+          className={`hover:bg-blue-100 p-1 w-full ${disableCustomSortButton && 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300'}`}
           aria-disabled={disableCustomSortButton ? "true" : "false"}
       >
           {fillStarIcon ? <StarFilledIcon /> : <StarIcon />}
@@ -131,7 +114,7 @@ const Toolbar = () => {
         variant="outline"
         title="Reload"
         onClick={reloadSystems}
-        className={`
+          className={`hover:bg-blue-100
           p-1 w-full
           ${Object.values(systemsSearched).some(searched => searched) ? '' : 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300'}
         `}
@@ -142,7 +125,7 @@ const Toolbar = () => {
       <Popover open={isInfoOpen} onOpenChange={toggleInfoOpen}>
         <PopoverTrigger asChild>
           <Button id="info-button" variant="outline" title="Info"
-              className={`p-1 w-full ${isInfoOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-gray-100'}`}
+              className={`p-1 w-full ${isInfoOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-blue-100'}`}
           >
             <QuestionMarkIcon
                 className={`${isInfoOpen ? 'text-white' : 'text-current'}`} />
@@ -158,7 +141,7 @@ const Toolbar = () => {
               id="settings-button"
               variant="outline"
               title="Settings"
-              className={`p-1 w-full ${isSettingsOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-gray-100'}`}
+              className={`p-1 w-full ${isSettingsOpen ? 'bg-blue-500 text-white hover:bg-blue-600' : 'text-current hover:bg-blue-100'}`}
             >
               <GearIcon
                 className={`${isSettingsOpen ? 'text-white' : 'text-current'}`} />

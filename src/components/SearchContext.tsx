@@ -9,15 +9,15 @@ const SearchContext = createContext<{
         handleSearch: (system?: System, urlQuery?: string) => void,
         query: string,
         setQuery: (query: string) => void,
-        multiSelect: 'closed' | 'open' | 'some' | 'all',
-        setMultiSelect: (multiSelect: 'closed' | 'open' | 'some' | 'all') => void,
+        multiSelect: boolean
+        setMultiSelect: (multiSelect: boolean) => void,
         preppedSearchLink: (system: System, query: string) => string
     }>({
     handleSearch: () => { },
     query: '',
     setQuery: () => { },
-    multiSelect: 'closed',
-    setMultiSelect: (multiSelect: 'closed' | 'open' | 'some' | 'all') => { },
+    multiSelect: false,
+    setMultiSelect: () => { },
     preppedSearchLink: (system: System, query: string) => { return '' }
 });
 
@@ -25,7 +25,7 @@ const SearchContext = createContext<{
 export const useSearch = () => useContext(SearchContext);
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
-    const [multiSelect, setMultiSelect] = useState<'closed' | 'open' | 'some' | 'all'>('closed');
+    const [multiSelect, setMultiSelect] = useState(false);
     const { setSystemSearched, systemsCurrentOrder, setActiveSystem } = useSystemsContext();
     const { systemsSearched, systemsDeleted, systemsDisabled } = useStorage();
     const [query, setQuery] = useState('');
