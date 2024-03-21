@@ -16,6 +16,8 @@ interface StorageContextType {
     setSystemsStateSearched: (systemId: string, value: boolean) => void;
     customModeOnLoad: boolean;
     setCustomModeOnLoad: (value: boolean) => void;
+    showIntroModal: boolean;
+    setShowIntroModal: (value: boolean) => void;
 }
 
 const StorageContext = createContext<StorageContextType>({
@@ -33,7 +35,9 @@ const StorageContext = createContext<StorageContextType>({
     systemsSearched: {},
     setSystemsStateSearched: () => { },
     customModeOnLoad: false,
-    setCustomModeOnLoad: () => { }
+    setCustomModeOnLoad: () => { },
+    showIntroModal: true,
+    setShowIntroModal: () => { }
 });
 
 
@@ -102,6 +106,14 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         return [];
     });
 
+    const [showIntroModal, setShowIntroModal] = useState<boolean>(() => {
+        if (typeof window !== 'undefined') {
+            const storedValue = localStorage.getItem('showIntroModal');
+            return storedValue ? JSON.parse(storedValue) : true;
+        }
+        return true;
+    });
+
     const resetLocalStorage = () => {
         setSystemsCustomOrder([]);
         setSystemDeleted({});
@@ -168,6 +180,8 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             resetLocalStorageSearched,
             customModeOnLoad,
             setCustomModeOnLoad,
+            showIntroModal,
+            setShowIntroModal
         }),
         [
             initiateSearchImmediately,
@@ -177,7 +191,9 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             systemsCustomOrder,
             systemsSearched,
             customModeOnLoad,
-            setCustomModeOnLoad
+            setCustomModeOnLoad,
+            showIntroModal,
+            setShowIntroModal
         ]
     );
 

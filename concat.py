@@ -2,8 +2,8 @@ import os
 
 # Preamble
 PREAMBLE = """// This file is a concatenation of key files in a web application.
-// name: SearchJunct
-// description: SearchJunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.
+// name: Searchjunct
+// description: Searchjunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.
 // stack: Next.js, TypeScript, React, Tailwind CSS, Jest, Puppeteer
 // author: Daniel Griffin
 // license: MIT

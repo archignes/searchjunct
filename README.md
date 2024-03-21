@@ -1,18 +1,18 @@
-# SearchJunct
+# Searchjunct
 
 
 ## Overview
-SearchJunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.
+Searchjunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.
 
 ## Features
 - **Multi-Engine Search Selection:** Enables queries through multiple search engines based on user selection.
 - **Client-Side Operation:** All functionalities, including search logging (if opted by the user), operate on the client side to support user privacy.
 - **(Under Construction) Manual and Automatic Routing:** Users can manually select desired search engines or rely on automatic routing based on weighted preferences.
 - **(Under Construction) Search Logging (Optional):** Optional feature allowing users to store their search history locally, within their browser.
-- **Default Search Engine Setup:** Supports users to set SearchJunct as their default search engine.
+- **Default Search Engine Setup:** Supports users to set Searchjunct as their default search engine.
 
 ## Roadmap
-The following is a high-level roadmap for the development of SearchJunct. Specific features and improvements will be detailed through GitHub issues and milestones.
+The following is a high-level roadmap for the development of Searchjunct. Specific features and improvements will be detailed through GitHub issues and milestones.
 
 1. **Phase 1: Initial Development**
    - Setup basic SPA infrastructure.
@@ -30,7 +30,7 @@ The following is a high-level roadmap for the development of SearchJunct. Specif
    - Expand customization options within the settings page.
 
 4. **Phase 4: Default Search Engine Integration**
-   - Develop and document the method for users to set SearchJunct as their default browser search engine.
+   - Develop and document the method for users to set Searchjunct as their default browser search engine.
       - _Supported, need to document._
 
 5. **Phase 5: Feedback and Refinement**

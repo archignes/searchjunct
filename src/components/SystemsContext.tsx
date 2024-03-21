@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { useStorage } from "./StorageContext"; 
 import systemsData from "../data/systems.json";
-import { useRouter } from 'next/router';
 
 const systems: System[] = systemsData as System[];
 
