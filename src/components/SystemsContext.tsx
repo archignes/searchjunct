@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { useStorage } from "./StorageContext"; 
 import systemsData from "../data/systems.json";
+import Image from 'next/image';
 
 const systems: System[] = systemsData as System[];
 
@@ -135,7 +136,7 @@ export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ 
         <div className={`flex items-center m-0 p-0 ${className}`}>
             {hasMounted ? (
                 <>
-                    <img src={`/favicons/${system.id}.ico`} alt={`${system.name} favicon`} className="w-5 h-5 mr-2" />
+                    <Image src={`/favicons/${system.id}.ico`} alt={`${system.name} favicon`} width={20} height={20} className="w-5 h-5 mr-2" />
                     {system.name}
                 </>
             ) : (
@@ -144,7 +145,6 @@ export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ 
         </div>
     );
 };
-
 
 
 
