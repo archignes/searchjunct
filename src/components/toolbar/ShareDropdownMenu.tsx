@@ -1,7 +1,6 @@
 import React, { useState } from 'react'; 
-import { Button } from "./ui/button";
+import { Button } from "../shadcn-ui/button";
 import { Share2Icon } from '@radix-ui/react-icons';
-import { useSearch } from './SearchContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,9 +8,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu"
+} from "../shadcn-ui/dropdown-menu"
 
-
+import { useSearch } from '../contexts/SearchContext';
 
 const initiateShare = (query: string) => {
   setURLWithQuery(query);

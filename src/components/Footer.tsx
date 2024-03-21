@@ -1,7 +1,7 @@
 import React from "react";
 import { GitHubLogoIcon, TwitterLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons';
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Button } from "./shadcn-ui/button";
+import { Input } from ".//shadcn-ui//input";
 import Image from 'next/image';
 const lastUpdated = "2024-02-21T00:47:33.762Z";
 

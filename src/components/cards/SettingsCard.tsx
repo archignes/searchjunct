@@ -1,13 +1,17 @@
 // SettingsCard.tsx
 
 import React from 'react';
-import { useSystemsContext } from './SystemsContext';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Label } from './ui/label';
-import { Switch } from './ui/switch';
-import { useStorage } from './StorageContext';
-import SortingContainer from './SortingContainer';
+
+import { Button } from '../shadcn-ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../shadcn-ui/card';
+import { Label } from '../shadcn-ui/label';
+import { Switch } from '../shadcn-ui/switch';
+import { ScrollArea } from "../shadcn-ui/scroll-area"
+
+import { useStorage } from '../contexts/StorageContext';
+import { useSystemsContext } from '../contexts/SystemsContext';
+import SortingContainer from '../SortingContainer';
+
 
 
 const SettingsCard: React.FC = () => {
@@ -25,14 +29,17 @@ const SettingsCard: React.FC = () => {
   }
 
   return (
+
       <Card id="settings-modal" 
-          className='w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4" rounded-md mx-auto'>
+      style={{ height: `calc(100vh - 170px)` }}
+      className='w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4" rounded-md mx-auto'>
         <CardContent>
-          <CardHeader>
+            <CardHeader>
             <CardTitle>Settings</CardTitle>
           </CardHeader>
-        </CardContent>
+        <ScrollArea style={{ height: `calc(100vh - 260px)` }} className="p-4">
       <div className='border rounded-md p-4 flex flex-col space-y-1 mx-2 mb-4'>
+          
         <div className="mx-auto flex flex-col items-center space-y-2">
           <Label htmlFor="default-custom-mode" className="text-center w-2/3">
             Default to custom mode on load.
@@ -99,8 +106,13 @@ const SettingsCard: React.FC = () => {
           You can drag and drop the systems to reorder them. Your changes will be saved automatically in your browser.
         </Label>
         </div>
+          <div id="settings-systems-list">
       <SortingContainer showDisableDeleteButtons={true} isInsideSettingsCard={true} />
+      </div>
+      </ScrollArea >      
+      </CardContent>
       </Card>
+      
   );
 };
 

@@ -1,11 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { Textarea } from './ui/textarea';
-import { Button } from './ui/button';
-import { useSearch } from './SearchContext';
-import { useStorage } from './StorageContext';
-import { useSystemsContext } from './SystemsContext';
+import { Textarea } from './shadcn-ui/textarea';
+import { Button } from './shadcn-ui/button';
+
+import { useSearch } from './contexts/SearchContext';
+import { useStorage } from './contexts/StorageContext';
+import { useSystemsContext } from './contexts/SystemsContext';
 
 
 const SearchBar = () => {
@@ -39,11 +40,6 @@ const SearchBar = () => {
     }
   }, [query, router.query.q, setQuery, systemsCurrentOrder, handleSearch, systemsSearched, textareaRef, searchInitiatedBlock, updateSearchInitiatedBlock]);
 
-  const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    handleSearch();
-  };
-
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.focus();
@@ -52,6 +48,11 @@ const SearchBar = () => {
       textareaRef.current.setSelectionRange(length, length);
     }
   }, []); // Empty dependency array means this effect runs once on mount
+
+  const onSearchSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSearch();
+  }, [handleSearch]);
 
   return (
     <div id="search-bar" className="flex justify-center items-center space-x-2">

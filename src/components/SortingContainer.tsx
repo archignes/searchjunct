@@ -3,16 +3,16 @@
 import React, { useState, useEffect } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { System, useSystemsContext } from './SystemsContext';
-import { useStorage } from './StorageContext';
-import SearchSystemItem from './ListItem';
+import { System, useSystemsContext } from './contexts/SystemsContext';
+import { useStorage } from './contexts/StorageContext';
+import SearchSystemItem from './ui/SystemItem';
 import { isMobile } from 'react-device-detect';
 
 import {
     Form,
-} from "./ui/form"
+} from "./shadcn-ui/form"
 import { useForm, FormProvider, SubmitHandler, useWatch } from 'react-hook-form';
-import { useSearch } from './SearchContext';
+import { useSearch } from './contexts/SearchContext';
 
 interface SortingContainerProps {
     showDisableDeleteButtons?: boolean;
@@ -61,27 +61,13 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
         },
     });
 
-    const [loadedItems, setLoadedItems] = useState(0);
-
-    useEffect(() => {
-        const timeouts = systemsCurrentOrder.filter(system => !filterOut.includes(system)).map((_, index) => {
-            return setTimeout(() => {
-                setLoadedItems(index + 1);
-            }, (index + 1) * 100); // 100ms delay for each item
-        });
-
-        return () => {
-            timeouts.forEach(clearTimeout);
-        };
-    }, []);
     
-
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <FormProvider {...form}>
                 <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
                     {systemsCurrentOrder.filter(system => !filterOut.includes(system)).map((system, index) => (
-                        <div key={system.id} className="w-full" style={{ opacity: loadedItems > index ? 1 : 0, transition: 'opacity 0.5s' }}>
+                        <div key={system.id} className="w-full">
                             <SearchSystemItem
                                 id={system.id}
                                 system={system}

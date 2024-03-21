@@ -1,6 +1,6 @@
 // SearchContext.tsx
 
-import React, { createContext, useContext, ReactNode, useState } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useCallback, useMemo } from 'react';
 import { useSystemsContext, System } from './SystemsContext';
 import { useStorage } from './StorageContext';
 
@@ -38,7 +38,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         return system.search_link.replace('%s', encodeURIComponent(query)).replace(/%20/g, '+');
     }
 
-    const handleSearch = (system?: System, urlQuery?: string) => {
+    const handleSearch = useCallback((system?: System, urlQuery?: string) => {
         let currentQuery = urlQuery || query;
         let encodedQuery = encodeURIComponent(currentQuery).replace(/%20/g, '+');
         
@@ -86,7 +86,15 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             setActiveSystem(nextUnsearchedSystem.id);
         }
 
-    };
+    }, [systemsSearched,
+        systemsDeleted,
+        systemsDisabled,
+        systemsCurrentOrder,
+        setSystemSearched,
+        setActiveSystem,
+        query,
+        getNextUnsearchedSystem
+    ]);
 
     return (
         <SearchContext.Provider value={{

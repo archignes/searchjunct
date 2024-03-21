@@ -1,0 +1,174 @@
+  console.log
+    in updateSortStatus, new: shuffled
+
+      at updateSortStatus (src/components/contexts/SystemsContext.tsx:179:17)
+
+  console.log
+    sortStatus initial
+
+      at src/components/contexts/SystemsContext.tsx:310:17
+
+  console.log
+    sortStatus shuffled
+
+      at src/components/contexts/SystemsContext.tsx:310:17
+
+  console.log
+    Scroll event fired 0
+
+      at Object.<anonymous> (src/components/__tests__/SystemsList.test.tsx:35:17)
+
+FAIL src/components/__tests__/SystemsList.test.tsx
+  System List
+    ✕ should have a link to the systems.json file at the bottom (1145 ms)
+
+  ● System List › should have a link to the systems.json file at the bottom
+
+    Unable to find an element with the text: Number of systems. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex justify-center items-center space-x-2"[39m
+          [33mid[39m=[32m"search-bar"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"w-full mx-1 justify-center items-center flex flex-wrap space-x-2"[39m
+          [36m>[39m
+            [36m<form[39m
+              [33maria-label[39m=[32m"Website Search"[39m
+              [33mclass[39m=[32m"flex flex-col sm:flex-row // This makes items stack vertically by default, and horizontally on small screens and up gap-2 // Adds a gap between items w-full items-center justify-center search-bar no-link"[39m
+              [33mid[39m=[32m"search-form"[39m
+              [33mrole[39m=[32m"search"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex-1 w-full sm:w-auto"[39m
+              [36m>[39m
+                [36m<textarea[39m
+                  [33mclass[39m=[32m"flex min-h-[60px] rounded-md border border-input bg-transparent px-3 py-2 shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 text-base w-full"[39m
+                  [33mid[39m=[32m"search-input"[39m
+                  [33mplaceholder[39m=[32m"Type your query here..."[39m
+                  [33mrows[39m=[32m"1"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"w-3/4 sm:w-auto"[39m
+              [36m>[39m
+                [36m<button[39m
+                  [33maria-label[39m=[32m"Submit Search"[39m
+                  [33mclass[39m=[32m"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:text-accent-foreground h-9 w-full md:w-auto p-1 hover:bg-blue-100"[39m
+                  [33mid[39m=[32m"search-button"[39m
+                  [33mtype[39m=[32m"submit"[39m
+                [36m>[39m
+                  [36m<img[39m
+                    [33malt[39m=[32m"Searchjunct Logo"[39m
+                    [33mdata-nimg[39m=[32m"1"[39m
+                    [33mdecoding[39m=[32m"async"[39m
+                    [33mheight[39m=[32m"30"[39m
+                    [33mid[39m=[32m"magnifying-glass-logo-search"[39m
+                    [33mloading[39m=[32m"lazy"[39m
+                    [33msrc[39m=[32m"/searchjunct.svg"[39m
+                    [33mstyle[39m=[32m"color: transparent;"[39m
+                    [33mwidth[39m=[32m"30"[39m
+                  [36m/>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"sm:hidden font-semi-bold text-gray-700"[39m
+                  [36m>[39m
+                    [0mSubmit[0m
+                  [36m</span>[39m
+                [36m</button>[39m
+              [36m</div>[39m
+            [36m</form>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-col space-y-1 mt-1"[39m
+          [33mdata-testid[39m=[32m"system-list"[39m
+          [33mid[39m=[32m"systems-list"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mstyle[39m=[32m"position: relative; height: 598px; width: 100%; overflow: auto; will-change: transform; direction: ltr;"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mstyle[39m=[32m"height: 2432px; width: 100%;"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mstyle[39m=[32m"position: absolute; left: 0px; top: 0px; height: 64px; width: 100%;"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m""[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"min-h-9 py-1 my-1 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mx-1 w-5/7
+                        
+                        
+                        
+                        opacity-100
+                        "[39m
+                    [33mid[39m=[32m"sortable-item-youchat-agent"[39m
+                    [33mstyle[39m=[32m"z-index: z-0; transition: transform 0ms linear;"[39m
+                  [36m>[39m
+                    [36m<div[39m
+                      [33mclass[39m=[32m"w-full"[39m
+                      [33mdata-orientation[39m=[32m"vertical"[39m
+                    [36m>[39m
+                      [36m<div[39m
+                        [33mclass[39m=[32m"border-b border-none"[39m
+                        [33mdata-orientation[39m=[32m"vertical"[39m
+                        [33mdata-state[39m=[32m"closed"[39m
+                      [36m>[39m
+                        [36m<div[39m
+                          [33mclass[39m=[32m"w-full"[39m
+                        [36m>[39m
+                          [36m<div[39m
+                            [33mclass[39m=[32m"flex items-center"[39m
+                          [36m>[39m
+                            [36m<a[39m
+                              [33mclass[39m=[32m"w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"[39m
+                              [33mhref[39m=[32m"https://you.com/search?q=&tbm=youchat&chatMode=agent"[39m
+                            [36m>[39m
+                              [36m<svg[39m
+                                [33mclass[39m=[32m"w-4 h-4 cursor-pointer"[39m
+                                [33mfill[39m=[32m"none"[39m
+                                [33mheight[39m=[32m"15"[39m
+                                [33mviewBox[39m=[32m"0 0 15 15"[39m
+                                [33mwidth[39m=[32m"15"[39m
+                                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                              [36m>[39m
+                                [36m<path[39m
+                                  [33mclip-rule[39m=[32m"evenodd"[39m
+                                  [33md[39m=[32m"M10 6.5C10 8.433 8.433 10 6.5 10C4.567 10 3 8.433 3 6.5C3 4.567 4.567 3 6.5 3C8.433 3 10 4.567 10 6.5ZM9.30884 10.0159C8.53901 10.6318 7.56251 11 6.5 11C4.01472 11 2 8.98528 2 6.5C2 4.01472 4.01472 2 6.5 2C8.98528 2 11 4.01472 11 6.5C11 7.56251 10.6318 8.53901 10.0159 9.30884L12.8536 12.1464C13.0488 12.3417 13.0488 12.6583 12.8536 12.8536C12.6583 13.0488 12.3417 13.0488 12.1464 12.8536L9.30884 10.0159Z"[39m
+                                  [33mfill[39m=[32m"currentColor"[39m
+                                  [33mfill-rule[39m=[32m"evenodd"[39m
+                                [36m/>[39m
+                              [36m</svg>[39m
+                              [36m<div[39m
+                                [33mclass[39m=[32m"flex items-center m-0 p-0 py-1 rounded-md px-1 flex items-center flex-grow"[39m
+                              [36m>[39m
+                                [36m<img[39m
+                                  [33malt[39m=[32m"YouChat - Agent favicon"[39m
+                                  [33mclass[39m=[32m"w-4 h-4 mr-2"[39m
+                                  [33mdata-nimg[39m=[32m"1"[...
+
+      34 |         fireEvent.scroll(systemList, { target: { scrollY: systemList.scrollHeight } });
+      35 |         console.log('Scroll event fired', systemList.scrollHeight);
+    > 36 |         const numberOfSystemsElement = await screen.findByText('Number of systems');
+         |                                                     ^
+      37 |         expect(numberOfSystemsElement).toBeInTheDocument();
+      38 |     });
+      39 | });
+
+      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
+      at findByText (node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
+      at Object.<anonymous> (src/components/__tests__/SystemsList.test.tsx:36:53)
+      at TestScheduler.scheduleTests (node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+      at runJest (node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+      at _run10000 (node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+      at runCLI (node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 total
+Snapshots:   0 total
+Time:        1.767 s, estimated 3 s
+Ran all test suites.

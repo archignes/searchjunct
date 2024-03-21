@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SearchBar from './SearchBar';
-import { SearchProvider } from './SearchContext';
-import { SystemProvider } from './SystemsContext';
-import { StorageProvider } from './StorageContext';
+import SearchBar from '../Searchbar';
+import { SearchProvider } from '../contexts/SearchContext';
+import { SystemProvider } from '../contexts/SystemsContext';
+import { StorageProvider } from '../contexts/StorageContext';
 import '@testing-library/jest-dom';
 import { useRouter } from 'next/router';
 

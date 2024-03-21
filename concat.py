@@ -51,27 +51,17 @@ e2e_tests_path = './e2e/'
 # Additional files with their respective paths
 additional_files = ["./pages/index.tsx", "./pages/_app.tsx"]
 
-# List of filenames to concatenate within the components directory
-filenames = [
-    'DataContext.tsx',
-    'Footer.tsx',
-    'Header.tsx',
-    'SearchContext.tsx',
-    'SettingsCard.tsx',
-    'SortableItem.tsx',
-    'StorageContext.tsx',
-    'SystemCard.tsx',
-    'SystemList.tsx',
-    'SystemsContext.tsx',
-    'Toolbar.tsx'
-]
-
-
 # Output file
 output_file = '/Users/dsg/searchjunct_concat.md'
 
-# Get all the files in the components directory (without entering subdirectories)
-filenames = [os.path.join(components_path, file) for file in os.listdir(components_path) if file.endswith('.tsx')]
+# Get all the files in the components directory (without entering the shadcn-ui subdirectory)
+filenames = []
+for root, dirs, files in os.walk(components_path):
+    if os.path.basename(root) == 'shadcn-ui':
+        continue
+    for file in files:
+        if file.endswith('.tsx'):
+            filenames.append(os.path.join(root, file))
 
 # Add the paths of the e2e test files to the filenames list
 for file_path in os.listdir(e2e_tests_path):

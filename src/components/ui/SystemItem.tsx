@@ -1,12 +1,13 @@
-// ListItem.tsx 
+// ui/SystemItem.tsx 
 
 import React, { useState, useEffect } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { useSystemsContext, System, SystemTitle } from './SystemsContext';
-import { MagnifyingGlassIcon, DragHandleDots2Icon, ChevronDownIcon } from '@radix-ui/react-icons';
-import SystemCard from './SystemCard';
-import { useSearch } from './SearchContext';
+
+import { MagnifyingGlassIcon, 
+  DragHandleDots2Icon,
+  ChevronDownIcon
+} from '@radix-ui/react-icons';
 import { useDroppable } from '@dnd-kit/core';
 import { useFormContext } from 'react-hook-form';
 import {
@@ -14,9 +15,16 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion"
+} from "../shadcn-ui/accordion"
+import { Checkbox } from '../shadcn-ui/checkbox';
+import { Button } from '../shadcn-ui/button';
+
+import { useSystemsContext, System, SystemTitle } from '../contexts/SystemsContext';
+import SystemCard from '../cards/SystemCard';
+import { useSearch } from '../contexts/SearchContext';
+
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
-import { Checkbox } from './ui/checkbox';
+
 
 
 interface SortableItemProps {
@@ -108,8 +116,8 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
           ...style,
           touchAction: 'none', // Add this line to apply touch-action: none
         }}
-        className={`min-h-9 py-1 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mx-1 w-5/7
-                    ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
+        className={`min-h-9 py-1 my-0 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mx-1 w-5/7
+                    ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-none' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
                     ${systemsDeleted?.[system.id] ? 'bg-red-500' : ''}
                     ${isDragging ? 'opacity-75 z-50' : 'opacity-100'}
@@ -126,8 +134,9 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                   <a className="w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
                    href={preppedSearchLink(system, query)}
                    onClick={(e) => { e.preventDefault(); handleSearch(system); }}>
+                    <div className="bg-white rounded-md w-full flex items-center">
                     {/* {multiSelect ? (
-                      <Checkbox
+                      <kbox
                         checked={isChecked}
                         className="w-4 h-4 m-3"
                         onCheckedChange={handleCheckboxChange}/>
@@ -138,23 +147,31 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                   className={`py-1 rounded-md px-1 flex items-center flex-grow`}
                   system={system}
                 />
+                    </div>
               </a>
+                  {showDisableDeleteButtons && (
+                    <div className="flex justify-center space-x-1 pl-1 w-1/3">
+                      <DisableSystemButton system={system} />
+                      <DeleteSystemButton system={system} />
+                    </div>
+                  )}
             <div
               ref={setDragHandleRef}
               id={`${system.id}-drag-handle`}
               {...attributes}
               {...listeners}
-                    className="handle py-4 px-3 hover:bg-blue-100 hover:rounded-md"
+              className="handle py-4 px-3 hover:bg-blue-100 hover:rounded-md"
+              aria-label="Drag handle for reordering"
             >
               <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
             </div>
                 {expandAllStatus ? (
-                    <button className="px-2 mr-1 hover:bg-blue-100 hover:rounded-md flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
+                    <Button aria-expanded={isItemExpanded ? "true" : "false"} className="px-2 mr-1 hover:bg-blue-100 hover:rounded-md flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
                     onClick={toggleItemExpanded}
-                    title={isItemExpanded ? "Collapse" : "Expand"}
+                      aria-label={isItemExpanded ? "Collapse system card" : "Expand  system card"}
                   >
                     <ChevronDownIcon className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${isItemExpanded ? 'rotate-180' : ''}`} />
-                  </button>
+                  </Button>
                   ) : (
                       <AccordionTrigger className="mr-1 hover:rounded-md hover:bg-blue-100 px-2" />
                   )}
@@ -170,13 +187,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                       <SystemCard system={system} />
                 </AccordionContent>
               )}
-            </div>
-        {showDisableDeleteButtons && (
-          <div className="flex justify-center space-x-1 pl-1 w-1/3">
-            <DisableSystemButton system={system} />
-            <DeleteSystemButton system={system} />
-          </div>
-        )}            
+            </div>            
           </AccordionItem>
         </Accordion>
       </div>

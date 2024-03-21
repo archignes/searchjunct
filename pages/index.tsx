@@ -3,9 +3,10 @@ import React from 'react';
 import Head from 'next/head';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
-import Toolbar from "../src/components/Toolbar";
-import SystemList from "../src/components/SystemsList";
-import SearchBar from "../src/components/SearchBar";
+import Toolbar from "../src/components/toolbar/Toolbar";
+import SystemList from "../src/components/SystemList";
+import SearchBar from "../src/components/Searchbar";
+
 
 const title = "Searchjunct"
 const description = "Search.";
@@ -14,7 +15,7 @@ const image = "https://searchjunct.com/screenshots/home.png";
 
 const HomePage = () => {
   return (
-    <>
+      <>
       <Head>
         <title>{title}</title>
         <link rel="icon" href="/searchjunct.svg" />

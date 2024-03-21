@@ -1,23 +1,24 @@
 // InfoCard.tsx
 
 import React from 'react';
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert"
-import { Button } from "./ui/button"
+import { Alert, AlertDescription, AlertTitle } from "../shadcn-ui/alert"
+import { Button } from "../shadcn-ui/button"
 
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from './ui/card';
+} from '../shadcn-ui/card';
 import { ChevronDownIcon, DragHandleDots2Icon, ExclamationTriangleIcon, GitHubLogoIcon, QuestionMarkIcon, ReloadIcon, StarIcon, GearIcon, ShuffleIcon, StarFilledIcon, TwitterLogoIcon, Share2Icon } from '@radix-ui/react-icons';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "./ui/tabs"
-import { useStorage } from "./StorageContext"
+} from "../shadcn-ui/tabs"
+import { useStorage } from "../contexts/StorageContext"
+import { ScrollArea } from "../shadcn-ui/scroll-area"
 
 const InfoCard: React.FC = () => {
   const { setShowIntroModal } = useStorage();
@@ -27,7 +28,7 @@ const InfoCard: React.FC = () => {
       <Card className='w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4" rounded-md mx-auto'>
       <CardContent className='pb-0'>
         <CardHeader className="pt-0">
-            <div className="flex text-gray-500 justify-center pt-1">
+            <div className="flex text-xs text-gray-500 justify-center pt-1">
               <a href="https://github.com/danielsgriffin/searchjunct" target="_blank" rel="noopener noreferrer" className="flex items-center mr-4 hover:bg-blue-100 p-1 hover:rounded-md">
                 <GitHubLogoIcon className="h-4 w-4 inline mr-1" />Github
               </a>
@@ -38,16 +39,19 @@ const InfoCard: React.FC = () => {
           
           <CardTitle className="text-2xl">Info</CardTitle>
           </CardHeader>
+          
       </CardContent>
       {/* <div id="show-intro-modal-again" className="flex justify-center">
           <Button variant="outline" className="m-2 hover:bg-blue-100" onClick={() => setShowIntroModal(true)}>Click here to see the intro modal again.</Button>
           </div> */}
+          
         <Tabs defaultValue="about" className="px-1 w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="about">About</TabsTrigger>
             <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="privacy">Privacy</TabsTrigger>
-            <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="hotkey-help">Hotkey Help</TabsTrigger>
+            <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="hotkeys">Hotkeys</TabsTrigger>
           </TabsList>
+          <ScrollArea style={{ height: `calc(100vh - 260px)` }} className="p-4">
           <TabsContent value="about">
         <Card className='w-9/10" border-none shadow-none mx-auto'>
           <CardContent >
@@ -125,7 +129,7 @@ const InfoCard: React.FC = () => {
           </CardContent>
         </Card>
           </TabsContent>
-          <TabsContent value="hotkey-help">
+          <TabsContent value="hotkeys">
         <Card className='w-9/10" border-none shadow-none mx-auto'>
           <CardContent >
               <div className="space-y-4">
@@ -136,7 +140,9 @@ const InfoCard: React.FC = () => {
           </CardContent>
         </Card>
         </TabsContent>
+          </ScrollArea>
         </Tabs>
+        
     </Card>
 
     </>

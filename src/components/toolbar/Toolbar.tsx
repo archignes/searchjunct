@@ -1,17 +1,17 @@
 //Toolbar.tsx
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { useSystemsContext, System } from './SystemsContext';
-import { useStorage } from './StorageContext';
-import { Checkbox } from "./ui/checkbox";
-import { Button } from "./ui/button";
+import { useSystemsContext, System } from '../contexts/SystemsContext';
+import { useStorage } from '../contexts/StorageContext';
+import { Checkbox } from "../shadcn-ui/checkbox";
+import { Button } from "../shadcn-ui/button";
 import { StarFilledIcon, StarIcon, ChevronDownIcon, ChevronUpIcon, ReloadIcon, ShuffleIcon, GearIcon, QuestionMarkIcon, BoxIcon, CheckboxIcon, MinusIcon, DotFilledIcon } from "@radix-ui/react-icons";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import InfoCard from "./InfoCard"
-import SettingsCard from "./SettingsCard"
+import { Popover, PopoverContent, PopoverTrigger } from "../shadcn-ui/popover"
+import InfoCard from "../cards/InfoCard"
+import SettingsCard from "../cards/SettingsCard"
 import ShareDropdownMenu from "./ShareDropdownMenu"
-import { useSearch } from './SearchContext';
-import { useAppContext } from './AppContext';
+import { useSearch } from '../contexts/SearchContext';
+import { useAppContext } from '../contexts/AppContext';
 
 
 const Toolbar = () => {

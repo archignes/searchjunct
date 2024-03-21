@@ -1,19 +1,21 @@
 // SystemCard.tsx
 
 import React from 'react';
-import { System } from './SystemsContext';
+
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-} from './ui/card';
+} from '../shadcn-ui/card';
 import { DiscordLogoIcon, GitHubLogoIcon, LinkedInLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import CIcon from '@coreui/icons-react';
 import { cibWikipedia } from '@coreui/icons';
-import { useAppContext } from './AppContext';
-import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
+
+import { useAppContext } from '../contexts/AppContext';
+import { System } from '../contexts/SystemsContext';
+import { DeleteSystemButton, DisableSystemButton } from '../ui/SystemsButtons';
 
 
 interface SystemCardProps {

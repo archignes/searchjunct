@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SystemCard from './SystemCard'; // Adjust the import path according to your project structure
+import SystemCard from '../cards/SystemCard'; // Adjust the import path according to your project structure
 
 const system = {
   name: 'Test System',

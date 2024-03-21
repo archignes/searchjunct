@@ -1,5 +1,5 @@
-import { shuffleSystems, System } from './SystemsContext';
-import systemsData from '../data/systems.json';
+import { shuffleSystems, System } from '../contexts/SystemsContext';
+import systemsData from '../../data/systems.json';
 
 describe('shuffleSystems', () => {
     const systems = systemsData as System[];
