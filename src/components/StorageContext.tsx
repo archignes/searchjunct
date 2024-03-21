@@ -137,7 +137,8 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         localStorage.setItem('systemsDisabled', JSON.stringify(systemsDisabled));
         localStorage.setItem('systemsDeleted', JSON.stringify(systemsDeleted));
         localStorage.setItem('systemsCustomOrder', JSON.stringify(systemsCustomOrder));
-    }, [initiateSearchImmediately, systemsDisabled, systemsDeleted, systemsCustomOrder, customModeOnLoad]);
+        localStorage.setItem('showIntroModal', JSON.stringify(showIntroModal));
+    }, [initiateSearchImmediately, systemsDisabled, systemsDeleted, systemsCustomOrder, customModeOnLoad, showIntroModal]);
 
 
     // Functions to update values

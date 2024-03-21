@@ -16,7 +16,7 @@ const IntroModal: React.FC<IntroModalProps> = ({ handleCloseModal }) => {
 
   return (
       <>
-        <div className="w-9/10 sm:w-2/3 z-100 sm:mx-auto md:w-5/7 lg:w-4/5 xl:w-3/4">
+        <div className="w-9/10">
           <Card>
             <CardHeader>
               <CardTitle>Welcome to Searchjunct!</CardTitle>

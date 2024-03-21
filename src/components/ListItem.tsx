@@ -82,22 +82,15 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     setIsItemExpanded(expandAllStatus);
   }, [expandAllStatus]);
 
-  useEffect(() => {
-    console.log(`checking...\nisItemExpandable: ${isItemExpandable}\nexpandAllStatus: ${expandAllStatus}`);
+  // const { multiSelect, setMultiSelect } = useSearch();
+  // const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
 
-  }, [isItemExpandable, expandAllStatus]);
+  // const [isChecked, setIsChecked] = useState(checkboxStatuses[system.id] || false);
 
-  
-  const { multiSelect, setMultiSelect } = useSearch();
-  const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
-
-  const [isChecked, setIsChecked] = useState(checkboxStatuses[system.id] || false);
-
-  const handleCheckboxChange = (checked: boolean) => {
-    setIsChecked(checked);
-    setCheckboxStatus(system.id, checked);
-  };
-
+  // const handleCheckboxChange = (checked: boolean) => {
+  //   setIsChecked(checked);
+  //   setCheckboxStatus(system.id, checked);
+  // };
 
   // useEffect(() => {
   //   console.log(checkboxStatuses)
@@ -133,14 +126,14 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                   <a className="w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
                    href={preppedSearchLink(system, query)}
                    onClick={(e) => { e.preventDefault(); handleSearch(system); }}>
-                    {multiSelect ? (
+                    {/* {multiSelect ? (
                       <Checkbox
                         checked={isChecked}
                         className="w-4 h-4 m-3"
                         onCheckedChange={handleCheckboxChange}/>
-                        ) : (
+                        ) : ( */}
                       <MagnifyingGlassIcon className="w-4 h-4 cursor-pointer" />
-                    )}
+                    {/* )} */}
                 <SystemTitle
                   className={`py-1 rounded-md px-1 flex items-center flex-grow`}
                   system={system}

@@ -61,14 +61,27 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
         },
     });
 
+    const [loadedItems, setLoadedItems] = useState(0);
+
+    useEffect(() => {
+        const timeouts = systemsCurrentOrder.filter(system => !filterOut.includes(system)).map((_, index) => {
+            return setTimeout(() => {
+                setLoadedItems(index + 1);
+            }, (index + 1) * 100); // 100ms delay for each item
+        });
+
+        return () => {
+            timeouts.forEach(clearTimeout);
+        };
+    }, []);
     
 
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <FormProvider {...form}>
                 <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
-                    {systemsCurrentOrder.filter(system => !filterOut.includes(system)).map(system => (
-                        <div key={system.id} className="w-full">
+                    {systemsCurrentOrder.filter(system => !filterOut.includes(system)).map((system, index) => (
+                        <div key={system.id} className="w-full" style={{ opacity: loadedItems > index ? 1 : 0, transition: 'opacity 0.5s' }}>
                             <SearchSystemItem
                                 id={system.id}
                                 system={system}

@@ -37,13 +37,13 @@ const Toolbar = () => {
   };
 
 
-  const [disableCustomSortButton, setDisableCustomSortButton] = useState(true);
+  const [disableCustomSortButton, setDisableCustomSortButton] = useState(false);
   useEffect(() => {
     if (systemsCustomOrder.length === 0) {
       setDisableCustomSortButton(true);
-      return;
+    } else {
+      setDisableCustomSortButton(false);
     }
-    setDisableCustomSortButton(false);
   }, [systemsCustomOrder]);
 
   const { systemsCurrentOrder, checkboxStatuses } = useSystemsContext();
