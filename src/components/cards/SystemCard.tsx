@@ -9,7 +9,12 @@ import {
   CardFooter,
   CardHeader,
 } from '../shadcn-ui/card';
-import { DiscordLogoIcon, GitHubLogoIcon, LinkedInLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "../shadcn-ui/alert"
+import { DiscordLogoIcon, GitHubLogoIcon, LinkedInLogoIcon, TwitterLogoIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import CIcon from '@coreui/icons-react';
 import { cibWikipedia } from '@coreui/icons';
 
@@ -34,8 +39,21 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
               <code className="text-xs underline">{system.search_link}</code>
             </a>
           </span>
-          {system.account_required && <span className="text-red-500">Account Required</span>}
-          {system.mobile_app_breaks_links_warning && <span className="text-red-500">Warning: Links may not work in mobile app</span>}
+          {} 
+          {(!system.search_link.includes('%s') || system.manual_switch_required || system.mobile_app_breaks_links_warning || system.account_required) && (
+            <Alert>
+              <ExclamationTriangleIcon className="h-4 w-4" />
+              <AlertTitle>Notice</AlertTitle>
+              <AlertDescription>
+                {system.account_required && <><span className="text-red-500">Account Required</span><br></br></>}
+                {system.mobile_app_breaks_links_warning && (<>
+                  <span className="text-red-500">Warning: Links may not work in mobile app</span><br></br></>)}
+                {system.manual_switch_required && (<><span className="text-red-500">Web Search requires toggling a switch manually.</span><br></br></>)}
+                {!system.search_link.includes('%s') && (<>
+                  <span className="text-red-500">URL-driven searches are not supported.</span><span className="ml-1">Searchjunct will copy the query to your clipboard.</span><br></br></>)}
+              </AlertDescription>
+            </Alert>
+                )}
         </CardHeader>
         <CardDescription>
           

@@ -166,7 +166,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
               <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
             </div>
                 {expandAllStatus ? (
-                    <Button aria-expanded={isItemExpanded ? "true" : "false"} className="px-2 mr-1 hover:bg-blue-100 hover:rounded-md flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
+                    <Button variant="ghost" aria-expanded={isItemExpanded ? "true" : "false"} className="px-2 mr-1 hover:bg-blue-100 hover:rounded-md flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
                     onClick={toggleItemExpanded}
                       aria-label={isItemExpanded ? "Collapse system card" : "Expand  system card"}
                   >

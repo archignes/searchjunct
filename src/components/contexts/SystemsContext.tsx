@@ -29,6 +29,7 @@ export interface System {
     about_link?: string;
     disabled?: boolean;
     deleted?: boolean;
+    manual_switch_required?: boolean;
 }
 
 interface SystemProviderProps {

@@ -18,18 +18,24 @@
   {
     "name": "YouChat - Research",
     "id": "youchat-research",
+    "account_required": true,
+    "paid_subscription_required": true,
     "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=research",
     "twitter_link": "https://twitter.com/YouSearchEngine"
   },
   {
     "name": "YouChat - Agent",
     "id": "youchat-agent",
+    "account_required": true,
+    "paid_subscription_required": true,
     "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=agent",
     "twitter_link": "https://twitter.com/YouSearchEngine"
   },
   {
     "name": "YouChat - Custom",
     "id": "youchat-custom",
+    "account_required": true,
+    "paid_subscription_required": true,
     "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=custom",
     "twitter_link": "https://twitter.com/YouSearchEngine"
   },
@@ -54,6 +60,7 @@
     "search_link": "https://twitter.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Twitter",
     "web_search_system": false,
+    "account_required": true,
     "twitter_link": "https://twitter.com/Twitter"
   },
   {
@@ -68,6 +75,7 @@
     "name": "ChatGPT - 4",
     "id": "chatgpt-4",
     "account_required": true,
+    "paid_subscription_required": "true",
     "search_link": "https://chat.openai.com/?model=gpt-4",
     "wikipedia_link": "https://en.wikipedia.org/wiki/ChatGPT",
     "twitter_link": "https://twitter.com/OpenAI",
@@ -122,6 +130,8 @@
     "search_link": "https://www.perplexity.ai/search?q=%s&copilot=true",
     "account_required": true,
     "mobile_app_breaks_links_warning": true,
+    "trial_limit": "100 searches",
+    "paid_subscription_required": "true",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Perplexity.ai"
   },
   {
@@ -133,7 +143,6 @@
   {
     "name": "YouChat",
     "id": "youchat",
-    "account_required": true,
     "search_link": "https://you.com/search?q=%s&tbm=youchat&cfr=chat",
     "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",
     "twitter_link": "https://twitter.com/YouSearchEngine"
@@ -176,7 +185,8 @@
     "id": "cohere-coral",
     "account_required": true,
     "search_link": "https://coral.cohere.com/",
-    "wikipedia_link": "https://en.wikipedia.org/wiki/Cohere"
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Cohere",
+    "manual_switch_required": true
   },
   {
     "name": "Tavily",
@@ -190,7 +200,8 @@
     "search_link": "https://huggingface.co/chat/",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Hugging_Face",
     "github_link": "https://github.com/huggingface/chat-ui",
-    "open_source_license": "Apache License 2.0"
+    "open_source_license": "Apache License 2.0",
+    "manual_switch_required": true
   },
   {
     "name": "Lepton Search",
