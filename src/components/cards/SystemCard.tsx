@@ -49,7 +49,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
   const searchJunctSearchLink = preppedSearchLink(system, "What is Searchjunct.com?");
 
   return (
-    <Card className="border-none mt-0 p-2 pt-0 mx-2 shadow-none">
+    <Card className="border-none mt-0 p-2 pt-0 none px-1 mx-1 shadow-none">
       <CardContent className="px-0 pb-3">
         <CardHeader className="p-0 flex flex-col m-0 space-y-0 justify-start text-left">
           <AlertDialog >

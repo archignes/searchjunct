@@ -149,7 +149,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                     ${systemsSkipped?.[system.id] ? 'bg-yellow-300 border-none' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
                     ${systemsDeleted?.[system.id] ? 'bg-red-500' : ''}
-                    ${isDragging ? 'opacity-75 z-50' : 'opacity-100'}
+                    ${isDragging ? 'opacity-75 z-50 border-2 border-dashed border-blue-500' : 'opacity-100'}
                     ${isOver ? 'opacity-50' : ''}`}
       >
         <Accordion 
