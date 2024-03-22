@@ -39,8 +39,8 @@ const HomePage = () => {
         <SearchBar />
         <Toolbar />
         <SystemList />
+        <Footer />
       </div>
-      {/* <Footer /> */}
     </>
   );
 };
