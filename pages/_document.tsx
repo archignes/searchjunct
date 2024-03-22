@@ -6,7 +6,9 @@ class MyDocument extends Document {
     render() {
         return (
             <Html lang="en">
-                <Head />
+                <Head>
+                    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Searchjunct" />
+                </Head>
                 <body>
                     <Main />
                     <NextScript />

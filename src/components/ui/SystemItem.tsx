@@ -37,6 +37,7 @@ interface SortableItemProps {
   systemsDisabled: Record<string, boolean>;
   systemsSearched: Record<string, boolean>;
   expandAllStatus: boolean;
+  toggleExpandAll: () => void;
 }
 
 const SearchSystemItem: React.FC<SortableItemProps> = ({
@@ -48,11 +49,13 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   systemsDeleted,
   systemsDisabled,
   systemsSearched,
-  expandAllStatus
+  expandAllStatus, toggleExpandAll
+  
 }) => {
   const { handleSearch } = useSearch();
   const { setValue } = useFormContext();
 
+  const { systemsCurrentOrder, expandedSystemCards, setExpandedSystemCards } = useSystemsContext();
   const { isOver } = useDroppable({
     id,
   });
@@ -79,16 +82,41 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   };
   const { preppedSearchLink, query } = useSearch();
 
+
+  const [everClickedReExpansionCollapse, setEverClickedReExpansionCollapse] = useState(false);
+
   const [isItemExpandable, setIsItemExpandable] = useState(false);
   const [isItemExpanded, setIsItemExpanded] = useState(false);
+
   const toggleItemExpanded = () => {
+    setEverClickedReExpansionCollapse(true);
     setIsItemExpanded(!isItemExpanded);
   };
 
   useEffect(() => {
     setIsItemExpandable(expandAllStatus);
     setIsItemExpanded(expandAllStatus);
+
+    // Update everAllExpanded when expandAllStatus becomes true
+    if (expandAllStatus) {
+      setEverClickedReExpansionCollapse(true);
+    }
   }, [expandAllStatus]);
+
+  // system param expansion
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !everClickedReExpansionCollapse) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const systemsParam = urlParams.get('systems');
+      if (systemsParam && systemsParam.split(',').includes(system.id)) {
+        setIsItemExpanded(true);
+        if (!expandedSystemCards.includes(system.id)) {
+          setExpandedSystemCards([...expandedSystemCards, system.id]);
+        }
+      }
+    }
+  }, [expandedSystemCards, setExpandedSystemCards, system.id, everClickedReExpansionCollapse]);
+
 
   // const { multiSelect, setMultiSelect } = useSearch();
   // const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
@@ -165,24 +193,25 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
             >
               <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
             </div>
-                {expandAllStatus ? (
+                  {(isItemExpanded) ? (
                     <Button variant="ghost" aria-expanded={isItemExpanded ? "true" : "false"} className="px-2 mr-1 hover:bg-blue-100 hover:rounded-md flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
                     onClick={toggleItemExpanded}
-                      aria-label={isItemExpanded ? "Collapse system card" : "Expand  system card"}
+                      aria-label={isItemExpanded ? "Collapse system card" : "Expand system card"}
                   >
                     <ChevronDownIcon className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${isItemExpanded ? 'rotate-180' : ''}`} />
                   </Button>
-                  ) : (
+                  ) :
+                  (
                       <AccordionTrigger className="mr-1 hover:rounded-md hover:bg-blue-100 px-2" />
                   )}
               </div>
-              {expandAllStatus && isItemExpanded ? (
-                <div className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                  <div className="p-0 pb-1">
-                    <SystemCard system={system} />
+                {(isItemExpanded) ? (
+                  <div className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                    <div className="p-0 pb-1">
+                      <SystemCard system={system} />
+                    </div>
                   </div>
-                </div>
-              ) : (
+                ) :(
                     <AccordionContent className="p-0 pb-1">
                       <SystemCard system={system} />
                 </AccordionContent>

@@ -3,12 +3,12 @@ import { GitHubLogoIcon, TwitterLogoIcon, LinkedInLogoIcon } from '@radix-ui/rea
 import { Button } from "./shadcn-ui/button";
 import { Input } from ".//shadcn-ui//input";
 import Image from 'next/image';
-const lastUpdated = "2024-03-22T00:46:59.612Z";
+const lastUpdated = "2024-03-22T15:38:07.981Z";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="p-4 mt-5 w-full">
-      Searchjunct: Discover search engines, route your queries.
+    <footer className="p-4 mt-5 w-full text-center">
+      Discover your search engines, route your queries.
     <div className="text-center mt-4 text-xs">
       <p>Last Updated: <span id="last-updated-placeholder" title={new Date(lastUpdated).toLocaleString()}>{lastUpdated} UTC</span></p>
     </div>

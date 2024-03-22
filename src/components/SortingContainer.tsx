@@ -21,7 +21,7 @@ interface SortingContainerProps {
 }
 
 const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, filterOut = [] }) => {
-    const { toggleSystemDeleted, updateDragOrder, toggleSystemDisabled, systemsCurrentOrder, expandAllStatus } = useSystemsContext();
+    const { toggleSystemDeleted, updateDragOrder, toggleSystemDisabled, systemsCurrentOrder, expandAllStatus, toggleExpandAll } = useSystemsContext();
     const { systemsDeleted, systemsDisabled, systemsSearched } = useStorage();
     const { multiSelect, setMultiSelect } = useSearch();
     const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
@@ -78,6 +78,7 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
                                 systemsDisabled={systemsDisabled}
                                 systemsSearched={systemsSearched}
                                 expandAllStatus={expandAllStatus}
+                                toggleExpandAll={toggleExpandAll}
                             />
                         </div>
                     ))}

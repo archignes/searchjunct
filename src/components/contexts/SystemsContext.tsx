@@ -25,11 +25,22 @@ export interface System {
     open_source_license_url?: string;
     nonprofit_verification?: string;
     web_search_system?: boolean;
+    product_hunt_link?: string;
     favicon?: boolean;
     about_link?: string;
     disabled?: boolean;
     deleted?: boolean;
     manual_switch_required?: boolean;
+    android_choice_screen_options?: boolean;
+    chrome_extension?: string;
+    safari_extension?: string; 
+    charity_search_engine?: boolean;
+    default_placeholder?: string;
+    tagline?: string;
+    ios_app?: string;
+    android_app?: string;
+    expanded_system_cards: string[];
+    setExpandedSystemCards: (systemIds: string[]) => void;
 }
 
 interface SystemProviderProps {
@@ -38,7 +49,7 @@ interface SystemProviderProps {
 
 interface SystemsContextType {
     systems: System[];
-    sortStatus: 'abc' | 'zyx' | 'custom' | 'shuffled' | 'initial';
+    sortStatus: 'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial';
     activeSystem: System | undefined;
     customSort: (type?: string) => void;
     reloadSystems: () => void;
@@ -50,7 +61,7 @@ interface SystemsContextType {
     toggleSystemDeleted: (systemId: string) => void;
     systemsCurrentOrder: System[];
     setSystemsCurrentOrder: (newOrder: System[]) => void;
-    setShuffleSystems: () => void;
+    setShuffleSystems: (click?: boolean) => void;
     updateDragOrder: (newOrderedSystems: System[]) => void;
     isResetDisabled: boolean;
     initializeSystemsState: (systemsDisabled: any, systemsDeleted: any, systemsSearched: any) => System[];
@@ -58,13 +69,18 @@ interface SystemsContextType {
     toggleExpandAll: () => void;
     checkboxStatuses: Record<string, boolean>;
     setCheckboxStatus: (systemId: string, status: boolean) => void;
+    expandedSystemCards: string[];
+    setExpandedSystemCards: (systemIds: string[]) => void;
+    setExpandAllStatus: (status: boolean) => void;
+    
 }
 
-export const shuffleSystems = () => {
+export const shuffleSystems = (manualTrigger: boolean = false) => {
     let shuffledSystems = [...systems];
     let isSameOrder = true;
 
-    if (typeof window !== 'undefined') {
+    // If shuffle is not manually triggered, respect URL params
+    if (!manualTrigger && typeof window !== 'undefined') {
         const currentURL = window.location.href;
         if (currentURL.includes("?systems=")) {
             const systemIDs = currentURL.split('?systems=')[1].split(',');
@@ -79,17 +95,14 @@ export const shuffleSystems = () => {
         }
     }
 
-    // Ensure the shuffled array is different from the original
+    // Shuffle logic remains the same
     while (isSameOrder) {
         for (let i = shuffledSystems.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [shuffledSystems[i], shuffledSystems[j]] = [shuffledSystems[j], shuffledSystems[i]];
         }
 
-        // Check if the order is different from the original
         isSameOrder = shuffledSystems.every((system, index) => system === systems[index]);
-
-        // If the order is still the same, reset shuffledSystems to original and try again
         if (isSameOrder) {
             shuffledSystems = [...systems];
         }
@@ -97,8 +110,6 @@ export const shuffleSystems = () => {
 
     return shuffledSystems;
 };
-
-
 
 // Create the context with a default value
 const SystemsContext = createContext<SystemsContextType>(
@@ -124,6 +135,9 @@ const SystemsContext = createContext<SystemsContextType>(
         toggleExpandAll: () => { },
         checkboxStatuses: {},
         setCheckboxStatus: (systemId: string, status: boolean) => { },
+        expandedSystemCards: [],
+        setExpandedSystemCards: () => { },
+        setExpandAllStatus: () => { }
     });
 
 export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ system, className }) => {
@@ -157,7 +171,7 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const { setSystemDisabled, setSystemsCustomOrder, setSystemDeleted, setSystemsStateSearched } = useStorage()
     const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems() as System[]);
     const [isResetDisabled, setIsResetDisabled] = useState<boolean>(true);
-
+    const [expandedSystemCards, setExpandedSystemCards] = useState<string[]>([]);
     
     const initializeSystemsState = (
         systemsDisabled: Record<string, boolean> = {},
@@ -174,17 +188,28 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const [systemsState, setSystemsState] = useState<System[]>(
         () => initializeSystemsState(systemsDisabled, systemsDeleted, systemsSearched));
     const [activeSystem, setActiveSystemState] = useState<System | undefined>(() => systems[0]);
-    const [sortStatus, setSortStatus] = useState<'abc' | 'zyx' | 'custom' | 'shuffled' | 'initial'>('initial');
+    const [sortStatus, setSortStatus] = useState<'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial'>('initial');
 
-    const updateSortStatus = (newStatus: 'abc' | 'zyx' | 'custom' | 'shuffled' | 'initial') => {
+    const updateSortStatus = (newStatus: 'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial') => {
         console.log("in updateSortStatus, new:", newStatus)
         setSortStatus(newStatus);
     }
 
+    const currentURL = typeof window !== 'undefined' ? window.location.href : '';
+
+    useEffect(() => {
+        if (currentURL.includes("?systems=")) {
+        updateSortStatus('param');
+        setExpandedSystemCards(currentURL.split('?systems=')[1].split(','));
+        }
+    }, [currentURL]);
+
     const [expandAllStatus, setExpandAllStatus] = useState(false);
 
     const toggleExpandAll = () => {
-        setExpandAllStatus(!expandAllStatus);
+        const newExpandAllStatus = !expandAllStatus;
+        setExpandAllStatus(newExpandAllStatus);
+        setExpandedSystemCards(newExpandAllStatus ? systemsCurrentOrder.map(system => system.id) : []);
     };
 
     const customSort = useCallback((type?: string) => {
@@ -323,8 +348,12 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
         );
     }, [systemsDisabled, systemsDeleted, systemsSearched]);
 
-    const setShuffleSystems = () => {
-        setSystemsCurrentOrder(shuffleSystems() as System[]);
+    const setShuffleSystems = (click?: boolean) => {
+        if (click) {
+            setSystemsCurrentOrder(shuffleSystems(click) as System[]);
+        } else {
+            setSystemsCurrentOrder(shuffleSystems() as System[]);
+        }
         updateSortStatus('shuffled');
     }
 
@@ -360,6 +389,9 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
                 toggleExpandAll,
                 checkboxStatuses,
                 setCheckboxStatus,
+                expandedSystemCards,
+                setExpandedSystemCards,
+                setExpandAllStatus
             }}>
             {children}
         </SystemsContext.Provider>
