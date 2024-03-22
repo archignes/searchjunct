@@ -159,10 +159,10 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
           <AccordionItem value="item-1" className="border-none">
             <div className="w-full">
               <div className="flex items-center">
-                  <a className="w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
+                    <a className="group w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
                    href={preppedSearchLink(system, query)}
                    onClick={(e) => { e.preventDefault(); handleSearch(system); }}>
-                    <div className="bg-white rounded-md w-full flex items-center">
+                    <div className="w-full flex items-center">
                     {/* {multiSelect ? (
                       <kbox
                         checked={isChecked}
@@ -172,7 +172,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                       <MagnifyingGlassIcon className="w-4 h-4 cursor-pointer" />
                     {/* )} */}
                 <SystemTitle
-                  className={`py-1 rounded-md px-1 flex items-center flex-grow`}
+                  className={`py-1 px-1 flex items-center flex-grow`}
                   system={system}
                 />
                     </div>

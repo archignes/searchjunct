@@ -151,7 +151,9 @@ export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ 
         <div className={`flex items-center m-0 p-0 ${className}`}>
             {hasMounted ? (
                 <>
-                    <Image src={`/favicons/${system.id}.ico`} alt={`${system.name} favicon`} width={15} height={15} quality={75} className="w-4 h-4 mr-2" />
+                    <Image src={`/favicons/${system.id}.ico`} 
+                        alt={`${system.name} favicon`} width={15} height={15} quality={75}
+                        className="bg-white group-hover:bg-blue-100 rounded-md p-1 w-5 h-5 mr-2" />
                     {system.name}
                 </>
             ) : (
@@ -218,7 +220,7 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
                 alert("Custom sort order is already active.");
                 return;
             }
-            if (!systemsCustomOrder || systemsCustomOrder.length === 0) {
+            if (!systemsCustomOrder || systemsCustomOrder?.length === 0) {
                 alert("No custom sort order has been saved. Please set up a custom sort order in Settings first.");
                 return;
             }
@@ -240,15 +242,15 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
 
     useEffect(() => {
         const defaultSystemOrder = systems.map(system => system.id);
-        const hasCustomOrder = systemsCustomOrder.length > 0 && !systemsCustomOrder.every((id, index) => id === defaultSystemOrder[index]);
-        const hasDeletedOrDisabledSystems = Object.values(systemsDeleted).some(value => value) || Object.values(systemsDisabled).some(value => value);
+        const hasCustomOrder = systemsCustomOrder?.length > 0 && !systemsCustomOrder.every((id, index) => id === defaultSystemOrder[index]);
+        const hasDeletedOrDisabledSystems = (systemsDeleted && Object.values(systemsDeleted).some(value => value)) || (systemsDisabled && Object.values(systemsDisabled).some(value => value));
         setIsResetDisabled(!hasCustomOrder && !hasDeletedOrDisabledSystems);
         
     }, [systemsCustomOrder, systemsDeleted, systemsDisabled]);
 
 
     useEffect(() => {
-        if (systemsCustomOrder.length === 0) {
+        if (systemsCustomOrder?.length === 0) {
             updateSortStatus('shuffled');
             return;
         }
