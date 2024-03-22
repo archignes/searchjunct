@@ -351,9 +351,9 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
         setSystemsState((prevSystems) =>
             prevSystems.map((system) => ({
                 ...system,
-                disabled: systemsDisabled[system.id] || false,
-                deleted: systemsDeleted[system.id] || false,
-                searched: systemsSearched[system.id] || false,
+                disabled: systemsDisabled?.[system.id] ?? false,
+                deleted: systemsDeleted?.[system.id] ?? false,
+                searched: systemsSearched?.[system.id] ?? false,
             }))
         );
     }, [systemsDisabled, systemsDeleted, systemsSearched]);
