@@ -5,7 +5,7 @@ import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
 import Toolbar from "../src/components/toolbar/Toolbar";
 import SystemList from "../src/components/SystemList";
-import SearchBar from "../src/components/Searchbar";
+import SearchBar from "../src/components/SearchBar";
 
 
 const title = "Searchjunct"

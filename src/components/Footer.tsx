@@ -3,7 +3,7 @@ import { GitHubLogoIcon, TwitterLogoIcon, LinkedInLogoIcon } from '@radix-ui/rea
 import { Button } from "./shadcn-ui/button";
 import { Input } from ".//shadcn-ui//input";
 import Image from 'next/image';
-const lastUpdated = "2024-03-22T15:38:07.981Z";
+const lastUpdated = "2024-03-22T17:34:43.257Z";
 
 const Footer: React.FC = () => {
   return (

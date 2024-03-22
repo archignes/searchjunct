@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SearchBar from '../SearchBar';
+import SystemList from '../SystemList';
 import { SearchProvider } from '../contexts/SearchContext';
 import { SystemProvider } from '../contexts/SystemsContext';
 import { StorageProvider } from '../contexts/StorageContext';
@@ -12,42 +13,27 @@ jest.mock('next/router', () => ({
     useRouter: jest.fn(),
 }));
 
-describe('SearchBar Component', () => {
+describe('System List', () => {
     beforeEach(() => {
         (useRouter as jest.Mock).mockReturnValue({
             query: {},
         });
     });
-
-    beforeEach(() => {
-        // Mock the navigator.clipboard.writeText function
-        Object.assign(navigator, {
-            clipboard: {
-                writeText: jest.fn().mockResolvedValue(undefined),
-            },
-        });
-    });
-
-    
-    it('updates the document title with the search query upon submission', async () => {
+    it('should have a link to the systems.json file at the bottom', async () => {
         render(
             <StorageProvider>
                 <SystemProvider>
                     <SearchProvider>
                         <SearchBar />
+                        <SystemList />
                     </SearchProvider>
                 </SystemProvider>
             </StorageProvider>
         );
-        const query = 'test query';
-        const input = screen.getByRole('textbox');
-        fireEvent.change(input, { target: { value: query } });
-        fireEvent.submit(input);
-
-        console.log('Document title after submission:', document.title);
-
-        await waitFor(() => {
-            expect(document.title).toBe(`[${query}] - Searchjunct`);
-        }, { timeout: 5000 });
+        const systemList = screen.getByTestId('system-list');
+        fireEvent.scroll(systemList, { target: { scrollY: systemList.scrollHeight } });
+        console.log('Scroll event fired', systemList.scrollHeight);
+        const numberOfSystemsElement = await screen.findByText('Number of systems');
+        expect(numberOfSystemsElement).toBeInTheDocument();
     });
 });
