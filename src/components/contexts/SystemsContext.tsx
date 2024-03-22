@@ -72,7 +72,8 @@ interface SystemsContextType {
     expandedSystemCards: string[];
     setExpandedSystemCards: (systemIds: string[]) => void;
     setExpandAllStatus: (status: boolean) => void;
-    
+    systemsSkipped: Record<string, boolean>;
+    updateSystemsSkipped: (systemId: string, value: boolean) => void;
 }
 
 export const shuffleSystems = (manualTrigger: boolean = false) => {
@@ -137,7 +138,9 @@ const SystemsContext = createContext<SystemsContextType>(
         setCheckboxStatus: (systemId: string, status: boolean) => { },
         expandedSystemCards: [],
         setExpandedSystemCards: () => { },
-        setExpandAllStatus: () => { }
+        setExpandAllStatus: () => { },
+        systemsSkipped: {},
+        updateSystemsSkipped: () => { }
     });
 
 export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ system, className }) => {
@@ -175,6 +178,11 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const [isResetDisabled, setIsResetDisabled] = useState<boolean>(true);
     const [expandedSystemCards, setExpandedSystemCards] = useState<string[]>([]);
     
+    const [systemsSkipped, setSystemsSkipped] = useState<Record<string, boolean>>({});
+    const updateSystemsSkipped = (systemId: string, value: boolean) => {
+        setSystemsSkipped({ ...systemsSkipped, [systemId]: value });
+    }
+
     const initializeSystemsState = (
         systemsDisabled: Record<string, boolean> = {},
         systemsDeleted: Record<string, boolean> = {},
@@ -393,7 +401,9 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
                 setCheckboxStatus,
                 expandedSystemCards,
                 setExpandedSystemCards,
-                setExpandAllStatus
+                setExpandAllStatus,
+                systemsSkipped,
+                updateSystemsSkipped
             }}>
             {children}
         </SystemsContext.Provider>

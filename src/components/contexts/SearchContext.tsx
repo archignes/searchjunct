@@ -6,7 +6,7 @@ import { useStorage } from './StorageContext';
 
 
 const SearchContext = createContext<{ 
-        handleSearch: (system?: System, urlQuery?: string) => void,
+        handleSearch: (system?: System, urlQuery?: string, skip?: "skip" | "skipback") => void,
         query: string,
         setQuery: (query: string) => void,
         multiSelect: boolean
@@ -26,23 +26,53 @@ export const useSearch = () => useContext(SearchContext);
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [multiSelect, setMultiSelect] = useState(false);
-    const { setSystemSearched, systemsCurrentOrder, setActiveSystem } = useSystemsContext();
+    const { setSystemSearched, systemsCurrentOrder,
+        setActiveSystem, systemsSkipped, updateSystemsSkipped } = useSystemsContext();
     const { systemsSearched, systemsDeleted, systemsDisabled } = useStorage();
     const [query, setQuery] = useState('');
-    const getNextUnsearchedSystem = (updatedSystemsSearched?: Record<string, boolean>) => {
-        const searched = updatedSystemsSearched || systemsSearched
-        return systemsCurrentOrder.find(s => !searched[s.id] && !systemsDisabled[s.id] && !systemsDeleted[s.id]);
+
+
+    const getLastSkippedSystem = () => {
+        const lastSkippedSystem = [...systemsCurrentOrder].reverse().find(s => systemsSkipped[s.id]);
+        return lastSkippedSystem;
+    }
+
+    const getNextUnsearchedSystem = (updatedSystemsSearched?: Record<string, boolean>, skipSteps: number = 1) => {
+        const searched = updatedSystemsSearched || systemsSearched;
+        let unsearchedSystems = systemsCurrentOrder.filter(
+            s => !searched[s.id] && !systemsDisabled[s.id] && !systemsDeleted[s.id] && !systemsSkipped[s.id]);
+        return unsearchedSystems[skipSteps - 1]; // Assuming skipSteps starts from 1 for the next system, 2 for the next next system, etc.
     }
 
     const preppedSearchLink = (system: System, query: string) => {
         return system.search_link.replace('%s', encodeURIComponent(query)).replace(/%20/g, '+');
     }
 
-    const handleSearch = useCallback((system?: System, urlQuery?: string) => {
+    const handleSearch = useCallback((system?: System, urlQuery?: string, skip?: "skip" | "skipback") => {
         let currentQuery = urlQuery || query;
         let encodedQuery = encodeURIComponent(currentQuery).replace(/%20/g, '+');
         
+        if (skip === "skip") {
+            const skipSteps = 2;
+            const systemSkipped = getNextUnsearchedSystem(undefined);
+            system = getNextUnsearchedSystem(undefined, skipSteps);
+            if (!system) {
+                return;
+            }
+            updateSystemsSkipped(systemSkipped.id, true);
+            return;
+        } else if (skip === "skipback") {
+            system = getLastSkippedSystem();
+            if (!system) {
+                return;
+            }
+            updateSystemsSkipped(system.id, false);
+            handleSearch(system);
+            return;
+        }
+        
         system = system || getNextUnsearchedSystem();
+
         if (!system) {
             return;
         }
@@ -68,6 +98,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
 
         // Update the systemsSearched object directly
         const updatedSystemsSearched = { ...systemsSearched, [system.id]: true };
+        updateSystemsSkipped(system.id, false);
         setSystemSearched(system.id);
         sessionStorage.setItem('searchInitiatedBlock', 'true');
         console.log('Searchjunct: searched: ', system.id);

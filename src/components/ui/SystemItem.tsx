@@ -55,7 +55,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   const { handleSearch } = useSearch();
   const { setValue } = useFormContext();
 
-  const { systemsCurrentOrder, expandedSystemCards, setExpandedSystemCards } = useSystemsContext();
+  const { systemsCurrentOrder, systemsSkipped, expandedSystemCards, setExpandedSystemCards } = useSystemsContext();
   const { isOver } = useDroppable({
     id,
   });
@@ -146,6 +146,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
         }}
         className={`min-h-9 py-1 my-0 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mx-1 w-5/7
                     ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-none' : ''}
+                    ${systemsSkipped?.[system.id] ? 'bg-yellow-300 border-none' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
                     ${systemsDeleted?.[system.id] ? 'bg-red-500' : ''}
                     ${isDragging ? 'opacity-75 z-50' : 'opacity-100'}

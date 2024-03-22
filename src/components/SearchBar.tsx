@@ -54,6 +54,8 @@ const SearchBar = () => {
     handleSearch();
   }, [handleSearch]);
 
+  
+
   return (
     <div id="search-bar" className="flex justify-center items-center space-x-2">
       <div className="w-full mx-1 justify-center items-center flex flex-wrap space-x-2">
@@ -80,9 +82,19 @@ const SearchBar = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
+                if (e.key === 'Enter' && !e.shiftKey && !(e.altKey)) {
                   e.preventDefault();
+                  console.log("normal enter detected...")
                   formRef.current?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); // Directly trigger form submission
+                } else if (e.key === 'Enter' && e.altKey && ! e.shiftKey) {
+                  e.preventDefault();
+                  // Logic to skip the next active search engine and execute a search on the subsequent one
+                  // This is a placeholder for the actual logic you need to implement based on how your search engines are managed
+                  console.log("Hotkey: Alt/Option+Enter pressed.");
+                  handleSearch(undefined, undefined, "skip");
+                } else if (e.altKey && e.shiftKey) {
+                  handleSearch(undefined, undefined, "skipback");
+                  console.log("Hotkey: Alt/Option+Shift pressed.");
                 }
               }}
             ></Textarea>
