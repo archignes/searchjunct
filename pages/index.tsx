@@ -35,7 +35,7 @@ const HomePage = () => {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <Header />
-      <div className="mx-1 w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4">
+      <div className="mx-1 w-9/10 sm:w-3/4 sm:mx-auto md:w-3/7 lg:w-3/5 xl:w-2/4">
         <SearchBar />
         <Toolbar />
         <SystemList />
