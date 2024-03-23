@@ -21,6 +21,8 @@ const PrivacyInstructionsCard: React.FC = () => {
               <AlertTitle>Under Active Development!</AlertTitle>
               <AlertDescription>
                 This application is under active development and the guidance provided here is subject to change.
+
+                This application uses Plausible.io to collect anonymous usage data. This data is used to help improve the application. Visitors can view the data collected visits and vicinities at any time by visiting the <a href="https://plausible.io/searchjunct.com" target="_blank" rel="noopener noreferrer">Plausible.io dashboard</a>.
               </AlertDescription>
             </Alert>
             <p>

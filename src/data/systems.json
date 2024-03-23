@@ -369,6 +369,7 @@
   {
     "name": "Stract",
     "id": "stract",
+    "special_note": "beta",
     "search_link": "https://stract.com/search?q=%s",
     "github_link": "https://github.com/StractOrg/stract",
     "open_source_license": "GNU Affero General Public License v3.0"

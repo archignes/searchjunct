@@ -46,9 +46,9 @@ export const shuffleSystems = (manualTrigger: boolean = false) => {
 
     // If shuffle is not manually triggered, respect URL params
     if (!manualTrigger && typeof window !== 'undefined') {
-        const currentURL = window.location.href;
-        if (currentURL.includes("?systems=")) {
-            const systemIDs = currentURL.split('?systems=')[1].split(',');
+        const currentURL = new URL(window.location.href);
+        if (currentURL.searchParams.has("systems")) {
+            const systemIDs = currentURL.searchParams.get("systems")?.split(',');
             if (Array.isArray(systemIDs)) {
                 const foundSystems = systemIDs.map(systemID => systems.find((system: System) => system.id === systemID)).filter(system => system !== undefined);
                 if (foundSystems.length > 0) {
@@ -59,7 +59,6 @@ export const shuffleSystems = (manualTrigger: boolean = false) => {
             }
         }
     }
-
     // Shuffle logic remains the same
     while (isSameOrder) {
         for (let i = shuffledSystems.length - 1; i > 0; i--) {
@@ -147,10 +146,13 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const currentURL = typeof window !== 'undefined' ? window.location.href : '';
 
     useEffect(() => {
-        if (currentURL.includes("?systems=")) {
-        updateSortStatus('param');
-        setExpandedSystemCards(currentURL.split('?systems=')[1].split(','));
+        if (typeof currentURL === 'string') {
+            return;
         }
+        const url = new URL(currentURL);
+        if (url.searchParams.has("systems")) {
+            updateSortStatus('param');
+            setExpandedSystemCards(url.searchParams.get("systems")?.split(',') || []);        }
     }, [currentURL]);
 
     const [expandAllStatus, setExpandAllStatus] = useState(false);

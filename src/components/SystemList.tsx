@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react';
 import SortingContainer from './SortingContainer';
 import { useSystemsContext } from './contexts/SystemsContext';
 import { useStorage } from './contexts/StorageContext';
+import { Button } from './shadcn-ui/button';
+import { ShuffleIcon } from '@radix-ui/react-icons';
 
 
 const SystemList = () => {
-  const { systemsCurrentOrder } = useSystemsContext();
+  const { systems, systemsCurrentOrder, setShuffleSystems } = useSystemsContext();
   const { systemsDeleted } = useStorage();
   const [isClient, setIsClient] = useState(false);
 
@@ -16,8 +18,9 @@ const SystemList = () => {
   }, []);
 
   if (!isClient) {
-    return null; // or a loader/spinner
+    return null;
   }
+  
 
   const getDeletedSystems = () => systemsCurrentOrder.filter((system) => systemsDeleted[system.id]);
 
@@ -28,11 +31,11 @@ const SystemList = () => {
         <a className="underline hover:bg-blue-100 rounded-md p-1"
         href="https://github.com/danielsgriffin/searchjunct/blob/main/src/data/systems.json"
         target="_blank"
-        rel="noopener noreferrer">
-          Number of systems: {systemsCurrentOrder.length}
+          rel="noopener noreferrer">
+          Number of systems: {systemsCurrentOrder.length - getDeletedSystems().length} of {systems.length}
         </a>
+        </div>
       </div>
-    </div>
   );
 };
 
