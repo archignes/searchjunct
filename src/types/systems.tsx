@@ -32,4 +32,14 @@ export interface System {
     tagline?: string;
     ios_app?: string;
     android_app?: string;
+    default_in_browser?: string[];
+    base_url?: string;
+    special_note?: string;
+    notable_features?: Feature[];
+}
+
+export interface Feature {
+    name: string;
+    url?: string;
+    description?: string;
 }

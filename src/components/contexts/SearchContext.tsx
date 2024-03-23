@@ -46,6 +46,9 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const preppedSearchLink = (system: System, query: string) => {
+        if (query === '' && system.base_url) {
+            return system.base_url;
+        }
         return system.search_link.replace('%s', encodeURIComponent(query)).replace(/%20/g, '+');
     }
 
@@ -86,7 +89,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             return;
         }
 
-        if (system.search_link) {
+        if (query !== '' && system.search_link && !system.search_link.includes('%s')) {
             navigator.clipboard.writeText(currentQuery).then(() => {
                 console.log('Query copied to clipboard');
             }).catch(err => {
@@ -94,7 +97,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             });
         }
 
-        const url = system.search_link.replace('%s', encodedQuery);
+        const url = preppedSearchLink(system, currentQuery);
         window.open(url, '_blank');
 
         // Update the systemsSearched object directly
@@ -125,7 +128,10 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         setSystemSearched,
         setActiveSystem,
         query,
-        getNextUnsearchedSystem
+        getNextUnsearchedSystem,
+        getLastSkippedSystem,
+        updateSystemsSkipped,
+        preppedSearchLink
     ]);
 
     return (

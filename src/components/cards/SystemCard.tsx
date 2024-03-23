@@ -48,6 +48,11 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
     <Card className="border-none mt-0 p-2 pt-0 none px-1 mx-1 shadow-none">
       <CardContent className="px-0 pb-3">
         <CardHeader className="p-0 flex flex-col m-0 space-y-0 justify-start text-left">
+          {system.tagline && (
+            <div className="text-sm text-gray-600 text-center w-2/5 mx-auto italic my-2">
+                {system.tagline}
+              </div>
+          )}
           <AlertDialog >
             <AlertDialogTrigger asChild>
               <Button
@@ -128,13 +133,14 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
               </AlertDescription>
             </Alert>
                 )}
-                {system.android_choice_screen_options && (
+                {(system.android_choice_screen_options || system.default_in_browser) && (
                   <Alert>
                     <InfoCircledIcon className="h-4 w-4" />
                     <AlertTitle>Did you know?</AlertTitle>
               <AlertDescription>
                 <div className="hover:bg-blue-100 rounded-md p-1">
-                <span >This system is included in the <a className="underline" href="https://www.android.com/choicescreen-winners/" target="_blank" rel="noopener noreferrer">Android Choice Screen Options for September 2023 - August 2024</a>.</span>
+                {system.android_choice_screen_options && (<><span >This system is included in the <a className="underline" href="https://www.android.com/choicescreen-winners/" target="_blank" rel="noopener noreferrer">Android Choice Screen Options for September 2023 - August 2024</a>.</span></>)}
+                {system.default_in_browser && <p className="mt-1">This system is included in the default search engine options for the following web browsers: {system.default_in_browser.join(', ')}.</p>}
                 </div>
                     </AlertDescription>
                   </Alert>

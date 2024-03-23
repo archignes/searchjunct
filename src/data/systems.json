@@ -4,9 +4,31 @@
     "id": "exa",
     "search_link": "https://exa.ai/search?&q=%s",
     "twitter_link": "https://twitter.com/ExaAILabs",
+    "tagline": "Search content by meaning",
+    "default_placeholder": "Try a prompt or paste a link...",
     "discord_link": "https://discord.com/invite/HCShtBqbfV",
     "github_link": "https://github.com/exa-labs",
     "product_hunt_link": "https://www.producthunt.com/products/metaphor-search-api"
+  },
+  {
+    "name": "Findera",
+    "id": "findera",
+    "search_link": "https://www.findera.ai/",
+    "twitter_link": "https://twitter.com/stonkyoli",
+    "special_note": "demo"
+  },
+  {
+    "name": "AskPandi",
+    "id": "ask-pandi",
+    "search_link": "https://askpandi.com/ask",
+    "special_note": "beta",
+    "default_placeholder": "Ask me anything...",
+    "twitter_link": "https://x.com/ask_pandi",
+    "notable_features": [
+      {"name": "PandiPedia", "url": "https://askpandi.com/pandipedia/discover"},
+      {"name": "Actions", "url": "https://blog.askpandi.com/2024/01/10/introducing-actions-v1/"},
+      {"name": "Source Management", "url": "https://blog.askpandi.com/2023/10/02/introducing-askpandi-your-answer-engine/"}
+    ]
   },
   {
     "name": "Brave",
@@ -15,6 +37,9 @@
     "wikipedia_link": "https://en.wikipedia.org/wiki/Brave_Search",
     "twitter_link": "https://twitter.com/brave",
     "android_choice_screen_options": true,
+        "default_in_browser": [
+          "Brave"
+        ],
     "github_link": "https://github.com/brave"
   },
   {
@@ -87,6 +112,15 @@
     "name": "Bing",
     "id": "bing",
     "search_link": "https://www.bing.com/search?q=%s",
+        "default_in_browser": [
+          "Edge",
+          "Chrome",
+          "Brave",
+          "Arc",
+          "Firefox",
+          "Opera",
+          "Safari"
+        ],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)"
   },
   {
@@ -95,7 +129,16 @@
     "search_index": "bing",
     "search_link": "https://duckduckgo.com/?q=%s",
     "android_choice_screen_options": true,
-    "wikipedia_link": "https://en.wikipedia.org/wiki/DuckDuckGo"
+    "wikipedia_link": "https://en.wikipedia.org/wiki/DuckDuckGo",
+        "default_in_browser": [
+          "Edge",
+          "Chrome",
+          "Brave",
+          "Arc",
+          "Firefox",
+          "Opera",
+          "Safari"
+        ]
   },
   {
     "name": "Microsoft Copilot",
@@ -108,9 +151,14 @@
     "id": "ecosia",
     "search_index": "bing",
     "charity_search_engine": true,
+    "base_url": "https://www.ecosia.org",
     "search_link": "https://www.ecosia.org/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Ecosia",
     "android_choice_screen_options": true,
+        "default_in_browser": [
+          "Brave",
+          "Safari"
+        ],
     "nonprofit_verification": "https://www.bcorporation.net/en-us/find-a-b-corp/company/ecosia-gmbh/",
     "twitter_link": "https://twitter.com/ecosia"
   },
@@ -140,6 +188,9 @@
     "mobile_app_breaks_links_warning": true,
     "trial_limit": "100 searches",
     "paid_subscription_required": "true",
+        "default_in_browser": [
+          "Arc"
+        ],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Perplexity.ai"
   },
   {
@@ -147,6 +198,9 @@
     "id": "qwant",
     "search_link": "https://www.qwant.com/?q=%s",
     "android_choice_screen_options": true,
+        "default_in_browser": [
+          "Brave"
+        ],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Qwant"
   },
   {
@@ -173,6 +227,7 @@
   {
     "name":"Globe Explorer",
     "id":"globe-explorer",
+    "special_note": "v1",
     "search_link": "https://explorer.globe.engineer/?q=%s",
     "twitter_link": "https://twitter.com/globe_engineer",
     "product_hunt_link": "https://www.producthunt.com/products/globe-explorer"
@@ -187,6 +242,7 @@
   {
     "name": "SciPhi",
     "id": "sciphi",
+    "base_url": "https://search.sciphi.ai/",
     "search_link": "https://search.sciphi.ai/search?q=%s",
     "github_link": "https://github.com/SciPhi-AI/agent-search",
     "open_source_license": "Apache License 2.0"
@@ -233,6 +289,7 @@
   {
     "name": "Lepton Search",
     "id": "lepton-search",
+    "special_note": "beta",
     "search_link": "https://search.lepton.run/",
     "github_link": "https://github.com/leptonai/search_with_lepton",
     "open_source_license": "Apache License 2.0",
@@ -246,7 +303,11 @@
     "wikipedia_link": "https://en.wikipedia.org/wiki/Wikipedia",
     "twitter_link": "https://twitter.com/wikipedia",
     "nonprofit_verification":"https://projects.propublica.org/nonprofits/organizations/200049703",
-    "web_search_system": false
+    "web_search_system": false,
+        "default_in_browser": [
+          "Firefox",
+          "Opera"
+        ]
   },
   {
     "name": "Swisscows",
@@ -260,11 +321,17 @@
     "id": "yandex",
     "search_link": "https://yandex.com/search/?text=%s",
     "android_choice_screen_options": true,
+        "default_in_browser": [
+          "Edge",
+          "Chrome",
+          "Arc"
+        ],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Yandex"
   },
   {
     "name": "Yep",
     "id": "yep",
+    "special_note": "beta",
     "search_link": "https://yep.com/web?q=%s",
     "android_choice_screen_options": true,
     "twitter_link": "https://twitter.com/yepsearch"
@@ -294,6 +361,9 @@
     "id": "startpage",
     "search_index": "google",
     "search_link": "https://www.startpage.com/do/search?q=%s",
+        "default_in_browser": [
+          "Brave"
+        ],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Startpage.com" 
   },
   {
@@ -309,6 +379,29 @@
     "search_link": "https://www.google.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Google_Search",
     "twitter_link": "https://twitter.com/Google",
-    "github_link": "https://github.com/google"
+    "github_link": "https://github.com/google",
+        "default_in_browser": [
+          "Edge",
+          "Chrome",
+          "Brave",
+          "Arc",
+          "Firefox",
+          "Opera"
+        ]
+  },
+  {
+    "name": "Yahoo",
+    "id": "yahoo",
+    "default_placeholder": "Search the web...",
+    "default_in_browser": [
+      "Safari",
+      "Edge",
+      "Chrome",
+      "Arc",
+      "Opera"
+    ],
+    "search_link": "https://search.yahoo.com/search?p=%s",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Yahoo!",
+    "twitter_link": "https://twitter.com/Yahoo"
   }
 ]
