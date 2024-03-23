@@ -9,7 +9,7 @@ import SearchBar from "../src/components/SearchBar";
 
 
 const title = "Searchjunct"
-const description = "Search.";
+const description = "Searchjunct helps you explore possibility in search by routing your query across multiple search engines.";
 const url = "https://searchjunct.com";
 const image = "https://searchjunct.com/screenshots/home.png";
 
