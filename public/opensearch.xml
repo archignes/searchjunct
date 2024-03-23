@@ -1,15 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
   <ShortName>Searchjunct</ShortName>
   <Description>Searchjunct helps you explore possibility in search by routing your query across multiple search engines.</Description>
   <Tags>search discover explore</Tags>
   <Contact>daniel@archignes.com</Contact>
-  <Url type="text/html" template="https://searchjunct.com/?q={searchTerms}"/>
   <LongName>Searchjunct</LongName>
-  <Image height="16" width="16" type="image/x-icon">https://searchjunct.com/favicon.ico</Image>
+  <Url type="text/html" template="https://searchjunct.com/">
+    <Param name="q" value="{searchTerms}"/>
+  </Url>
+  <Image height="16" width="16" type="image/x-icon">https://searchjunct.com/favicon-16x16.ico</Image>
+  <Image height="64" width="64" type="image/png">https://searchjunct.com/searchjunct-64x64.png</Image>
   <Query role="example" searchTerms="example search"/>
   <Developer>Daniel Griffin</Developer>
-  <Attribution>&copy; 2024 Searchjunct</Attribution>
   <SyndicationRight>open</SyndicationRight>
   <AdultContent>false</AdultContent>
   <Language>en-us</Language>
