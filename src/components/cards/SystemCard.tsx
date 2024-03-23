@@ -120,6 +120,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
             </div>
           )}
           {(!system.search_link.includes('%s') || system.manual_switch_required || system.mobile_app_breaks_links_warning || system.account_required) && (
+            <><br></br>
             <Alert className="mt-1">
               <ExclamationTriangleIcon className="h-4 w-4" />
               <AlertTitle>Notice</AlertTitle>
@@ -132,8 +133,9 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                   <span className="text-red-500">URL-driven searches are not supported.</span><span className="ml-1">Searchjunct will copy the query to your clipboard.</span><br></br></>)}
               </AlertDescription>
             </Alert>
-                )}
+                </>)}
                 {(system.android_choice_screen_options || system.default_in_browser) && (
+                  <><br></br>
                   <Alert>
                     <InfoCircledIcon className="h-4 w-4" />
                     <AlertTitle>Did you know?</AlertTitle>
@@ -143,7 +145,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                 {system.default_in_browser && <p className="mt-1">This system is included in the default search engine options for the following web browsers: {system.default_in_browser.join(', ')}.</p>}
                 </div>
                     </AlertDescription>
-                  </Alert>
+                  </Alert></>
                 )}
         </CardHeader>
         <CardDescription>
