@@ -19,9 +19,11 @@ import {
 import { Checkbox } from '../shadcn-ui/checkbox';
 import { Button } from '../shadcn-ui/button';
 
-import { useSystemsContext, System, SystemTitle } from '../contexts/SystemsContext';
+import { useSystemsContext } from '../contexts/SystemsContext';
+import { System } from '../../types/systems';
 import SystemCard from '../cards/SystemCard';
 import { useSearch } from '../contexts/SearchContext';
+import { SystemTitle } from './SystemTitle';
 
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
 

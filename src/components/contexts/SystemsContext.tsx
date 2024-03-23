@@ -4,44 +4,9 @@ import React, { createContext, useContext, useEffect, useState, ReactNode, useCa
 import { useStorage } from "./StorageContext"; 
 import systemsData from "../../data/systems.json";
 import Image from 'next/image';
+import { System } from "../../types/systems";
 
 const systems: System[] = systemsData as System[];
-
-export interface System {
-    id: string;
-    name: string;
-    nondistinct_url?: boolean;
-    base_url_for?: string[];
-    account_required?: boolean;
-    search_link: string;
-    mobile_app_breaks_links_warning?: boolean;
-    searched?: boolean;
-    linkedin_link?: string;
-    wikipedia_link?: string;
-    twitter_link?: string;
-    github_link?: string;
-    discord_link?: string;
-    open_source_license?: string;
-    open_source_license_url?: string;
-    nonprofit_verification?: string;
-    web_search_system?: boolean;
-    product_hunt_link?: string;
-    favicon?: boolean;
-    about_link?: string;
-    disabled?: boolean;
-    deleted?: boolean;
-    manual_switch_required?: boolean;
-    android_choice_screen_options?: boolean;
-    chrome_extension?: string;
-    safari_extension?: string; 
-    charity_search_engine?: boolean;
-    default_placeholder?: string;
-    tagline?: string;
-    ios_app?: string;
-    android_app?: string;
-    expanded_system_cards: string[];
-    setExpandedSystemCards: (systemIds: string[]) => void;
-}
 
 interface SystemProviderProps {
     children: ReactNode;
@@ -142,31 +107,6 @@ const SystemsContext = createContext<SystemsContextType>(
         systemsSkipped: {},
         updateSystemsSkipped: () => { }
     });
-
-export const SystemTitle: React.FC<{ system: System, className?: string }> = ({ system, className }) => {
-    const [hasMounted, setHasMounted] = useState(false);
-
-    useEffect(() => {
-        setHasMounted(true);
-    }, []);
-
-    return (
-        <div className={`flex items-center m-0 p-0 ${className}`}>
-            {hasMounted ? (
-                <>
-                    <Image src={`/favicons/${system.id}.ico`} 
-                        alt={`${system.name} favicon`} width={15} height={15} quality={75}
-                        className="bg-white group-hover:bg-blue-100 rounded-md p-1 w-5 h-5 mr-2" />
-                    {system.name}
-                </>
-            ) : (
-                <div>Loading...</div>
-            )}
-        </div>
-    );
-};
-
-
 
 // Export the useContext hook for SystemsContext
 export const useSystemsContext = () => useContext(SystemsContext);

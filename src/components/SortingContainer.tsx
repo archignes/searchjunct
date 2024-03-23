@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { System, useSystemsContext } from './contexts/SystemsContext';
+import { useSystemsContext } from './contexts/SystemsContext';
 import { useStorage } from './contexts/StorageContext';
+import { System } from '../types/systems';
 import SearchSystemItem from './ui/SystemItem';
 import { isMobile } from 'react-device-detect';
 

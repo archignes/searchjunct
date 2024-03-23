@@ -38,7 +38,7 @@
     "pages/card/[id].tsx",
     "pages/input.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/components/cards/SetupInstructions/SetupInstructions.tsx"  ],
   "exclude": [
     "node_modules"
   ]

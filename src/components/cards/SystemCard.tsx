@@ -18,7 +18,6 @@ import {
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -32,11 +31,9 @@ import CIcon from '@coreui/icons-react';
 import { cibWikipedia } from '@coreui/icons';
 
 import { useAppContext } from '../contexts/AppContext';
-import { System } from '../contexts/SystemsContext';
+import { System } from "../../types/systems"; 
 import { DeleteSystemButton, DisableSystemButton } from '../ui/SystemsButtons';
-import { useSearch } from '../contexts/SearchContext';
-
-
+import SetupCustomDefaultSystemInstructions from './SetupCustomDefaultSystemInstructions';
 
 interface SystemCardProps {
   system: System;
@@ -44,9 +41,8 @@ interface SystemCardProps {
 
 const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
   const { settingsCardActive } = useAppContext();
-  const { preppedSearchLink } = useSearch();
+  
 
-  const searchJunctSearchLink = preppedSearchLink(system, "What is Searchjunct.com?");
 
   return (
     <Card className="border-none mt-0 p-2 pt-0 none px-1 mx-1 shadow-none">
@@ -89,19 +85,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                 <AlertDialogDescription>
                   {system.search_link.includes('%s') ? (
                     <>
-                    <p>Search link contains a <code>%s</code> placeholder.</p>
-                      <p>You can use this link to add this system as a default or custom search engine in your browser or to dynamically create search links.</p>
-                    <ul className="list-disc pl-5">
-                      <li><a className="underline hover:bg-blue-100 p-1 rounded-md" href="https://support.brave.com/hc/en-us/articles/360017479752-How-do-I-set-my-default-search-engine" target="_blank" rel="noopener noreferrer">Brave</a></li>
-                      <li><a className="underline hover:bg-blue-100 p-1 rounded-md" href="https://support.google.com/chrome/answer/95426" target="_blank" rel="noopener noreferrer">Chrome</a></li>
-                      <li><a className="underline hover:bg-blue-100 p-1 rounded-md" href="https://support.microsoft.com/en-us/microsoft-edge/change-your-default-search-engine-in-microsoft-edge-cccaf51c-a4df-a43e-8036-d4d2c527a791" target="_blank" rel="noopener noreferrer">Edge</a></li>
-                      <li><a className="underline hover:bg-blue-100 p-1 rounded-md" href="https://support.mozilla.org/en-US/kb/change-your-default-search-settings-firefox" target="_blank" rel="noopener noreferrer">Firefox</a></li>
-                      <li><a className="underline hover:bg-blue-100 p-1 rounded-md" href="https://help.opera.com/en/latest/search/" target="_blank" rel="noopener noreferrer">Opera</a></li>
-                    </ul>
-                    <br></br>
-                    <p>Here is an example search where the query fills in for the <code>%s</code> placeholder:</p>
-                      <p className="text-center"><a className="text-xs hover:bg-blue-100 p-1 rounded-md" href={searchJunctSearchLink} target="_blank" rel="noopener noreferrer">{searchJunctSearchLink}</a></p>
-                      <p className="pt-1">You can create links like that with a scripting language or you can copy and share such links from this system's search results pages via the address bar.</p>
+                    <SetupCustomDefaultSystemInstructions system={system} />
                     </>
                     ) : (<p>Search link does not contain a <code>%s</code> placeholder so you cannot set this system as your default search engine or dynamically create search links.</p>)}
                 </AlertDialogDescription>

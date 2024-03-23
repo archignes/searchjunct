@@ -1,7 +1,8 @@
 // SearchContext.tsx
 
 import React, { createContext, useContext, ReactNode, useState, useCallback, useMemo } from 'react';
-import { useSystemsContext, System } from './SystemsContext';
+import { useSystemsContext } from './SystemsContext';
+import { System } from "../../types/systems";
 import { useStorage } from './StorageContext';
 
 
