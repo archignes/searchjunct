@@ -21,8 +21,9 @@ const PrivacyInstructionsCard: React.FC = () => {
               <AlertTitle>Under Active Development!</AlertTitle>
               <AlertDescription>
                 This application is under active development and the guidance provided here is subject to change.
-
-                This application uses Plausible.io to collect anonymous usage data. This data is used to help improve the application. Visitors can view the data collected visits and vicinities at any time by visiting the <a href="https://plausible.io/searchjunct.com" target="_blank" rel="noopener noreferrer">Plausible.io dashboard</a>.
+                <br></br><br></br>
+                This application currently uses Plausible.io to collect anonymous usage data. This data is used to help improve the application. Visitors can view the data collected at any time by visiting the <a className="underline hover:bg-blue-100 rounded-md p-1" href="https://plausible.io/searchjunct.com" target="_blank" rel="noopener noreferrer">Plausible.io dashboard</a>.
+                See the Plausible.io <a className="underline hover:bg-blue-100 rounded-md p-1" href="https://plausible.io/privacy" target="_blank" rel="noopener noreferrer">privacy policy</a> for more information. If you would like to block Plausible.io from collecting data related to your visits on this site, please adjust the settings on this page: <a className="underline hover:bg-blue-100 rounded-md p-1" href="/block" target="_blank" rel="noopener noreferrer">\block</a>.
               </AlertDescription>
             </Alert>
             <p>
