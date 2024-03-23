@@ -1,7 +1,8 @@
 // SystemButtons.tsx
 
 import React from 'react';
-import { System, useSystemsContext } from '../contexts/SystemsContext';
+import { useSystemsContext } from '../contexts/SystemsContext';
+import { System } from '../../types/systems';
 import { Button } from '../shadcn-ui/button';
 import { useStorage } from '../contexts/StorageContext';
 
