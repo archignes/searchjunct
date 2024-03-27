@@ -6,7 +6,8 @@ import { StarFilledIcon, StarIcon, ChevronDownIcon, ReloadIcon, ShuffleIcon, Gea
 import { Popover, PopoverContent, PopoverTrigger } from "../shadcn-ui/popover"
 import InfoCard from "../cards/InfoCard"
 import SettingsCard from "../cards/SettingsCard"
-import ShareDropdownMenu from "./ShareDropdownMenu"
+import ShareDropdownMenu from "./ShareMenu"
+import FeedbackDropdownMenu from "./FeedbackMenu"
 import { useSearch } from '../contexts/SearchContext';
 import { useAppContext } from '../contexts/AppContext';
 
@@ -111,6 +112,7 @@ const Toolbar = () => {
           <SettingsCard />
         </PopoverContent>
       </Popover>
+      <FeedbackDropdownMenu />
       <ShareDropdownMenu />
     </div>
   );
