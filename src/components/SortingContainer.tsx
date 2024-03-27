@@ -73,13 +73,6 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
                                 id={system.id}
                                 system={system}
                                 showDisableDeleteButtons={showDisableDeleteButtons}
-                                toggleSystemDisabled={toggleSystemDisabled}
-                                toggleSystemDeleted={toggleSystemDeleted}
-                                systemsDeleted={systemsDeleted}
-                                systemsDisabled={systemsDisabled}
-                                systemsSearched={systemsSearched}
-                                expandAllStatus={expandAllStatus}
-                                toggleExpandAll={toggleExpandAll}
                             />
                         </div>
                     ))}

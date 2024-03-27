@@ -10,16 +10,15 @@ import { ScrollArea } from "../shadcn-ui/scroll-area"
 
 import { useStorage } from '../contexts/StorageContext';
 import { useSystemsContext } from '../contexts/SystemsContext';
-import SortingContainer from '../SortingContainer';
 
-
+import SearchSystemItem from '../ui/SystemItem';
 
 const SettingsCard: React.FC = () => {
-  const { isResetDisabled } = useSystemsContext();
+  const { systems, isResetDisabled } = useSystemsContext();
   const { resetLocalStorage, updateSearchInitiatedBlock,
           initiateSearchImmediately, setInitiateSearchImmediately,
           customModeOnLoad, setCustomModeOnLoad,
-          systemsCustomOrder
+          systemsCustomOrder, systemsDeleted
         } = useStorage();
 
 
@@ -31,13 +30,13 @@ const SettingsCard: React.FC = () => {
   return (
 
       <Card id="settings-modal" 
-      style={{ height: `calc(100vh - 170px)` }}
       className='w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4" rounded-md mx-auto'>
         <CardContent>
+        <ScrollArea style={{ height: `calc(100vh - 260px)` }} className="p-4">
             <CardHeader>
             <CardTitle>Settings</CardTitle>
           </CardHeader>
-        <ScrollArea style={{ height: `calc(100vh - 260px)` }} className="p-4">
+        
       <div className='border rounded-md p-4 flex flex-col space-y-1 mx-2 mb-4'>
           
         <div className="mx-auto flex flex-col items-center space-y-2">
@@ -103,12 +102,31 @@ const SettingsCard: React.FC = () => {
         </div>
         <div className='flex flex-col space-y-1 mx-2 mb-1'>
         <Label className="w-4/5 text-center mx-auto">
-          You can drag and drop the systems to reorder them. Your changes will be saved automatically in your browser.
+          Deleted Systems
         </Label>
         </div>
           <div id="settings-systems-list">
-      <SortingContainer showDisableDeleteButtons={true} isInsideSettingsCard={true} />
-      </div>
+            {Object.values(systemsDeleted).every(value => !value) ? (
+              <p>No systems have been deleted.</p>
+            ) : (
+              Object.entries(systemsDeleted).filter(([_, value]) => value).map(([systemId, _], index) => {
+                const system = systems.find((system) => system.id === systemId);
+                if (!system) {
+                  console.error(`System with ID ${systemId} not found.`);
+                  return null;
+                }
+                return (
+                  <div key={systemId} className="w-full">
+                    <SearchSystemItem
+                      id={systemId}
+                      system={system}
+                      showDisableDeleteButtons={true}
+                    />
+                  </div>
+                );
+              })
+            )}
+          </div>
       </ScrollArea >      
       </CardContent>
       </Card>

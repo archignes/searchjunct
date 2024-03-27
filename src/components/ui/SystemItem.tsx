@@ -23,6 +23,7 @@ import { useSystemsContext } from '../contexts/SystemsContext';
 import { System } from '../../types/systems';
 import SystemCard from '../cards/SystemCard';
 import { useSearch } from '../contexts/SearchContext';
+import { useStorage } from '../contexts/StorageContext';
 import { SystemTitle } from './SystemTitle';
 
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
@@ -33,31 +34,19 @@ interface SortableItemProps {
   id: string;
   system: System;
   showDisableDeleteButtons: boolean;
-  toggleSystemDisabled?: (id: string) => void;
-  toggleSystemDeleted?: (id: string) => void;
-  systemsDeleted: Record<string, boolean>;
-  systemsDisabled: Record<string, boolean>;
-  systemsSearched: Record<string, boolean>;
-  expandAllStatus: boolean;
-  toggleExpandAll: () => void;
 }
 
 const SearchSystemItem: React.FC<SortableItemProps> = ({
   id,
   system,
   showDisableDeleteButtons,
-  toggleSystemDisabled,
-  toggleSystemDeleted,
-  systemsDeleted,
-  systemsDisabled,
-  systemsSearched,
-  expandAllStatus, toggleExpandAll
-  
 }) => {
+  const { 
+    systemsCurrentOrder, systemsSkipped, expandedSystemCards, setExpandedSystemCards
+   } = useSystemsContext();
+   const {systemsDeleted, systemsDisabled, systemsSearched } = useStorage();
+   const { expandAllStatus } = useSystemsContext();
   const { handleSearch } = useSearch();
-  const { setValue } = useFormContext();
-
-  const { systemsCurrentOrder, systemsSkipped, expandedSystemCards, setExpandedSystemCards } = useSystemsContext();
   const { isOver } = useDroppable({
     id,
   });
@@ -150,7 +139,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                     ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-none' : ''}
                     ${systemsSkipped?.[system.id] ? 'bg-yellow-300 border-none' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
-                    ${systemsDeleted?.[system.id] ? 'bg-red-500' : ''}
+                    ${systemsDeleted?.[system.id] ? '' : ''}
                     ${isDragging ? 'opacity-75 z-50 border-2 border-dashed border-blue-500' : 'opacity-100'}
                     ${isOver ? 'opacity-50' : ''}`}
       >

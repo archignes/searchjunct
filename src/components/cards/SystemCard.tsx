@@ -53,16 +53,25 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                 {system.tagline}
               </div>
           )}
+          <div className="flex mt-1 flex-row ml-4">
+            <span className="mr-2 whitespace-nowrap">System ID:</span>
+          <div className="flex flex-wrap">
+            <a href={`${window.location.origin}/?systems=${system.id}`} className="hover:bg-blue-100 rounded-md flex">
+              <code className="mr-1 break-all">{system.id}</code>
+              <Link2Icon className="inline h-4 w-4" />
+            </a>
+          </div>
           <AlertDialog >
-            <AlertDialogTrigger asChild>
+            <AlertDialogTrigger asChild>    
               <Button
-                className="m-0 max-h-6 mt-1 hover:bg-white font-normal justify-start text-left"
+                  className="m-0 max-h-6 hover:bg-white font-normal justify-start text-left hover:bg-blue-100 p-1 rounded-md "
                 variant="ghost"
                 size="sm"
                 onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/?systems=${system.id}`);}}
               >
-                <span className="hover:bg-blue-100 p-1 rounded-md">System ID: {system.id}<Link2Icon className="inline ml-1 h-4 w-4" /></span></Button>
-            </AlertDialogTrigger>
+                  <CopyIcon className="inline h-4 w-4" /></Button>
+
+              </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Copied system permalink to clipboard!</AlertDialogTitle>
@@ -75,6 +84,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+          </div>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="ghost" size="sm"
@@ -87,7 +97,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Copied search link to clipboard!</AlertDialogTitle>
-                <AlertDialogDescription>
+                <AlertDialogDescription className='text-left'>
                   {system.search_link.includes('%s') ? (
                     <>
                     <SetupCustomDefaultSystemInstructions system={system} />
@@ -100,6 +110,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+          
           {(system.open_source_license && system.github_link) && (
             <div className="flex items-center ml-4">
               <span className="text-xs">Open Source?<CheckIcon className="h-5 w-5 pb-1 m-0 inline align-middle" /></span>

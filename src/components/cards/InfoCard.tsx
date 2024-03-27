@@ -28,7 +28,6 @@ const InfoCard: React.FC = () => {
   const { setShowIntroModal } = useStorage();
   
   return (
-    <>
       <Card className='w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4" rounded-md mx-auto'>
       <CardContent className='pb-0'>
         <CardHeader className="pt-0">
@@ -73,8 +72,6 @@ const InfoCard: React.FC = () => {
         </Tabs>
         
     </Card>
-
-    </>
   );
 };
 
