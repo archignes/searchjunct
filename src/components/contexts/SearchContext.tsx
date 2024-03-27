@@ -32,6 +32,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const { systemsSearched, systemsDeleted, systemsDisabled } = useStorage();
     const [query, setQuery] = useState('');
 
+    
 
     const getLastSkippedSystem = () => {
         const lastSkippedSystem = [...systemsCurrentOrder].reverse().find(s => systemsSkipped[s.id]);
@@ -54,8 +55,12 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
 
     const handleSearch = useCallback((system?: System, urlQuery?: string, skip?: "skip" | "skipback") => {
         let currentQuery = urlQuery || query;
-        let encodedQuery = encodeURIComponent(currentQuery).replace(/%20/g, '+');
         
+        if (currentQuery.endsWith("/") && !currentQuery.endsWith("//")) {
+            currentQuery = currentQuery.slice(0, -1);
+            console.log("Warning: Search query ends with a single slash. Single slash is used to bypass initiateSearchImmediately. Slash is being removed. Use two slashes to render an ending single slash in your query.");
+        }
+
         if (skip === "skip") {
             const skipSteps = 2;
             const systemSkipped = getNextUnsearchedSystem(undefined);

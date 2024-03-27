@@ -20,20 +20,25 @@ const SearchBar = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
 
+
   useEffect(() => {
     const searchQuery = router.query.q;
     if (searchQuery && typeof searchQuery === 'string' && !query) {
       console.log('searchQuery via URL: ', searchQuery);
       setQuery(searchQuery);
 
+      const singleSlashSearch = searchQuery.endsWith("/") && !searchQuery.endsWith("//");
+
       // Use sessionStorage to check if a search has been initiated in the current session
       const searchInitiatedBlocInSession = searchInitiatedBlock
-      if (initiateSearchImmediatelyRef.current && !searchInitiatedBlocInSession) {
+      if (initiateSearchImmediatelyRef.current && !searchInitiatedBlocInSession && !singleSlashSearch) {
         const firstUnsearchedSystem = systemsCurrentOrder.find(system => !systemsSearched[system.id]);
         if (firstUnsearchedSystem) {
           handleSearch(firstUnsearchedSystem, searchQuery);
           updateSearchInitiatedBlock(true);
         }
+      } else if (singleSlashSearch) {
+        updateSearchInitiatedBlock(true);
       }
     }
   }, [query, router.query.q, setQuery, systemsCurrentOrder, handleSearch, systemsSearched, textareaRef, searchInitiatedBlock, updateSearchInitiatedBlock]);
