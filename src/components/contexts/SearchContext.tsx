@@ -89,7 +89,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             return;
         }
 
-        if (query !== '' && system.search_link && !system.search_link.includes('%s')) {
+        if (currentQuery !== '' && system.search_link && !system.search_link.includes('%s')) {
             navigator.clipboard.writeText(currentQuery).then(() => {
                 console.log('Query copied to clipboard');
             }).catch(err => {

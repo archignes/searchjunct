@@ -28,8 +28,6 @@ const SearchBar = () => {
 
       // Use sessionStorage to check if a search has been initiated in the current session
       const searchInitiatedBlocInSession = searchInitiatedBlock
-      console.log("searchInitiatedBlocInSession: ", searchInitiatedBlocInSession);
-      console.log("initiateSearchImmediatelyRef.current: ", initiateSearchImmediatelyRef.current);
       if (initiateSearchImmediatelyRef.current && !searchInitiatedBlocInSession) {
         const firstUnsearchedSystem = systemsCurrentOrder.find(system => !systemsSearched[system.id]);
         if (firstUnsearchedSystem) {
