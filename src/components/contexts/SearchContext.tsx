@@ -169,6 +169,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         cleanupSearch(system, currentQuery);
 
     }, [
+        systems,
         systemsDeleted,
         systemsDisabled,
         systemsCurrentOrder,
@@ -177,7 +178,6 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         getLastSkippedSystem,
         updateSystemsSkipped,
         preppedSearchLink,
-        HandleMultisearch,
         cleanupSearch,
         multisearchShortcuts
     ]);

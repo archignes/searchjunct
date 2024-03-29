@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
   CardDescription,
 } from '../shadcn-ui/card';
 import { useSystemsContext } from '../contexts/SystemsContext';
@@ -25,10 +24,7 @@ import { SpecialCardTitle } from '../ui/SystemTitle';
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger

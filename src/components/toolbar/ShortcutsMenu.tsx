@@ -3,10 +3,6 @@
 import React, { useState } from 'react';
 import { Button } from "../shadcn-ui/button";
 import { SlashIcon } from '@radix-ui/react-icons';
-import {
-  HoverCard, HoverCardContent,
-  HoverCardTrigger,
-} from '../shadcn-ui/hover-card';
 
 import {
   DropdownMenu,
@@ -19,7 +15,6 @@ import {
 import { useStorage } from '../contexts/StorageContext';
 import { useSearch } from '../contexts/SearchContext';
 import MultisearchShortcut from 'types/multisearch-shortcuts';
-import { ViewIndividualMultisearchShortcut } from '../multisearch/ViewMultisearchShortcuts';
 
 const ShortcutsDropdownMenu = () => {
   const { multisearchShortcuts } = useStorage();
