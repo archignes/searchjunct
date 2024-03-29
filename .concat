@@ -9,4 +9,6 @@ preamble: |
 ignores:
   - package-lock.json
   - yarn.lock
+  - .git
+  - .next
 

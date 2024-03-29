@@ -12,11 +12,11 @@ import { useForm, FormProvider } from 'react-hook-form';
 
 interface SortingContainerProps {
     showDisableDeleteButtons?: boolean;
-    filterOut?: System[];
+    include: System[];
     isInsideSettingsCard?: boolean;
 }
 
-const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, filterOut = [] }) => {
+const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, include = [] }) => {
     const { updateDragOrder, systemsCurrentOrder } = useSystemsContext();
 
 
@@ -60,12 +60,13 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <FormProvider {...form}>
                 <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
-                    {systemsCurrentOrder.filter(system => !filterOut.includes(system)).map((system, index) => (
-                        <div key={system.id} className="w-full">
+                    {systemsCurrentOrder.filter(system => include.includes(system)).map((system, index) => (
+                        <div id={`${system.id}-bucket`} key={system.id} className="w-full">
                             <SearchSystemItem
                                 id={system.id}
                                 system={system}
                                 showDisableDeleteButtons={showDisableDeleteButtons}
+                                showDragHandle={true}
                             />
                         </div>
                     ))}

@@ -213,7 +213,7 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             setShowIntroModal,
             multisearchShortcuts,
             addMultisearchShortcut,
-            removeMultisearchShortcut
+            removeMultisearchShortcut,
         }),
         [
             initiateSearchImmediately,
@@ -228,11 +228,9 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             setShowIntroModal,
             multisearchShortcuts,
             addMultisearchShortcut,
-            removeMultisearchShortcut
+            removeMultisearchShortcut,
         ]
     );
-
-
 
     return (
         <StorageContext.Provider value={contextValue}>

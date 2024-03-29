@@ -116,6 +116,7 @@ const MainSettingsCard: React.FC = () => {
                       id={systemId}
                       system={system}
                       showDisableDeleteButtons={true}
+                      showDragHandle={false}
                     />
                   </div>
                 );

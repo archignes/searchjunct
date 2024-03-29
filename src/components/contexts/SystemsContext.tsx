@@ -123,18 +123,20 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
         setSystemsSkipped({ ...systemsSkipped, [systemId]: value });
     }
 
-    const initializeSystemsState = (
+    const initializeSystemsState = useCallback((
         systemsDisabled: Record<string, boolean> = {},
         systemsDeleted: Record<string, boolean> = {},
         systemsSearched: Record<string, boolean> = {}
-        ) => {
+    ) => {
         return systems.map(system => ({
             ...system,
             searched: systemsSearched[system.id] ?? false,
             disabled: systemsDisabled[system.id] ?? false,
             deleted: systemsDeleted[system.id] ?? false,
         }));
-    };
+    }, []);
+
+
     const [systemsState, setSystemsState] = useState<System[]>(
         () => initializeSystemsState(systemsDisabled, systemsDeleted, systemsSearched));
     const [activeSystem, setActiveSystemState] = useState<System | undefined>(() => systems[0]);
@@ -232,7 +234,7 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
 
     if (!activeSystem) {
         const firstUnsearchedSystem = systemsState.find(system => !system.searched);
-        setActiveSystemState(firstUnsearchedSystem || systems[0]);
+        setActiveSystemState(firstUnsearchedSystem || systemsCurrentOrder[0]);
     }
 
     const resetSystemsState = () => {

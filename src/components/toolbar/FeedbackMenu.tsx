@@ -24,7 +24,7 @@ const FeedbackDropdownMenu = () => {
           id="feedback-button"
           variant="outline"
           title="Feedback & Alerts"
-          className={`w-full ${isFeedbackPopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
+          className={`p-1 w-full ${isFeedbackPopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
         >
           <ExclamationTriangleIcon className={`${isFeedbackPopoverOpen ? 'text-white' : 'text-current'}`} />
         </Button>

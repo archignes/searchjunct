@@ -21,14 +21,23 @@ Types of changes:
 ### Added
 
 - Ability to custom multi-sort.
-- ShortcutsDropdownMenu component to Toolbar.
+- `ShortcutsDropdownMenu` component to `Toolbar`.
+- `react-window` library for efficiently rendering large lists.
+- `Virtualized` list rendering to `SystemList` component using `react-window`.
+- Padding classes to buttons in `ShareMenu`, `FeedbackMenu` and `ShortcutsMenu` to match other toolbar buttons.
+- showDragHandle prop to `SearchSystemItem` to conditionally render drag handle.
 
 ### Changed
 
-- Refactored handleSearch in SearchContext to accept an object with system, urlQuery and skip properties.
-- Extracted search cleanup logic into separate cleanupSearch function in SearchContext.
-- Moved multisearch shortcut handling into SearchContext handleSearch.
-Refactored SystemTitle component to accept mini_mode prop for rendering in mini view.
+- `SystemList` to use `react-window` for rendering the list of systems.
+- `SortingContainer` to accept an `include` prop instead of `filterOut` for included systems.
+- `SearchSystemItem` to conditionally show drag handle based on `showDragHandle` prop.
+- Refactored `SystemList` to handle scrolling to the active system.
+- Updated `SystemsContext` to initialize active system to the first system in the current order.
+- Refactored `handleSearch` in `SearchContext` to accept an object with system, urlQuery and skip properties.
+- Extracted search cleanup logic into separate `cleanupSearch` function in `SearchContext`.
+- Moved multisearch shortcut handling into `SearchContext` `handleSearch`
+- Refactored `SystemTitle` component to accept `mini_mode` prop for rendering in mini view.
 - Moved info and settings cards into their own subdirectories.
 
 ### Removed

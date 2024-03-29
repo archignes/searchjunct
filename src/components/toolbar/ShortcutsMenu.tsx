@@ -31,7 +31,7 @@ const ShortcutsDropdownMenu = () => {
           id="feedback-button"
           variant="outline"
           title="Shortcuts"
-          className={`w-full ${isShortcutsPopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
+          className={`p-1 w-full ${isShortcutsPopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
         >
           <SlashIcon className={`${isShortcutsPopoverOpen ? 'text-white' : 'text-current'}`} />
         </Button>

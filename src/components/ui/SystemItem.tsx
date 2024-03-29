@@ -35,12 +35,14 @@ interface SortableItemProps {
   id: string;
   system: System;
   showDisableDeleteButtons: boolean;
+  showDragHandle: boolean;
 }
 
 const SearchSystemItem: React.FC<SortableItemProps> = ({
   id,
   system,
   showDisableDeleteButtons,
+  showDragHandle
 }) => {
   const { systemsSkipped, expandedSystemCards, setExpandedSystemCards
    } = useSystemsContext();
@@ -173,6 +175,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                       <DeleteSystemButton system={system} />
                     </div>
                   )}
+            {showDragHandle && (
             <div
               ref={setDragHandleRef}
               id={`${system.id}-drag-handle`}
@@ -183,6 +186,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
             >
               <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
             </div>
+            )}
                   {(isItemExpanded) ? (
                     <Button variant="ghost" aria-expanded={isItemExpanded ? "true" : "false"} className="px-2 mr-1 hover:bg-blue-100 hover:rounded-md flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
                     onClick={toggleItemExpanded}

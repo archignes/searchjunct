@@ -48,6 +48,7 @@
     "react-hook-form": "^7.50.0",
     "react-router-dom": "^6.21.3",
     "react-scripts": "5.0.1",
+    "react-window": "^1.8.10",
     "sharp": "^0.33.2",
     "shiki": "^1.0.0-beta.1",
     "sonner": "^1.4.41",
