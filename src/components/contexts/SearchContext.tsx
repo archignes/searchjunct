@@ -5,20 +5,23 @@ import { useSystemsContext } from './SystemsContext';
 import { System } from "../../types/system";
 import { useStorage } from './StorageContext';
 import MultisearchShortcut from '../../types/multisearch-shortcuts';
-import HandleMultisearch from '../multisearch/HandleMultisearch';
+import HandleMultisearchShortcut from '../multisearch/HandleMultisearchShortcut';
+import HandleMultisearchNumber from '../multisearch/HandleMultisearchNumber';
 
-const SearchContext = createContext<{ 
+const SearchContext = createContext<{
     handleSearch: ({ system, urlQuery, skip }: { system?: System, urlQuery?: string, skip?: "skip" | "skipback" }) => void,
-        query: string,
-        setQuery: (query: string) => void,
-        multiSelect: boolean
-        setMultiSelect: (multiSelect: boolean) => void,
-        preppedSearchLink: (system: System, query: string) => string
-    }>({
+    query: string,
+    setQuery: (query: string) => void,
+    multiSelect: boolean,
+    getNextUnsearchedSystem: (updatedSystemsSearched?: Record<string, boolean>, skipSteps?: number) => System | undefined,
+    setMultiSelect: (multiSelect: boolean) => void,
+    preppedSearchLink: (system: System, query: string) => string
+}>({
     handleSearch: () => { },
     query: '',
     setQuery: () => { },
     multiSelect: false,
+    getNextUnsearchedSystem: () => undefined, // Corrected to match the expected return type
     setMultiSelect: () => { },
     preppedSearchLink: (system: System, query: string) => { return '' }
 });
@@ -36,12 +39,7 @@ export function getShortcutCandidate(query: string) {
     return null;
 }
 
-export const getShortcut = (multisearchShortcuts: MultisearchShortcut[], shortcutCandidate: string) => {
-    console.log('Getting shortcut: ', shortcutCandidate);
-    console.log('Multisearch shortcuts: ', multisearchShortcuts);
-    const shortcut = multisearchShortcuts.find(shortcut => shortcut.name === shortcutCandidate);
-    console.log('Shortcut: ', shortcut);
-    return shortcut
+export const getShortcut = (multisearchShortcuts: MultisearchShortcut[], shortcutCandidate: string) => {    const shortcut = multisearchShortcuts.find(shortcut => shortcut.name === shortcutCandidate);    return shortcut
 }
 
 export const useSearch = () => useContext(SearchContext);
@@ -81,35 +79,43 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         updateSystemsSkipped(system.id, false);
         setSystemSearched(system.id);
         sessionStorage.setItem('searchInitiatedBlock', 'true');
-        console.log('Searchjunct: searched: ', system.id);
 
         if (currentQuery === "") {
             document.title = "Searchjunct";
         } else {
-            console.log('Updating document title:', `[${currentQuery}] - Searchjunct`);
             document.title = `[${currentQuery}] - Searchjunct`;
         }
 
         // Find the next unsearched system based on the updated systemsSearched object
         const nextUnsearchedSystem = getNextUnsearchedSystem(updatedSystemsSearched);
         if (nextUnsearchedSystem) {
-            console.log("Next unsearched system: ", nextUnsearchedSystem);
             setActiveSystem(nextUnsearchedSystem.id);
         }
     }, [systemsSearched, updateSystemsSkipped, setSystemSearched, getNextUnsearchedSystem, setActiveSystem]);
 
     const handleSearch = useCallback(({ system, urlQuery, skip }: { system?: System, urlQuery?: string, skip?: "skip" | "skipback" }) => {
         let currentQuery = urlQuery || query;
-        console.log('Current query: ', currentQuery);
         // Detect if the query contains a shortcut
         const shortcutCandidate = getShortcutCandidate(currentQuery)
-        console.log('Shortcut candidate: ', shortcutCandidate);
         if (shortcutCandidate) {
-            console.log('Shortcut candidate condition met');
+            if (!isNaN(parseFloat(shortcutCandidate))) {
+                const shortcutCandidateNumber = parseFloat(shortcutCandidate).toString();
+                const systemsToSearch = [];
+                for (let x = 0; x < Number(shortcutCandidateNumber); x++) {
+                    const nextSystem = getNextUnsearchedSystem(undefined, x + 1);
+                    if (nextSystem) systemsToSearch.push(nextSystem);
+                }
+                HandleMultisearchNumber({
+                    currentQuery: currentQuery,
+                    systemsToSearch,
+                    cleanupSearch,
+                    preppedSearchLink
+                });
+                return;
+            }
             const shortcut = getShortcut(multisearchShortcuts, shortcutCandidate);
-            console.log('Shortcut: ', shortcut);
             if (shortcut) {
-                HandleMultisearch({
+                HandleMultisearchShortcut({
                     currentQuery: currentQuery,
                     shortcut,
                     systems,
@@ -121,7 +127,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         }
         if (currentQuery.endsWith("/") && !currentQuery.endsWith("//")) {
             currentQuery = currentQuery.slice(0, -1);
-            console.log("Warning: Search query ends with a single forward slash. Single forward slash is used to bypass initiateSearchImmediately. Forward slash is being removed. Use two forward slashes to render an ending single forward slash in your query.");
+            console.warn("Search query ends with a single forward slash. Single forward slash is used to bypass initiateSearchImmediately. Forward slash is being removed. Use two forward slashes to render an ending single forward slash in your query.");
         }
 
         if (skip === "skip") {
@@ -189,6 +195,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             setQuery,
             multiSelect,
             setMultiSelect,
+            getNextUnsearchedSystem,
             preppedSearchLink }}>
             {children}
         </SearchContext.Provider>

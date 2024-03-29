@@ -42,14 +42,14 @@ describe('SystemList Component', () => {
         // Act
         renderSystemList();
         // Assert
-        await screen.findByText(/number of systems:/i);
+        await screen.findByText(/Showing/i);
     });
 
     it('displays the correct number of systems in the link', async () => {
         // Act
         renderSystemList();
         // Assert
-        const link = await screen.findByRole('link', { name: /number of systems/i });
-        expect(link).toHaveTextContent(`Number of systems: ${systemsDataLength}`);
+        const link = await screen.findByRole('link', { name: /Showing/i });
+        expect(link).toHaveTextContent(`${systemsDataLength} systems`);
     });
 });

@@ -29,9 +29,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '../shadcn-ui/alert-dialog';
-if (typeof window !== 'undefined') {
-  console.log('window is defined');
-}
 
 const AddMultisearchShortcut: React.FC = () => {
   const { multisearchShortcuts, addMultisearchShortcut } = useStorage();

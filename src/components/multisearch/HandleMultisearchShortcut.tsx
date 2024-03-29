@@ -9,7 +9,7 @@ interface HandleMultisearchProps {
     preppedSearchLink: (system: System, query: string) => string
 }
 
-export default function HandleMultisearch({
+export default function HandleMultisearchShortcut({
     currentQuery,
     shortcut,
     systems,

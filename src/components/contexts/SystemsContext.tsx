@@ -143,7 +143,6 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const [sortStatus, setSortStatus] = useState<'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial'>('initial');
 
     const updateSortStatus = (newStatus: 'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial') => {
-        console.log("in updateSortStatus, new:", newStatus)
         setSortStatus(newStatus);
     }
 
@@ -246,7 +245,6 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
             alert("No systems have been searched in this session.")
             return;
         }
-        console.log('reloadSystems')
         Object.keys(systemsSearched).forEach(key => {
             systemsSearched[key] = false;
         });
@@ -254,7 +252,6 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     };
 
     const toggleAlphabeticalSortOrder = () => {
-        console.log("in toggleAlphabeticalSortOrder")
         if (sortStatus === 'abc') {
             setSystemsState(currentSystems => {
                 const sortedSystems = [...currentSystems].sort((a, b) => b.name.localeCompare(a.name));

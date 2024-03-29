@@ -1,4 +1,4 @@
-import HandleMultisearch from '../multisearch/HandleMultisearch';
+import HandleMultisearch from '../multisearch/HandleMultisearchShortcut';
 import { System } from 'types/system';
 import MultisearchShortcut from 'types/multisearch-shortcuts';
 

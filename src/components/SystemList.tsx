@@ -12,11 +12,6 @@ const SystemList = () => {
   const { systemsDeleted } = useStorage();
   const [isClient, setIsClient] = useState(false);
    
-
-  console.log("systemsCurrentOrder", systemsCurrentOrder)
-  console.log("systemsDeleted", systemsDeleted)
-  console.log("activeSystem", activeSystem)
-
   const getVisibleSystems = useCallback(
     () => {
       const visibleSystems = systemsCurrentOrder.filter((system) => !systemsDeleted[system.id]);

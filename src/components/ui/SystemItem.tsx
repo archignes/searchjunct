@@ -108,22 +108,6 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     }
   }, [expandedSystemCards, setExpandedSystemCards, system.id, everClickedReExpansionCollapse]);
 
-
-  // const { multiSelect, setMultiSelect } = useSearch();
-  // const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
-
-  // const [isChecked, setIsChecked] = useState(checkboxStatuses[system.id] || false);
-
-  // const handleCheckboxChange = (checked: boolean) => {
-  //   setIsChecked(checked);
-  //   setCheckboxStatus(system.id, checked);
-  // };
-
-  // useEffect(() => {
-  //   console.log(checkboxStatuses)
-  // }, [checkboxStatuses]);
-  
-  
   return (
     <>
       <div className={`${isOver ? 'bg-blue-100' : ''}`}>

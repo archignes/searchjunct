@@ -120,9 +120,6 @@ describe('SearchBar Component', () => {
         const input = screen.getByRole('textbox');
         fireEvent.change(input, { target: { value: query } });
         fireEvent.submit(input);
-
-        console.log('Document title after submission:', document.title);
-
         await waitFor(() => {
             expect(document.title).toBe(`[${query}] - Searchjunct`);
         }, { timeout: 5000 });

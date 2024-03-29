@@ -20,7 +20,8 @@ Types of changes:
 
 ### Added
 
-- Ability to custom multi-sort.
+- Support for numeric multisearch shortcuts to search the next N unsearched systems - `HandleMultisearchNumber`
+- Ability to custom multi-sort - `HandleMultisearchShortcut`
 - `ShortcutsDropdownMenu` component to `Toolbar`.
 - `react-window` library for efficiently rendering large lists.
 - `Virtualized` list rendering to `SystemList` component using `react-window`.
@@ -31,6 +32,7 @@ Types of changes:
 
 - `SystemList` to use `react-window` for rendering the list of systems.
 - `SortingContainer` to accept an `include` prop instead of `filterOut` for included systems.
+- Updated `SystemList` test to check for "Showing X systems" text instead of "Number of systems".
 - `SearchSystemItem` to conditionally show drag handle based on `showDragHandle` prop.
 - Refactored `SystemList` to handle scrolling to the active system.
 - Updated `SystemsContext` to initialize active system to the first system in the current order.
@@ -42,6 +44,7 @@ Types of changes:
 
 ### Removed
 
+- Console logging statements from various components.
 - Unused imports and variables across multiple components.
 
 ## [0.3.0] - 2024-03-27
@@ -55,17 +58,3 @@ Types of changes:
 ### Removed
 
 - SortingContainer from SettingsCard.
-
-## [0.2.0] - 2024-03-26
-
-### Fixed
-
-- Widths of MiniEvalCards in the dynamic-results and ConnectedItemLabel.
-
-
-## [0.1.0] - 2024-03-25
-
-### Added
-
-- [EVALLOG.md](EVALLOG.md)
-
