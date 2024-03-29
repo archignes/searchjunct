@@ -13,7 +13,7 @@ import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 const PrivacyInstructionsCard: React.FC = () => {
   return (
     <>
-      <Card className='w-9/10" border-none shadow-none mx-auto'>
+      <Card className='w-9/10 border-none shadow-none mx-auto'>
         <CardContent >
           <div className="space-y-4">
             <Alert>

@@ -29,7 +29,7 @@ const SetupInstructionsCard: React.FC = () => {
 
   return (
     <>
-      <Card className='w-9/10" border-none shadow-none mx-auto'>
+      <Card className='w-9/10 border-none shadow-none mx-auto'>
         <CardContent >
           <div className="text-xl pb-2 font-bold">Setup Searchjunct as Your Default Search Engine</div>
           
