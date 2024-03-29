@@ -8,7 +8,6 @@ import { useSearch } from './contexts/SearchContext';
 import { useStorage } from './contexts/StorageContext';
 import { useSystemsContext } from './contexts/SystemsContext';
 
-
 const SearchBar = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { handleSearch, query, setQuery } = useSearch();
@@ -19,7 +18,6 @@ const SearchBar = () => {
   initiateSearchImmediatelyRef.current = initiateSearchImmediately;
 
   const formRef = useRef<HTMLFormElement>(null);
-
 
   useEffect(() => {
     const searchQuery = router.query.q;
@@ -34,7 +32,7 @@ const SearchBar = () => {
       if (initiateSearchImmediatelyRef.current && !searchInitiatedBlocInSession && !singleSlashSearch) {
         const firstUnsearchedSystem = systemsCurrentOrder.find(system => !systemsSearched[system.id]);
         if (firstUnsearchedSystem) {
-          handleSearch(firstUnsearchedSystem, searchQuery);
+          handleSearch({system: firstUnsearchedSystem, urlQuery: searchQuery});
           updateSearchInitiatedBlock(true);
         }
       } else if (singleSlashSearch) {
@@ -44,17 +42,21 @@ const SearchBar = () => {
   }, [query, router.query.q, setQuery, systemsCurrentOrder, handleSearch, systemsSearched, textareaRef, searchInitiatedBlock, updateSearchInitiatedBlock]);
 
   useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.focus();
-      // Move the cursor to the end of the text
-      const length = textareaRef.current.value.length;
-      textareaRef.current.setSelectionRange(length, length);
-    }
-  }, []); // Empty dependency array means this effect runs once on mount
+    // This effect runs once on component mount to focus the textarea and move the cursor to the end
+    const focusAndSetCursorToEnd = () => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        // Calculate the length of the text to move the cursor to the end
+        const textLength = textareaRef.current.value.length;
+        textareaRef.current.setSelectionRange(textLength, textLength);
+      }
+    };
+    focusAndSetCursorToEnd();
+  }, []);
 
   const onSearchSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSearch();
+    handleSearch({});
   }, [handleSearch]);
 
   
@@ -94,9 +96,9 @@ const SearchBar = () => {
                   // Logic to skip the next active search engine and execute a search on the subsequent one
                   // This is a placeholder for the actual logic you need to implement based on how your search engines are managed
                   console.log("Hotkey: Alt/Option+Enter pressed.");
-                  handleSearch(undefined, undefined, "skip");
+                  handleSearch({skip: "skip"});
                 } else if (e.altKey && e.shiftKey) {
-                  handleSearch(undefined, undefined, "skipback");
+                  handleSearch({skip: "skipback"});
                   console.log("Hotkey: Alt/Option+Shift pressed.");
                 }
               }}

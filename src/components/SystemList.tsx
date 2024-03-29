@@ -4,12 +4,10 @@ import React, { useState, useEffect } from 'react';
 import SortingContainer from './SortingContainer';
 import { useSystemsContext } from './contexts/SystemsContext';
 import { useStorage } from './contexts/StorageContext';
-import { Button } from './shadcn-ui/button';
-import { ShuffleIcon } from '@radix-ui/react-icons';
 
 
 const SystemList = () => {
-  const { systems, systemsCurrentOrder, setShuffleSystems } = useSystemsContext();
+  const { systems, systemsCurrentOrder } = useSystemsContext();
   const { systemsDeleted } = useStorage();
   const [isClient, setIsClient] = useState(false);
 

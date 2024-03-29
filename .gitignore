@@ -1,4 +1,7 @@
 node_modules/
+_archive
 .next/
 
 .DS_Store
+test-results.txt
+concat.md

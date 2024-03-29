@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// toolbar/FeedbackMenu.tsx
+import React, { useState } from 'react';
 import { Button } from "../shadcn-ui/button";
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import {
@@ -9,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../shadcn-ui/dropdown-menu"
-import { useAppContext } from "../contexts/AppContext";
 
 const FeedbackDropdownMenu = () => {
   const [isFeedbackPopoverOpen, setIsFeedbackPopoverOpen] = useState(false);

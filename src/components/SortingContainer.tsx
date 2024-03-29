@@ -1,19 +1,14 @@
 // SortingContainer.tsx 
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSystemsContext } from './contexts/SystemsContext';
-import { useStorage } from './contexts/StorageContext';
-import { System } from '../types/systems';
+import { System } from '../types/system';
 import SearchSystemItem from './ui/SystemItem';
 import { isMobile } from 'react-device-detect';
 
-import {
-    Form,
-} from "./shadcn-ui/form"
-import { useForm, FormProvider, SubmitHandler, useWatch } from 'react-hook-form';
-import { useSearch } from './contexts/SearchContext';
+import { useForm, FormProvider } from 'react-hook-form';
 
 interface SortingContainerProps {
     showDisableDeleteButtons?: boolean;
@@ -22,10 +17,8 @@ interface SortingContainerProps {
 }
 
 const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, filterOut = [] }) => {
-    const { toggleSystemDeleted, updateDragOrder, toggleSystemDisabled, systemsCurrentOrder, expandAllStatus, toggleExpandAll } = useSystemsContext();
-    const { systemsDeleted, systemsDisabled, systemsSearched } = useStorage();
-    const { multiSelect, setMultiSelect } = useSearch();
-    const { checkboxStatuses, setCheckboxStatus } = useSystemsContext();
+    const { updateDragOrder, systemsCurrentOrder } = useSystemsContext();
+
 
     const sensors = useSensors(
         useSensor(PointerSensor, {

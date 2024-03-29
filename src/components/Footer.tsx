@@ -1,9 +1,5 @@
 import React from "react";
-import { GitHubLogoIcon, TwitterLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons';
-import { Button } from "./shadcn-ui/button";
-import { Input } from ".//shadcn-ui//input";
-import Image from 'next/image';
-const lastUpdated = "2024-03-27T19:36:46.844Z";
+const lastUpdated = "2024-03-29T15:05:16.150Z";
 
 const Footer: React.FC = () => {
   return (

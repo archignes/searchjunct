@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useSearch } from '../contexts/SearchContext';
-import { System } from "../../types/systems";
+import { System } from "../../types/system";
 
 interface SetupCustomDefaultSystemInstructionsProps {
   system: System;

@@ -7,25 +7,23 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '../shadcn-ui/card';
+} from '../../shadcn-ui/card';
 import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../shadcn-ui/tabs"
-import { useStorage } from "../contexts/StorageContext"
-import { ScrollArea } from "../shadcn-ui/scroll-area"
+} from "../../shadcn-ui/tabs"
+import { ScrollArea } from "../../shadcn-ui/scroll-area"
 
-import HotkeyCard from "./Info_Hotkey"
-import PrivacyCard from "./Info_Privacy"
-import SetupCard from "./Info_Setup"
-import AboutCard from "./Info_About"
+import HotkeyCard from "./Hotkey"
+import PrivacyCard from "./Privacy"
+import SetupCard from "./Setup"
+import AboutCard from "./About"
 
 
 const InfoCard: React.FC = () => {
-  const { setShowIntroModal } = useStorage();
   
   return (
       <Card className='w-9/10 sm:w-2/3 sm:mx-auto md:w-3/7 lg:w-2/5 xl:w-1/4" rounded-md mx-auto'>

@@ -1,18 +1,17 @@
 // Info_Hotkey.tsx
 
 import React from 'react';
-import { Alert, AlertDescription, AlertTitle } from "../shadcn-ui/alert"
 
 import {
   Card,
   CardContent,
-} from '../shadcn-ui/card';
+} from '../../shadcn-ui/card';
 
 
 const HotkeyInstructionsCard: React.FC = () => {
   return (
     <>
-      <Card className='w-9/10" border-none shadow-none mx-auto'>
+      <Card className='w-9/10 border-none shadow-none mx-auto'>
         <CardContent >
           <div className="space-y-4">
             <p>

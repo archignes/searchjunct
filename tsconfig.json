@@ -21,9 +21,8 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"],
+      "types/*": ["src/types/*"]
     },
     "incremental": true,
     "plugins": [

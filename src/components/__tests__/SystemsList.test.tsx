@@ -1,62 +1,55 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import SearchBar from '../SearchBar';
+import { render, screen, waitFor } from '@testing-library/react';
 import SystemList from '../SystemList';
+import { StorageProvider } from '../contexts/StorageContext';
+import { SystemProvider } from '../contexts/SystemsContext';
 import { SearchProvider } from '../contexts/SearchContext';
-import { SystemProvider, useSystemsContext } from '../contexts/SystemsContext';
-import { StorageProvider, useStorage } from '../contexts/StorageContext';
-import '@testing-library/jest-dom';
-import { useRouter } from 'next/router';
+import systemsData from '../../data/systems.json';
 
-jest.mock('next/router', () => ({
-    useRouter: jest.fn(),
-}));
+// Mock data
+const systemsMock = [
+    { id: "system-1", name: 'System 1', search_link: "ddd" },
+    { id: "system-2", name: 'System 2', search_link: "ddd" }
+];
 
-// Mock useSystemsContext and useStorage
-jest.mock('../contexts/SystemsContext', () => ({
-    ...jest.requireActual('../contexts/SystemsContext'), // Import and spread the actual module
-    useSystemsContext: jest.fn(), // Mock useSystemsContext
-}));
+// Mock SystemsContext
+const MockSystemProvider = ({ children }: { children: React.ReactNode }) => (
+    <SystemProvider testSystems={systemsMock}>
+        {children}
+    </SystemProvider>
+);
 
-jest.mock('../contexts/StorageContext', () => ({
-    ...jest.requireActual('../contexts/StorageContext'), // Import and spread the actual module
-    useStorage: jest.fn(), // Mock useStorage
-}));
 
-describe('System List', () => {
-    beforeEach(() => {
-        (useRouter as jest.Mock).mockReturnValue({
-            query: {},
-        });
+const systemsDataLength = systemsData.length;
 
-        // Mock the return values for useSystemsContext and useStorage
-        (useSystemsContext as jest.Mock).mockReturnValue({
-            systemsCurrentOrder: [/* Populate with mock data relevant to your test */],
-            isClient: true, // Ensure isClient is true to simulate client-side rendering
-        });
 
-        (useStorage as jest.Mock).mockReturnValue({
-            // Mock any necessary storage context values here
-        });
+// Helper function to render the component within its required providers
+function renderSystemList() {
+    return render(
+        <StorageProvider>
+            <MockSystemProvider>
+                <SearchProvider>
+                    <SystemList />
+                </SearchProvider>
+            </MockSystemProvider>
+        </StorageProvider>
+    );
+}
+
+// Test cases
+describe('SystemList Component', () => {
+    it('renders without crashing with initialized data', async () => {
+        // Act
+        renderSystemList();
+        // Assert
+        await screen.findByText(/number of systems:/i);
     });
 
-    it('should have a link to the systems.json file at the bottom', async () => {
-        render(
-            <StorageProvider>
-                <SystemProvider>
-                    <SearchProvider>
-                        <SearchBar />
-                        <SystemList />
-                    </SearchProvider>
-                </SystemProvider>
-            </StorageProvider>
-        );
-
-        // Use waitFor to wait for the component to update and render the content
-        await waitFor(() => {
-            const numberOfSystemsElement = screen.getByText(/Number of systems: \d+/); // Use a regex to match the dynamic content
-            expect(numberOfSystemsElement).toBeInTheDocument();
-        });
+    it('displays the correct number of systems in the link', async () => {
+        // Act
+        renderSystemList();
+        // Assert
+        const link = await screen.findByRole('link', { name: /number of systems/i });
+        expect(link).toHaveTextContent(`Number of systems: ${systemsDataLength}`);
     });
 });

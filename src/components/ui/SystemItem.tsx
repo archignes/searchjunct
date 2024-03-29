@@ -9,24 +9,25 @@ import { MagnifyingGlassIcon,
   ChevronDownIcon
 } from '@radix-ui/react-icons';
 import { useDroppable } from '@dnd-kit/core';
-import { useFormContext } from 'react-hook-form';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../shadcn-ui/accordion"
-import { Checkbox } from '../shadcn-ui/checkbox';
 import { Button } from '../shadcn-ui/button';
 
 import { useSystemsContext } from '../contexts/SystemsContext';
-import { System } from '../../types/systems';
+import { System } from '../../types/system';
 import SystemCard from '../cards/SystemCard';
 import { useSearch } from '../contexts/SearchContext';
 import { useStorage } from '../contexts/StorageContext';
 import { SystemTitle } from './SystemTitle';
 
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
+
+
+
 
 
 
@@ -41,8 +42,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   system,
   showDisableDeleteButtons,
 }) => {
-  const { 
-    systemsCurrentOrder, systemsSkipped, expandedSystemCards, setExpandedSystemCards
+  const { systemsSkipped, expandedSystemCards, setExpandedSystemCards
    } = useSystemsContext();
    const {systemsDeleted, systemsDisabled, systemsSearched } = useStorage();
    const { expandAllStatus } = useSystemsContext();
@@ -76,7 +76,6 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
 
   const [everClickedReExpansionCollapse, setEverClickedReExpansionCollapse] = useState(false);
 
-  const [isItemExpandable, setIsItemExpandable] = useState(false);
   const [isItemExpanded, setIsItemExpanded] = useState(false);
 
   const toggleItemExpanded = () => {
@@ -85,7 +84,6 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   };
 
   useEffect(() => {
-    setIsItemExpandable(expandAllStatus);
     setIsItemExpanded(expandAllStatus);
 
     // Update everAllExpanded when expandAllStatus becomes true
@@ -153,7 +151,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
               <div className="flex items-center">
                     <a className="group w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
                    href={preppedSearchLink(system, query)}
-                   onClick={(e) => { e.preventDefault(); handleSearch(system); }}>
+                   onClick={(e) => { e.preventDefault(); handleSearch({ system: system }); }}>
                     <div className="w-full flex items-center">
                     {/* {multiSelect ? (
                       <kbox

@@ -5,7 +5,7 @@ import React from 'react';
 import {
   Card,
   CardContent,
-} from '../shadcn-ui/card';
+} from '../../shadcn-ui/card';
 import { Share2Icon, GearIcon, QuestionMarkIcon, ReloadIcon, StarIcon, StarFilledIcon, ChevronDownIcon, ShuffleIcon, DragHandleDots2Icon } from '@radix-ui/react-icons';
 
 
@@ -13,7 +13,7 @@ import { Share2Icon, GearIcon, QuestionMarkIcon, ReloadIcon, StarIcon, StarFille
 const AboutCard: React.FC = () => {
   return (
     <>
-      <Card className='w-9/10" border-none shadow-none mx-auto'>
+      <Card className='w-9/10 border-none shadow-none mx-auto'>
         <CardContent >
           <div className="space-y-4">
             <p>

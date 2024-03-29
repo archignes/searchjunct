@@ -1,3 +1,6 @@
+// pages/block.tsx
+// This page lets users block the plausible.io script from loading
+
 import React, { useEffect } from 'react';
 
 import { Button } from '../src/components/shadcn-ui/button';

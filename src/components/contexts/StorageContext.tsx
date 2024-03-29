@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
+import MultisearchShortcut from '../../types/multisearch-shortcuts';
+
 
 interface StorageContextType {
     initiateSearchImmediately: boolean;
@@ -18,6 +20,9 @@ interface StorageContextType {
     setCustomModeOnLoad: (value: boolean) => void;
     showIntroModal: boolean;
     setShowIntroModal: (value: boolean) => void;
+    multisearchShortcuts: MultisearchShortcut[];
+    addMultisearchShortcut: (shortcut: MultisearchShortcut) => void;
+    removeMultisearchShortcut: (name: string) => void;
 }
 
 const StorageContext = createContext<StorageContextType>({
@@ -37,7 +42,10 @@ const StorageContext = createContext<StorageContextType>({
     customModeOnLoad: false,
     setCustomModeOnLoad: () => { },
     showIntroModal: true,
-    setShowIntroModal: () => { }
+    setShowIntroModal: () => { },
+    multisearchShortcuts: [],
+    addMultisearchShortcut: () => { },
+    removeMultisearchShortcut: () => { }
 });
 
 
@@ -106,6 +114,14 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         return [];
     });
 
+    const [multisearchShortcuts, setMultisearchShortcuts] = useState<MultisearchShortcut[]>(() => {
+        if (typeof window !== 'undefined') {
+            const storedValue = localStorage.getItem('multisearchShortcuts');
+            return storedValue ? JSON.parse(storedValue) : [];
+        }
+        return [];
+    });
+
     const [showIntroModal, setShowIntroModal] = useState<boolean>(() => {
         if (typeof window !== 'undefined') {
             const storedValue = localStorage.getItem('showIntroModal');
@@ -118,10 +134,12 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         setSystemsCustomOrder([]);
         setSystemDeleted({});
         setSystemDisabled({});
+        setMultisearchShortcuts([]);
 
         localStorage.removeItem('systemsCustomOrder');
         localStorage.removeItem('systemsDeleted');
         localStorage.removeItem('systemsDisabled');
+        localStorage.removeItem('multisearchShortcuts');
     };
 
 
@@ -138,7 +156,8 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         localStorage.setItem('systemsDeleted', JSON.stringify(systemsDeleted));
         localStorage.setItem('systemsCustomOrder', JSON.stringify(systemsCustomOrder));
         localStorage.setItem('showIntroModal', JSON.stringify(showIntroModal));
-    }, [initiateSearchImmediately, systemsDisabled, systemsDeleted, systemsCustomOrder, customModeOnLoad, showIntroModal]);
+        localStorage.setItem('multisearchShortcuts', JSON.stringify(multisearchShortcuts));
+    }, [initiateSearchImmediately, systemsDisabled, systemsDeleted, systemsCustomOrder, customModeOnLoad, showIntroModal, multisearchShortcuts]);
 
 
     // Functions to update values
@@ -163,6 +182,15 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         setSystemDeleted(prev => ({ ...prev, [systemId]: value }));
     };
 
+    // Inside your component or functional hook
+    const addMultisearchShortcut = useCallback((shortcut: { name: string; systems: { always: string[]; randomly: string[] }; count_from_randomly: number }) => {
+        setMultisearchShortcuts(prev => [...prev, shortcut]);
+    }, []); // Add any dependencies if necessary
+
+    const removeMultisearchShortcut = useCallback((name: string) => {
+        setMultisearchShortcuts(prev => prev.filter(shortcut => shortcut.name !== name));
+    }, []);
+
     const contextValue = useMemo(
         () => ({
             initiateSearchImmediately,
@@ -182,7 +210,10 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             customModeOnLoad,
             setCustomModeOnLoad,
             showIntroModal,
-            setShowIntroModal
+            setShowIntroModal,
+            multisearchShortcuts,
+            addMultisearchShortcut,
+            removeMultisearchShortcut
         }),
         [
             initiateSearchImmediately,
@@ -194,7 +225,10 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             customModeOnLoad,
             setCustomModeOnLoad,
             showIntroModal,
-            setShowIntroModal
+            setShowIntroModal,
+            multisearchShortcuts,
+            addMultisearchShortcut,
+            removeMultisearchShortcut
         ]
     );
 

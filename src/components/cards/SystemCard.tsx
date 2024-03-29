@@ -31,7 +31,7 @@ import CIcon from '@coreui/icons-react';
 import { cibWikipedia } from '@coreui/icons';
 
 import { useAppContext } from '../contexts/AppContext';
-import { System } from "../../types/systems"; 
+import { System } from "../../types/system"; 
 import { DeleteSystemButton, DisableSystemButton } from '../ui/SystemsButtons';
 import SetupCustomDefaultSystemInstructions from './SetupCustomDefaultSystemInstructions';
 

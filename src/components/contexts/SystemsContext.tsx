@@ -3,12 +3,13 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { useStorage } from "./StorageContext"; 
 import systemsData from "../../data/systems.json";
-import { System } from "../../types/systems";
+import { System } from "../../types/system";
 
 const systems: System[] = systemsData as System[];
 
 interface SystemProviderProps {
     children: ReactNode;
+    testSystems?: System[];
 }
 
 interface SystemsContextType {
@@ -113,6 +114,7 @@ export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
     const { systemsDisabled, systemsDeleted, systemsCustomOrder, systemsSearched, customModeOnLoad } = useStorage();
     const { setSystemDisabled, setSystemsCustomOrder, setSystemDeleted, setSystemsStateSearched } = useStorage()
     const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems() as System[]);
+
     const [isResetDisabled, setIsResetDisabled] = useState<boolean>(true);
     const [expandedSystemCards, setExpandedSystemCards] = useState<string[]>([]);
     
