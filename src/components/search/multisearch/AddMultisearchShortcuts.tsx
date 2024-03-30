@@ -8,19 +8,19 @@ import {
   CardContent,
   CardHeader,
   CardDescription,
-} from '../shadcn-ui/card';
-import { useSystemsContext } from '../contexts/SystemsContext';
+} from '../../shadcn-ui/card';
+import { useSystemsContext } from '../../../contexts/SystemsContext';
 import { Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Form, FormField, FormItem, FormDescription, FormLabel, FormControl, FormMessage } from '../shadcn-ui/form';
-import { Input } from '../shadcn-ui/input';
-import { Button } from '../shadcn-ui/button';
+import { Form, FormField, FormItem, FormDescription, FormLabel, FormControl, FormMessage } from '../../shadcn-ui/form';
+import { Input } from '../../shadcn-ui/input';
+import { Button } from '../../shadcn-ui/button';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
-import { useStorage } from '../contexts/StorageContext';
-import { SpecialCardTitle } from '../ui/SystemTitle';
+import { useStorageContext } from '../../../contexts/';
+import { SpecialCardTitle } from '../../ui/SystemTitle';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,10 +28,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
-} from '../shadcn-ui/alert-dialog';
+} from '../../shadcn-ui/alert-dialog';
 
 const AddMultisearchShortcut: React.FC = () => {
-  const { multisearchShortcuts, addMultisearchShortcut } = useStorage();
+  const { multisearchShortcuts, addMultisearchShortcut } = useStorageContext();
   const { systems } = useSystemsContext();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 

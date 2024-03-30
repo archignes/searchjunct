@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import SortingContainer from './SortingContainer';
-import { useSystemsContext } from './contexts/SystemsContext';
-import { useStorage } from './contexts/StorageContext';
+import { useSystemsContext, useStorageContext, useSortContext, useSystemSearchContext } from '../contexts/';
 import SearchSystemItem from './ui/SystemItem';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
 const SystemList = () => {
-  const { systems, systemsCurrentOrder, systemsSkipped, activeSystem, setActiveSystem } = useSystemsContext();
-  const { systemsSearched, systemsDisabled } = useStorage();
-  const { systemsDeleted } = useStorage();
+  const { systems, activeSystem, setActiveSystem } = useSystemsContext();
+  const { systemsSearched, systemsDisabled } = useStorageContext();
+  const { systemsCurrentOrder } = useSortContext();
+  const { systemsSkipped } = useSystemSearchContext();
+  const { systemsDeleted } = useStorageContext();
   const [isClient, setIsClient] = useState(false);
    
   const getVisibleSystems = useCallback(

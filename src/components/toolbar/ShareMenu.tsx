@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../shadcn-ui/dropdown-menu"
-import { useSearch } from '../contexts/SearchContext';
+import { useSearchContext } from '../../contexts/SearchContext';
 
 const initiateShare = (query: string) => {
   setURLWithQuery(query);
@@ -31,7 +31,7 @@ const currentURL = typeof window !== "undefined" ? window.location.href : '';
 const baseURL = currentURL.split('?')[0] || '';
 
 const ShareDropdownMenu = () => {
-  const { query} = useSearch();
+  const { query} = useSearchContext();
   const [isSharePopoverOpen, setIsSharePopoverOpen] = useState(false);
 
   const toggleSharePopover = () => {

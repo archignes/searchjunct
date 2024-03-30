@@ -12,13 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../shadcn-ui/dropdown-menu"
-import { useStorage } from '../contexts/StorageContext';
-import { useSearch } from '../contexts/SearchContext';
+import { useStorageContext } from '../../contexts/StorageContext';
+import { useSearchContext } from '../../contexts/SearchContext';
 import MultisearchShortcut from 'types/multisearch-shortcuts';
 
 const ShortcutsDropdownMenu = () => {
-  const { multisearchShortcuts } = useStorage();
-  const { query, setQuery } = useSearch();
+  const { multisearchShortcuts } = useStorageContext();
+  const { query, setQuery } = useSearchContext();
   const [isShortcutsPopoverOpen, setIsShortcutsPopoverOpen] = useState(false);
 
   const toggleShortcutsPopover = () => {

@@ -1,12 +1,13 @@
 import MultisearchShortcut from '../../types/multisearch-shortcuts';
 import { System } from '../../types/system';
+import { PreppedSearchLinkParams } from '../../types/search';
 
 interface HandleMultisearchProps {
     currentQuery: string,
     shortcut: MultisearchShortcut,
     systems: System[],
     cleanupSearch: (system: System, query: string) => void,
-    preppedSearchLink: (system: System, query: string) => string
+    preppedSearchLink: (params: PreppedSearchLinkParams) => string
 }
 
 export default function HandleMultisearchShortcut({
@@ -25,7 +26,7 @@ export default function HandleMultisearchShortcut({
     shortcut.systems.always.forEach(systemId => {
         const system = systems.find(s => s.id === systemId);
         if (system) {
-            const url = preppedSearchLink(system, multisearchQuery);
+            const url = preppedSearchLink({ system, query: multisearchQuery });
             window.open(url, '_blank');
             systemsMultisearched.push(system.id);
         }
@@ -43,7 +44,7 @@ export default function HandleMultisearchShortcut({
     shuffledRandomSystems.slice(0, shortcut.count_from_randomly).forEach(system => {
         if (system) {
             console.log('Searching on system: ', system.name);
-            const url = preppedSearchLink(system, multisearchQuery);
+            const url = preppedSearchLink({ system, query: multisearchQuery });
             window.open(url, '_blank');
             systemsMultisearched.push(system.id);
         }

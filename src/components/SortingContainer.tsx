@@ -3,7 +3,7 @@
 import React from 'react';
 import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { useSystemsContext } from './contexts/SystemsContext';
+import { useSortContext } from '../contexts/';
 import { System } from '../types/system';
 import SearchSystemItem from './ui/SystemItem';
 import { isMobile } from 'react-device-detect';
@@ -17,7 +17,7 @@ interface SortingContainerProps {
 }
 
 const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, include = [] }) => {
-    const { updateDragOrder, systemsCurrentOrder } = useSystemsContext();
+    const { updateDragOrder, systemsCurrentOrder } = useSortContext();
 
 
     const sensors = useSensors(

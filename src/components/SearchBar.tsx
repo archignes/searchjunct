@@ -4,16 +4,16 @@ import Image from 'next/image';
 import { Textarea } from './shadcn-ui/textarea';
 import { Button } from './shadcn-ui/button';
 
-import { useSearch } from './contexts/SearchContext';
-import { useStorage } from './contexts/StorageContext';
-import { useSystemsContext } from './contexts/SystemsContext';
+import { useSearchContext,
+  useStorageContext,
+  useSortContext } from '../contexts/';
 
 const SearchBar = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { handleSearch, query, setQuery } = useSearch();
-  const { systemsCurrentOrder } = useSystemsContext();
+  const { submitSearch, query, setQuery } = useSearchContext();
+  const { systemsCurrentOrder } = useSortContext();
   const router = useRouter();
-  const { systemsSearched, initiateSearchImmediately, searchInitiatedBlock, updateSearchInitiatedBlock } = useStorage();
+  const { systemsSearched, initiateSearchImmediately, searchInitiatedBlock, updateSearchInitiatedBlock } = useStorageContext();
   const initiateSearchImmediatelyRef = useRef(initiateSearchImmediately);
   initiateSearchImmediatelyRef.current = initiateSearchImmediately;
 
@@ -32,14 +32,14 @@ const SearchBar = () => {
       if (initiateSearchImmediatelyRef.current && !searchInitiatedBlocInSession && !singleSlashSearch) {
         const firstUnsearchedSystem = systemsCurrentOrder.find(system => !systemsSearched[system.id]);
         if (firstUnsearchedSystem) {
-          handleSearch({system: firstUnsearchedSystem, urlQuery: searchQuery});
+          submitSearch({system: firstUnsearchedSystem, urlQuery: searchQuery});
           updateSearchInitiatedBlock(true);
         }
       } else if (singleSlashSearch) {
         updateSearchInitiatedBlock(true);
       }
     }
-  }, [query, router.query.q, setQuery, systemsCurrentOrder, handleSearch, systemsSearched, textareaRef, searchInitiatedBlock, updateSearchInitiatedBlock]);
+  }, [query, router.query.q, setQuery, systemsCurrentOrder, submitSearch, systemsSearched, textareaRef, searchInitiatedBlock, updateSearchInitiatedBlock]);
 
   useEffect(() => {
     // This effect runs once on component mount to focus the textarea and move the cursor to the end
@@ -56,8 +56,8 @@ const SearchBar = () => {
 
   const onSearchSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSearch({});
-  }, [handleSearch]);
+    submitSearch({});
+  }, [submitSearch]);
 
   
 
@@ -96,9 +96,9 @@ const SearchBar = () => {
                   // Logic to skip the next active search engine and execute a search on the subsequent one
                   // This is a placeholder for the actual logic you need to implement based on how your search engines are managed
                   console.log("Hotkey: Alt/Option+Enter pressed.");
-                  handleSearch({skip: "skip"});
+                  submitSearch({skip: "skip"});
                 } else if (e.altKey && e.shiftKey) {
-                  handleSearch({skip: "skipback"});
+                  submitSearch({skip: "skipback"});
                   console.log("Hotkey: Alt/Option+Shift pressed.");
                 }
               }}

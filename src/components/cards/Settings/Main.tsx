@@ -10,17 +10,19 @@ import { Label } from '../../shadcn-ui/label';
 import { Switch } from '../../shadcn-ui/switch';
 import SearchSystemItem from '../../ui/SystemItem';
 import { Button } from '../../shadcn-ui/button';
-import { useSystemsContext } from '../../contexts/SystemsContext';
-import { useStorage } from '../../contexts/StorageContext';
+import { useSystemsContext,
+  useStorageContext,
+  useSystemToggleContext } from '../../../contexts/';
 
 const MainSettingsCard: React.FC = () => {
 
-  const { systems, isResetDisabled } = useSystemsContext();
+  const { systems } = useSystemsContext();
+  const { isResetDisabled } = useSystemToggleContext();
   const { resetLocalStorage, updateSearchInitiatedBlock,
     initiateSearchImmediately, setInitiateSearchImmediately,
     customModeOnLoad, setCustomModeOnLoad,
     systemsCustomOrder, systemsDeleted
-  } = useStorage();
+  } = useStorageContext();
 
 
   const toggleInitiateSearchImmediately = () => {

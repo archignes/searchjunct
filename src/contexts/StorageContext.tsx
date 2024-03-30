@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
-import MultisearchShortcut from '../../types/multisearch-shortcuts';
+import MultisearchShortcut from '../types/multisearch-shortcuts';
 
 
 interface StorageContextType {
@@ -49,7 +49,7 @@ const StorageContext = createContext<StorageContextType>({
 });
 
 
-export const useStorage = () => useContext(StorageContext);
+export const useStorageContext = () => useContext(StorageContext);
 
 export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
     // SessionStorage

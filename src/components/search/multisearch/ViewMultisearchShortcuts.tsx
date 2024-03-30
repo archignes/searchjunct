@@ -1,11 +1,11 @@
 // cards/Settings/MultisearchCustomsUI.tsx
 
 import React, { useState, useEffect } from 'react';
-import { useStorage } from '../contexts/StorageContext';
-import { Card, CardContent, CardHeader, CardFooter } from '../shadcn-ui/card';
-import MiniSearchSystemItem from '../ui/MiniSearchSystemItem';
-import MultisearchShortcut from '../../types/multisearch-shortcuts';
-import { Button } from '../shadcn-ui/button';
+import { useStorageContext } from '../../../contexts/';
+import { Card, CardContent, CardHeader, CardFooter } from '../../shadcn-ui/card';
+import MiniSearchSystemItem from '../../ui/MiniSearchSystemItem';
+import MultisearchShortcut from '../../../types/multisearch-shortcuts';
+import { Button } from '../../shadcn-ui/button';
 import { TrashIcon } from '@radix-ui/react-icons';
 import {
     AlertDialog,
@@ -17,12 +17,12 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger
-} from '../shadcn-ui/alert-dialog';
-import { SpecialCardTitle } from '../ui/SystemTitle';
+} from '../../shadcn-ui/alert-dialog';
+import { SpecialCardTitle } from '../../ui/SystemTitle';
 
 
 export const ViewIndividualMultisearchShortcut: React.FC<{shortcut: MultisearchShortcut, index?: number}> = ({ shortcut, index }) => {
-    const { removeMultisearchShortcut } = useStorage();
+    const { removeMultisearchShortcut } = useStorageContext();
     const MultisearchShortcutBucket: React.FC<{ title: string, systems: string[], additionalClasses?: string }> = ({ title, systems, additionalClasses }) => {
         return (
             <div className={`border rounded-md px-1 ${additionalClasses}`}>
@@ -163,7 +163,7 @@ export const ViewIndividualMultisearchShortcut: React.FC<{shortcut: MultisearchS
 
 
 export default function ViewMultisearchShortcuts() {
-    const { multisearchShortcuts } = useStorage();
+    const { multisearchShortcuts } = useStorageContext();
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {

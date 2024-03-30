@@ -1,10 +1,11 @@
-import { System } from '../../types/system';
+import { System } from 'types/system';
+import { PreppedSearchLinkParams } from 'types/search';
 
 interface HandleMultisearchNumberProps {
     currentQuery: string,
     systemsToSearch: System[],
     cleanupSearch: (system: System, query: string) => void,
-    preppedSearchLink: (system: System, query: string) => string
+    preppedSearchLink: (params: PreppedSearchLinkParams) => string
 }
 
 export default function HandleMultisearchNumber({
@@ -21,7 +22,7 @@ export default function HandleMultisearchNumber({
 
     for (const system of systemsToSearch) {
         console.log('Searching on system: ', system.name);
-        const url = preppedSearchLink(system, multisearchQuery);
+        const url = preppedSearchLink({ system, query: multisearchQuery });
         window.open(url, '_blank');
         systemsMultisearched.push(system);
     }

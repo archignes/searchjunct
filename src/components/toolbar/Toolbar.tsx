@@ -1,7 +1,5 @@
 // toolbar/Toolbar.tsx
 import React, { useEffect, useState } from 'react';
-import { useSystemsContext } from '../contexts/SystemsContext';
-import { useStorage } from '../contexts/StorageContext';
 import { Button } from "../shadcn-ui/button";
 import { StarFilledIcon, StarIcon, ChevronDownIcon, ReloadIcon, ShuffleIcon, GearIcon, QuestionMarkIcon } from "@radix-ui/react-icons";
 import { Popover, PopoverContent, PopoverTrigger } from "../shadcn-ui/popover"
@@ -10,21 +8,19 @@ import SettingsCard from "../cards/Settings/SettingsCard"
 import ShareDropdownMenu from "./ShareMenu"
 import FeedbackDropdownMenu from "./FeedbackMenu"
 import ShortcutsDropdownMenu from "./ShortcutsMenu"
-import { useAppContext } from '../contexts/AppContext';
+import { useStorageContext,
+  useAppContext,
+  useSortContext,
+  useSystemSearchContext,
+  useSystemExpansionContext } from '../../contexts/';
 
 
 const Toolbar = () => {
   const { setSettingsCardActive } = useAppContext();
-  const {
-    sortStatus,
-    reloadSystems,
-    customSort,
-    setShuffleSystems,
-    toggleExpandAll,
-    expandAllStatus,
-  } = useSystemsContext();
-  const { systemsSearched, systemsCustomOrder } = useStorage();
-
+  const { sortStatus, customSort, setShuffleSystems } = useSortContext();
+  const { systemsSearched, systemsCustomOrder } = useStorageContext();
+  const { toggleExpandAll, expandAllStatus } = useSystemExpansionContext();
+  const {reloadSystems} = useSystemSearchContext();
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const toggleInfoOpen = () => setIsInfoOpen(!isInfoOpen);

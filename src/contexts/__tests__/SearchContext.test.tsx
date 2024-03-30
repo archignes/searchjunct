@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SearchBar from '../SearchBar';
-import { SearchProvider } from '../contexts/SearchContext';
-import { SystemProvider } from '../contexts/SystemsContext';
-import { StorageProvider } from '../contexts/StorageContext';
+import SearchBar from '../../components/SearchBar';
+import { SearchProvider } from '../SearchContext';
+import { SystemProvider } from '../SystemsContext';
+import { StorageProvider } from '../StorageContext';
 import '@testing-library/jest-dom';
 import { useRouter } from 'next/router';
-import { getShortcutCandidate } from '../contexts/SearchContext';
+import { getShortcutCandidate } from '../../components/search/HandleSearch';
 
 jest.mock('next/router', () => ({
     useRouter: jest.fn(),

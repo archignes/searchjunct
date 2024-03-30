@@ -1,9 +1,15 @@
 import React from 'react'; 
 import '../src/styles/globals.css';
-import { StorageProvider } from '../src/components/contexts/StorageContext';
-import { AppProvider } from '../src/components/contexts/AppContext';
-import { SystemProvider } from '../src/components/contexts/SystemsContext';
-import { SearchProvider } from '../src/components/contexts/SearchContext';
+import { StorageProvider,
+    AppProvider,
+    SystemsProvider,
+    QueryProvider,
+    SearchProvider,
+    SystemExpansionProvider,
+    SystemToggleProvider,
+    SystemSearchProvider,
+    SortProvider
+} from '../src/contexts/';
 import { AppProps } from 'next/app';
 import { StrictMode } from 'react';
 
@@ -12,12 +18,22 @@ function MyApp({ Component, pageProps }: AppProps) {
         <StrictMode>
             <StorageProvider>
                 <AppProvider>
-                    <SystemProvider>
-                        <SearchProvider>
-                            <Component {...pageProps} />
-                        </SearchProvider>
-                    </SystemProvider>   
-                </AppProvider>    
+                    <SystemsProvider>
+                        <SortProvider>
+                            <SystemSearchProvider>
+                                <SystemToggleProvider>
+                                    <SystemExpansionProvider>
+                                        <QueryProvider>
+                                            <SearchProvider>
+                                                <Component {...pageProps} />
+                                            </SearchProvider>
+                                        </QueryProvider>
+                                    </SystemExpansionProvider>
+                                </SystemToggleProvider>
+                            </SystemSearchProvider>
+                        </SortProvider>
+                    </SystemsProvider>
+                </AppProvider>
             </StorageProvider>
         </StrictMode>
     );

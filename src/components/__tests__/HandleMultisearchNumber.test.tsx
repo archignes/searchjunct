@@ -1,6 +1,6 @@
 // __tests__/HandleMultisearchNumber.test.tsx
-import HandleMultisearchNumber from '../multisearch/HandleMultisearchNumber';
-import { System } from 'types/system';
+import HandleMultisearchNumber from '../search/HandleMultisearchNumber';
+import { PreppedSearchLinkParams } from 'types/search';
 
 describe('HandleMultisearchNumber', () => {
     let clipboardSpy: jest.SpyInstance;
@@ -36,8 +36,8 @@ describe('HandleMultisearchNumber', () => {
             { id: 'system-3', name: 'System 3', search_link: 'https://system3.com/search?q=%s' }
         ];
         const cleanupSearch = jest.fn();
-        const preppedSearchLink = (system: System, query: string) =>
-            `${system.name}/search?q=${query}`;
+        const preppedSearchLink = (params: PreppedSearchLinkParams) =>
+            `${params.system.name}/search?q=${params.query}`;
 
         // Act  
         await HandleMultisearchNumber({
@@ -60,8 +60,8 @@ describe('HandleMultisearchNumber', () => {
     it('should handle empty systemsToSearch array', async () => {
         // Arrange
         const cleanupSearch = jest.fn();
-        const preppedSearchLink = (system: System, query: string) =>
-            `${system.name}/search?q=${query}`;
+        const preppedSearchLink = (params: PreppedSearchLinkParams) =>
+            `${params.system.name}/search?q=${params.query}`;
 
         // Act
         await HandleMultisearchNumber({
@@ -85,8 +85,8 @@ describe('HandleMultisearchNumber', () => {
             { id: 'system-2', name: 'System 2', search_link: 'https://system2.com/search?q=' }
         ];
         const cleanupSearch = jest.fn();
-        const preppedSearchLink = (system: System, query: string) =>
-            `${system.name}/search?q=${query}`;
+        const preppedSearchLink = (params: PreppedSearchLinkParams) =>
+            `${params.system.name}/search?q=${params.query}`;
 
         // Act
         await HandleMultisearchNumber({
@@ -111,8 +111,8 @@ describe('HandleMultisearchNumber', () => {
             { id: 'system-2', name: 'System 2', search_link: 'https://system2.com/search?q=' }
         ];
         const cleanupSearch = jest.fn();
-        const preppedSearchLink = (system: System, query: string) =>
-            `${system.name}/search?q=${query}`;
+        const preppedSearchLink = (params: PreppedSearchLinkParams) =>
+            `${params.system.name}/search?q=${params.query}`;
 
         // Act  
         await HandleMultisearchNumber({

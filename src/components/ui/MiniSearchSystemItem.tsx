@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { System } from '../../types/system';
-import { useStorage } from '../contexts/StorageContext';
+import { useStorageContext } from '../../contexts/StorageContext';
 import { SystemTitle } from './SystemTitle';
-import { useSystemsContext } from '../contexts/SystemsContext';
+import { useSystemsContext } from '../../contexts/SystemsContext';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
 interface MiniSearchSystemItemProps {
@@ -12,7 +12,7 @@ interface MiniSearchSystemItemProps {
 }
 
 const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId }) => {
-  const {systemsDeleted, systemsDisabled } = useStorage();
+  const {systemsDeleted, systemsDisabled } = useStorageContext();
   const { systems } = useSystemsContext();
   const system = systems.find((system: System) => system.id === systemId);
   

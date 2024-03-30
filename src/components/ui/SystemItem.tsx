@@ -17,14 +17,13 @@ import {
 } from "../shadcn-ui/accordion"
 import { Button } from '../shadcn-ui/button';
 
-import { useSystemsContext } from '../contexts/SystemsContext';
 import { System } from '../../types/system';
 import SystemCard from '../cards/SystemCard';
-import { useSearch } from '../contexts/SearchContext';
-import { useStorage } from '../contexts/StorageContext';
+import { useSearchContext, useStorageContext } from '../../contexts/';
 import { SystemTitle } from './SystemTitle';
 
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
+import { useSystemExpansionContext, useSystemSearchContext } from '@/src/contexts';
 
 
 
@@ -44,11 +43,10 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   showDisableDeleteButtons,
   showDragHandle
 }) => {
-  const { systemsSkipped, expandedSystemCards, setExpandedSystemCards
-   } = useSystemsContext();
-   const {systemsDeleted, systemsDisabled, systemsSearched } = useStorage();
-   const { expandAllStatus } = useSystemsContext();
-  const { handleSearch } = useSearch();
+  const { systemsSkipped} = useSystemSearchContext();
+   const {systemsDeleted, systemsDisabled, systemsSearched } = useStorageContext();
+  const { expandAllStatus, setExpandedSystemCards, expandedSystemCards } = useSystemExpansionContext();
+  const { submitSearch } = useSearchContext();
   const { isOver } = useDroppable({
     id,
   });
@@ -73,7 +71,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     boxShadow: isDragging ? 'shadow-lg' : '',
     zIndex: isDragging ? 'z-50' : 'z-0',
   };
-  const { preppedSearchLink, query } = useSearch();
+  const { preppedSearchLink, query } = useSearchContext();
 
 
   const [everClickedReExpansionCollapse, setEverClickedReExpansionCollapse] = useState(false);
@@ -136,8 +134,8 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
             <div className="w-full">
               <div className="flex items-center">
                     <a className="group w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
-                   href={preppedSearchLink(system, query)}
-                   onClick={(e) => { e.preventDefault(); handleSearch({ system: system }); }}>
+                   href={preppedSearchLink({system, query: query})}
+                   onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
                     <div className="w-full flex items-center">
                     {/* {multiSelect ? (
                       <kbox

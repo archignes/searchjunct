@@ -1,14 +1,13 @@
 // SystemButtons.tsx
 
 import React from 'react';
-import { useSystemsContext } from '../contexts/SystemsContext';
 import { System } from '../../types/system';
 import { Button } from '../shadcn-ui/button';
-import { useStorage } from '../contexts/StorageContext';
+import { useStorageContext, useSystemToggleContext } from '../../contexts/';
 
 export const DisableSystemButton: React.FC<{ system: System }> = ({ system }) => {
-  const { toggleSystemDisabled } = useSystemsContext();
-  const { systemsDeleted, systemsDisabled } = useStorage();
+  const { toggleSystemDisabled } = useSystemToggleContext();
+  const { systemsDeleted, systemsDisabled } = useStorageContext();
 
   if (systemsDeleted?.[system.id]) {
     return null;
@@ -27,8 +26,8 @@ export const DisableSystemButton: React.FC<{ system: System }> = ({ system }) =>
 };
 
 export const DeleteSystemButton: React.FC<{ system: System }> = ({ system }) => {
-  const { toggleSystemDeleted } = useSystemsContext();
-  const { systemsDeleted } = useStorage();
+  const { toggleSystemDeleted } = useSystemToggleContext();
+  const { systemsDeleted } = useStorageContext();
 
   return (
     <Button

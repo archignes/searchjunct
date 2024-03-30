@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useSearch } from '../contexts/SearchContext';
+import { useSearchContext } from '../../contexts/SearchContext';
 import { System } from "../../types/system";
 
 interface SetupCustomDefaultSystemInstructionsProps {
@@ -11,10 +11,10 @@ interface SetupCustomDefaultSystemInstructionsProps {
 
 
 const SetupCustomDefaultSystemInstructions: React.FC<SetupCustomDefaultSystemInstructionsProps> = ({ system }: { system: System }) => {
-  const { preppedSearchLink } = useSearch();
+  const { preppedSearchLink } = useSearchContext();
 
   
-  const searchJunctSearchLink = preppedSearchLink(system, "What is Searchjunct.com?");
+  const searchJunctSearchLink = preppedSearchLink({ system, query: "What is Searchjunct.com?" });
 
   return (
     <>

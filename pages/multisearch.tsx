@@ -4,8 +4,8 @@ import Head from 'next/head';
 import Script from 'next/script';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
-import AddMultisearchShortcut from '../src/components/multisearch/AddMultisearchShortcuts';
-import ViewMultisearchShortcuts from '../src/components/multisearch/ViewMultisearchShortcuts';
+import AddMultisearchShortcut from '../src/components/search/multisearch/AddMultisearchShortcuts';
+import ViewMultisearchShortcuts from '../src/components/search/multisearch/ViewMultisearchShortcuts';
 
 const title = "Searchjunct's Multisearch"
 const description = "View and set your Searchjunct Multisearch shortcuts.";

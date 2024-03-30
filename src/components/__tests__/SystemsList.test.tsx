@@ -1,9 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import SystemList from '../SystemList';
-import { StorageProvider } from '../contexts/StorageContext';
-import { SystemProvider } from '../contexts/SystemsContext';
-import { SearchProvider } from '../contexts/SearchContext';
+import { StorageProvider, SystemsProvider, SearchProvider } from '../../contexts/';
 import systemsData from '../../data/systems.json';
 
 // Mock data
@@ -14,9 +12,9 @@ const systemsMock = [
 
 // Mock SystemsContext
 const MockSystemProvider = ({ children }: { children: React.ReactNode }) => (
-    <SystemProvider testSystems={systemsMock}>
+    <SystemsProvider testSystems={systemsMock}>
         {children}
-    </SystemProvider>
+    </SystemsProvider>
 );
 
 
