@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import SystemList from '../SystemList';
-import { StorageProvider, SystemsProvider, SearchProvider } from '../../contexts/';
+import { StorageProvider, SystemsProvider, SearchProvider, AppProvider, SortProvider, SystemSearchProvider, SystemToggleProvider, SystemExpansionProvider, QueryProvider } from '../../contexts/';
 import systemsData from '../../data/systems.json';
 
 // Mock data
@@ -11,7 +11,7 @@ const systemsMock = [
 ];
 
 // Mock SystemsContext
-const MockSystemProvider = ({ children }: { children: React.ReactNode }) => (
+const MockSystemsProvider = ({ children }: { children: React.ReactNode }) => (
     <SystemsProvider testSystems={systemsMock}>
         {children}
     </SystemsProvider>
@@ -25,11 +25,23 @@ const systemsDataLength = systemsData.length;
 function renderSystemList() {
     return render(
         <StorageProvider>
-            <MockSystemProvider>
-                <SearchProvider>
-                    <SystemList />
-                </SearchProvider>
-            </MockSystemProvider>
+            <AppProvider>
+                <MockSystemsProvider>
+                    <SortProvider>
+                        <SystemSearchProvider>
+                            <SystemToggleProvider>
+                                <SystemExpansionProvider>
+                                    <QueryProvider>
+                                        <SearchProvider>
+                                            <SystemList />
+                                        </SearchProvider>
+                                    </QueryProvider>
+                                </SystemExpansionProvider>
+                            </SystemToggleProvider>
+                        </SystemSearchProvider>
+                    </SortProvider>
+                </MockSystemsProvider>
+            </AppProvider>
         </StorageProvider>
     );
 }

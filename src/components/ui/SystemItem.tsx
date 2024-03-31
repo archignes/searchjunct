@@ -19,15 +19,10 @@ import { Button } from '../shadcn-ui/button';
 
 import { System } from '../../types/system';
 import SystemCard from '../cards/SystemCard';
-import { useSearchContext, useStorageContext } from '../../contexts/';
+import { useSystemExpansionContext, useSystemSearchContext,useSearchContext, useStorageContext } from '../../contexts/';
 import { SystemTitle } from './SystemTitle';
 
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
-import { useSystemExpansionContext, useSystemSearchContext } from '@/src/contexts';
-
-
-
-
 
 
 interface SortableItemProps {

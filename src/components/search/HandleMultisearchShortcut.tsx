@@ -1,59 +1,57 @@
-import MultisearchShortcut from '../../types/multisearch-shortcuts';
 import { System } from '../../types/system';
+import MultisearchShortcut from '../../types/multisearch-shortcuts';
 import { PreppedSearchLinkParams } from '../../types/search';
+import { CopyQueryToClipboard } from './';
 
-interface HandleMultisearchProps {
-    currentQuery: string,
-    shortcut: MultisearchShortcut,
-    systems: System[],
-    cleanupSearch: (system: System, query: string) => void,
-    preppedSearchLink: (params: PreppedSearchLinkParams) => string
+interface HandleMultisearchShortcutProps {
+    currentQuery: string;
+    shortcut: MultisearchShortcut;
+    systems: System[];
+    cleanupSearch: (system: System, query: string) => void;
+    preppedSearchLink: (params: PreppedSearchLinkParams) => string;
 }
 
-export default function HandleMultisearchShortcut({
+
+const HandleMultisearchShortcut = ({
     currentQuery,
     shortcut,
     systems,
     cleanupSearch,
-    preppedSearchLink
-}: HandleMultisearchProps) {
-    const multisearchQuery = currentQuery.replace(`/${shortcut.name}`, "").trim();
-    sessionStorage.setItem('searchInitiatedBlock', 'true');
+    preppedSearchLink,
+}: HandleMultisearchShortcutProps) => {
     console.log('Handling multisearch shortcut: ', shortcut);
-    let systemsMultisearched: string[] = [];
+    if (!shortcut.systems) {
+        console.warn('Invalid shortcut provided:', shortcut);
+        return;
+    }
+    const multisearchQuery = currentQuery.replace(`/${shortcut.name}`, "").trim();
+    CopyQueryToClipboard({ query: multisearchQuery })
 
-    navigator.clipboard.writeText(multisearchQuery)
-    shortcut.systems.always.forEach(systemId => {
-        const system = systems.find(s => s.id === systemId);
-        if (system) {
-            const url = preppedSearchLink({ system, query: multisearchQuery });
-            window.open(url, '_blank');
-            systemsMultisearched.push(system.id);
-        }
+    const { always, randomly } = shortcut.systems;
+
+    const alwaysSystems = systems.filter(system =>
+        always.includes(system.id)
+    );
+
+    const randomlySystems = systems.filter(
+        (system) => randomly.includes(system.id)
+    );
+
+    const selectedRandomSystems = [];
+    for (let i = 0; i < shortcut.count_from_randomly; i++) {
+        if (randomlySystems.length === 0) break;
+        const randomIndex = Math.floor(Math.random() * randomlySystems.length);
+        const randomSystem = randomlySystems.splice(randomIndex, 1)[0];
+        if (randomSystem) selectedRandomSystems.push(randomSystem);
+    }
+    const systemsToSearch = [...alwaysSystems, ...selectedRandomSystems];
+
+    systemsToSearch.forEach((system) => {
+        const url = preppedSearchLink({ system, query: multisearchQuery });
+        window.open(url, "_blank");
+        cleanupSearch(system, multisearchQuery);
+        console.log("Searching on system: ", system.name);
     });
+};
 
-    // Handle randomly selected systems
-    // Shuffle the array of systems randomly
-    const shuffledRandomSystems = shortcut.systems.randomly
-        .map(id => ({ id, system: systems.find(s => s.id === id) }))
-        .filter(entry => entry.system !== undefined) // Ensure the system exists
-        .sort(() => 0.5 - Math.random()) // Shuffle
-        .map(entry => entry.system); // Extract the system objects
-
-    // Select the first 'count_from_randomly' systems after shuffle
-    shuffledRandomSystems.slice(0, shortcut.count_from_randomly).forEach(system => {
-        if (system) {
-            console.log('Searching on system: ', system.name);
-            const url = preppedSearchLink({ system, query: multisearchQuery });
-            window.open(url, '_blank');
-            systemsMultisearched.push(system.id);
-        }
-    });
-    systemsMultisearched.forEach(systemId => {
-        const system = systems.find(s => s.id === systemId);
-        if (system) {
-            cleanupSearch(system, multisearchQuery);
-        }
-    });
-}
-
+export default HandleMultisearchShortcut;

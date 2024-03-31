@@ -8,6 +8,7 @@ export interface PreppedSearchLinkParams {
 
 export interface getNextUnsearchedSystemParams {
     skipSteps?: number
+    numberOfSystems?: number
     updatedSystemsSearched?: Record<string, boolean>,
 }
 
@@ -16,6 +17,7 @@ export type SearchContextType = {
     query: string,
     setQuery: (query: string) => void,
     getNextUnsearchedSystem: ({ updatedSystemsSearched, skipSteps }: getNextUnsearchedSystemParams) => System | undefined,
+    getNextUnsearchedSystems: ({ updatedSystemsSearched, skipSteps }: getNextUnsearchedSystemParams) => System[],
     preppedSearchLink: ({ system, query }: { system: System, query: string }) => string
 };
 

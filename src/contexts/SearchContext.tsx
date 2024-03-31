@@ -12,6 +12,7 @@ const SearchContext = createContext<SearchContextType>({
     query: '',
     setQuery: () => { },
     getNextUnsearchedSystem: () => undefined,
+    getNextUnsearchedSystems: () => [],
     preppedSearchLink: () => ''
 });
 
@@ -32,19 +33,27 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     }, [systemsCurrentOrder, systemsSkipped]);
 
 
-    const getNextUnsearchedSystem = useCallback((params: getNextUnsearchedSystemParams) => {
-        const { updatedSystemsSearched, skipSteps = 1 } = params;
+
+    const getNextUnsearchedSystems = useCallback((params: getNextUnsearchedSystemParams) => {
+        const { updatedSystemsSearched, numberOfSystems = 1, skipSteps = 1 } = params;
         const searched = updatedSystemsSearched || systemsSearched;
-        return systemsCurrentOrder.find(
-            (system, index) =>
-                !searched[system.id] &&
+        let unsearchedSystems = [];
+        for (let i = 0; i < systemsCurrentOrder.length && unsearchedSystems.length < numberOfSystems; i++) {
+            const system = systemsCurrentOrder[i];
+            if (!searched[system.id] &&
                 !systemsDisabled[system.id] &&
                 !systemsDeleted[system.id] &&
                 !systemsSkipped[system.id] &&
-                index >= skipSteps - 1
-        );
+                i >= skipSteps - 1) {
+                unsearchedSystems.push(system);
+            }
+        }
+        return unsearchedSystems;
     }, [systemsSearched, systemsCurrentOrder, systemsDisabled, systemsDeleted, systemsSkipped]);
 
+    const getNextUnsearchedSystem = useCallback((params: getNextUnsearchedSystemParams) => {
+        return getNextUnsearchedSystems(params)[0];
+    }, [getNextUnsearchedSystems]);
 
     const preppedSearchLink = useCallback(({ system, query }: { system: System; query: string }) => {
         if (!system) {
@@ -84,14 +93,14 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 shortcutCandidate,
                 systems,
                 multisearchShortcuts,
-                getNextUnsearchedSystem,
                 cleanupSearch,
                 preppedSearchLink,
+                getNextUnsearchedSystems
             });
             return true;
         }
         return false;
-    }, [systems, multisearchShortcuts, getNextUnsearchedSystem, cleanupSearch, preppedSearchLink]);
+    }, [systems, multisearchShortcuts, getNextUnsearchedSystems, cleanupSearch, preppedSearchLink]);
 
 
     const handleQueryFormatting = useCallback((currentQuery: string) => {
@@ -159,6 +168,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             query,
             setQuery,
             getNextUnsearchedSystem,
+            getNextUnsearchedSystems,
             preppedSearchLink
         }}>
             {children}

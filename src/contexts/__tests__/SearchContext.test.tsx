@@ -2,9 +2,15 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SearchBar from '../../components/SearchBar';
-import { SearchProvider } from '../SearchContext';
-import { SystemProvider } from '../SystemsContext';
-import { StorageProvider } from '../StorageContext';
+import { AppProvider,
+    SearchProvider,
+    SystemsProvider,
+    StorageProvider,
+    SortProvider,
+    SystemSearchProvider,
+    SystemToggleProvider,
+    SystemExpansionProvider,
+    QueryProvider } from '../';
 import '@testing-library/jest-dom';
 import { useRouter } from 'next/router';
 import { getShortcutCandidate } from '../../components/search/HandleSearch';
@@ -109,11 +115,23 @@ describe('SearchBar Component', () => {
     it('updates the document title with the search query upon submission', async () => {
         render(
             <StorageProvider>
-                <SystemProvider>
-                    <SearchProvider>
-                        <SearchBar />
-                    </SearchProvider>
-                </SystemProvider>
+                <AppProvider>
+                    <SystemsProvider>
+                        <SortProvider>
+                            <SystemSearchProvider>
+                                <SystemToggleProvider>
+                                    <SystemExpansionProvider>
+                                        <QueryProvider>
+                                            <SearchProvider>
+                                                <SearchBar />
+                                            </SearchProvider>
+                                        </QueryProvider>
+                                    </SystemExpansionProvider>
+                                </SystemToggleProvider>
+                            </SystemSearchProvider>
+                        </SortProvider>
+                    </SystemsProvider>
+                </AppProvider>
             </StorageProvider>
         );
         const query = 'test query';

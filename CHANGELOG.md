@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project roughly adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 Types of changes:
 
@@ -15,6 +15,12 @@ Types of changes:
 - `Security` in case of vulnerabilities.
 
 ## [Unreleased]
+
+## [0.4.1] - 2024-03-31
+
+### Fixed
+
+- Issue where the numeric search shortcut only worked on the first search for a given query.
 
 ## [0.4.0] - 2024-03-29
 

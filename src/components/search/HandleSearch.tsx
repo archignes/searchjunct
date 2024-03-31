@@ -3,6 +3,7 @@ import MultisearchShortcut from 'types/multisearch-shortcuts';
 import HandleMultisearchNumber from './HandleMultisearchNumber';
 import HandleMultisearchShortcut from './HandleMultisearchShortcut';
 import { getNextUnsearchedSystemParams, PreppedSearchLinkParams, HandleSearchParams } from 'types/search';
+import { CopyQueryToClipboard } from './';
 
 export const getShortcut = (multisearchShortcuts: MultisearchShortcut[], shortcutCandidate: string) => {
     const shortcut = multisearchShortcuts.find(shortcut => shortcut.name === shortcutCandidate); return shortcut
@@ -36,7 +37,7 @@ interface HandleShortcutSearchParams {
     systems: System[];
     cleanupSearch: (system: System, query: string) => void;
     preppedSearchLink: (params: PreppedSearchLinkParams) => string;
-    getNextUnsearchedSystem: (params: getNextUnsearchedSystemParams) => System | undefined;
+    getNextUnsearchedSystems: (params: getNextUnsearchedSystemParams) => System[];
 }
 
 export const handleShortcutSearch = ({
@@ -46,20 +47,18 @@ export const handleShortcutSearch = ({
     systems,
     cleanupSearch,
     preppedSearchLink,
-    getNextUnsearchedSystem
+    getNextUnsearchedSystems
 }: HandleShortcutSearchParams) => {
         if (!isNaN(parseFloat(shortcutCandidate))) {
             const shortcutCandidateNumber = parseFloat(shortcutCandidate).toString();
-            const systemsToSearch: System[] = [];
+            console.log('shortcutCandidateNumber: ', shortcutCandidateNumber);
             const numberOfSystemsToSearch = Number(shortcutCandidateNumber);
-            for (let i = 1; i <= numberOfSystemsToSearch; i++) {
-                const nextSystem = getNextUnsearchedSystem({ skipSteps: i });
-                if (!nextSystem) break;
-                systemsToSearch.push(nextSystem);
-            }
+            const systemsToSearch: System[] = getNextUnsearchedSystems({ numberOfSystems: numberOfSystemsToSearch });
+            
             HandleMultisearchNumber({
                 currentQuery: currentQuery,
                 systemsToSearch,
+                shortcut: shortcutCandidate,
                 cleanupSearch,
                 preppedSearchLink
             });
@@ -170,11 +169,7 @@ export default function HandleSearch ({
     }
 
     if (currentQuery !== '' && system.search_link && !system.search_link.includes('%s')) {
-        navigator.clipboard.writeText(currentQuery).then(() => {
-            console.log('Query copied to clipboard');
-        }).catch(err => {
-            console.error('Could not copy query to clipboard: ', err);
-        });
+        CopyQueryToClipboard({query: currentQuery})
     }
 
     const url = preppedSearchLink({ system, query: currentQuery });
