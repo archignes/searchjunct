@@ -131,7 +131,7 @@
   {
     "name": "Devv",
     "id": "devv",
-    "search_link": "https://devv.ai/",
+    "search_link": "https://devv.ai/search/%s",
     "twitter_link": "https://twitter.com/devv_ai"
   },
   {
