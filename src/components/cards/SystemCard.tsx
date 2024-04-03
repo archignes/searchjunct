@@ -42,18 +42,26 @@ interface SystemCardProps {
 const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
   const { settingsCardActive } = useAppContext();
   
-
+  const search_link_pattern_formatted_github_issue_link = 'https://github.com/archignes/searchjunct/issues/new' +
+    [`?title=${encodeURIComponent('Update search_link for URL-driven search support for ' + system.name + ' ('+system.id+')')}`,
+    `&body=${encodeURIComponent('The search_link pattern for ' + system.name + ' is: {}')}`,
+    `${encodeURIComponent('\n\n- Be sure to include the `%s` placeholder for the query string.')}`,
+    `${encodeURIComponent('\n- Please provide links to documentation, if available.')}`,
+    `${encodeURIComponent('\n- Please indicate if the system requires query terms to be joined by `%20`, rather than `+`')}`,
+    `${encodeURIComponent(' (this will be needed in the `search_link_joiner` field for the system because Searchjunct uses the plus as a default for readability).')}`,
+    `${encodeURIComponent('\n\n\n\nThank you!')}`
+  ].join('');
 
   return (
     <Card className="border-none mt-0 p-2 pt-0 none px-1 mx-1 shadow-none">
       <CardContent className="px-0 pb-3">
-        <CardHeader className="p-0 flex flex-col m-0 space-y-0 justify-start text-left">
+        <div className="p-0 flex flex-col m-0 justify-start text-left">
           {system.tagline && (
             <div className="text-sm text-gray-600 text-center w-2/5 mx-auto italic my-2">
                 {system.tagline}
               </div>
           )}
-          <div className="flex mt-1 flex-row ml-4">
+          <div className="flex mt-1 flex-row space-y-0 ml-4">
             <span className="mr-2 whitespace-nowrap">System ID:</span>
           <div className="flex flex-wrap">
             <a href={`${window.location.origin}/?systems=${system.id}`} className="hover:bg-blue-100 rounded-md flex">
@@ -110,7 +118,11 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          
+          {system.search_link_note && (
+            <div className="flex items-center ml-6">
+              <p className="text-xs">Note: {system.search_link_note}</p>
+            </div>
+          )}
           {(system.open_source_license && system.github_link) && (
             <div className="flex items-center ml-4">
               <span className="text-xs">Open Source?<CheckIcon className="h-5 w-5 pb-1 m-0 inline align-middle" /></span>
@@ -130,8 +142,8 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
               <span className="text-xs bg-green-300 p-1 rounded-md mb-1">charity search engine</span>
             </div>
           )}
-          {(!system.search_link.includes('%s') || system.manual_switch_required || system.mobile_app_breaks_links_warning || system.account_required) && (
-            <><br></br>
+          {( system.manual_switch_required || system.mobile_app_breaks_links_warning || system.account_required) && (
+            <>
             <Alert className="mt-1">
               <ExclamationTriangleIcon className="h-4 w-4" />
               <AlertTitle>Notice</AlertTitle>
@@ -140,14 +152,29 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                 {system.mobile_app_breaks_links_warning && (<>
                   <span className="text-red-500">Warning: Links may not work in mobile app</span><br></br></>)}
                 {system.manual_switch_required && (<><span className="text-red-500">Web Search requires toggling a switch manually.</span><br></br></>)}
-                {!system.search_link.includes('%s') && (<>
-                  <span className="text-red-500">URL-driven searches are not supported.</span><span className="ml-1">Searchjunct will copy the query to your clipboard.</span><br></br></>)}
+                </AlertDescription>
+              </Alert>
+              </>
+              )}
+          {!system.search_link.includes('%s') && (<>
+              <Alert className="mt-1">
+                    <ExclamationTriangleIcon className="h-4 w-4" />
+                    <AlertTitle>Search Link Pattern Notice</AlertTitle>
+                    <AlertDescription>
+                <span>URL-driven searches are <span className="text-red-500 font-bold">not</span> supported.
+                If given permissions, Searchjunct will copy the query to your clipboard.</span>
+                    <p className="text-right">
+                      <a href={search_link_pattern_formatted_github_issue_link}
+                         className="text-xs mt-2 underline hover:bg-blue-100 p-1 rounded-md">Add Search Link Pattern</a></p>
+                    
               </AlertDescription>
             </Alert>
-                </>)}
+            </>
+            )}
+
                 {(system.android_choice_screen_options || system.default_in_browser) && (
-                  <><br></br>
-                  <Alert>
+                  <>
+                  <Alert className="mt-1">
                     <InfoCircledIcon className="h-4 w-4" />
                     <AlertTitle>Did you know?</AlertTitle>
               <AlertDescription>
@@ -158,7 +185,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                     </AlertDescription>
                   </Alert></>
                 )}
-        </CardHeader>
+        </div>
         <CardDescription>
           
         </CardDescription>

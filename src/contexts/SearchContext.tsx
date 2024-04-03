@@ -72,6 +72,11 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         if (query === '' && system.base_url) {
             return system.base_url;
         }
+        // if system.search_link_joiner is defined as "%20", use that to replace spaces in the URL
+        if (system.search_link_joiner === "%20") {
+            return system.search_link.replace('%s', encodeURIComponent(query));
+        }
+        // default processing for making the URL easy to read
         return system.search_link.replace('%s', encodeURIComponent(query)).replace(/%20/g, '+');
     }, []);
 

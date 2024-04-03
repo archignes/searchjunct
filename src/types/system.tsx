@@ -7,6 +7,8 @@ export interface System {
     base_url_for?: string[];
     account_required?: boolean;
     search_link: string;
+    search_link_joiner?: string;
+    search_link_note?: string;
     mobile_app_breaks_links_warning?: boolean;
     searched?: boolean;
     linkedin_link?: string;
