@@ -1,24 +1,33 @@
 import { System } from 'types/system';
 import { PreppedSearchLinkParams } from 'types/search';
 import {CopyQueryToClipboard} from './';
+import { Query } from '@/src/types';
+import { Shortcut } from '@/src/types';
+
+
+export type MultisearchNumberShortcut = Shortcut & {
+    type: 'multisearch_number'
+    action: number
+}
+
+export interface MultisearchNumberQuery extends Query {
+    shortcut: MultisearchNumberShortcut
+}
 
 interface HandleMultisearchNumberProps {
-    currentQuery: string,
+    queryObject: MultisearchNumberQuery,
     systemsToSearch: System[],
-    shortcut: string,
-    cleanupSearch: (system: System, query: string) => void,
+    cleanupSearch: (system: System, query: string, shortcut?: string) => void,
     preppedSearchLink: (params: PreppedSearchLinkParams) => string
 }
 
 export default function HandleMultisearchNumber({
-    currentQuery,
+    queryObject,
     systemsToSearch,
-    shortcut,
     cleanupSearch,
     preppedSearchLink
 }: HandleMultisearchNumberProps) {
-    const multisearchQuery = currentQuery.replace(`/${shortcut}`, "").trim();
-    CopyQueryToClipboard({ query: multisearchQuery })
+    CopyQueryToClipboard({ query: queryObject.query })
 
     const systemIds = systemsToSearch.map(system => system.id);
     const uniqueSystemIds = new Set(systemIds);
@@ -30,12 +39,12 @@ export default function HandleMultisearchNumber({
 
     for (const system of systemsToSearch) {
         console.log('Searching on system: ', system.name);
-        const url = preppedSearchLink({ system, query: multisearchQuery });
+        const url = preppedSearchLink({ system, query: queryObject.query });
         window.open(url, '_blank');
         systemsMultisearched.push(system);
     }
     systemsMultisearched.forEach(system => {
-        cleanupSearch(system, multisearchQuery);
+        cleanupSearch(system, queryObject.query);
     });
 }
 

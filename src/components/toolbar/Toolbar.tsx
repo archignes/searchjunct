@@ -13,9 +13,11 @@ import { useStorageContext,
   useSortContext,
   useSystemSearchContext,
   useSystemExpansionContext } from '../../contexts/';
+import useFeatureFlag from '../../hooks/useFeatureFlag';
 
 
 const Toolbar = () => {
+  const { isFeatureEnabled } = useFeatureFlag();
   const { setSettingsCardActive } = useAppContext();
   const { sortStatus, customSort, setShuffleSystems } = useSortContext();
   const { systemsSearched, systemsCustomOrder } = useStorageContext();
@@ -38,6 +40,10 @@ const Toolbar = () => {
   useEffect(() => {
     setFillStarIcon(sortStatus === 'custom');
   }, [sortStatus]);
+
+  if (!isFeatureEnabled('toolbar')) {
+    return null;
+  }
 
   return (
     <div id="toolbar" className="flex flex-row space-x-1 mt-1 justify-center items-center">

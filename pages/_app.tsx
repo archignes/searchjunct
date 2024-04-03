@@ -8,7 +8,9 @@ import { StorageProvider,
     SystemExpansionProvider,
     SystemToggleProvider,
     SystemSearchProvider,
-    SortProvider
+    SortProvider,
+    AddressProvider,
+    ShortcutProvider
 } from '../src/contexts/';
 import { AppProps } from 'next/app';
 import { StrictMode } from 'react';
@@ -16,6 +18,7 @@ import { StrictMode } from 'react';
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <StrictMode>
+            <AddressProvider>
             <StorageProvider>
                 <AppProvider>
                     <SystemsProvider>
@@ -23,11 +26,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                             <SystemSearchProvider>
                                 <SystemToggleProvider>
                                     <SystemExpansionProvider>
+                                        <ShortcutProvider>
                                         <QueryProvider>
                                             <SearchProvider>
                                                 <Component {...pageProps} />
                                             </SearchProvider>
                                         </QueryProvider>
+                                            </ShortcutProvider>
                                     </SystemExpansionProvider>
                                 </SystemToggleProvider>
                             </SystemSearchProvider>
@@ -35,6 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     </SystemsProvider>
                 </AppProvider>
             </StorageProvider>
+            </AddressProvider>
         </StrictMode>
     );
 }

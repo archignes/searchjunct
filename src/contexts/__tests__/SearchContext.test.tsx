@@ -13,7 +13,7 @@ import { AppProvider,
     QueryProvider } from '../';
 import '@testing-library/jest-dom';
 import { useRouter } from 'next/router';
-import { getShortcutCandidate } from '../../components/search/HandleSearch';
+import { getShortcutCandidate } from '../ShortcutContext';
 
 jest.mock('next/router', () => ({
     useRouter: jest.fn(),
@@ -110,7 +110,6 @@ describe('SearchBar Component', () => {
             },
         });
     });
-
     
     it('updates the document title with the search query upon submission', async () => {
         render(

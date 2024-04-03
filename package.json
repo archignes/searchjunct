@@ -62,7 +62,7 @@
     "favicons": "node scripts/getFavicons.ts",
     "test": "react-scripts test",
     "test:output": "react-scripts test --watchAll=false --onlyFailures > test-results.txt 2>&1",
-    "test:e2e": "jest --testRegex '/e2e/.*'",
+    "test:e2e": "jest --verbose '/e2e/.*'",
     "test:e2e-f": "jest --testRegex '/e2e/.*' --onlyFailures",
     "eject": "react-scripts eject",
     "dev": "next",

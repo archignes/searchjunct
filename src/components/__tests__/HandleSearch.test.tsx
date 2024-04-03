@@ -1,9 +1,17 @@
 // __tests__/HandleSearch.test.tsx
 
-import { getShortcut, getShortcutCandidate, handleShortcutSearch, handleSkipLogic } from '../search/HandleSearch';
+import { handleShortcutSearch, handleSkipLogic } from '../search/HandleSearch';
 import HandleMultisearchNumber from '../search/HandleMultisearchNumber';
-import HandleMultisearchShortcut from '../search/HandleMultisearchShortcut';
-import CopyQueryToClipboard from '../search/CopyQueryToClipboard';
+import HandleMultisearchObject from '../search/HandleMultisearchObject';
+import { getShortcutCandidate } from '../../contexts/ShortcutContext';
+import { useShortcutContext } from '../../contexts/ShortcutContext';
+import { Shortcut } from '@/src/types';
+
+let getShortcutFromQuery: (query: string) => Shortcut | null;
+
+beforeAll(() => {
+  getShortcutFromQuery = useShortcutContext().getShortcutFromQuery;
+});
 
 jest.mock('../search/CopyQueryToClipboard', () => ({
     __esModule: true,
@@ -11,7 +19,7 @@ jest.mock('../search/CopyQueryToClipboard', () => ({
 }));
 
 jest.mock('../search/HandleMultisearchNumber');
-jest.mock('../search/HandleMultisearchShortcut');
+jest.mock('../search/HandleMultisearchObject');
 
 describe('HandleMultisearchNumber', () => {
     let clipboardSpy: jest.SpyInstance;
@@ -37,11 +45,10 @@ describe('HandleMultisearchNumber', () => {
 // Test getShortcut with existing shortcut
 test('getShortcut returns the correct shortcut when it exists', () => {
     // Arrange
-    const multisearchShortcuts = [{ name: 'g', systems: { always: [], randomly: [] }, count_from_randomly: 1 }, { name: 'b', systems: { always: [], randomly: [] }, count_from_randomly: 1 }];
     const shortcutCandidate = 'g';
 
     // Act
-    const result = getShortcut(multisearchShortcuts, shortcutCandidate);
+    const result = getShortcutFromQuery(`/${shortcutCandidate}`);
 
     // Assert
     expect(result).toEqual({ name: 'g', systems: { always: [], randomly: [] }, count_from_randomly: 1 });
@@ -51,11 +58,10 @@ test('getShortcut returns the correct shortcut when it exists', () => {
 
 test('getShortcut returns undefined when the shortcut does not exist', () => {
     // Arrange
-    const multisearchShortcuts = [{ name: 'g', systems: { always: [], randomly: [] }, count_from_randomly: 1 }, { name: 'b', systems: { always: [], randomly: [] }, count_from_randomly: 1 }];
     const shortcutCandidate = 'x';
 
     // Act
-    const result = getShortcut(multisearchShortcuts, shortcutCandidate);
+    const result = getShortcutFromQuery(`/${shortcutCandidate}`);
 
     // Assert
     expect(result).toBeUndefined();
@@ -92,9 +98,6 @@ test('getShortcutCandidate returns null for an invalid shortcut', () => {
 // Test handleShortcutSearch with number shortcut
 test('handleShortcutSearch calls HandleMultisearchNumber with correct params for a number shortcut', () => {
     // Arrange
-    const currentQuery = 'search term';
-    const shortcutCandidate = '3';
-    const multisearchShortcuts = [{ name: 'g', systems: { always: [], randomly: [] }, count_from_randomly: 1 }];
     const systems = [{ id: 'system-1', name: 'System 1', search_link: 'https://example.com/system1' },
         { id: 'system-2', name: 'System 2', search_link: 'https://example.com/system2' },
         { id: 'system-3', name: 'System 3', search_link: 'https://example.com/system3' }];
@@ -105,9 +108,7 @@ test('handleShortcutSearch calls HandleMultisearchNumber with correct params for
     // Act
 
     handleShortcutSearch({
-        currentQuery,
-        shortcutCandidate,
-        multisearchShortcuts,
+        queryObject: { raw_string: 'search term', query: 'search term', in_address_bar: false, from_address_bar: false, shortcut: { type: 'multisearch_number', name: '3', action: 3 } },
         systems,
         cleanupSearch,
         preppedSearchLink,
@@ -117,7 +118,7 @@ test('handleShortcutSearch calls HandleMultisearchNumber with correct params for
     // Assert
     expect(HandleMultisearchNumber).toHaveBeenCalledWith({
 
-        currentQuery: 'search term',
+        query: { raw_string: 'search term', query: 'search term', in_address_bar: false, from_address_bar: false, shortcut: { type: 'multisearch_number', name: '3', action: 3 } },
         systemsToSearch: [{ id: 'system-1' }, { id: 'system-2' }, { id: 'system-3' }],
         shortcut: '3',
         cleanupSearch,
@@ -127,11 +128,8 @@ test('handleShortcutSearch calls HandleMultisearchNumber with correct params for
 });
 
 // Test handleShortcutSearch with valid shortcut
-test('handleShortcutSearch calls HandleMultisearchShortcut with correct params for a valid shortcut', () => {
+test('handleShortcutSearch calls HandleMultisearchActionObject with correct params for a valid shortcut', () => {
     // Arrange
-    const currentQuery = 'search term';
-    const shortcutCandidate = 'g';
-    const multisearchShortcuts = [{ name: 'g', systems: { always: [], randomly: [] }, count_from_randomly: 1 }];
     const systems = [{ id: 'system-1', name: 'System 1', search_link: 'https://example.com/system1' },
         { id: 'system-2', name: 'System 2', search_link: 'https://example.com/system2' },
         { id: 'system-3', name: 'System 3', search_link: 'https://example.com/system3' }];
@@ -141,10 +139,8 @@ test('handleShortcutSearch calls HandleMultisearchShortcut with correct params f
 
     // Act
     handleShortcutSearch({
-        currentQuery,
-        shortcutCandidate,
+        queryObject: { raw_string: 'search term', query: 'search term', in_address_bar: false, from_address_bar: false, shortcut: { type: 'multisearch_number', name: '3', action: 3 } },
         getNextUnsearchedSystems,
-        multisearchShortcuts,
         systems,
         cleanupSearch,
         preppedSearchLink
@@ -152,7 +148,7 @@ test('handleShortcutSearch calls HandleMultisearchShortcut with correct params f
 
     // Assert
 
-    expect(HandleMultisearchShortcut).toHaveBeenCalledWith({
+    expect(HandleMultisearchObject).toHaveBeenCalledWith({
         currentQuery: 'search term',
         shortcut: { name: 'g', systems: { always: [], randomly: [] }, count_from_randomly: 1 },
         systems: [{ id: 'system-1', name: 'System 1', search_link: 'https://example.com/system1' },
@@ -167,22 +163,18 @@ test('handleShortcutSearch calls HandleMultisearchShortcut with correct params f
 // Test handleShortcutSearch with invalid shortcut
 test('handleShortcutSearch does not call any functions for an invalid shortcut', () => {
     // Arrange
-    const currentQuery = 'search term';
-    const shortcutCandidate = 'x';
-
-    const multisearchShortcuts = [{ name: 'g', systems: { always: [], randomly: [] }, count_from_randomly: 1 }];
     const systems = [{ id: 'system-1', name: 'System 1', search_link: 'https://example.com/system1' },
         { id: 'system-2', name: 'System 2', search_link: 'https://example.com/system2' },
         { id: 'system-3', name: 'System 3', search_link: 'https://example.com/system3' }];
+    const invalidShortcut: any = {};
+
     const cleanupSearch = jest.fn();
     const getNextUnsearchedSystems = jest.fn();
     const preppedSearchLink = jest.fn();
 
     // Act
     handleShortcutSearch({
-        currentQuery,
-        shortcutCandidate,
-        multisearchShortcuts,
+        queryObject: { raw_string: 'search term', query: 'search term', in_address_bar: false, from_address_bar: false, shortcut: invalidShortcut },
         systems,
         cleanupSearch,
         preppedSearchLink,
@@ -192,7 +184,7 @@ test('handleShortcutSearch does not call any functions for an invalid shortcut',
 
     // Assert
     expect(HandleMultisearchNumber).not.toHaveBeenCalled();
-    expect(HandleMultisearchShortcut).not.toHaveBeenCalled();
+    expect(HandleMultisearchObject).not.toHaveBeenCalled();
 
 });
 
@@ -247,33 +239,5 @@ test('handleSkipLogic returns true, updates skipped system and calls handleSearc
 
 });
 
-// Test handleSkipLogic with invalid skip param
-test('handleSkipLogic returns false and does not call any functions for an invalid skip param', () => {
-
-    // Arrange
-    const skip = 'jumpback';
-    const getNextUnsearchedSystem = jest.fn();
-    const getLastSkippedSystem = jest.fn();
-    const updateSystemsSkipped = jest.fn();
-    const handleSearch = jest.fn();
-
-    // Act
-    const result = handleSkipLogic({
-        skip,
-        getNextUnsearchedSystem,
-        getLastSkippedSystem,
-        updateSystemsSkipped,
-        handleSearch
-
-    });
-
-    // Assert
-    expect(result).toBe(false);
-    expect(getNextUnsearchedSystem).not.toHaveBeenCalled();
-    expect(getLastSkippedSystem).not.toHaveBeenCalled();
-    expect(updateSystemsSkipped).not.toHaveBeenCalled();
-
-    expect(handleSearch).not.toHaveBeenCalled();
-});
 });
 

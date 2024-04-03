@@ -12,13 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../shadcn-ui/dropdown-menu"
-import { useStorageContext } from '../../contexts/StorageContext';
-import { useSearchContext } from '../../contexts/SearchContext';
-import MultisearchShortcut from 'types/multisearch-shortcuts';
+import { useStorageContext, useQueryContext } from '@/src/contexts/';
+import { MultisearchActionObject } from '@/src/types';
 
 const ShortcutsDropdownMenu = () => {
-  const { multisearchShortcuts } = useStorageContext();
-  const { query, setQuery } = useSearchContext();
+  const { multisearchActionObjects } = useStorageContext();
+  const { queryObject, setQueryObject } = useQueryContext();
   const [isShortcutsPopoverOpen, setIsShortcutsPopoverOpen] = useState(false);
 
   const toggleShortcutsPopover = () => {
@@ -44,9 +43,9 @@ const ShortcutsDropdownMenu = () => {
         <p className="p-2 text-sm">Multisearch Shortcuts</p>
         <Button variant="outline" size="sm" className="text-xs hover:bg-blue-100 mx-auto w-3/4"><a href="/multisearch">Manage multisearch shortcuts</a></Button>
 
-        {multisearchShortcuts.map((shortcut: MultisearchShortcut, index) => (
+        {multisearchActionObjects.map((shortcut: MultisearchActionObject, index) => (
           <DropdownMenuItem key={index} onSelect={() => {
-            setQuery(query === "" ? `/${shortcut.name} ` : `${query} /${shortcut.name}`);
+            setQueryObject({ ...queryObject, shortcut: { type: 'multisearch_object', name: shortcut.name, action: shortcut } });
             const searchInput = document.getElementById('search-input') as HTMLInputElement;
             if (searchInput) {
               searchInput.focus();

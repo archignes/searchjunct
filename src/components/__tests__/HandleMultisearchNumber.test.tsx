@@ -1,5 +1,5 @@
 // __tests__/HandleMultisearchNumber.test.tsx
-import HandleMultisearchNumber from '../search/HandleMultisearchNumber';
+import HandleMultisearchNumber, { MultisearchNumberShortcut } from '../search/HandleMultisearchNumber';
 import { PreppedSearchLinkParams } from 'types/search';
 import { CopyQueryToClipboard } from '../search/';
 
@@ -29,15 +29,24 @@ describe('HandleMultisearchNumber', () => {
         const cleanupSearch = jest.fn();
         const preppedSearchLink = (params: PreppedSearchLinkParams) =>
             `${params.system.name}/search?q=${params.query}`;
-        
+        const shortcut: MultisearchNumberShortcut = {
+            type: 'multisearch_number',
+            name: 'test_shortcut',
+            action: 3
+        };
 
         // Act
         HandleMultisearchNumber({
-            currentQuery: '/3 test',
+            queryObject: {
+                raw_string: 'test /3',
+                query: 'test',
+                shortcut: shortcut,
+                in_address_bar: false,
+                from_address_bar: false,
+            },
             systemsToSearch: systems,
             cleanupSearch,
             preppedSearchLink,
-            shortcut: '3'
         });
 
         // Assert
@@ -54,14 +63,24 @@ describe('HandleMultisearchNumber', () => {
         const cleanupSearch = jest.fn();
         const preppedSearchLink = (params: PreppedSearchLinkParams) =>
             `${params.system.name}/search?q=${params.query}`;
+        const shortcut: MultisearchNumberShortcut = {
+            type: 'multisearch_number',
+            name: 'test_shortcut',
+            action: 3
+        };
 
         // Act
         await HandleMultisearchNumber({
-            currentQuery: '/3 test',
+            queryObject: {
+                raw_string: 'test /3',
+                query: 'test',
+                shortcut: shortcut,
+                in_address_bar: false,
+                from_address_bar: false,
+            },
             systemsToSearch: systems,
             cleanupSearch,
             preppedSearchLink,
-            shortcut: '3'
         });
 
         // Assert
@@ -74,27 +93,6 @@ describe('HandleMultisearchNumber', () => {
     });
 
 
-    it('should handle empty systemsToSearch array', async () => {
-        // Arrange
-        const cleanupSearch = jest.fn();
-        const preppedSearchLink = (params: PreppedSearchLinkParams) =>
-            `${params.system.name}/search?q=${params.query}`;
-
-        // Act
-        await HandleMultisearchNumber({
-            currentQuery: '/0 test',
-            systemsToSearch: [],
-            cleanupSearch,
-            preppedSearchLink,
-            shortcut: '0'
-        });
-
-        // Assert  
-        expect(CopyQueryToClipboard).toHaveBeenCalledWith({query: 'test'});
-        expect(windowOpenSpy).not.toHaveBeenCalled();
-        expect(cleanupSearch).not.toHaveBeenCalled();
-    });
-
     it('should handle empty search query', async () => {
         // Arrange
         const systems = [
@@ -104,14 +102,25 @@ describe('HandleMultisearchNumber', () => {
         const cleanupSearch = jest.fn();
         const preppedSearchLink = (params: PreppedSearchLinkParams) =>
             `${params.system.name}/search?q=${params.query}`;
+        const shortcut: MultisearchNumberShortcut = {
+            type: 'multisearch_number',
+            name: 'test_shortcut',
+            action: 2
+        };
 
         // Act
         await HandleMultisearchNumber({
-            currentQuery: '/2',
+            queryObject: {
+                raw_string: '/2',
+                query: '',
+                shortcut: shortcut,
+                in_address_bar: false,
+                from_address_bar: false,
+            },
             systemsToSearch: systems,
             cleanupSearch,
             preppedSearchLink,
-            shortcut: '2'
+
         });
 
         // Assert

@@ -1,31 +1,31 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { FixedSizeList as List } from 'react-window';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { VariableSizeList as List } from 'react-window';
 import SortingContainer from './SortingContainer';
-import { useSystemsContext, useStorageContext, useSortContext, useSystemSearchContext } from '../contexts/';
+import { useSystemsContext,
+  useStorageContext,
+  useSortContext,
+  useSystemSearchContext } from '../contexts/';
 import SearchSystemItem from './ui/SystemItem';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import useFeatureFlag from '../hooks/useFeatureFlag';
 
 const SystemList = () => {
+  const { isFeatureEnabled } = useFeatureFlag();
+ 
   const { systems, activeSystem, setActiveSystem } = useSystemsContext();
-  const { systemsSearched, systemsDisabled } = useStorageContext();
+  const { systemsSearched, systemsDisabled, systemsDeleted } = useStorageContext();
   const { systemsCurrentOrder } = useSortContext();
   const { systemsSkipped } = useSystemSearchContext();
-  const { systemsDeleted } = useStorageContext();
   const [isClient, setIsClient] = useState(false);
-   
-  const getVisibleSystems = useCallback(
-    () => {
-      const visibleSystems = systemsCurrentOrder.filter((system) => !systemsDeleted[system.id]);
-      return visibleSystems;
-    },
+  const visibleSystems = useMemo(
+    () => systemsCurrentOrder.filter((system) => !systemsDeleted[system.id]),
     [systemsCurrentOrder, systemsDeleted]
   );
 
   const listRef = useRef<List>(null); // Step 1: Create a ref for the List
 
-
   useEffect(() => {
-    const firstVisibleSystem = getVisibleSystems().find((system) =>
+    const firstVisibleSystem = visibleSystems.find((system) =>
       !(systemsDisabled?.[system.id]) &&
       !(systemsSearched?.[system.id]) &&
       !(systemsSkipped?.[system.id])
@@ -33,7 +33,7 @@ const SystemList = () => {
     if (firstVisibleSystem) {
       setActiveSystem(firstVisibleSystem.id);
     }
-  }, [getVisibleSystems, setActiveSystem, systemsDisabled, systemsSearched, systemsSkipped]);
+  }, [visibleSystems, setActiveSystem, systemsDisabled, systemsSearched, systemsSkipped]);
 
   useEffect(() => {
     setIsClient(true);
@@ -41,14 +41,16 @@ const SystemList = () => {
 
   useEffect(() => {
     // Step 3: Scroll to the active system when it changes
-    const visibleSystems = getVisibleSystems();
     const activeIndex = visibleSystems.findIndex(system => system.id === activeSystem?.id);
     if (activeIndex !== -1 && listRef.current) {
       listRef.current.scrollToItem(activeIndex, 'smart'); // 'smart' smoothly scrolls the item into view if it's not already visible
     }
-  }, [activeSystem, getVisibleSystems]);
+  }, [activeSystem, visibleSystems]);
 
 
+  if (!isFeatureEnabled('toolbar')) {
+    return null;
+  }
   
   if (!isClient) {
     return null;
@@ -57,9 +59,10 @@ const SystemList = () => {
   
   // Row renderer for react-window
   const Row = ({ index, style }: { index: number, style: React.CSSProperties }) => {
-    const system = getVisibleSystems()[index];
+    const system = visibleSystems[index];
     // Apply bottom margin to each item's style to create the gap
     const adjustedStyle = { ...style, marginBottom: '10px' };
+
     return (
       <div id={`${system.id}-bucket`} key={system.id} className="grid grid-cols-[auto_1fr] w-full" style={adjustedStyle}>
         <div className="flex items-center w-8 justify-center">{activeSystem && activeSystem.id === system.id && (
@@ -74,30 +77,19 @@ const SystemList = () => {
       </div>
     );
   };
+  
 
-  const sortableMode = false
+
+
   return (
-    <div id="systems-list" data-testid="system-list" className="flex flex-col space-y-1 mt-1 mx-5">
-      {sortableMode ? (
-        <SortingContainer include={getVisibleSystems()} />
-      ) : (
-        <List
-          ref={listRef} // Step 1: Attach the ref here
-          height={600}
-          itemCount={getVisibleSystems().length}
-          itemSize={60}
-          width={'100%'}
-          className='flex flex-col space-y-1'
-        >
-          {Row}
-        </List>
-      )}
-      <div className="text-sm text-gray-500">
+    <div id="systems-list" data-testid="system-list" className="flex flex-col space-y-1 mt-1 mr-8">
+        <SortingContainer include={visibleSystems} />
+      <div className="text-sm text-gray-500" data-testid="bottom-of-list-number-of-systems">
         <a className="underline hover:bg-blue-100 rounded-md p-1"
           href="https://github.com/danielsgriffin/searchjunct/blob/main/src/data/systems.json"
           target="_blank"
           rel="noopener noreferrer">
-          Showing {getVisibleSystems().length} of {systems.length} systems
+          Showing {visibleSystems.length} of {systems.length} systems
         </a>
       </div>
     </div>

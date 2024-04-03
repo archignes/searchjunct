@@ -1,39 +1,17 @@
 import { System } from 'types/system';
-import MultisearchShortcut from 'types/multisearch-shortcuts';
-import HandleMultisearchNumber from './HandleMultisearchNumber';
-import HandleMultisearchShortcut from './HandleMultisearchShortcut';
+import HandleMultisearchNumber, { MultisearchNumberQuery } from './HandleMultisearchNumber';
+import HandleMultisearchObject, { MultisearchObjectQuery } from './HandleMultisearchObject';
 import { getNextUnsearchedSystemParams, PreppedSearchLinkParams, HandleSearchParams } from 'types/search';
 import { CopyQueryToClipboard } from './';
+import { Shortcut } from '@/src/types';
+import { Query } from '@/src/types';
 
-export const getShortcut = (multisearchShortcuts: MultisearchShortcut[], shortcutCandidate: string) => {
-    const shortcut = multisearchShortcuts.find(shortcut => shortcut.name === shortcutCandidate); return shortcut
+export type ShortcutQuery = Query & {
+    shortcut: Shortcut
 }
 
-export function getShortcutCandidate(query: string) {
-    /**
-     * Regular expression to find a candidate shortcut in a query string.
-     * A candidate is identified by a single forward slash followed by non-whitespace characters.
-     * The candidate must either:
-     * - start the string (and have whitespace after),
-     * - end the string (and have whitespace before),
-     * - or be surrounded by whitespace.
-     * This regex disqualifies any candidates immediately preceded by multiple forward slashes.
-     */
-    const regex = /(?:^|\s)\/(\S+)(?=\s|$)/g;
-    const disqualifiedRegex = /\/{2,}\S+/; // Regex to check for multiple forward slashes before a string
-    const disqualifiedMatches = query.match(disqualifiedRegex);
-    const matches = Array.from(query.matchAll(regex));
-    if (matches.length > 0 && disqualifiedMatches === null) {
-        // Returns the first matched shortcut without the leading forward slash if no disqualified matches found
-        return matches[0][1];
-    }
-    return null;
-}
-
-interface HandleShortcutSearchParams {
-    currentQuery: string;
-    shortcutCandidate: string;
-    multisearchShortcuts: MultisearchShortcut[];
+interface HandleShortcutSearchProps {
+    queryObject: ShortcutQuery;
     systems: System[];
     cleanupSearch: (system: System, query: string) => void;
     preppedSearchLink: (params: PreppedSearchLinkParams) => string;
@@ -41,41 +19,33 @@ interface HandleShortcutSearchParams {
 }
 
 export const handleShortcutSearch = ({
-    currentQuery,
-    shortcutCandidate,
-    multisearchShortcuts,
+    queryObject,
     systems,
     cleanupSearch,
     preppedSearchLink,
-    getNextUnsearchedSystems
-}: HandleShortcutSearchParams) => {
-        if (!isNaN(parseFloat(shortcutCandidate))) {
-            const shortcutCandidateNumber = parseFloat(shortcutCandidate).toString();
-            console.log('shortcutCandidateNumber: ', shortcutCandidateNumber);
-            const numberOfSystemsToSearch = Number(shortcutCandidateNumber);
-            const systemsToSearch: System[] = getNextUnsearchedSystems({ numberOfSystems: numberOfSystemsToSearch });
-            
-            HandleMultisearchNumber({
-                currentQuery: currentQuery,
-                systemsToSearch,
-                shortcut: shortcutCandidate,
-                cleanupSearch,
-                preppedSearchLink
-            });
-            return;
-        }
-        const shortcut = getShortcut(multisearchShortcuts, shortcutCandidate);
-        if (shortcut) {
-            HandleMultisearchShortcut({
-                currentQuery: currentQuery,
-                shortcut,
-                systems,
-                cleanupSearch,
-                preppedSearchLink
-            });
-            return;
-        }
-    };
+    getNextUnsearchedSystems,
+}: HandleShortcutSearchProps) => {
+    console.log("queryObject.shortcut:", queryObject);
+    if (queryObject.shortcut.type === 'multisearch_number' && typeof queryObject.shortcut.action === 'number') {
+        const systemsToSearch: System[] = getNextUnsearchedSystems({ numberOfSystems: queryObject.shortcut.action });
+
+        HandleMultisearchNumber({
+            queryObject: queryObject as MultisearchNumberQuery,
+            systemsToSearch,
+            cleanupSearch,
+            preppedSearchLink
+        });
+        return;
+    } else if (queryObject.shortcut.type === 'multisearch_object') {
+        HandleMultisearchObject({
+            queryObject: queryObject as MultisearchObjectQuery,
+            systems,
+            cleanupSearch,
+            preppedSearchLink
+        });
+        return;
+    }
+};
 
 interface HandleSkipLogicParams {
     skip: string;

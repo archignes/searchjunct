@@ -12,6 +12,7 @@ interface SystemExpansionContextType {
     expandedSystemCards: string[];
     setExpandedSystemCards: (systemIds: string[]) => void;
     setExpandAllStatus: (status: boolean) => void;
+    isExpanded: (systemId: string) => boolean;
 }
 
 // Create the context with a default value
@@ -22,6 +23,7 @@ const SystemExpansionContext = createContext<SystemExpansionContextType>(
         expandedSystemCards: [],
         setExpandedSystemCards: () => { },
         setExpandAllStatus: () => { },
+        isExpanded: () => false,
     });
 
 // Export the useContext hook for SystemsContext
@@ -30,9 +32,14 @@ export const useSystemExpansionContext = () => useContext(SystemExpansionContext
 export const SystemExpansionProvider: React.FC<SystemExpansionProviderProps> = ({ children }) => {
     const { systemsCurrentOrder, updateSortStatus } = useSortContext();
     const [expandedSystemCards, setExpandedSystemCards] = useState<string[]>([]);
-
+    
     const currentURL = typeof window !== 'undefined' ? window.location.href : '';
 
+    const isExpanded = (systemId: string) => {
+        return expandedSystemCards.includes(systemId);
+    }
+
+   
     useEffect(() => {
         if (typeof currentURL === 'string') {
             return;
@@ -60,6 +67,7 @@ export const SystemExpansionProvider: React.FC<SystemExpansionProviderProps> = (
                 expandedSystemCards,
                 setExpandedSystemCards,
                 setExpandAllStatus,
+                isExpanded,
             }}>
             {children}
         </SystemExpansionContext.Provider>

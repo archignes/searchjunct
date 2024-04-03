@@ -15,9 +15,9 @@ describe('Immediately initiate URL-driven search', () => {
         await browser.close();
     });
 
-    it('should confirm that localStorage initiateSearchImmediately is either null or false', async () => {
+    it('should confirm that localStorage initiateSearchImmediately is false', async () => {
         const initiateSearchImmediately = await page.evaluate(() => localStorage.getItem('initiateSearchImmediately'));
-        expect(initiateSearchImmediately).toBe(null || 'false');
+        expect(initiateSearchImmediately).toBe("false");
     });
 
     it('should confirm that opening a URL with a query parameter in the default mode does not launch a new tab', async () => {

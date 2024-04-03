@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Script from 'next/script';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
-import AddMultisearchShortcut from '../src/components/search/multisearch/AddMultisearchShortcuts';
+import AddMultisearchActionObject from '../src/components/search/multisearch/AddMultisearchActionObject';
 import ViewMultisearchShortcuts from '../src/components/search/multisearch/ViewMultisearchShortcuts';
 
 const title = "Searchjunct's Multisearch"
@@ -34,11 +34,14 @@ const MultisearchPage = () => {
         {/* <!-- Twitter Meta Tags --> */}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+      {typeof window !== 'undefined' && !window.location.href.includes('localhost') ? (
       <Script defer data-domain="searchjunct.com" src="https://plausible.io/js/script.js" />
+      ) : null}
+      
 
       <Header pageTitleParts={["Multi", "search"]} />
       <div className="mx-1 w-9/10 sm:w-3/4 sm:mx-auto md:w-3/7 lg:w-3/5 xl:w-2/4">
-        <AddMultisearchShortcut />
+        <AddMultisearchActionObject />
         <ViewMultisearchShortcuts />
         <Footer />
       </div>

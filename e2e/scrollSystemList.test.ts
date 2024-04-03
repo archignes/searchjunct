@@ -8,7 +8,7 @@ describe('System List', () => {
     beforeAll(async () => {
         jest.setTimeout(20000); // Set timeout to 20 seconds
         console.log('Launching browser');
-        browser = await puppeteer.launch({ headless: false, slowMo: 100 });
+        browser = await puppeteer.launch({ headless: false });
         console.log('Opening new page');
         page = await browser.newPage();
     });
@@ -53,7 +53,7 @@ describe('System List', () => {
         console.log('Checking for the presence of the link text at the bottom of the list');
         const bottomOfListText = await page.$eval('[data-testid^="bottom-of-list-number-of-systems"]', el => el.textContent);
         console.log('Bottom of list text:', bottomOfListText);
-        expect(bottomOfListText).toEqual(`Number of systems: ${numberOfSystems}`);
+        expect(bottomOfListText).toEqual(`Showing ${numberOfSystems} of ${numberOfSystems} systems`);
 
     }, 10000); // 10 seconds timeout
 });

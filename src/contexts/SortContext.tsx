@@ -1,7 +1,7 @@
 // contexts/SortContext.tsx
 import React, { createContext, useContext, useCallback, useEffect, useState } from 'react';
 import { System } from '../types/system';
-import { useStorageContext, useSystemsContext } from "./";
+import { useStorageContext, useSystemsContext, useAddressContext } from "./";
 
 
 interface SortProviderProps {
@@ -35,6 +35,7 @@ const SortContext = createContext<SortContextType>(
 export const shuffleSystems = (systems: System[], manualTrigger: boolean = false) => {
     let shuffledSystems = [...systems];
     let isSameOrder = true;
+
 
     // If shuffle is not manually triggered, respect URL params
     if (!manualTrigger && typeof window !== 'undefined') {
@@ -74,8 +75,10 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
         customModeOnLoad,
         setSystemsCustomOrder } = useStorageContext();
     const { systems, systemsState, setSystemsState } = useSystemsContext();
-    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems(systems) as System[]);
+    const { updateURLQueryParams } = useAddressContext();
 
+    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems(systems) as System[]);
+    
     const [sortStatus, setSortStatus] = useState<'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial'>('initial');
 
     const updateSortStatus = (newStatus: 'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial') => {
@@ -97,10 +100,11 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
             setSystemsState(sortedSystems);
             setSystemsCurrentOrder(sortedSystems);
             updateSortStatus('custom');
+            updateURLQueryParams([{ urlParam: 'systems', value: '' }]); // Remove the systems param
         } else if (customModeOnLoad && sortStatus === 'initial') {
             customSort(type="initial");
         }
-    }, [setSystemsState, systemsCustomOrder, systemsState, sortStatus, customModeOnLoad]);
+    }, [updateURLQueryParams, setSystemsState, systemsCustomOrder, systemsState, sortStatus, customModeOnLoad]);
 
     useEffect(() => {
         if (customModeOnLoad && sortStatus === 'initial') {
@@ -136,6 +140,7 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
     const setShuffleSystems = (click?: boolean) => {
         if (click) {
             setSystemsCurrentOrder(shuffleSystems(systems, click) as System[]);
+            updateURLQueryParams([{ urlParam: 'systems', value: '' }]); // Remove the systems param
         } else {
             setSystemsCurrentOrder(shuffleSystems(systems) as System[]);
         }

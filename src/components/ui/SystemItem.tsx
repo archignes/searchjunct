@@ -19,7 +19,13 @@ import { Button } from '../shadcn-ui/button';
 
 import { System } from '../../types/system';
 import SystemCard from '../cards/SystemCard';
-import { useSystemExpansionContext, useSystemSearchContext,useSearchContext, useStorageContext } from '../../contexts/';
+import { useSystemExpansionContext,
+  useQueryContext,
+  useSystemSearchContext,
+  useSearchContext, 
+  useStorageContext,
+  useAddressContext 
+} from '../../contexts/';
 import { SystemTitle } from './SystemTitle';
 
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
@@ -42,6 +48,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
    const {systemsDeleted, systemsDisabled, systemsSearched } = useStorageContext();
   const { expandAllStatus, setExpandedSystemCards, expandedSystemCards } = useSystemExpansionContext();
   const { submitSearch } = useSearchContext();
+  const { urlSystems } = useAddressContext();
   const { isOver } = useDroppable({
     id,
   });
@@ -66,7 +73,8 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     boxShadow: isDragging ? 'shadow-lg' : '',
     zIndex: isDragging ? 'z-50' : 'z-0',
   };
-  const { preppedSearchLink, query } = useSearchContext();
+  const { preppedSearchLink } = useSearchContext();
+  const { queryObject } = useQueryContext();
 
 
   const [everClickedReExpansionCollapse, setEverClickedReExpansionCollapse] = useState(false);
@@ -90,16 +98,14 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   // system param expansion
   useEffect(() => {
     if (typeof window !== 'undefined' && !everClickedReExpansionCollapse) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const systemsParam = urlParams.get('systems');
-      if (systemsParam && systemsParam.split(',').includes(system.id)) {
+      if (urlSystems && urlSystems.split(',').includes(system.id)) {
         setIsItemExpanded(true);
         if (!expandedSystemCards.includes(system.id)) {
           setExpandedSystemCards([...expandedSystemCards, system.id]);
         }
       }
     }
-  }, [expandedSystemCards, setExpandedSystemCards, system.id, everClickedReExpansionCollapse]);
+  }, [expandedSystemCards, urlSystems, setExpandedSystemCards, system.id, everClickedReExpansionCollapse]);
 
   return (
     <>
@@ -112,7 +118,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
           ...style,
           touchAction: 'none', // Add this line to apply touch-action: none
         }}
-        className={`min-h-9 py-1 my-0 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mx-1 w-5/7
+          className={`min-h-9 ml-0 py-1 my-0 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mr-1 w-5/7
                     ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-none' : ''}
                     ${systemsSkipped?.[system.id] ? 'bg-yellow-300 border-none' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
@@ -129,7 +135,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
             <div className="w-full">
               <div className="flex items-center">
                     <a className="group w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
-                   href={preppedSearchLink({system, query: query})}
+                   href={preppedSearchLink({system, query: queryObject.query})}
                    onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
                     <div className="w-full flex items-center">
                     {/* {multiSelect ? (

@@ -1,5 +1,4 @@
-import { System } from "types/system";
-import MultisearchShortcut from "types/multisearch-shortcuts";
+import { System, MultisearchActionObject } from "@/src/types";
 
 export interface PreppedSearchLinkParams {
     system: System;
@@ -12,20 +11,11 @@ export interface getNextUnsearchedSystemParams {
     updatedSystemsSearched?: Record<string, boolean>,
 }
 
-export type SearchContextType = {
-    submitSearch: ({ system, urlQuery, skip }: { system?: System, urlQuery?: string, skip?: "skip" | "skipback" }) => void,
-    query: string,
-    setQuery: (query: string) => void,
-    getNextUnsearchedSystem: ({ updatedSystemsSearched, skipSteps }: getNextUnsearchedSystemParams) => System | undefined,
-    getNextUnsearchedSystems: ({ updatedSystemsSearched, skipSteps }: getNextUnsearchedSystemParams) => System[],
-    preppedSearchLink: ({ system, query }: { system: System, query: string }) => string
-};
-
 export interface HandleSearchShortcutCandidateParams {
     currentQuery: string;
     shortcutCandidate: string;
     systems: System[];
-    multisearchShortcuts: MultisearchShortcut[];
+    multisearchActionObjects: MultisearchActionObject[];
     getNextUnsearchedSystem: (updatedSystemsSearched?: Record<string, boolean>, skipSteps?: number) => System | undefined;
     cleanupSearch: (system: System, query: string) => void;
     preppedSearchLink: ({ system, query }: { system: System, query: string }) => string

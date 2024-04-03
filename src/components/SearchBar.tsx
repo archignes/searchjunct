@@ -1,65 +1,48 @@
-import React, { useEffect, useRef, useCallback } from 'react';
-import { useRouter } from 'next/router';
+// SearchBar.tsx
+//
+// This component represents the search bar in the application. It
+// includes a form with a textarea for entering the search query and
+// a submit button. It utilizes various contexts to handle search
+// functionality and state management.
+
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Textarea } from './shadcn-ui/textarea';
 import { Button } from './shadcn-ui/button';
 
 import { useSearchContext,
-  useStorageContext,
-  useSortContext } from '../contexts/';
+  useQueryContext } from '../contexts/';
 
 const SearchBar = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { submitSearch, query, setQuery } = useSearchContext();
-  const { systemsCurrentOrder } = useSortContext();
-  const router = useRouter();
-  const { systemsSearched, initiateSearchImmediately, searchInitiatedBlock, updateSearchInitiatedBlock } = useStorageContext();
-  const initiateSearchImmediatelyRef = useRef(initiateSearchImmediately);
-  initiateSearchImmediatelyRef.current = initiateSearchImmediately;
+  const { submitSearch } = useSearchContext();
+  const { queryObject, processTextInputForQueryObject } = useQueryContext();
 
   const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    const searchQuery = router.query.q;
-    if (searchQuery && typeof searchQuery === 'string' && !query) {
-      console.log('searchQuery via URL: ', searchQuery);
-      setQuery(searchQuery);
-
-      const singleSlashSearch = searchQuery.endsWith("/") && !searchQuery.endsWith("//");
-
-      // Use sessionStorage to check if a search has been initiated in the current session
-      const searchInitiatedBlocInSession = searchInitiatedBlock
-      if (initiateSearchImmediatelyRef.current && !searchInitiatedBlocInSession && !singleSlashSearch) {
-        const firstUnsearchedSystem = systemsCurrentOrder.find(system => !systemsSearched[system.id]);
-        if (firstUnsearchedSystem) {
-          submitSearch({system: firstUnsearchedSystem, urlQuery: searchQuery});
-          updateSearchInitiatedBlock(true);
-        }
-      } else if (singleSlashSearch) {
-        updateSearchInitiatedBlock(true);
-      }
-    }
-  }, [query, router.query.q, setQuery, systemsCurrentOrder, submitSearch, systemsSearched, textareaRef, searchInitiatedBlock, updateSearchInitiatedBlock]);
 
   useEffect(() => {
     // This effect runs once on component mount to focus the textarea and move the cursor to the end
     const focusAndSetCursorToEnd = () => {
       if (textareaRef.current) {
         textareaRef.current.focus();
-        // Calculate the length of the text to move the cursor to the end
-        const textLength = textareaRef.current.value.length;
-        textareaRef.current.setSelectionRange(textLength, textLength);
+        // Move the cursor to the end of the textarea
+        textareaRef.current.setSelectionRange(textareaRef.current.value.length, textareaRef.current.value.length);
       }
     };
     focusAndSetCursorToEnd();
   }, []);
 
-  const onSearchSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+  const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     submitSearch({});
-  }, [submitSearch]);
+  };
 
-  
+  // Inside your component
+  const [stringForTextarea, setStringForTextarea] = useState(queryObject.raw_string || "");
+
+  useEffect(() => {
+    setStringForTextarea(queryObject.raw_string);
+  }, [queryObject]);
 
   return (
     <div id="search-bar" className="flex justify-center items-center space-x-2">
@@ -84,8 +67,8 @@ const SearchBar = () => {
               className="text-base w-full"
               rows={1}
               placeholder="Type your query here..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              value={stringForTextarea}
+              onChange={(e) => processTextInputForQueryObject(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey && !(e.altKey)) {
                   e.preventDefault();
@@ -94,7 +77,6 @@ const SearchBar = () => {
                 } else if (e.key === 'Enter' && e.altKey && ! e.shiftKey) {
                   e.preventDefault();
                   // Logic to skip the next active search engine and execute a search on the subsequent one
-                  // This is a placeholder for the actual logic you need to implement based on how your search engines are managed
                   console.log("Hotkey: Alt/Option+Enter pressed.");
                   submitSearch({skip: "skip"});
                 } else if (e.altKey && e.shiftKey) {

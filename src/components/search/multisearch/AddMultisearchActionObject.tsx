@@ -19,7 +19,7 @@ import { Button } from '../../shadcn-ui/button';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
-import { useStorageContext } from '../../../contexts/';
+import { useStorageContext } from '../../../contexts';
 import { SpecialCardTitle } from '../../ui/SystemTitle';
 import {
   AlertDialog,
@@ -29,9 +29,47 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '../../shadcn-ui/alert-dialog';
+import { MultisearchActionObject } from '@/src/types';
 
-const AddMultisearchShortcut: React.FC = () => {
-  const { multisearchShortcuts, addMultisearchShortcut } = useStorageContext();
+const AddMultisearchActionObject: React.FC = () => {
+  const { multisearchActionObjects, addMultisearchActionObject } = useStorageContext();
+
+  React.useEffect(() => {
+    const defaultShortcutNames = ["links", "beta"];
+    if (
+      JSON.parse(localStorage.getItem('multisearchActionObjects') || '[]')
+        .some((shortcut: MultisearchActionObject) => defaultShortcutNames.includes(shortcut.name))
+      || localStorage.getItem('defaultMultisearchesHaveBeenDeleted') === 'true'
+    ) {
+      return;
+    }
+    const defaultShortcuts = [
+      {
+        name: "links",
+        systems: {
+          always: ["google"],
+          randomly: ["kagi", "brave", "you-com", "mojeek", "yep", "duckduckgo", "exa"],
+        },
+        count_from_randomly: 2,
+        description: "Searches from alternative systems with an emphasis on links (and Google as a backup)",
+      },
+      {
+        name: "beta",
+        systems: {
+          always: [],
+          randomly: ["ask-pandi", "findera", "globe-explorer", "komo", "lepton-search"],
+        },
+        count_from_randomly: 3,
+        description: "Searches systems in beta and demos",
+      }
+    ];
+
+    defaultShortcuts.forEach(shortcut => {
+      addMultisearchActionObject(shortcut);
+    });
+  }, [addMultisearchActionObject, multisearchActionObjects]);
+
+
   const { systems } = useSystemsContext();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
@@ -45,7 +83,7 @@ const AddMultisearchShortcut: React.FC = () => {
     }, {
       message: "Shortcut name cannot contain spaces.",
     }).refine((name) => {
-      const nameExists = multisearchShortcuts.some((shortcut) => shortcut.name === name);
+      const nameExists = multisearchActionObjects.some((shortcut) => shortcut.name === name);
       if (nameExists) {
         console.error(`Shortcut name '${name}' already exists.`);
         return false;
@@ -98,7 +136,7 @@ const AddMultisearchShortcut: React.FC = () => {
     try {
       console.log(`Submitting shortcut: ${values.name}`);
       const count = values.systems.randomly.length > 0 ? values.count_from_randomly || 1 : 0;
-      addMultisearchShortcut({
+      addMultisearchActionObject({
         name: values.name,
         systems: values.systems,
         count_from_randomly: (typeof count === 'string' ? parseInt(count, 10) : count),
@@ -261,5 +299,5 @@ const AddMultisearchShortcut: React.FC = () => {
   );
 };
 
-export default AddMultisearchShortcut;
+export default AddMultisearchActionObject;
 

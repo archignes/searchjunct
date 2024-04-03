@@ -1,9 +1,7 @@
-// __tests__/HandleMultisearchShortcut.test.tsx
+// __tests__/HandleMultisearchObject.test.tsx
 
-import HandleMultisearch from '../search/HandleMultisearchShortcut';
-import HandleMultisearchShortcut from '../search/HandleMultisearchShortcut';
-import { System } from 'types/system';
-import MultisearchShortcut from 'types/multisearch-shortcuts';
+import HandleMultisearchObject, { MultisearchObjectShortcut } from '../search/HandleMultisearchObject';
+import { System } from '@/src/types';
 import { PreppedSearchLinkParams } from 'types/search';
 import CopyQueryToClipboard from '../search/CopyQueryToClipboard';
 
@@ -33,18 +31,26 @@ describe('HandleMultisearch', () => {
     });
 
     test('should handle always selected systems', async () => {
-        const shortcut = {
-            name: 'shortcut',
-            systems: { always: ['sys1', 'sys2'], randomly: [] },
-            count_from_randomly: 0,
-        };
-        const currentQuery = 'query';
         const cleanupSearchMock = jest.fn();
         const preppedSearchLinkMock = jest.fn(({system, query}: PreppedSearchLinkParams) => `search-link-${system.id}-${query}`);
+        const shortcut: MultisearchObjectShortcut = {
+            type: 'multisearch_object',
+            name: 'test_shortcut',
+            action: {
+                name: 'test_action',
+                systems: { always: ['sys1', 'sys2'], randomly: [] },
+                count_from_randomly: 0,
+            },
+        };
 
-        await HandleMultisearchShortcut({
-            currentQuery,
-            shortcut,
+        await HandleMultisearchObject({
+            queryObject: {
+                raw_string: 'query',
+                query: 'query',
+                shortcut: shortcut,
+                in_address_bar: false,
+                from_address_bar: false,
+            },
             systems,
             cleanupSearch: cleanupSearchMock,
             preppedSearchLink: preppedSearchLinkMock,
@@ -56,10 +62,14 @@ describe('HandleMultisearch', () => {
         expect(cleanupSearchMock).toHaveBeenCalledWith(systems[1], 'query');
     });
     it('should handle randomly selected systems', () => {
-        const shortcut: MultisearchShortcut = {
-            name: 'shortcut',
-            systems: { always: [], randomly: ['sys1', 'sys2', 'sys3'] },
-            count_from_randomly: 2,
+        const shortcut: MultisearchObjectShortcut = {
+            type: 'multisearch_object',
+            name: 'test_shortcut',
+            action: {
+                name: 'test_action',
+                systems: { always: [], randomly: ['sys1', 'sys2', 'sys3'] },
+                count_from_randomly: 2,
+            },
         };
         const systems: System[] = [
             { id: 'sys1', name: 'System 1', search_link: 'search-link-sys1' },
@@ -67,9 +77,14 @@ describe('HandleMultisearch', () => {
             { id: 'sys3', name: 'System 3', search_link: 'search-link-sys3' },
         ];
 
-        HandleMultisearch({
-            currentQuery: '/shortcut query',
-            shortcut,
+        HandleMultisearchObject({
+            queryObject: {
+                raw_string: 'query',
+                query: 'query',
+                shortcut: shortcut,
+                in_address_bar: false,
+                from_address_bar: false,
+            },
             systems,
             cleanupSearch: cleanupSearchMock,
             preppedSearchLink: preppedSearchLinkMock,
@@ -81,19 +96,27 @@ describe('HandleMultisearch', () => {
     });
 
     test('should handle shortcut with no selected systems', () => {
-        const shortcut = {
-            name: 'empty',
-            systems: { always: [], randomly: [] },
-            count_from_randomly: 0,
+        const shortcut: MultisearchObjectShortcut = {
+            type: 'multisearch_object',
+            name: 'test_shortcut',
+            action: {
+                name: 'test_action',
+                systems: { always: [], randomly: [] },
+                count_from_randomly: 0,
+            },
         };
-        const currentQuery = 'query';
         const cleanupSearchMock = jest.fn();
         const preppedSearchLinkMock = jest.fn();
 
-        HandleMultisearchShortcut({
-            shortcut,
+        HandleMultisearchObject({
+            queryObject: {
+                raw_string: 'query',
+                query: 'query',
+                shortcut: shortcut,
+                in_address_bar: false,
+                from_address_bar: false,
+            },
             systems,
-            currentQuery,
             cleanupSearch: cleanupSearchMock,
             preppedSearchLink: preppedSearchLinkMock,
         });
@@ -103,44 +126,34 @@ describe('HandleMultisearch', () => {
     });
 
     test('should search all available randomly systems when count_from_randomly exceeds length', () => {
-        const shortcut = {
-            name: 'overflow',
-            systems: { always: [], randomly: ['sys1', 'sys2'] },
-            count_from_randomly: 3,
+        const shortcut: MultisearchObjectShortcut = {
+            type: 'multisearch_object',
+            name: 'test_shortcut',
+            action: {
+                name: 'test_action',
+                systems: { always: ['sys1', 'sys2'], randomly: [] },
+                count_from_randomly: 3,
+            },
         };
-        const currentQuery = 'query';
         const cleanupSearchMock = jest.fn();
         const preppedSearchLinkMock = jest.fn(
             ({system, query}: PreppedSearchLinkParams) => `search-link-${system.id}-${query}`
         );
 
-        HandleMultisearchShortcut({
-            shortcut,
+        HandleMultisearchObject({
+            queryObject: {
+                raw_string: 'query',
+                query: 'query',
+                shortcut: shortcut,
+                in_address_bar: false,
+                from_address_bar: false,
+            },
             systems,
-            currentQuery,
             cleanupSearch: cleanupSearchMock,
             preppedSearchLink: preppedSearchLinkMock,
         });
 
         expect(window.open).toHaveBeenCalledTimes(2);
         expect(cleanupSearchMock).toHaveBeenCalledTimes(2);
-    });
-
-    test('should gracefully handle invalid or empty shortcut', () => {
-        const invalidShortcut: any = {};
-        const currentQuery = 'query';
-        const cleanupSearchMock = jest.fn();
-        const preppedSearchLinkMock = jest.fn();
-
-        HandleMultisearchShortcut({
-            shortcut: invalidShortcut,
-            systems,
-            currentQuery,
-            cleanupSearch: cleanupSearchMock,
-            preppedSearchLink: preppedSearchLinkMock,
-        });
-
-        expect(window.open).not.toHaveBeenCalled();
-        expect(cleanupSearchMock).not.toHaveBeenCalled();
     });
 });

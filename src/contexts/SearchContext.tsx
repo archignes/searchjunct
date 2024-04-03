@@ -1,16 +1,26 @@
 // SearchContext.tsx
 
-import React, { createContext, useContext, ReactNode, useState, useCallback } from 'react';
-import { useStorageContext, useSystemsContext, useSortContext, useSystemSearchContext } from './';
+import React, { createContext, useContext, ReactNode, useCallback, useEffect, useRef } from 'react';
+import { useStorageContext,
+    useQueryContext,
+    useSystemsContext,
+    useSortContext,
+    useSystemSearchContext,
+ } from './';
 import { System } from "../types/system";
-import HandleSearch, { getShortcutCandidate, handleShortcutSearch, handleSkipLogic } from '../components/search/HandleSearch';
-import { SearchContextType, getNextUnsearchedSystemParams } from '../types/search';
+import HandleSearch, { ShortcutQuery, handleShortcutSearch, handleSkipLogic } from '../components/search/HandleSearch';
+import { getNextUnsearchedSystemParams } from '../types/search';
+
+type SearchContextType = {
+    submitSearch: ({ system, urlQuery, skip }: { system?: System, urlQuery?: string, skip?: "skip" | "skipback" }) => void,
+    getNextUnsearchedSystem: ({ updatedSystemsSearched, skipSteps }: getNextUnsearchedSystemParams) => System | undefined,
+    getNextUnsearchedSystems: ({ updatedSystemsSearched, skipSteps }: getNextUnsearchedSystemParams) => System[],
+    preppedSearchLink: ({ system, query }: { system: System, query: string }) => string
+};
 
 
 const SearchContext = createContext<SearchContextType>({
     submitSearch: () => { },
-    query: '',
-    setQuery: () => { },
     getNextUnsearchedSystem: () => undefined,
     getNextUnsearchedSystems: () => [],
     preppedSearchLink: () => ''
@@ -21,9 +31,10 @@ export const useSearchContext = () => useContext(SearchContext);
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const { systemsCurrentOrder } = useSortContext();
     const { setSystemSearched, systemsSkipped, updateSystemsSkipped } = useSystemSearchContext();
-    const { systemsSearched, systemsDeleted, systemsDisabled, multisearchShortcuts } = useStorageContext();
+    const { initiateSearchImmediately, systemsSearched, systemsDeleted, systemsDisabled, flagSearchInitiated, updateFlagSearchInitiated } = useStorageContext();
     const { setActiveSystem, systems } = useSystemsContext();
-    const [query, setQuery] = useState('');
+    const { queryObject, setQueryObjectIntoURL } = useQueryContext();
+    const initiateSearchImmediatelyRef = useRef(true);
 
 
     const getLastSkippedSystem = useCallback(() => {
@@ -31,8 +42,6 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         const reversedSystems = [...systemsCurrentOrder].reverse();
         return reversedSystems.find(s => systemsSkipped[s.id]);
     }, [systemsCurrentOrder, systemsSkipped]);
-
-
 
     const getNextUnsearchedSystems = useCallback((params: getNextUnsearchedSystemParams) => {
         const { updatedSystemsSearched, numberOfSystems = 1, skipSteps = 1 } = params;
@@ -66,7 +75,9 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         return system.search_link.replace('%s', encodeURIComponent(query)).replace(/%20/g, '+');
     }, []);
 
-    const cleanupSearch = useCallback((system: System | undefined, currentQuery: string) => {
+    const cleanupSearch = useCallback((system: System | undefined, query_searched: string) => {
+        updateFlagSearchInitiated(true);
+
         if (!system) {
             console.error("System is undefined in cleanupSearch");
             return;
@@ -74,59 +85,43 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         const updatedSystemsSearched = { ...systemsSearched, [system.id]: true };
         updateSystemsSkipped(system.id, false);
         setSystemSearched(system.id);
-        sessionStorage.setItem('searchInitiatedBlock', 'true');
-
-        document.title = currentQuery === "" ? "Searchjunct" : `[${currentQuery}] - Searchjunct`;
+        sessionStorage.setItem('flagSearchInitiated', 'true');
+        setQueryObjectIntoURL()
+        document.title = query_searched === "" ? "Searchjunct" : `[${query_searched}] - Searchjunct`;
 
         const nextUnsearchedSystem = getNextUnsearchedSystem({ updatedSystemsSearched: updatedSystemsSearched });
         if (nextUnsearchedSystem) {
             setActiveSystem(nextUnsearchedSystem.id);
         }
-    }, [systemsSearched, updateSystemsSkipped, setSystemSearched, getNextUnsearchedSystem, setActiveSystem]);
-
-
-    const handleShortcutLogic = useCallback((currentQuery: string) => {
-        const shortcutCandidate = getShortcutCandidate(currentQuery);
-        if (shortcutCandidate) {
-            handleShortcutSearch({
-                currentQuery,
-                shortcutCandidate,
-                systems,
-                multisearchShortcuts,
-                cleanupSearch,
-                preppedSearchLink,
-                getNextUnsearchedSystems
-            });
-            return true;
-        }
-        return false;
-    }, [systems, multisearchShortcuts, getNextUnsearchedSystems, cleanupSearch, preppedSearchLink]);
-
-
-    const handleQueryFormatting = useCallback((currentQuery: string) => {
-        if (currentQuery.endsWith("/") && !currentQuery.endsWith("//")) {
-            currentQuery = currentQuery.slice(0, -1);
-            console.warn("Search query ends with a single forward slash. Single forward slash is used to bypass initiateSearchImmediately. Forward slash is being removed. Use two forward slashes to render an ending single forward slash in your query.");
-        }
-        return currentQuery;
-    }, []);
+    }, [systemsSearched,
+        updateFlagSearchInitiated,
+        updateSystemsSkipped,
+        setSystemSearched,
+        getNextUnsearchedSystem,
+        setActiveSystem,
+        setQueryObjectIntoURL
+    ]);
 
 
     const submitSearch = useCallback(
-        ({ system, urlQuery, skip }: { system?: System; urlQuery?: string; skip?: "skip" | "skipback" }) => {
-            let currentQuery = urlQuery || query;
-
-            if (handleShortcutLogic(currentQuery)) {
-                return;
+        ({ system, skip }: { system?: System; skip?: "skip" | "skipback" }) => {
+            
+            if (queryObject.shortcut) {
+                handleShortcutSearch({
+                    queryObject: queryObject as ShortcutQuery,
+                    systems,
+                    cleanupSearch,
+                    preppedSearchLink,
+                    getNextUnsearchedSystems
+                });
+                return true;
             }
-
-            currentQuery = handleQueryFormatting(currentQuery);
 
             if (skip && handleSkipLogic({ skip, getNextUnsearchedSystem, getLastSkippedSystem, updateSystemsSkipped, handleSearch: submitSearch })) {
                 return;
             }
 
-            system = system || getNextUnsearchedSystem({});
+            system = system || getNextUnsearchedSystem({}); // Allows user to directly click a system.
 
             if (!system) {
                 console.warn("No unsearched system found");
@@ -135,7 +130,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
 
             HandleSearch({
                 system,
-                currentQuery,
+                currentQuery: queryObject.query,
                 getLastSkippedSystem,
                 updateSystemsSkipped,
                 handleSearch: submitSearch,
@@ -150,26 +145,40 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             systemsDeleted,
             systemsDisabled,
             systemsCurrentOrder,
-            query,
+            systems,
             getNextUnsearchedSystem,
+            getNextUnsearchedSystems,
             updateSystemsSkipped,
             preppedSearchLink,
             cleanupSearch,
             getLastSkippedSystem,
-            handleShortcutLogic,
-            handleQueryFormatting,
+            queryObject,            
         ]
     );
 
 
+    
+
+    useEffect(() => {
+        if (initiateSearchImmediately && !flagSearchInitiated && initiateSearchImmediatelyRef.current) {
+            if (queryObject.query && queryObject.from_address_bar) {
+                submitSearch({});
+                initiateSearchImmediatelyRef.current = false;
+            }
+        }
+    }, [queryObject,
+        initiateSearchImmediately,
+        flagSearchInitiated,
+        initiateSearchImmediatelyRef,
+        systemsSearched,
+        submitSearch]);
+
     return (
         <SearchContext.Provider value={{
             submitSearch,
-            query,
-            setQuery,
             getNextUnsearchedSystem,
             getNextUnsearchedSystems,
-            preppedSearchLink
+            preppedSearchLink,
         }}>
             {children}
         </SearchContext.Provider>

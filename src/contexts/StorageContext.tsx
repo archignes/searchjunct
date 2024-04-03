@@ -1,35 +1,57 @@
 import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
-import MultisearchShortcut from '../types/multisearch-shortcuts';
+import { MultisearchActionObject } from '@/src/types';
 
 
 interface StorageContextType {
+    // user setting used to initiate the first search immediately on load
     initiateSearchImmediately: boolean;
     setInitiateSearchImmediately: (value: boolean) => void;
-    searchInitiatedBlock: boolean;
-    updateSearchInitiatedBlock: (value: boolean) => void;
+
+    // flag used to skip or stop running searches via `initiateSearchImmediately`
+    flagSearchInitiated: boolean;
+    updateFlagSearchInitiated: (value: boolean) => void;
+
+    // user setting used in determining which systems are disabled
     systemsDisabled: Record<string, boolean>;
     setSystemDisabled: (systemId: string, value: boolean) => void;
+    
+    // user setting used in determining which systems are deleted
     systemsDeleted: Record<string, boolean>;
     setSystemDeleted: (systemId: string, value: boolean) => void;
+    
+    // user setting used in determining the order of systems in the custom mode
     systemsCustomOrder: string[];
     setSystemsCustomOrder: (order: string[]) => void;
+    
+    // UI event to reset localStorage re deleted, disabled, and custom order
     resetLocalStorage: () => void;
+    
+    // logs which systems have been searched with
     systemsSearched: Record<string, boolean>;
     setSystemsStateSearched: (systemId: string, value: boolean) => void;
+
+    // UI event resets the search log
+    resetLocalStorageSearched: () => void;
+    
+    // user setting used in determining if custom sort is set on load
     customModeOnLoad: boolean;
     setCustomModeOnLoad: (value: boolean) => void;
+    
+    // user setting used in determining to show the intro modal
     showIntroModal: boolean;
     setShowIntroModal: (value: boolean) => void;
-    multisearchShortcuts: MultisearchShortcut[];
-    addMultisearchShortcut: (shortcut: MultisearchShortcut) => void;
-    removeMultisearchShortcut: (name: string) => void;
+
+    // default or user-defined multisearch shortcuts
+    multisearchActionObjects: MultisearchActionObject[];
+    addMultisearchActionObject: (shortcut: MultisearchActionObject) => void;
+    removeMultisearchActionObject: (name: string) => void;
 }
 
 const StorageContext = createContext<StorageContextType>({
     initiateSearchImmediately: false,
     setInitiateSearchImmediately: () => { },
-    searchInitiatedBlock: false,
-    updateSearchInitiatedBlock: () => { },
+    flagSearchInitiated: false,
+    updateFlagSearchInitiated: () => { },
     systemsDisabled: {},
     setSystemDisabled: () => { },
     systemsDeleted: {},
@@ -39,13 +61,14 @@ const StorageContext = createContext<StorageContextType>({
     resetLocalStorage: () => { },
     systemsSearched: {},
     setSystemsStateSearched: () => { },
+    resetLocalStorageSearched: () => { },
     customModeOnLoad: false,
     setCustomModeOnLoad: () => { },
     showIntroModal: true,
     setShowIntroModal: () => { },
-    multisearchShortcuts: [],
-    addMultisearchShortcut: () => { },
-    removeMultisearchShortcut: () => { }
+    multisearchActionObjects: [],
+    addMultisearchActionObject: () => { },
+    removeMultisearchActionObject: () => { }
 });
 
 
@@ -61,9 +84,9 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         return {};
     });
     
-    const [searchInitiatedBlock, setSearchInitiatedBlock] = useState<boolean>(() => {
+    const [flagSearchInitiated, setFlagSearchInitiated] = useState<boolean>(() => {
         if (typeof window !== 'undefined') {
-            const storedValue = sessionStorage.getItem('searchInitiatedBlock');
+            const storedValue = sessionStorage.getItem('flagSearchInitiated');
             return storedValue ? JSON.parse(storedValue) : false;
         }
         return false;
@@ -114,9 +137,9 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         return [];
     });
 
-    const [multisearchShortcuts, setMultisearchShortcuts] = useState<MultisearchShortcut[]>(() => {
+    const [multisearchActionObjects, setMultisearchShortcuts] = useState<MultisearchActionObject[]>(() => {
         if (typeof window !== 'undefined') {
-            const storedValue = localStorage.getItem('multisearchShortcuts');
+            const storedValue = localStorage.getItem('multisearchActionObjects');
             return storedValue ? JSON.parse(storedValue) : [];
         }
         return [];
@@ -139,14 +162,14 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         localStorage.removeItem('systemsCustomOrder');
         localStorage.removeItem('systemsDeleted');
         localStorage.removeItem('systemsDisabled');
-        localStorage.removeItem('multisearchShortcuts');
+        localStorage.removeItem('multisearchActionObjects');
     };
 
 
     // Update sessionStorage when values change
     useEffect(() => {
-        sessionStorage.setItem('searchInitiatedBlock', searchInitiatedBlock ? 'true' : 'false');
-    }, [searchInitiatedBlock]);
+        sessionStorage.setItem('flagSearchInitiated', flagSearchInitiated ? 'true' : 'false');
+    }, [flagSearchInitiated]);
 
     // Update localStorage when values change
     useEffect(() => {
@@ -156,13 +179,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         localStorage.setItem('systemsDeleted', JSON.stringify(systemsDeleted));
         localStorage.setItem('systemsCustomOrder', JSON.stringify(systemsCustomOrder));
         localStorage.setItem('showIntroModal', JSON.stringify(showIntroModal));
-        localStorage.setItem('multisearchShortcuts', JSON.stringify(multisearchShortcuts));
-    }, [initiateSearchImmediately, systemsDisabled, systemsDeleted, systemsCustomOrder, customModeOnLoad, showIntroModal, multisearchShortcuts]);
+        localStorage.setItem('multisearchActionObjects', JSON.stringify(multisearchActionObjects));
+    }, [initiateSearchImmediately, systemsDisabled, systemsDeleted, systemsCustomOrder, customModeOnLoad, showIntroModal, multisearchActionObjects]);
 
 
     // Functions to update values
-    const updateSearchInitiatedBlock = (value: boolean) => {
-        setSearchInitiatedBlock(value);
+    const updateFlagSearchInitiated = (value: boolean) => {
+        setFlagSearchInitiated(value);
     };
 
     const updateSystemsSearched = (systemId: string, value: boolean) => {
@@ -183,11 +206,20 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     };
 
     // Inside your component or functional hook
-    const addMultisearchShortcut = useCallback((shortcut: { name: string; systems: { always: string[]; randomly: string[] }; count_from_randomly: number }) => {
-        setMultisearchShortcuts(prev => [...prev, shortcut]);
-    }, []); // Add any dependencies if necessary
+    const addMultisearchActionObject = useCallback(
+        (shortcut: { name: string; systems: { always: string[]; randomly: string[] }; count_from_randomly: number }) => {
+            setMultisearchShortcuts(prev => {
+                const shortcutExists = prev.some(s => s.name === shortcut.name);
+                if (!shortcutExists) {
+                    return [...prev, shortcut];
+                }
+                return prev;
+            });
+        },
+        []
+    ); // Add any dependencies if necessary
 
-    const removeMultisearchShortcut = useCallback((name: string) => {
+    const removeMultisearchActionObject = useCallback((name: string) => {
         setMultisearchShortcuts(prev => prev.filter(shortcut => shortcut.name !== name));
     }, []);
 
@@ -195,8 +227,8 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         () => ({
             initiateSearchImmediately,
             setInitiateSearchImmediately,
-            searchInitiatedBlock,
-            updateSearchInitiatedBlock,
+            flagSearchInitiated,
+            updateFlagSearchInitiated,
             systemsDisabled,
             systemsDeleted,
             setSystemDeleted: updateSystemDeleted,
@@ -211,13 +243,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             setCustomModeOnLoad,
             showIntroModal,
             setShowIntroModal,
-            multisearchShortcuts,
-            addMultisearchShortcut,
-            removeMultisearchShortcut,
+            multisearchActionObjects,
+            addMultisearchActionObject,
+            removeMultisearchActionObject,
         }),
         [
             initiateSearchImmediately,
-            searchInitiatedBlock,
+            flagSearchInitiated,
             systemsDisabled,
             systemsDeleted,
             systemsCustomOrder,
@@ -226,9 +258,9 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             setCustomModeOnLoad,
             showIntroModal,
             setShowIntroModal,
-            multisearchShortcuts,
-            addMultisearchShortcut,
-            removeMultisearchShortcut,
+            multisearchActionObjects,
+            addMultisearchActionObject,
+            removeMultisearchActionObject,
         ]
     );
 

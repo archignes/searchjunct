@@ -18,7 +18,7 @@ const MainSettingsCard: React.FC = () => {
 
   const { systems } = useSystemsContext();
   const { isResetDisabled } = useSystemToggleContext();
-  const { resetLocalStorage, updateSearchInitiatedBlock,
+  const { resetLocalStorage, updateFlagSearchInitiated,
     initiateSearchImmediately, setInitiateSearchImmediately,
     customModeOnLoad, setCustomModeOnLoad,
     systemsCustomOrder, systemsDeleted
@@ -26,7 +26,7 @@ const MainSettingsCard: React.FC = () => {
 
 
   const toggleInitiateSearchImmediately = () => {
-    updateSearchInitiatedBlock(true);
+    updateFlagSearchInitiated(true);
     setInitiateSearchImmediately(!initiateSearchImmediately);
   }
 

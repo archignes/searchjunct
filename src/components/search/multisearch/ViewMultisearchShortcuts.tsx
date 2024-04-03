@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useStorageContext } from '../../../contexts/';
 import { Card, CardContent, CardHeader, CardFooter } from '../../shadcn-ui/card';
 import MiniSearchSystemItem from '../../ui/MiniSearchSystemItem';
-import MultisearchShortcut from '../../../types/multisearch-shortcuts';
+import { MultisearchActionObject } from '@/src/types';
 import { Button } from '../../shadcn-ui/button';
 import { TrashIcon } from '@radix-ui/react-icons';
 import {
@@ -21,24 +21,26 @@ import {
 import { SpecialCardTitle } from '../../ui/SystemTitle';
 
 
-export const ViewIndividualMultisearchShortcut: React.FC<{shortcut: MultisearchShortcut, index?: number}> = ({ shortcut, index }) => {
-    const { removeMultisearchShortcut } = useStorageContext();
-    const MultisearchShortcutBucket: React.FC<{ title: string, systems: string[], additionalClasses?: string }> = ({ title, systems, additionalClasses }) => {
-        return (
-            <div className={`border rounded-md px-1 ${additionalClasses}`}>
-                <span className="text-sm">{title}</span>
-                <div className="flex flex-wrap">
-                    {systems.map((system, systemIndex) => (
-                        <div key={systemIndex} className="chip">
-                            <MiniSearchSystemItem systemId={system} />
-                        </div>
-                    ))}
-                </div>
+const MultisearchActionObjectBucket: React.FC<{ title: string, systems: string[], additionalClasses?: string }> = ({ title, systems, additionalClasses }) => {
+    return (
+        <div className={`border rounded-md px-1 ${additionalClasses}`}>
+            <span className="text-sm">{title}</span>
+            <div className="flex flex-wrap">
+                {systems.map((system) => (
+                    <div key={system} className="chip">
+                        <MiniSearchSystemItem systemId={system} />
+                    </div>
+                ))}
             </div>
-        );
-    }
+        </div>
+    );
+}
 
-    const getExampleQueryLink = (shortcut: MultisearchShortcut) => {
+export const ViewIndividualMultisearchActionObject: React.FC<{shortcut: MultisearchActionObject, index?: number}> = ({ shortcut, index }) => {
+    const { removeMultisearchActionObject } = useStorageContext();
+
+
+    const getExampleQueryLink = (shortcut: MultisearchActionObject) => {
         const sampleQueries = ["Are there any undiscovered animals in the deep ocean?",
             "Can plants communicate with each other?",
             "Can you provide a detailed guide on communicating telepathically with aliens?",
@@ -109,7 +111,10 @@ export const ViewIndividualMultisearchShortcut: React.FC<{shortcut: MultisearchS
     }
 
     const deleteShortcut = (name: string) => {
-        removeMultisearchShortcut(name);
+        removeMultisearchActionObject(name);
+        if (name === "links" || name === "beta") {
+            localStorage.setItem('defaultMultisearchesHaveBeenDeleted', 'true');
+        }
     }
 
 
@@ -124,16 +129,15 @@ export const ViewIndividualMultisearchShortcut: React.FC<{shortcut: MultisearchS
             {getExampleQueryLink(shortcut)}
         </CardHeader>
         <CardContent className="flex flex-row gap-1 pb-3">
-            <MultisearchShortcutBucket
+                <MultisearchActionObjectBucket
                 title="Always initiate:"
                 systems={shortcut.systems.always}
             />
-            {shortcut.systems.randomly.length > 0 && <MultisearchShortcutBucket
+                {shortcut.systems.randomly.length > 0 && <MultisearchActionObjectBucket
                 title={`Randomly initiate ${shortcut.count_from_randomly}:`}
                 systems={shortcut.systems.randomly}
             />}
         </CardContent>
-        {index !== undefined && (
             <CardFooter className="pb-3">
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
@@ -157,13 +161,12 @@ export const ViewIndividualMultisearchShortcut: React.FC<{shortcut: MultisearchS
                     </AlertDialogContent>
                 </AlertDialog>
             </CardFooter>
-        )}
     </Card>
 )}
 
 
 export default function ViewMultisearchShortcuts() {
-    const { multisearchShortcuts } = useStorageContext();
+    const { multisearchActionObjects } = useStorageContext();
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -177,7 +180,7 @@ export default function ViewMultisearchShortcuts() {
 
 
 
-    if (!Array.isArray(multisearchShortcuts)) {
+    if (!Array.isArray(multisearchActionObjects)) {
         
         return (
             <div>
@@ -192,8 +195,8 @@ export default function ViewMultisearchShortcuts() {
         <Card className="border-1 rounded-none mx-0 shadow-none border-t-2 border-gray-200">
             <SpecialCardTitle title="Shortcuts" />
             <div className='flex flex-wrap justify-center gap-1'>
-            {multisearchShortcuts.map((shortcut, index) => (
-                <ViewIndividualMultisearchShortcut key={index} shortcut={shortcut} />
+            {multisearchActionObjects.map((shortcut, index) => (
+                <ViewIndividualMultisearchActionObject key={index} shortcut={shortcut} />
             ))}
             </div>
         </Card>

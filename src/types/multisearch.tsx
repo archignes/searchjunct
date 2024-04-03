@@ -1,6 +1,6 @@
-// types/multi-search-customs.tsx
+// types/multisearch.tsx
 
-export default interface MultisearchShortcut {
+export interface MultisearchActionObject {
     name: string;
     description?: string;
     systems: {

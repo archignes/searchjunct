@@ -3,11 +3,11 @@
 import React from 'react';
 import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { useSortContext } from '../contexts/';
+import { useSortContext, useSystemsContext, useSearchContext, useQueryContext } from '../contexts/';
 import { System } from '../types/system';
 import SearchSystemItem from './ui/SystemItem';
 import { isMobile } from 'react-device-detect';
-
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useForm, FormProvider } from 'react-hook-form';
 
 interface SortingContainerProps {
@@ -18,7 +18,9 @@ interface SortingContainerProps {
 
 const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteButtons = false, include = [] }) => {
     const { updateDragOrder, systemsCurrentOrder } = useSortContext();
-
+    const { activeSystem } = useSystemsContext();
+    const { preppedSearchLink, submitSearch } = useSearchContext();
+    const { queryObject } = useQueryContext();
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -55,19 +57,26 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
         },
     });
 
-    
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <FormProvider {...form}>
                 <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
-                    {systemsCurrentOrder.filter(system => include.includes(system)).map((system, index) => (
-                        <div id={`${system.id}-bucket`} key={system.id} className="w-full">
+                    {systemsCurrentOrder.filter(system => include.includes(system)).map((system, index) => (    
+                        <div id={`${system.id}-bucket`} key={system.id} className="grid grid-cols-[auto_1fr] w-full">
+                            <div className="flex items-center group w-8 justify-center">{activeSystem && activeSystem.id === system.id && (
+                                <a className="group w-full flex items-center py-2 border-l border-t border-b rounded-l-md hover:bg-blue-100"
+                                    href={preppedSearchLink({ system, query: queryObject.query })}
+                                    onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
+                                        <MagnifyingGlassIcon id="active-system" className="text-gray-500 w-8 h-8" />
+                                </a>
+                            
+                            )}</div>
                             <SearchSystemItem
-                                id={system.id}
-                                system={system}
-                                showDisableDeleteButtons={showDisableDeleteButtons}
-                                showDragHandle={true}
-                            />
+                            id={system.id}
+                            system={system}
+                            showDisableDeleteButtons={showDisableDeleteButtons}
+                            showDragHandle={true}
+                        />
                         </div>
                     ))}
                 </SortableContext>
