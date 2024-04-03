@@ -75,6 +75,11 @@
     "twitter_link": "https://twitter.com/perplexity_ai"
   },
   {
+    "name": "Mojeek - RAG",
+    "id": "mojeek-rag",
+    "search_link": "https://labs.mojeek.com/rag/index.html"
+  },
+  {
     "name": "You.com",
     "id": "you-com",
     "search_link": "https://you.com/search?q=%s",
@@ -122,6 +127,12 @@
           "Safari"
         ],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)"
+  },
+  {
+    "name": "Devv",
+    "id": "devv",
+    "search_link": "https://devv.ai/",
+    "twitter_link": "https://twitter.com/devv_ai"
   },
   {
     "name": "DuckDuckGo",
@@ -365,6 +376,12 @@
           "Brave"
         ],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Startpage.com" 
+  },
+  {
+    "id": "google-gemini",
+    "name": "Google Gemini",
+    "search_link": "https://gemini.google.com/app",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Gemini_(chatbot)"
   },
   {
     "name": "Stract",
