@@ -1,12 +1,12 @@
 // Info_PrivacyInstructions.tsx
 
 import React from 'react';
-import { Alert, AlertDescription, AlertTitle } from "../../shadcn-ui/alert"
+import { Alert, AlertDescription, AlertTitle } from "../../ui/alert"
 
 import {
   Card,
   CardContent,
-} from '../../shadcn-ui/card';
+} from '../../ui/card';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
 

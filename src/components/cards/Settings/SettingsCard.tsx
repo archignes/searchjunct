@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-import { Card, CardContent, CardHeader, CardTitle } from '../../shadcn-ui/card';
-import { ScrollArea } from "../../shadcn-ui/scroll-area"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../shadcn-ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
+import { ScrollArea } from "../../ui/scroll-area"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../ui/tabs';
 import MainSettingsCard from './Main';
 
 const SettingsCard: React.FC = () => {

@@ -14,8 +14,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../shadcn-ui/accordion"
-import { Button } from '../shadcn-ui/button';
+} from "../ui/accordion"
+import { Button } from '../ui/button';
 
 import { System } from '../../types/system';
 import SystemCard from '../cards/SystemCard';
@@ -25,7 +25,7 @@ import { useSystemExpansionContext,
   useSearchContext, 
   useStorageContext,
   useAddressContext 
-} from '../../contexts/';
+} from '../../contexts';
 import { SystemTitle } from './SystemTitle';
 
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';

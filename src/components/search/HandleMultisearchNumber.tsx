@@ -1,8 +1,8 @@
-import { System } from 'types/system';
-import { PreppedSearchLinkParams } from 'types/search';
+import { System } from'@/types';
+import { PreppedSearchLinkParams } from'@/types';
 import {CopyQueryToClipboard} from './';
-import { Query } from '@/src/types';
-import { Shortcut } from '@/src/types';
+import { Query } from '@/types';
+import { Shortcut } from '@/types';
 
 
 export type MultisearchNumberShortcut = Shortcut & {

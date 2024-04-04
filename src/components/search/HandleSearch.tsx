@@ -1,10 +1,10 @@
-import { System } from 'types/system';
+import { System } from'@/types';
 import HandleMultisearchNumber, { MultisearchNumberQuery } from './HandleMultisearchNumber';
 import HandleMultisearchObject, { MultisearchObjectQuery } from './HandleMultisearchObject';
-import { getNextUnsearchedSystemParams, PreppedSearchLinkParams, HandleSearchParams } from 'types/search';
+import { getNextUnsearchedSystemParams, PreppedSearchLinkParams, HandleSearchParams } from'@/types';
 import { CopyQueryToClipboard } from './';
-import { Shortcut } from '@/src/types';
-import { Query } from '@/src/types';
+import { Shortcut } from '@/types';
+import { Query } from '@/types';
 
 export type ShortcutQuery = Query & {
     shortcut: Shortcut
@@ -30,7 +30,9 @@ export const handleShortcutSearch = ({
     console.log("queryObject.shortcut:", queryObject);
     if (queryObject.shortcut.type === 'multisearch_number' && typeof queryObject.shortcut.action === 'number') {
         const systemsToSearch: System[] = getNextUnsearchedSystems({ numberOfSystems: queryObject.shortcut.action });
-
+        console.log("here I am 1");
+        console.log("queryObject.shortcut:", queryObject.shortcut);
+        console.log("systemsToSearch:", systemsToSearch);
         HandleMultisearchNumber({
             queryObject: queryObject as MultisearchNumberQuery,
             systemsToSearch,

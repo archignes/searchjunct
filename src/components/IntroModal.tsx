@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button } from './shadcn-ui/button';
+import { Button } from './ui/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from './shadcn-ui/card';
+} from './ui/card';
 
 
 interface IntroModalProps {

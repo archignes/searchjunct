@@ -1,6 +1,6 @@
 // search/HandleMultisearchObject.tsx
 
-import { System, Query, MultisearchActionObject, Shortcut, PreppedSearchLinkParams } from '@/src/types';
+import { System, Query, MultisearchActionObject, Shortcut, PreppedSearchLinkParams } from '@/types';
 import { CopyQueryToClipboard } from '.';
 import {  } from '../../contexts/QueryContext';
 

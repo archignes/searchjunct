@@ -1,6 +1,6 @@
 // __tests__/HandleMultisearchNumber.test.tsx
 import HandleMultisearchNumber, { MultisearchNumberShortcut } from '../search/HandleMultisearchNumber';
-import { PreppedSearchLinkParams } from 'types/search';
+import { PreppedSearchLinkParams } from'@/types';
 import { CopyQueryToClipboard } from '../search/';
 
 jest.mock('../search/CopyQueryToClipboard');

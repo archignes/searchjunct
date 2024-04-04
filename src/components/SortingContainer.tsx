@@ -5,7 +5,7 @@ import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor,
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSortContext, useSystemsContext, useSearchContext, useQueryContext } from '../contexts/';
 import { System } from '../types/system';
-import SearchSystemItem from './ui/SystemItem';
+import SearchSystemItem from './sj-ui/SystemItem';
 import { isMobile } from 'react-device-detect';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useForm, FormProvider } from 'react-hook-form';

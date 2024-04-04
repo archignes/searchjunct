@@ -1,4 +1,4 @@
-import { System, MultisearchActionObject } from "@/src/types";
+import { System, MultisearchActionObject } from "@/types";
 
 export interface PreppedSearchLinkParams {
     system: System;
@@ -25,7 +25,6 @@ export interface HandleSearchShortcutCandidateParams {
     getNextUnsearchedSystem: (updatedSystemsSearched?: Record<string, boolean>, skipSteps?: number) => System | undefined;
     cleanupSearch: (system: System, query: string) => void;
     preppedSearchLink: ({ system, query }: { system: System, query: string }) => string
-    markShortcutAsCompletedInQueryObject: () => void;
 }
 
 export interface HandleSearchParams {

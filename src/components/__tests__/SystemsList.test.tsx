@@ -60,6 +60,6 @@ describe('SystemList Component', () => {
         renderSystemList();
         // Assert
         const link = await screen.findByRole('link', { name: /Showing/i });
-        expect(link).toHaveTextContent(`${systemsDataLength} systems`);
+        expect(link.textContent).toBe(`Showing ${systemsDataLength} of ${systemsDataLength} systems`);
     });
 });

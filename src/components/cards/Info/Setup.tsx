@@ -6,8 +6,8 @@ import { CopyIcon } from '@radix-ui/react-icons';
 import {
   Card,
   CardContent
-} from '../../shadcn-ui/card';
-import { Button } from '../../shadcn-ui/button';
+} from '../../ui/card';
+import { Button } from '../../ui/button';
 import SetupCustomDefaultSystemInstructions from "../SetupCustomDefaultSystemInstructions"
 
 const SetupInstructionsCard: React.FC = () => {

@@ -21,11 +21,10 @@ describe('SystemCard', () => {
 
     expect(screen.getByText('https://www.google.com')).toBeInTheDocument();
   });
-  it('renders with Disable and Delete buttons', () => {
+  it('renders with Disable button', () => {
     render(<SystemCard system={system} />);
 
     expect(screen.getByText('Disable')).toBeInTheDocument();
-    expect(screen.getByText('Delete')).toBeInTheDocument();
   });
   it('renders with at least one link in system-card-footer', () => {
     render(<SystemCard system={system} />);

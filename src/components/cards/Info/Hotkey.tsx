@@ -5,7 +5,7 @@ import React from 'react';
 import {
   Card,
   CardContent,
-} from '../../shadcn-ui/card';
+} from '../../ui/card';
 
 
 const HotkeyInstructionsCard: React.FC = () => {

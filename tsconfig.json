@@ -20,10 +20,26 @@
     "noEmit": true,
     "jsx": "preserve",
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"],
-      "types/*": ["src/types/*"]
-    },
+        "paths": {
+          "@/src/components/*": [
+            "src/components/*"
+          ],
+          "@/lib/utils": [
+            "src/lib/utils"
+          ],
+          "@/contexts": [
+            "src/contexts"
+          ],
+          "@/contexts/*": [
+            "src/contexts/*"
+          ],
+          "@/types": [
+            "src/types"
+          ],
+          "@/components/*": [
+            "src/components/*"
+          ],
+        },
     "incremental": true,
     "plugins": [
       {

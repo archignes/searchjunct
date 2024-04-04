@@ -3,7 +3,7 @@
 
 import React, { useEffect } from 'react';
 
-import { Button } from '../src/components/shadcn-ui/button';
+import { Button } from '../src/components/ui/button';
 
 export default function BlockPage() {
   useEffect(() => {

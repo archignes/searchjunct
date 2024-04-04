@@ -5,11 +5,11 @@ import React from 'react';
 import {
   Card,
   CardContent,
-} from '../../shadcn-ui/card';
-import { Label } from '../../shadcn-ui/label';
-import { Switch } from '../../shadcn-ui/switch';
-import SearchSystemItem from '../../ui/SystemItem';
-import { Button } from '../../shadcn-ui/button';
+} from '../../ui/card';
+import { Label } from '../../ui/label';
+import { Switch } from '../../ui/switch';
+import SearchSystemItem from '../../sj-ui/SystemItem';
+import { Button } from '../../ui/button';
 import { useSystemsContext,
   useStorageContext,
   useSystemToggleContext } from '../../../contexts/';

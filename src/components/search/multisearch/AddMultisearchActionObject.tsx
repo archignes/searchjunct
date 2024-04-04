@@ -8,19 +8,19 @@ import {
   CardContent,
   CardHeader,
   CardDescription,
-} from '../../shadcn-ui/card';
+} from '../../ui/card';
 import { useSystemsContext } from '../../../contexts/SystemsContext';
 import { Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Form, FormField, FormItem, FormDescription, FormLabel, FormControl, FormMessage } from '../../shadcn-ui/form';
-import { Input } from '../../shadcn-ui/input';
-import { Button } from '../../shadcn-ui/button';
+import { Form, FormField, FormItem, FormDescription, FormLabel, FormControl, FormMessage } from '../../ui/form';
+import { Input } from '../../ui/input';
+import { Button } from '../../ui/button';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import { useStorageContext } from '../../../contexts';
-import { SpecialCardTitle } from '../../ui/SystemTitle';
+import { SpecialCardTitle } from '../../sj-ui/SystemTitle';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,8 +28,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
-} from '../../shadcn-ui/alert-dialog';
-import { MultisearchActionObject } from '@/src/types';
+} from '../../ui/alert-dialog';
+import { MultisearchActionObject } from '@/types';
 
 const AddMultisearchActionObject: React.FC = () => {
   const { multisearchActionObjects, addMultisearchActionObject } = useStorageContext();

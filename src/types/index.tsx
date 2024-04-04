@@ -1,5 +1,5 @@
 // types/index.tsx
-// usage: import { MultisearchActionObject, Shortcut } from '@/src/types';
+// usage: import { MultisearchActionObject, Shortcut } from '@/types';
 export type { MultisearchActionObject } from './multisearch';
 export type { Shortcut } from './shortcut';
 export type { System } from './system';

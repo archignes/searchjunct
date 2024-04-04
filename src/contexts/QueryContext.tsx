@@ -6,20 +6,18 @@
 
 import React, { createContext, useEffect, useRef, useContext, ReactNode, useState } from 'react';
 import { useAddressContext, useShortcutContext, useStorageContext } from './';
-import { Query } from '@/src/types';
+import { Query } from '@/types';
 
 interface QueryContextType {
     queryObject: Query;
     setQueryObjectIntoURL: () => void;
     processTextInputForQueryObject: (text: string) => void;
-    markShortcutAsCompletedInQueryObject: () => void;
 }
 
 const QueryContext = createContext<QueryContextType>({
     queryObject: { raw_string: '', query: '', shortcut: null, in_address_bar: false, from_address_bar: false },
     setQueryObjectIntoURL: () => { },
     processTextInputForQueryObject: () => { },
-    markShortcutAsCompletedInQueryObject: () => { },
 });
 
 const trimTrailingSlashAndUpdateFlag = (
@@ -108,7 +106,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
         const shortcut = getShortcutFromQuery(text);
         if (shortcut) {
             query = text.replace(`/${shortcut.name}`, '').trim();
-            if (query === queryObject.query && shortcut.name && queryObject.shortcut && queryObject.shortcut.completed && shortcut.name === queryObject.shortcut.name) {
+            if (query === queryObject.query && shortcut.name && queryObject.shortcut && queryObject.shortcut.name && shortcut.name === queryObject.shortcut.name) {
                 return;
             }
         }
@@ -135,22 +133,8 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
         setQueryObject({...queryObject, in_address_bar: true});
     }
 
-    const markShortcutAsCompletedInQueryObject = () => {
-        if (!queryObject.shortcut) return;
-        const shortcut = queryObject.shortcut;
-        setQueryObject(q => ({
-            ...q,
-            shortcut: {
-                completed: true,
-                type: shortcut.type,
-                name: shortcut.name,
-                action: shortcut.action
-            }
-        }));
-    }
-
     return (
-        <QueryContext.Provider value={{ queryObject, setQueryObjectIntoURL, processTextInputForQueryObject, markShortcutAsCompletedInQueryObject }}>
+        <QueryContext.Provider value={{ queryObject, setQueryObjectIntoURL, processTextInputForQueryObject }}>
             {children}
         </QueryContext.Provider>
     );

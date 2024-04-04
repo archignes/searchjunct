@@ -1,8 +1,8 @@
 // __tests__/HandleMultisearchObject.test.tsx
 
 import HandleMultisearchObject, { MultisearchObjectShortcut } from '../search/HandleMultisearchObject';
-import { System } from '@/src/types';
-import { PreppedSearchLinkParams } from 'types/search';
+import { System } from '@/types';
+import { PreppedSearchLinkParams } from'@/types';
 import CopyQueryToClipboard from '../search/CopyQueryToClipboard';
 
 jest.mock('../search/CopyQueryToClipboard');
@@ -14,6 +14,9 @@ const systems = [
     { id: 'sys3', name: 'System 3', search_link: 'https://example.com/system3' },
     { id: 'sys4', name: 'System 4', search_link: 'https://example.com/system4' },
 ];
+
+const systemsSearched = {};
+
 
 describe('HandleMultisearch', () => {
     let cleanupSearchMock: jest.Mock;
@@ -51,6 +54,7 @@ describe('HandleMultisearch', () => {
                 in_address_bar: false,
                 from_address_bar: false,
             },
+            systemsSearched,
             systems,
             cleanupSearch: cleanupSearchMock,
             preppedSearchLink: preppedSearchLinkMock,
@@ -86,6 +90,7 @@ describe('HandleMultisearch', () => {
                 from_address_bar: false,
             },
             systems,
+            systemsSearched,
             cleanupSearch: cleanupSearchMock,
             preppedSearchLink: preppedSearchLinkMock,
         });
@@ -116,6 +121,7 @@ describe('HandleMultisearch', () => {
                 in_address_bar: false,
                 from_address_bar: false,
             },
+            systemsSearched,
             systems,
             cleanupSearch: cleanupSearchMock,
             preppedSearchLink: preppedSearchLinkMock,
@@ -149,6 +155,7 @@ describe('HandleMultisearch', () => {
                 from_address_bar: false,
             },
             systems,
+            systemsSearched,
             cleanupSearch: cleanupSearchMock,
             preppedSearchLink: preppedSearchLinkMock,
         });

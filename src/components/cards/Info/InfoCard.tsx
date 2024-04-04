@@ -7,15 +7,15 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '../../shadcn-ui/card';
+} from '../../ui/card';
 import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../../shadcn-ui/tabs"
-import { ScrollArea } from "../../shadcn-ui/scroll-area"
+} from "../../ui/tabs"
+import { ScrollArea } from "../../ui/scroll-area"
 
 import HotkeyCard from "./Hotkey"
 import PrivacyCard from "./Privacy"

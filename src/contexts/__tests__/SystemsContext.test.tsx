@@ -1,5 +1,5 @@
 import { shuffleSystems } from '../SortContext';
-import { System } from 'types/system';
+import { System } from'@/types';
 import systemsData from '../../data/systems.json';
 
 describe('shuffleSystems', () => {

@@ -5,7 +5,7 @@ import React from 'react';
 import {
   Card,
   CardContent,
-} from '../../shadcn-ui/card';
+} from '../../ui/card';
 import { Share2Icon, GearIcon, QuestionMarkIcon, ReloadIcon, StarIcon, StarFilledIcon, ChevronDownIcon, ShuffleIcon, DragHandleDots2Icon } from '@radix-ui/react-icons';
 
 

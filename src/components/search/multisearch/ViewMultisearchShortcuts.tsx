@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { useStorageContext } from '../../../contexts/';
-import { Card, CardContent, CardHeader, CardFooter } from '../../shadcn-ui/card';
-import MiniSearchSystemItem from '../../ui/MiniSearchSystemItem';
-import { MultisearchActionObject } from '@/src/types';
-import { Button } from '../../shadcn-ui/button';
+import { Card, CardContent, CardHeader, CardFooter } from '../../ui/card';
+import MiniSearchSystemItem from '../../sj-ui/MiniSearchSystemItem';
+import { MultisearchActionObject } from '@/types';
+import { Button } from '../../ui/button';
 import { TrashIcon } from '@radix-ui/react-icons';
 import {
     AlertDialog,
@@ -17,8 +17,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger
-} from '../../shadcn-ui/alert-dialog';
-import { SpecialCardTitle } from '../../ui/SystemTitle';
+} from '../../ui/alert-dialog';
+import { SpecialCardTitle } from '../../sj-ui/SystemTitle';
 
 
 const MultisearchActionObjectBucket: React.FC<{ title: string, systems: string[], additionalClasses?: string }> = ({ title, systems, additionalClasses }) => {

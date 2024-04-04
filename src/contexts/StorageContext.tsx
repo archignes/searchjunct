@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
-import { MultisearchActionObject } from '@/src/types';
+import { MultisearchActionObject } from '@/types';
 
 
 interface StorageContextType {

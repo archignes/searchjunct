@@ -7,8 +7,8 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { Textarea } from './shadcn-ui/textarea';
-import { Button } from './shadcn-ui/button';
+import { Textarea } from './ui/textarea';
+import { Button } from './ui/button';
 
 import {
   useSearchContext,

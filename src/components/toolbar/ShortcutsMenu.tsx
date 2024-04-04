@@ -1,7 +1,7 @@
 // toolbar/ShortcutsMenu.tsx
 
 import React, { useState } from 'react';
-import { Button } from "../shadcn-ui/button";
+import { Button } from "../ui/button";
 import { SlashIcon } from '@radix-ui/react-icons';
 
 import {
@@ -11,9 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../shadcn-ui/dropdown-menu"
-import { useStorageContext, useQueryContext } from '@/src/contexts/';
-import { MultisearchActionObject } from '@/src/types';
+} from "../ui/dropdown-menu"
+import { useStorageContext, useQueryContext } from '@/contexts';
+import { MultisearchActionObject } from '@/types';
 
 const ShortcutsDropdownMenu = () => {
   const { multisearchActionObjects } = useStorageContext();

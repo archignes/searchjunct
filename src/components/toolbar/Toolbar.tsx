@@ -1,8 +1,8 @@
 // toolbar/Toolbar.tsx
 import React, { useEffect, useState } from 'react';
-import { Button } from "../shadcn-ui/button";
+import { Button } from "../ui/button";
 import { StarFilledIcon, StarIcon, ChevronDownIcon, ReloadIcon, ShuffleIcon, GearIcon, QuestionMarkIcon } from "@radix-ui/react-icons";
-import { Popover, PopoverContent, PopoverTrigger } from "../shadcn-ui/popover"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import InfoCard from "../cards/Info/InfoCard"
 import SettingsCard from "../cards/Settings/SettingsCard"
 import ShareDropdownMenu from "./ShareMenu"

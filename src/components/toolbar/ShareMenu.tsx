@@ -1,6 +1,6 @@
 // toolbar/ShareMenu.tsx
 import React, { useEffect, useState, useRef } from 'react'; 
-import { Button } from "../shadcn-ui/button";
+import { Button } from "../ui/button";
 import { Share2Icon } from '@radix-ui/react-icons';
 import { CopyIcon } from '@radix-ui/react-icons';
 import {
@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../shadcn-ui/dropdown-menu"
+} from "../ui/dropdown-menu"
 import { useQueryContext, useAddressContext } from '../../contexts/';
 
 const ShareDropdownMenu = () => {

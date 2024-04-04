@@ -1,18 +1,18 @@
 // SystemCard.tsx
 import React from 'react';
 
-import { Button } from '../shadcn-ui/button';
+import { Button } from '../ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
-} from '../shadcn-ui/card';
+} from '../ui/card';
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "../shadcn-ui/alert"
+} from "../ui/alert"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,7 +22,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../shadcn-ui/alert-dialog"
+} from "../ui/alert-dialog"
 
 import { DiscordLogoIcon, GitHubLogoIcon, LinkedInLogoIcon, TwitterLogoIcon, ExclamationTriangleIcon, InfoCircledIcon, Link2Icon, CopyIcon, DownloadIcon, CheckIcon } from '@radix-ui/react-icons';
 import CIcon from '@coreui/icons-react';
@@ -30,7 +30,7 @@ import { cibWikipedia } from '@coreui/icons';
 
 import { useAppContext } from '../../contexts/AppContext';
 import { System } from "../../types/system";
-import { DeleteSystemButton, DisableSystemButton } from '../ui/SystemsButtons';
+import { DeleteSystemButton, DisableSystemButton } from '../sj-ui/SystemsButtons';
 import SetupCustomDefaultSystemInstructions from './SetupCustomDefaultSystemInstructions';
 
 const alertClass = "mt-1 w-full mx-auto flex flex-col"

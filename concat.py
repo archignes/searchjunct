@@ -54,10 +54,10 @@ additional_files = ["./pages/index.tsx", "./pages/_app.tsx"]
 # Output file
 output_file = '/Users/dsg/searchjunct_concat.md'
 
-# Get all the files in the components directory (without entering the shadcn-ui subdirectory)
+# Get all the files in the components directory (without entering the ui subdirectory)
 filenames = []
 for root, dirs, files in os.walk(components_path):
-    if os.path.basename(root) == 'shadcn-ui':
+    if os.path.basename(root) == 'ui':
         continue
     for file in files:
         if file.endswith('.tsx'):

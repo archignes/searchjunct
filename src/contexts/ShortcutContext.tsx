@@ -4,7 +4,7 @@
 
 import React, { useContext, createContext, ReactNode } from 'react';
 import { useStorageContext } from './';
-import { Shortcut, MultisearchActionObject} from '@/src/types';
+import { Shortcut, MultisearchActionObject} from '@/types';
 
 
 // interface ShortcutProviderProps {
