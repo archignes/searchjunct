@@ -25,7 +25,7 @@ const HotkeyInstructionsCard: React.FC = () => {
                 <kbd>Alt/Option</kbd> + <kbd>Enter</kbd>: Skips over the next system (marking in yellow) without initiating a search.
               </li>
               <li>
-                <kbd>Shift</kbd> + <kbd>Alt/Option</kbd>: Initiates a search in the most recently skipped system.
+                <kbd>Shift</kbd> + <kbd>Alt/Option</kbd>: Initiates a search in the most recently skipped system (if trigged outside of the search bar).
               </li>
             </ul>
             <p>

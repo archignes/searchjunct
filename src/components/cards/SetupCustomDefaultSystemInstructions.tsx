@@ -17,7 +17,7 @@ const SetupCustomDefaultSystemInstructions: React.FC<SetupCustomDefaultSystemIns
   const searchJunctSearchLink = preppedSearchLink({ system, query: "What is Searchjunct.com?" });
 
   return (
-    <>
+    <div className='w-90% mx-auto'>
       <p>The search link contains a <code>%s</code> placeholder.</p>
       <p>You can use this link to add this system as a default or custom search engine in your browser or to dynamically create search links.</p>
       <ul className="list-disc pl-5">
@@ -31,7 +31,7 @@ const SetupCustomDefaultSystemInstructions: React.FC<SetupCustomDefaultSystemIns
       <p>Here is an example search where the query fills in for the <code>%s</code> placeholder:</p>
       <p className="text-center"><a className="text-xs hover:bg-blue-100 p-1 rounded-md" href={searchJunctSearchLink} target="_blank" rel="noopener noreferrer">{searchJunctSearchLink}</a></p>
       <p className="pt-1">You can create links like that with a scripting language or you can copy and share such links from this system via the address bar.</p>
-    </>
+    </div>
   );
 };
 

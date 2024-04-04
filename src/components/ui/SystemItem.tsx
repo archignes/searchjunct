@@ -108,7 +108,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   }, [expandedSystemCards, urlSystems, setExpandedSystemCards, system.id, everClickedReExpansionCollapse]);
 
   return (
-    <>
+    <div className="w-full">
       <div className={`${isOver ? 'bg-blue-100' : ''}`}>
       <div
         ref={setItemRef}
@@ -118,7 +118,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
           ...style,
           touchAction: 'none', // Add this line to apply touch-action: none
         }}
-          className={`min-h-9 ml-0 py-1 my-0 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mr-1 w-5/7
+          className={`min-h-9 ml-0 py-1 my-0 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-4 mr-1 w-full
                     ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-none' : ''}
                     ${systemsSkipped?.[system.id] ? 'bg-yellow-300 border-none' : ''}
                     ${systemsSearched?.[system.id] ? 'bg-gray-300' : ''}
@@ -133,7 +133,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
         >
           <AccordionItem value="item-1" className="border-none">
             <div className="w-full">
-              <div className="flex items-center">
+              <div className="w-full flex items-center">
                     <a className="group w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
                    href={preppedSearchLink({system, query: queryObject.query})}
                    onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
@@ -147,7 +147,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                       <MagnifyingGlassIcon className="w-4 h-4 cursor-pointer" />
                     {/* )} */}
                 <SystemTitle
-                  className={`py-1 px-1 flex items-center flex-grow`}
+                  className={`py-1 px-1 flex items-center flex-grow w-full`}
                   system={system}
                 />
                     </div>
@@ -198,7 +198,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
         </Accordion>
       </div>
       </div>
-    </>
+    </div>
   );
 };
 

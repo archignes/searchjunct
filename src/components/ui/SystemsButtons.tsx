@@ -4,6 +4,7 @@ import React from 'react';
 import { System } from '../../types/system';
 import { Button } from '../shadcn-ui/button';
 import { useStorageContext, useSystemToggleContext } from '../../contexts/';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const DisableSystemButton: React.FC<{ system: System }> = ({ system }) => {
   const { toggleSystemDisabled } = useSystemToggleContext();
@@ -16,7 +17,7 @@ export const DisableSystemButton: React.FC<{ system: System }> = ({ system }) =>
   return (
     <Button
       variant="outline"
-      className={`h-6 w-1/2 border-none shadow-none hover:bg-red-300 ${!systemsDisabled?.[system.id] ? 'bg-orange-300' : 'text-white-500 bg-gray-300 hover:bg-blue-100'
+      className={`h-5 w-[100px] ${!systemsDisabled?.[system.id] ? 'hover:bg-orange-300' : 'text-white-500 bg-gray-300 hover:bg-blue-100'
         }`}
       onClick={() => toggleSystemDisabled?.(system.id)}
     >
@@ -30,17 +31,19 @@ export const DeleteSystemButton: React.FC<{ system: System }> = ({ system }) => 
   const { systemsDeleted } = useStorageContext();
 
   return (
-    <Button
-      variant={`${!systemsDeleted[system.id] ? 'destructive' : 'outline'}`}
-      className={`h-6 w-1/2 mr-2 hover:text-black ${!systemsDeleted[system.id] ? '' : 'w-2/3 mx-auto hover:bg-blue-100 bg-white'
-        }`}
-      onClick={(event) => {
-        event.stopPropagation();
-        toggleSystemDeleted?.(system.id);
-      }}
-    >
-      {systemsDeleted?.[system.id] ? 'Recover' : 'Delete'}
-    </Button>
+    <div className="flex justify-end">
+      <Button
+        variant={systemsDeleted[system.id] ? 'outline' : 'ghost'}
+        className={`h-5 hover:text-black hover:bg-red-500 bg-white ${!systemsDeleted[system.id] ? 'w-5' : 'text-white-500 bg-gray-300'
+          }`}
+        onClick={(event) => {
+          event.stopPropagation();
+          toggleSystemDeleted?.(system.id);
+        }}
+      >
+        {systemsDeleted?.[system.id] ? 'Recover' : <DeleteIcon className='h-4 w-4 p-1' />}
+      </Button>
+    </div>
   )
 };
 

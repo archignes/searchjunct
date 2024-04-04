@@ -63,7 +63,7 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
                 <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
                     {systemsCurrentOrder.filter(system => include.includes(system)).map((system, index) => (    
                         <div id={`${system.id}-bucket`} key={system.id} className="grid grid-cols-[auto_1fr] w-full">
-                            <div className="flex items-center group w-8 justify-center">{activeSystem && activeSystem.id === system.id && (
+                            <div id={`${system.id}-left-margin`} className="flex items-center group w-8 justify-center">{activeSystem && activeSystem.id === system.id && (
                                 <a className="group w-full flex items-center py-2 border-l border-t border-b rounded-l-md hover:bg-blue-100"
                                     href={preppedSearchLink({ system, query: queryObject.query })}
                                     onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
