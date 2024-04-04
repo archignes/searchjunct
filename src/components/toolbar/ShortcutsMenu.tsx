@@ -17,7 +17,7 @@ import { MultisearchActionObject } from '@/src/types';
 
 const ShortcutsDropdownMenu = () => {
   const { multisearchActionObjects } = useStorageContext();
-  const { queryObject, setQueryObject } = useQueryContext();
+  const { queryObject } = useQueryContext();
   const [isShortcutsPopoverOpen, setIsShortcutsPopoverOpen] = useState(false);
 
   const toggleShortcutsPopover = () => {
@@ -45,11 +45,12 @@ const ShortcutsDropdownMenu = () => {
 
         {multisearchActionObjects.map((shortcut: MultisearchActionObject, index) => (
           <DropdownMenuItem key={index} onSelect={() => {
-            setQueryObject({ ...queryObject, shortcut: { type: 'multisearch_object', name: shortcut.name, action: shortcut } });
+            const updatedQuery = `${queryObject.raw_string} /${shortcut.name}`;
             const searchInput = document.getElementById('search-input') as HTMLInputElement;
             if (searchInput) {
+              searchInput.value = updatedQuery;
               searchInput.focus();
-              // Calculate the length of the text to move the cursor to the end
+              // Move the cursor to the end of the text
               const textLength = searchInput.value.length;
               searchInput.setSelectionRange(textLength, textLength);
             }

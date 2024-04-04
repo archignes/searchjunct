@@ -11,6 +11,12 @@ export interface getNextUnsearchedSystemParams {
     updatedSystemsSearched?: Record<string, boolean>,
 }
 
+export interface SubmitSearchParams {
+    system?: System;
+    query?: string;
+}
+
+
 export interface HandleSearchShortcutCandidateParams {
     currentQuery: string;
     shortcutCandidate: string;
@@ -19,6 +25,7 @@ export interface HandleSearchShortcutCandidateParams {
     getNextUnsearchedSystem: (updatedSystemsSearched?: Record<string, boolean>, skipSteps?: number) => System | undefined;
     cleanupSearch: (system: System, query: string) => void;
     preppedSearchLink: ({ system, query }: { system: System, query: string }) => string
+    markShortcutAsCompletedInQueryObject: () => void;
 }
 
 export interface HandleSearchParams {

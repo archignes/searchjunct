@@ -10,6 +10,7 @@ import { useStorageContext,
 import { System } from "../types/system";
 import HandleSearch, { ShortcutQuery, handleShortcutSearch, handleSkipLogic } from '../components/search/HandleSearch';
 import { getNextUnsearchedSystemParams } from '../types/search';
+import { MultisearchActionObject } from '../types';
 
 type SearchContextType = {
     submitSearch: ({ system, urlQuery, skip }: { system?: System, urlQuery?: string, skip?: "skip" | "skipback" }) => void,
@@ -107,19 +108,40 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         setQueryObjectIntoURL
     ]);
 
+    const getShortcutsCompletedStatus = useCallback((
+            actionObject: MultisearchActionObject,
+            systemsSearched: Record<string, boolean>) => {
+        
+            const { always, randomly } = actionObject.systems;
+            const allSystems = [...always, ...randomly];
+            return allSystems.every(systemId => systemsSearched[systemId]);
+    }, []);
+
+    // Define a type guard function
+    function isMultisearchActionObject(action: any): action is MultisearchActionObject {
+        // Implement the check based on the expected properties of MultisearchActionObject
+        // For example, if MultisearchActionObject always has a 'systems' property, you can check for its existence
+        return typeof action === 'object' && action !== null && 'systems' in action;
+    }
 
     const submitSearch = useCallback(
         ({ system, skip }: { system?: System; skip?: "skip" | "skipback" }) => {
-            
+            let shortcutsCompletedStatus = false;
             if (queryObject.shortcut) {
-                handleShortcutSearch({
-                    queryObject: queryObject as ShortcutQuery,
-                    systems,
-                    cleanupSearch,
-                    preppedSearchLink,
-                    getNextUnsearchedSystems
-                });
-                return true;
+                if (isMultisearchActionObject(queryObject.shortcut.action)) {
+                    shortcutsCompletedStatus = getShortcutsCompletedStatus(queryObject.shortcut.action, systemsSearched);
+                }
+                if (!shortcutsCompletedStatus) {
+                    handleShortcutSearch({
+                        queryObject: queryObject as ShortcutQuery,
+                        systems,
+                        cleanupSearch,
+                        preppedSearchLink,
+                        getNextUnsearchedSystems,
+                        systemsSearched
+                    });
+                    return true;
+                } 
             }
 
             if (skip && handleSkipLogic({ skip, getNextUnsearchedSystem, getLastSkippedSystem, updateSystemsSkipped, handleSearch: submitSearch })) {
@@ -157,7 +179,9 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             preppedSearchLink,
             cleanupSearch,
             getLastSkippedSystem,
-            queryObject,            
+            queryObject,
+            systemsSearched,
+            getShortcutsCompletedStatus
         ]
     );
 

@@ -10,16 +10,16 @@ import { Query } from '@/src/types';
 
 interface QueryContextType {
     queryObject: Query;
-    setQueryObject: (queryObject: Query) => void;
     setQueryObjectIntoURL: () => void;
     processTextInputForQueryObject: (text: string) => void;
+    markShortcutAsCompletedInQueryObject: () => void;
 }
 
 const QueryContext = createContext<QueryContextType>({
     queryObject: { raw_string: '', query: '', shortcut: null, in_address_bar: false, from_address_bar: false },
-    setQueryObject: () => { },
     setQueryObjectIntoURL: () => { },
     processTextInputForQueryObject: () => { },
+    markShortcutAsCompletedInQueryObject: () => { },
 });
 
 const trimTrailingSlashAndUpdateFlag = (
@@ -80,7 +80,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
                 }
                 
                 setQueryObject({
-                    raw_string: initialRawQuery, 
+                    raw_string: initialRawQuery,
                     query: initialQuery,
                     shortcut: initialShortcut,
                     in_address_bar: true,
@@ -102,14 +102,18 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
     }, [queryObject]);
 
 
+
     const processTextInputForQueryObject = (text: string) => {
         let query = text;
         const shortcut = getShortcutFromQuery(text);
-
         if (shortcut) {
             query = text.replace(`/${shortcut.name}`, '').trim();
+            if (query === queryObject.query && shortcut.name && queryObject.shortcut && queryObject.shortcut.completed && shortcut.name === queryObject.shortcut.name) {
+                return;
+            }
         }
-
+        
+        console.log("here", query, queryObject.query, shortcut, queryObject.shortcut);
         if (query !== queryObject.query || shortcut !== queryObject.shortcut) {
             setQueryObject(q => ({ ...q, raw_string: text, query, shortcut, from_address_bar: false }));
             if (shortcut) {
@@ -131,8 +135,22 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
         setQueryObject({...queryObject, in_address_bar: true});
     }
 
+    const markShortcutAsCompletedInQueryObject = () => {
+        if (!queryObject.shortcut) return;
+        const shortcut = queryObject.shortcut;
+        setQueryObject(q => ({
+            ...q,
+            shortcut: {
+                completed: true,
+                type: shortcut.type,
+                name: shortcut.name,
+                action: shortcut.action
+            }
+        }));
+    }
+
     return (
-        <QueryContext.Provider value={{ queryObject, setQueryObject, setQueryObjectIntoURL, processTextInputForQueryObject }}>
+        <QueryContext.Provider value={{ queryObject, setQueryObjectIntoURL, processTextInputForQueryObject, markShortcutAsCompletedInQueryObject }}>
             {children}
         </QueryContext.Provider>
     );

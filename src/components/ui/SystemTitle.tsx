@@ -24,8 +24,8 @@ export const SystemTitle: React.FC<{ system: System, className?: string, mini_mo
         <>
           <Image src={`/favicons/${system.id}.ico`}
             alt={`${system.name} favicon`} width={15} height={15} quality={75}
-            className={`bg-white group-hover:bg-blue-100 rounded-md p-1 w-5 h-5 ${mini_mode ? 'mr-0' : 'mr-2'}`} />
-          <span className={`${mini_mode ? 'pr-2' : ''}`}>{system.name}</span>
+            className={`bg-white group-hover:bg-blue-100 rounded-md p-1 ${mini_mode ? 'w-4 h-4 mx-1' : 'w-5 h-5 mr-2'}`} />
+          <span className={`${mini_mode ? 'pr-2 py-1' : ''}`}>{system.name}</span>
           {system.special_note && !mini_mode && <span className="ml-2 bg-green-200 rounded-md px-1">{system.special_note}</span>}
         </>
       ) : (

@@ -19,26 +19,29 @@ interface HandleMultisearchObjectProps {
     systems: System[];
     cleanupSearch: (system: System, query: string, shortcut?: string) => void;
     preppedSearchLink: (params: PreppedSearchLinkParams) => string;
+    systemsSearched: Record<string, boolean>;
 }
 
 
-const HandleMultisearchObject = ({
+function HandleMultisearchObject({
     queryObject,
     systems,
     cleanupSearch,
     preppedSearchLink,
-}: HandleMultisearchObjectProps) => {
+    systemsSearched
+}: HandleMultisearchObjectProps) {
+    
     console.log('Handling multisearch shortcut: ', queryObject.shortcut.name);
     CopyQueryToClipboard({ query: queryObject.query })
 
     const { always, randomly } = queryObject.shortcut.action.systems;
 
     const alwaysSystems = systems.filter(system =>
-        always.includes(system.id)
+        always.includes(system.id) && !systemsSearched[system.id]
     );
 
     const randomlySystems = systems.filter(
-        (system) => randomly.includes(system.id)
+        (system) => randomly.includes(system.id) && !systemsSearched[system.id]
     );
 
     const selectedRandomSystems = [];
@@ -48,7 +51,7 @@ const HandleMultisearchObject = ({
         const randomSystem = randomlySystems.splice(randomIndex, 1)[0];
         if (randomSystem) selectedRandomSystems.push(randomSystem);
     }
-    const systemsToSearch = [...alwaysSystems, ...selectedRandomSystems];
+    let systemsToSearch = [...alwaysSystems, ...selectedRandomSystems];
 
     systemsToSearch.forEach((system) => {
         const url = preppedSearchLink({ system, query: queryObject.query });

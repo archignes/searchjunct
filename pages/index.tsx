@@ -7,6 +7,7 @@ import Footer from '../src/components/Footer';
 import Toolbar from "../src/components/toolbar/Toolbar";
 import SystemList from "../src/components/SystemList";
 import SearchBar from "../src/components/SearchBar";
+import ShortcutBar from "../src/components/ShortcutBar";
 
 
 const title = "Searchjunct"
@@ -42,6 +43,7 @@ const HomePage = () => {
       <Header />
       <div className="mx-1 w-9/10 sm:w-3/4 sm:mx-auto md:w-3/7 lg:w-3/5 xl:w-2/4">
         <SearchBar />
+        <ShortcutBar />
         <Toolbar />
         <SystemList />
         <Footer />

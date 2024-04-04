@@ -1,6 +1,6 @@
 // cards/Settings/CustomMultisearch.tsx
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { z } from "zod";
 
 import {
@@ -34,7 +34,7 @@ import { MultisearchActionObject } from '@/src/types';
 const AddMultisearchActionObject: React.FC = () => {
   const { multisearchActionObjects, addMultisearchActionObject } = useStorageContext();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const defaultShortcutNames = ["links", "beta"];
     if (
       JSON.parse(localStorage.getItem('multisearchActionObjects') || '[]')

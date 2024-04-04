@@ -16,6 +16,7 @@ interface HandleShortcutSearchProps {
     cleanupSearch: (system: System, query: string) => void;
     preppedSearchLink: (params: PreppedSearchLinkParams) => string;
     getNextUnsearchedSystems: (params: getNextUnsearchedSystemParams) => System[];
+    systemsSearched: Record<string, boolean>;
 }
 
 export const handleShortcutSearch = ({
@@ -24,6 +25,7 @@ export const handleShortcutSearch = ({
     cleanupSearch,
     preppedSearchLink,
     getNextUnsearchedSystems,
+    systemsSearched,
 }: HandleShortcutSearchProps) => {
     console.log("queryObject.shortcut:", queryObject);
     if (queryObject.shortcut.type === 'multisearch_number' && typeof queryObject.shortcut.action === 'number') {
@@ -41,7 +43,8 @@ export const handleShortcutSearch = ({
             queryObject: queryObject as MultisearchObjectQuery,
             systems,
             cleanupSearch,
-            preppedSearchLink
+            preppedSearchLink,
+            systemsSearched,
         });
         return;
     }

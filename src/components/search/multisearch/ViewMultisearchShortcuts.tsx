@@ -22,18 +22,42 @@ import { SpecialCardTitle } from '../../ui/SystemTitle';
 
 
 const MultisearchActionObjectBucket: React.FC<{ title: string, systems: string[], additionalClasses?: string }> = ({ title, systems, additionalClasses }) => {
+    const { systemsSearched } = useStorageContext();
+    const [containerClasses, setContainerClasses] = useState('');
+
+    useEffect(() => {
+        const allSystemsSearched = systems.every(system => systemsSearched[system]);
+        setContainerClasses(allSystemsSearched ? 'bg-gray-300' : '');
+    }, [systems, systemsSearched]);
+
     return (
-        <div className={`border rounded-md px-1 ${additionalClasses}`}>
+        <div className={`border rounded-md px-1 ${containerClasses} ${additionalClasses}`}>            
             <span className="text-sm">{title}</span>
             <div className="flex flex-wrap">
-                {systems.map((system) => (
+                {systems.length > 0 ? systems.map((system) => (
                     <div key={system} className="chip">
                         <MiniSearchSystemItem systemId={system} />
                     </div>
-                ))}
+                )) : <div className="w-[60px] h-5 mt-1 rounded-md border-white border border-dashed text-sm text-center text-gray-500">none</div>}
             </div>
         </div>
     );
+}
+
+
+export const MultisearchActionObjectBuckets: React.FC<{shortcut: MultisearchActionObject}> = ({ shortcut }) => {
+    return (
+        <CardContent className="flex flex-row gap-1 pb-3">
+            <MultisearchActionObjectBucket
+                title="Always initiate:"
+                systems={shortcut.systems.always}
+            />
+            {shortcut.systems.randomly.length > 0 && <MultisearchActionObjectBucket
+                title={`Randomly initiate ${shortcut.count_from_randomly}:`}
+                systems={shortcut.systems.randomly}
+            />}
+        </CardContent>
+    )
 }
 
 export const ViewIndividualMultisearchActionObject: React.FC<{shortcut: MultisearchActionObject, index?: number}> = ({ shortcut, index }) => {
@@ -41,7 +65,7 @@ export const ViewIndividualMultisearchActionObject: React.FC<{shortcut: Multisea
 
 
     const getExampleQueryLink = (shortcut: MultisearchActionObject) => {
-        const sampleQueries = ["Are there any undiscovered animals in the deep ocean?",
+        const sampleQueries = ["Are there any undiscovered animals in the deep ocean?", 
             "Can plants communicate with each other?",
             "Can you provide a detailed guide on communicating telepathically with aliens?",
             "How does quantum computing work?",
@@ -138,7 +162,7 @@ export const ViewIndividualMultisearchActionObject: React.FC<{shortcut: Multisea
                 systems={shortcut.systems.randomly}
             />}
         </CardContent>
-            <CardFooter className="pb-3">
+        <CardFooter className="pb-3">
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <Button variant="destructive" size="sm">

@@ -5,13 +5,15 @@
 // a submit button. It utilizes various contexts to handle search
 // functionality and state management.
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Textarea } from './shadcn-ui/textarea';
 import { Button } from './shadcn-ui/button';
 
-import { useSearchContext,
-  useQueryContext } from '../contexts/';
+import {
+  useSearchContext,
+  useQueryContext
+} from '../contexts/';
 
 const SearchBar = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -21,28 +23,39 @@ const SearchBar = () => {
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    // This effect runs once on component mount to focus the textarea and move the cursor to the end
-    const focusAndSetCursorToEnd = () => {
-      if (textareaRef.current) {
-        textareaRef.current.focus();
-        // Move the cursor to the end of the textarea
-        textareaRef.current.setSelectionRange(textareaRef.current.value.length, textareaRef.current.value.length);
+    const handleKeySkipbackHotkey = (e: KeyboardEvent) => {
+      // Check if the focus is not on an input or textarea
+      if (document.activeElement && (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA')) {
+        if (e.altKey && e.shiftKey) {
+          submitSearch({ skip: "skipback" });
+          console.log("Hotkey: Alt/Option+Shift pressed.");
+        }
       }
     };
-    focusAndSetCursorToEnd();
+
+    // Attach the event listener to the window object
+      window.addEventListener('keydown', handleKeySkipbackHotkey);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener('keydown', handleKeySkipbackHotkey);
+    };
+  }, [submitSearch]);
+
+  const hasFocusedRef = useRef(false);
+
+  useEffect(() => {
+    if (!hasFocusedRef.current && textareaRef.current) {
+      textareaRef.current.focus();
+      textareaRef.current.setSelectionRange(textareaRef.current.value.length, textareaRef.current.value.length);
+      hasFocusedRef.current = true;
+    }
   }, []);
 
   const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     submitSearch({});
   };
-
-  // Inside your component
-  const [stringForTextarea, setStringForTextarea] = useState(queryObject.raw_string || "");
-
-  useEffect(() => {
-    setStringForTextarea(queryObject.raw_string);
-  }, [queryObject]);
 
   return (
     <div id="search-bar" className="flex justify-center items-center space-x-2">
@@ -67,23 +80,19 @@ const SearchBar = () => {
               className="text-base w-full"
               rows={1}
               placeholder="Type your query here..."
-              value={stringForTextarea}
+              value={queryObject.raw_string}
               onChange={(e) => processTextInputForQueryObject(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey && !(e.altKey)) {
                   e.preventDefault();
                   console.log("normal enter detected...")
                   formRef.current?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true })); // Directly trigger form submission
-                } else if (e.key === 'Enter' && e.altKey && ! e.shiftKey) {
+                } else if (e.key === 'Enter' && e.altKey && !e.shiftKey) {
                   e.preventDefault();
                   // Logic to skip the next active search engine and execute a search on the subsequent one
                   console.log("Hotkey: Alt/Option+Enter pressed.");
-                  submitSearch({skip: "skip"});
-                } else if (e.altKey && e.shiftKey) {
-                  submitSearch({skip: "skipback"});
-                  console.log("Hotkey: Alt/Option+Shift pressed.");
-                }
-              }}
+                  submitSearch({ skip: "skip" });
+                } }}
             ></Textarea>
           </div>
           <div className="w-3/4 sm:w-auto">
@@ -108,4 +117,3 @@ const SearchBar = () => {
 
 
 export default SearchBar;
-

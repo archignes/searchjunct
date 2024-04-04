@@ -9,5 +9,5 @@ export type { PreppedSearchLinkParams } from './search';
 export type { getNextUnsearchedSystemParams } from './search';
 export type { HandleSearchShortcutCandidateParams } from './search';
 export type { HandleSearchParams } from './search';
-
+export type { SubmitSearchParams } from './search';
 

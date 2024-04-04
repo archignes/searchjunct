@@ -17,8 +17,8 @@ import { Shortcut, MultisearchActionObject} from '@/src/types';
 
 interface ShortcutContextType {
     multisearchActionObjects: MultisearchActionObject[];
-    addMultisearchActionObject: (shortcut: MultisearchActionObject) => void;
-    removeMultisearchActionObject: (shortcutName: string) => void;
+    addMultisearchActionObject: (action: MultisearchActionObject) => void;
+    removeMultisearchActionObject: (actionName: string) => void;
     getShortcutFromQuery: (query: string) => Shortcut | null;
 }
 
@@ -59,14 +59,14 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
 
     // getting shortcut from query
     
-    const getShortcut = ({type, shortcutCandidate}: {type: string, shortcutCandidate: string}) => {
+    const getShortcut = ({ type, shortcutCandidate, completed }: { type: 'multisearch_number' | 'multisearch_object', shortcutCandidate: string, completed: boolean }) => {
         if (type === 'multisearch_number') {
-            return { type: 'multisearch_number', name: shortcutCandidate, action: Number(shortcutCandidate) }
+            return { type, name: shortcutCandidate, completed, action: Number(shortcutCandidate) } as Shortcut;
         }
         if (type === 'multisearch_object') {
             const shortcut = multisearchActionObjects.find(shortcut => shortcut.name === shortcutCandidate);
             if (!shortcut) return null;
-            return { type: 'multisearch_object', name: shortcut.name, action: shortcut};
+            return { type, name: shortcut.name, completed, action: shortcut } as Shortcut;
         }
         return null;
     }
@@ -78,10 +78,10 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
         }
         if (!isNaN(parseFloat(shortcutCandidateName))) {
             const shortcutCandidateNumber = parseFloat(shortcutCandidateName).toString();
-            return getShortcut({type: 'multisearch_number', shortcutCandidate: shortcutCandidateNumber});
+            return getShortcut({type: 'multisearch_number', shortcutCandidate: shortcutCandidateNumber, completed: false});
         }
         if (shortcutCandidateName) {
-            return getShortcut({type: 'multisearch_object', shortcutCandidate: shortcutCandidateName});
+            return getShortcut({type: 'multisearch_object', shortcutCandidate: shortcutCandidateName, completed: false});
         }
         return null;
     }

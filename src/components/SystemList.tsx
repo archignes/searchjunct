@@ -1,3 +1,5 @@
+// SystemList.tsx
+
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { VariableSizeList as List } from 'react-window';
 import SortingContainer from './SortingContainer';
@@ -5,8 +7,6 @@ import { useSystemsContext,
   useStorageContext,
   useSortContext,
   useSystemSearchContext } from '../contexts/';
-import SearchSystemItem from './ui/SystemItem';
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import useFeatureFlag from '../hooks/useFeatureFlag';
 
 const SystemList = () => {
@@ -55,31 +55,6 @@ const SystemList = () => {
   if (!isClient) {
     return null;
   }
-
-  
-  // Row renderer for react-window
-  const Row = ({ index, style }: { index: number, style: React.CSSProperties }) => {
-    const system = visibleSystems[index];
-    // Apply bottom margin to each item's style to create the gap
-    const adjustedStyle = { ...style, marginBottom: '10px' };
-
-    return (
-      <div id={`${system.id}-bucket`} key={system.id} className="grid grid-cols-[auto_1fr] w-full" style={adjustedStyle}>
-        <div className="flex items-center w-8 justify-center">{activeSystem && activeSystem.id === system.id && (
-          <MagnifyingGlassIcon id="active-system" className="text-gray-500 w-8 h-8" />
-        )}</div>
-        <SearchSystemItem
-          id={system.id}
-          system={system}
-          showDisableDeleteButtons={false}
-          showDragHandle={false}
-        />
-      </div>
-    );
-  };
-  
-
-
 
   return (
     <div id="systems-list" data-testid="system-list" className="flex flex-col space-y-1 mt-1 mr-8">

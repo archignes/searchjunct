@@ -15,7 +15,8 @@ const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId })
   const {systemsDeleted, systemsDisabled } = useStorageContext();
   const { systems } = useSystemsContext();
   const system = systems.find((system: System) => system.id === systemId);
-  
+  const { systemsSearched } = useStorageContext();
+
   if (!system) return <div><ExclamationTriangleIcon />This is not a system.</div>;
 
   return (
@@ -24,8 +25,10 @@ const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId })
         id={system.id}
         key={system.id}
         className={`text-xs m-1 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-1
+                  ${systemsSearched?.[system.id] ? 'bg-gray-300 border-white' : ''}
                   ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-none' : ''}
                   ${systemsDeleted?.[system.id] ? '' : ''}`}
+
       >
         <div className="w-full">
           <div className="flex items-center">
