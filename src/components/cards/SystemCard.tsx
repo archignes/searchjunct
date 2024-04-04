@@ -51,11 +51,14 @@ const NoticeAlert: React.FC<SystemCardProps> = ({ system }) => {
 }
 
 const SearchLinkPatternAlert: React.FC<SystemCardProps> = ({ system }) => {
-  const search_link_pattern_formatted_github_issue_link = 'https://github.com/archignes/searchjunct/issues/new' +
+  const searchLinkPatternFormattedGithubIssueLink = 'https://github.com/archignes/searchjunct/issues/new' +
     [`?title=${ encodeURIComponent('Update search_link for URL-driven search support for ' + system.name + ' (' + system.id + ')')}`,
-`&body=${ encodeURIComponent('The search_link pattern for ' + system.name + ' is: {}')}`,
-`${encodeURIComponent('Be sure to include the % s placeholder for the query string.')},   ${encodeURIComponent('Please provide links to documentation, if available.')},   ${encodeURIComponent('Please indicate if the system requires query terms to be joined by % 20, rather than + ')},   ${encodeURIComponent('(this will be needed in the search_link_joiner field for the system because Searchjunct uses the plus as a default for readability).')},   ${encodeURIComponent('Thank you!')}`
-].join('');
+    `&body=${encodeURIComponent('# Add Search Link Pattern\n\nThe search_link pattern for ' + system.name + ' is: {}\n\n')}`,
+    `${encodeURIComponent('# Guidance\n\nBe sure to include the `%s` placeholder for the query string.\n\n')}`,
+    `${encodeURIComponent('Please provide links to documentation, if available.\n\n')}`,
+    `${encodeURIComponent('Please indicate if the system requires query terms to be joined by `%20`, rather than `+` ')}`,
+    `${encodeURIComponent('(this will be needed in the search_link_joiner field for the system because Searchjunct uses the plus as a default for readability).\n\n')}`,
+    `${encodeURIComponent('Thank you!')}`].join('');
 
 return (
   <Alert className={alertClass}>
@@ -65,7 +68,7 @@ return (
       <span>URL-driven searches are <span className="text-red-500 font-bold">not</span> supported.
         If given permissions, Searchjunct will copy the query to your clipboard.</span>
       <p className="text-right">
-        <a href={search_link_pattern_formatted_github_issue_link}
+        <a href={searchLinkPatternFormattedGithubIssueLink} target="_blank" rel="noopener noreferrer"
           className="text-xs mt-2 underline hover:bg-blue-100 p-1 rounded-md">Add Search Link Pattern</a></p>
     </AlertDescription>
   </Alert>
