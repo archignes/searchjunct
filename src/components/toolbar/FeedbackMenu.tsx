@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from "../ui/button";
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,17 +20,23 @@ const FeedbackDropdownMenu = () => {
   };
   return (
     <DropdownMenu onOpenChange={toggleFeedbackPopover}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          id="feedback-button"
-          variant="outline"
-          title="Feedback & Alerts"
-          className={`p-1 w-full ${isFeedbackPopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
-          // note: bg-orange-300 if there are alerts, need to add this into a cleaner component
-        >
-          <ExclamationTriangleIcon className={`${isFeedbackPopoverOpen ? 'text-white' : 'text-current'}`} />
-        </Button>
-      </DropdownMenuTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DropdownMenuTrigger asChild>
+              <Button
+                id="feedback-button"
+                variant="outline"
+                className={`p-1 w-full ${isFeedbackPopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
+              // note: bg-orange-300 if there are alerts, need to add this into a cleaner component
+              >
+                <ExclamationTriangleIcon className={`${isFeedbackPopoverOpen ? 'text-white' : 'text-current'}`} />
+              </Button>
+            </DropdownMenuTrigger>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="text-base">Feedback & Alerts</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <DropdownMenuContent>
         <DropdownMenuLabel>Feedback & Alerts</DropdownMenuLabel>
         <p className="text-gray-500 text-sm p-2">Alerts</p>

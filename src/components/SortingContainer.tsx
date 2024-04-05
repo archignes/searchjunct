@@ -3,6 +3,7 @@
 import React from 'react';
 import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './ui/tooltip';
 import { useSortContext, useSystemsContext, useSearchContext, useQueryContext } from '../contexts/';
 import { System } from '../types/system';
 import SearchSystemItem from './sj-ui/SystemItem';
@@ -63,14 +64,20 @@ const SortingContainer: React.FC<SortingContainerProps> = ({ showDisableDeleteBu
                 <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
                     {systemsCurrentOrder.filter(system => include.includes(system)).map((system, index) => (    
                         <div id={`${system.id}-bucket`} key={system.id} className="grid grid-cols-[auto_1fr] w-full">
-                            <div id={`${system.id}-left-margin`} className="flex items-center group w-8 justify-center">{activeSystem && activeSystem.id === system.id && (
-                                <a className="group w-full flex items-center py-2 border-l border-t border-b rounded-l-md hover:bg-blue-100"
-                                    href={preppedSearchLink({ system, query: queryObject.query })}
-                                    onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
-                                        <MagnifyingGlassIcon id="active-system" className="text-gray-500 w-8 h-8" />
-                                </a>
-                            
-                            )}</div>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <div id={`${system.id}-left-margin`} className="flex items-center group w-8 justify-center">{activeSystem && activeSystem.id === system.id && (
+                                            <a className="group w-full flex items-center py-2 border-l border-t border-b rounded-l-md hover:bg-blue-100"
+                                                href={preppedSearchLink({ system, query: queryObject.query })}
+                                                onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
+                                                <MagnifyingGlassIcon id="active-system" className="text-gray-500 w-8 h-8" />
+                                            </a>
+                                        )}</div>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="right" className="text-base">Search with {system.name}</TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                             <SearchSystemItem
                             id={system.id}
                             system={system}

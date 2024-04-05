@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Button } from "../ui/button";
 import { SlashIcon } from '@radix-ui/react-icons';
-
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,16 +25,22 @@ const ShortcutsDropdownMenu = () => {
   };
   return (
     <DropdownMenu onOpenChange={toggleShortcutsPopover}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          id="feedback-button"
-          variant="outline"
-          title="Shortcuts"
-          className={`p-1 w-full ${isShortcutsPopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
-        >
-          <SlashIcon className={`${isShortcutsPopoverOpen ? 'text-white' : 'text-current'}`} />
-        </Button>
-      </DropdownMenuTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DropdownMenuTrigger asChild>
+              <Button
+                id="feedback-button"
+                variant="outline"
+                className={`p-1 w-full ${isShortcutsPopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
+              >
+                <SlashIcon className={`${isShortcutsPopoverOpen ? 'text-white' : 'text-current'}`} />
+              </Button>
+            </DropdownMenuTrigger>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="text-base">Shortcuts</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <DropdownMenuContent>
         <DropdownMenuLabel>Shortcuts</DropdownMenuLabel>
         <p className="text-gray-500 text-sm p-2">Query Shortcuts</p>

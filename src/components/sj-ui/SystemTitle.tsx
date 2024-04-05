@@ -11,6 +11,15 @@ export const SpecialCardTitle: React.FC<{ title: string }> = ({ title }) => {
   )
 }
 
+export const FaviconImage: React.FC<{ system: System, mini_mode?: boolean }> = ({ system, mini_mode }) => {
+  return (
+    <Image src={`/favicons/${system.id}.ico`}
+      alt={`${system.name} favicon`} width={15} height={15} quality={75}
+      className={`rounded-md p-1 ${mini_mode ? 'bg-white w-4 h-4 mx-1' : 'flex-shrink-0 w-6 h-6 mr-2'}`} />
+  )
+}
+
+
 export const SystemTitle: React.FC<{ system: System, className?: string, mini_mode?: boolean }> = ({ system, className, mini_mode }) => {
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -22,9 +31,7 @@ export const SystemTitle: React.FC<{ system: System, className?: string, mini_mo
     <div className={`flex items-center m-0 p-0} ${className}`}>
       {hasMounted ? (
         <>
-          <Image src={`/favicons/${system.id}.ico`}
-            alt={`${system.name} favicon`} width={15} height={15} quality={75}
-            className={`bg-white group-hover:bg-blue-100 rounded-md p-1 ${mini_mode ? 'w-4 h-4 mx-1' : 'w-5 h-5 mr-2'}`} />
+          {mini_mode && <FaviconImage system={system} mini_mode={mini_mode}/>}
           <span className={`${mini_mode ? 'pr-2 py-1' : ''}`}>{system.name}</span>
           {system.special_note && !mini_mode && <span className="ml-2 bg-green-200 rounded-md px-1">{system.special_note}</span>}
         </>

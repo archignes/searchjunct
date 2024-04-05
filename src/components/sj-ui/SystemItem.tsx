@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 import { MagnifyingGlassIcon, 
   DragHandleDots2Icon,
   ChevronDownIcon
@@ -27,7 +28,7 @@ import { useSystemExpansionContext,
   useAddressContext 
 } from '../../contexts';
 import { SystemTitle } from './SystemTitle';
-
+import { FaviconImage } from './SystemTitle';
 import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
 
 
@@ -134,24 +135,25 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
           <AccordionItem value="item-1" className="border-none">
             <div className="w-full">
               <div className="w-full flex items-center">
-                    <a className="group w-full flex items-center py-2 hover:bg-blue-100 px-2 ml-1 hover:rounded-md"
-                   href={preppedSearchLink({system, query: queryObject.query})}
-                   onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
-                    <div className="w-full flex items-center">
-                    {/* {multiSelect ? (
-                      <kbox
-                        checked={isChecked}
-                        className="w-4 h-4 m-3"
-                        onCheckedChange={handleCheckboxChange}/>
-                        ) : ( */}
-                      <MagnifyingGlassIcon className="w-4 h-4 cursor-pointer" />
-                    {/* )} */}
+                  <div className="w-full flex items-center ml-1">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <a className="items-center flex space-x-2 hover:bg-blue-100 px-2 py-4 hover:rounded-md"
+                            href={preppedSearchLink({ system, query: queryObject.query })}
+                            onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
+                            <MagnifyingGlassIcon className="flex-shrink-0 w-4 h-4 cursor-pointer" />
+                            <FaviconImage system={system} mini_mode={false} />
+                          </a>
+                        </TooltipTrigger>
+                        <TooltipContent side="right" className="text-base">Search with {system.name}</TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                 <SystemTitle
                   className={`py-1 px-1 flex items-center flex-grow w-full`}
                   system={system}
                 />
                     </div>
-              </a>
                   {showDisableDeleteButtons && (
                     <div className="flex justify-center space-x-1 pl-1 w-1/3">
                       <DisableSystemButton system={system} />
@@ -167,20 +169,34 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
               className="handle py-4 px-3 hover:bg-blue-100 hover:rounded-md"
               aria-label="Drag handle for reordering"
             >
-              <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
+                    </TooltipTrigger>
+                  <TooltipContent side="top" className="text-base">Drag and sort</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             )}
-                  {(isItemExpanded) ? (
-                    <Button variant="ghost" aria-expanded={isItemExpanded ? "true" : "false"} className="px-2 mr-1 hover:bg-blue-100 hover:rounded-md flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
-                    onClick={toggleItemExpanded}
-                      aria-label={isItemExpanded ? "Collapse system card" : "Expand system card"}
-                  >
-                    <ChevronDownIcon className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${isItemExpanded ? 'rotate-180' : ''}`} />
-                  </Button>
-                  ) :
-                  (
-                      <AccordionTrigger className="mr-1 hover:rounded-md hover:bg-blue-100 px-2" />
-                  )}
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        {(isItemExpanded) ? (
+                          <Button variant="ghost" aria-expanded={isItemExpanded ? "true" : "false"} className="px-2 mr-1 hover:bg-blue-100 hover:rounded-md flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
+                            onClick={toggleItemExpanded}
+                            aria-label={isItemExpanded ? "Collapse system card" : "Expand system card"}
+                          >
+                            <ChevronDownIcon className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${isItemExpanded ? 'rotate-180' : ''}`} />
+                          </Button>
+                        ) :
+                          (
+                            <AccordionTrigger className="mr-1 hover:rounded-md hover:bg-blue-100 px-2" />
+                          )}
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="text-base">Toggle system card</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
               </div>
                 {(isItemExpanded) ? (
                   <div className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">

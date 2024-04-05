@@ -9,15 +9,17 @@ import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
-
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './ui/tooltip';
 import {
   useSearchContext,
-  useQueryContext
+  useQueryContext,
+  useSystemsContext
 } from '../contexts/';
 
 const SearchBar = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { submitSearch } = useSearchContext();
+  const { activeSystem } = useSystemsContext();
   const { queryObject, processTextInputForQueryObject } = useQueryContext();
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -96,17 +98,32 @@ const SearchBar = () => {
             ></Textarea>
           </div>
           <div className="w-3/4 sm:w-auto">
-            <Button id="search-button" variant="outline"
-              className="w-full md:w-auto p-1 hover:bg-blue-100" type="submit" aria-label="Submit Search">
-              <Image
-                id="magnifying-glass-logo-search"
-                src="/searchjunct.svg"
-                alt="Searchjunct Logo"
-                width={30}
-                height={30}
-              />
-              <span className="sm:hidden font-semi-bold text-gray-700">Submit</span>
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button id="search-button" variant="outline"
+                    className="w-full md:w-auto p-1 hover:bg-blue-100" type="submit" aria-label="Submit Search">
+                    <Image
+                      id="magnifying-glass-logo-search"
+                      src="/searchjunct.svg"
+                      alt="Searchjunct Logo"
+                      width={30}
+                      height={30}
+                    />
+                    <span className="sm:hidden font-semi-bold text-gray-700">Submit</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="text-base">
+                  {queryObject.shortcut ? (
+                    queryObject.shortcut.type === "multisearch_number" ? 
+                    `Search the next ${queryObject.shortcut.name} systems` : 
+                    `Search /${queryObject.shortcut.name}`
+                  ) : (
+                    `Search ${activeSystem?.name}`
+                  )}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </form>
 

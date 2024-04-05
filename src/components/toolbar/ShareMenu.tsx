@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Button } from "../ui/button";
 import { Share2Icon } from '@radix-ui/react-icons';
 import { CopyIcon } from '@radix-ui/react-icons';
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,16 +47,23 @@ const ShareDropdownMenu = () => {
   };
   return (
     <DropdownMenu onOpenChange={toggleSharePopover}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          id="share-button"
-          variant="outline"
-          title="Share"
-          className={`p-1 w-full ${isSharePopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
-        >
-          <Share2Icon className={`${isSharePopoverOpen ? 'text-white' : 'text-current'}`} />
-        </Button>
-      </DropdownMenuTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DropdownMenuTrigger asChild>
+              <Button
+                id="share-button"
+                variant="outline"
+                title="Share"
+                className={`p-1 w-full ${isSharePopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
+              >
+                <Share2Icon className={`${isSharePopoverOpen ? 'text-white' : 'text-current'}`} />
+              </Button>
+            </DropdownMenuTrigger>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="text-base">Share</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <DropdownMenuContent className="max-w-[350px] mr-5">
         <DropdownMenuLabel>Share</DropdownMenuLabel>
         <DropdownMenuItem id="copy-exact-url-button" className="hover:bg-blue-100 cursor-pointer"
