@@ -108,6 +108,13 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
                 if (system) acc.push(system);
                 return acc;
             }, []);
+
+            // Add any systems not in order (new systems) to the end of sortedSystems
+            systems.forEach((system) => {
+                if (!order.includes(system.id)) {
+                    sortedSystems.push(system);
+                }
+            });
             // Update state with the sorted systems
             setSystemsState(sortedSystems);
             setSystemsCurrentOrder(sortedSystems);

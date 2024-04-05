@@ -72,17 +72,13 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
         if (!hasRunInitialQueryConstructionRef.current) {
             let initialRawQuery = urlQuery;
             let initialQuery = urlQuery;
-            console.log("initialQuery", initialRawQuery);
             // Attempt to get a shortcut from the URL query
             let initialShortcut = getShortcutFromQuery(urlQuery);
-            console.log("initialShortcut", initialShortcut);
             // If no shortcut is found in the URL query and a URL shortcut exists,
             // try to get a shortcut using the URL shortcut
             if (!initialShortcut && urlShortcut) {
                 initialShortcut = getShortcutFromQuery(`/${urlShortcut}`);
             }
-            console.log("initialQuery", initialQuery);
-            console.log("initialShortcut", initialShortcut);
             if (initialRawQuery || initialShortcut) {
                 if (initialRawQuery) {
                     // update if trailing slash /empty shortcut to block immediate searches
@@ -92,9 +88,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
                     );
                 }
                 if (initialShortcut) {
-                    console.log("pre query", initialQuery)
                     initialQuery = initialRawQuery.replace(`/${initialShortcut.name}`, '').trim();
-                    console.log("new query", initialQuery)
                 }
 
                 if (initialRawQuery && initialShortcut) {
@@ -139,7 +133,6 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
             }
         }
         
-        console.log("here", query, queryObject.query, shortcut, queryObject.shortcut);
         if (query !== queryObject.query || shortcut !== queryObject.shortcut) {
             setQueryObject(q => ({ ...q, raw_string: text, query, shortcut, from_address_bar: false }));
             if (shortcut) {

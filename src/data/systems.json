@@ -352,6 +352,15 @@
     "twitter_link": "https://twitter.com/yepsearch"
   },
   {
+    "name": "Bing Deep Search",
+    "id": "bing-deep-search",
+    "twitter_link": "https://twitter.com/bing",
+    "search_link": "https://www.bing.com/search?q=%s&shm=cr&form=DEEPSH",
+    "search_link_note": "If the query is empty it is processed by Microsoft as a standard Bing search.",
+    "search_link_requires_query": true,
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)"
+  },
+{
     "name": "Wayback Machine",
     "id": "wayback-machine",
     "search_link_joiner": "%20",

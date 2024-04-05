@@ -37,6 +37,7 @@ export interface System {
     default_in_browser?: string[];
     base_url?: string;
     special_note?: string;
+    search_link_requires_query?: boolean;
     notable_features?: Feature[];
 }
 

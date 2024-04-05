@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { System } from '../../types/system';
-
+import { useQueryContext } from '@/contexts/QueryContext';
 
 export const SpecialCardTitle: React.FC<{ title: string }> = ({ title }) => {
   return (
@@ -22,7 +22,8 @@ export const FaviconImage: React.FC<{ system: System, mini_mode?: boolean }> = (
 
 export const SystemTitle: React.FC<{ system: System, className?: string, mini_mode?: boolean }> = ({ system, className, mini_mode }) => {
   const [hasMounted, setHasMounted] = useState(false);
-
+  const { queryObject } = useQueryContext();
+  
   useEffect(() => {
     setHasMounted(true);
   }, []);
@@ -33,7 +34,12 @@ export const SystemTitle: React.FC<{ system: System, className?: string, mini_mo
         <>
           {mini_mode && <FaviconImage system={system} mini_mode={mini_mode}/>}
           <span className={`${mini_mode ? 'pr-2 py-1' : ''}`}>{system.name}</span>
-          {system.special_note && !mini_mode && <span className="ml-2 bg-green-200 rounded-md px-1">{system.special_note}</span>}
+          {system.special_note && !mini_mode && <span className="ml-2 bg-green-200 rounded-md px-1">
+            {system.special_note}
+            </span>}
+          {system.search_link_requires_query && queryObject.query.length === 0 && !mini_mode && <span className="ml-5 bg-red-400 text-center px-2 rounded-md px-1">
+            requires non-empty query
+          </span>}
         </>
       ) : (
         <div>Loading...</div>
