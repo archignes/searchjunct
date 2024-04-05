@@ -139,7 +139,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <a className="items-center flex space-x-2 hover:bg-blue-100 px-2 py-4 hover:rounded-md"
+                          <a className="items-center flex space-x-1 hover:bg-blue-100 pl-2 pr-3 py-4 hover:rounded-md"
                             href={preppedSearchLink({ system, query: queryObject.query })}
                             onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
                             <MagnifyingGlassIcon className="flex-shrink-0 w-4 h-4 cursor-pointer" />
