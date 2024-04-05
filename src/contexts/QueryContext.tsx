@@ -4,7 +4,7 @@
 // application. It provides a `QueryProvider` component that wraps its
 // children and supplies the query state and related functions.
 
-import React, { createContext, useEffect, useRef, useContext, ReactNode, useState } from 'react';
+import React, { createContext, useEffect, useRef, useContext, ReactNode, useState, useCallback } from 'react';
 import { useAddressContext, useShortcutContext, useStorageContext } from './';
 import { Query } from '@/types';
 
@@ -55,26 +55,54 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
     // Ref to track the first run of the useEffect
     const hasRunInitialQueryConstructionRef = useRef(false);
 
+    const setQueryObjectIntoURL = useCallback(() => {
+        if (!queryObject.shortcut) {
+            updateURLQueryParams([{ urlParam: 'q', value: queryObject.query }]);
+            return;
+        }
+        updateURLQueryParams([
+            { urlParam: 'q', value: queryObject.query },
+            { urlParam: 'shortcut', value: queryObject.shortcut.name }
+        ]);
+        setQueryObject({ ...queryObject, in_address_bar: true });
+    }, [queryObject, updateURLQueryParams]);
+
+
     useEffect(() => {
         if (!hasRunInitialQueryConstructionRef.current) {
             let initialRawQuery = urlQuery;
             let initialQuery = urlQuery;
-            const initialShortcut = getShortcutFromQuery(urlQuery) || 
-                                    urlShortcut ? getShortcutFromQuery(`/${urlShortcut}`) : null;
-            
+            console.log("initialQuery", initialRawQuery);
+            // Attempt to get a shortcut from the URL query
+            let initialShortcut = getShortcutFromQuery(urlQuery);
+            console.log("initialShortcut", initialShortcut);
+            // If no shortcut is found in the URL query and a URL shortcut exists,
+            // try to get a shortcut using the URL shortcut
+            if (!initialShortcut && urlShortcut) {
+                initialShortcut = getShortcutFromQuery(`/${urlShortcut}`);
+            }
+            console.log("initialQuery", initialQuery);
+            console.log("initialShortcut", initialShortcut);
             if (initialRawQuery || initialShortcut) {
                 if (initialRawQuery) {
+                    // update if trailing slash /empty shortcut to block immediate searches
                     initialRawQuery = trimTrailingSlashAndUpdateFlag(
                         initialRawQuery, 
                         updateFlagSearchInitiated
                     );
                 }
                 if (initialShortcut) {
+                    console.log("pre query", initialQuery)
                     initialQuery = initialRawQuery.replace(`/${initialShortcut.name}`, '').trim();
+                    console.log("new query", initialQuery)
                 }
 
                 if (initialRawQuery && initialShortcut) {
-                    initialRawQuery = `${initialRawQuery} /${initialShortcut.name}`;
+                    initialRawQuery = `${initialQuery} /${initialShortcut.name}`;
+                    updateURLQueryParams([
+                        { urlParam: 'q', value: queryObject.query },
+                        { urlParam: 'shortcut', value: initialShortcut.name }
+                    ]);
                 }
                 
                 setQueryObject({
@@ -87,7 +115,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
             }
             hasRunInitialQueryConstructionRef.current = true;
         }
-        }, [urlQuery, urlShortcut, getShortcutFromQuery, updateFlagSearchInitiated]);
+    }, [urlQuery, urlShortcut, updateURLQueryParams, getShortcutFromQuery, updateFlagSearchInitiated]);
     
     const warnAboutBackslash = (rawString: string) => {
         if (rawString.includes('\\')) {
@@ -121,17 +149,6 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
-    const setQueryObjectIntoURL = () => {
-        if (!queryObject.shortcut) {
-            updateURLQueryParams([{ urlParam: 'q', value: queryObject.query }]);
-            return;
-        }
-        updateURLQueryParams([
-            { urlParam: 'q', value: queryObject.query },
-            { urlParam: 'shortcut', value: queryObject.shortcut.name }
-        ]);
-        setQueryObject({...queryObject, in_address_bar: true});
-    }
 
     return (
         <QueryContext.Provider value={{ queryObject, setQueryObjectIntoURL, processTextInputForQueryObject }}>
