@@ -74,7 +74,7 @@ const ShareDropdownMenu = () => {
           }}>
           <div className="flex flex-col">
             <div><CopyIcon className="inline h-4 w-4 mr-2" />Copy Searchjunct search URL</div>
-            <div className="text-sm p-1 my-1 w-full flex border rounded-md justify-between items-center">
+            <div className="text-sm p-1 my-1 w-full flex border rounded-md justify-between items-center break-all">
               <code>{typeof window !== "undefined" ? url : ''}</code>
             </div>
             {isExactURLCopyButtonClicked && <span className="text-xs text-gray-500">Copied!</span>}
