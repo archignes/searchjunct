@@ -115,7 +115,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
             }
             hasRunInitialQueryConstructionRef.current = true;
         }
-    }, [urlQuery, urlShortcut, updateURLQueryParams, getShortcutFromQuery, updateFlagSearchInitiated]);
+    }, [urlQuery, urlShortcut, queryObject, updateURLQueryParams, getShortcutFromQuery, updateFlagSearchInitiated]);
     
     const warnAboutBackslash = (rawString: string) => {
         if (rawString.includes('\\')) {
