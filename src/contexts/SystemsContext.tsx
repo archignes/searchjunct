@@ -15,7 +15,7 @@ interface SystemsContextType {
     systems: System[];
     activeSystem: System | undefined;
     setActiveSystem: (systemId: string) => void;
-    initializeSystemsState: (systemsDisabled: any, systemsDeleted: any, systemsSearched: any) => System[];
+    initializeSystemsState: (systemsDisabled: any, systemsDeleted: any, systemsSearched: any) => void;
     systemsState: System[];
     setSystemsState: (systems: System[]) => void;
 }
@@ -43,12 +43,12 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
         systemsDeleted: Record<string, boolean> = {},
         systemsSearched: Record<string, boolean> = {}
     ) => {
-        return systems.map(system => ({
+        setSystemsState(systems.map(system => ({
             ...system,
-            searched: systemsSearched[system.id] ?? false,
-            disabled: systemsDisabled[system.id] ?? false,
-            deleted: systemsDeleted[system.id] ?? false,
-        }));
+            searched: systemsSearched[system.id] ?? {},
+            disabled: systemsDisabled[system.id] ?? {},
+            deleted: systemsDeleted[system.id] ?? {},
+        })));
     }, []);
 
     const setActiveSystem = (systemId: string) => {
@@ -61,6 +61,7 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
             setActiveSystemState(systems[0]);
         }
     }, [activeSystem]);
+
 
     return (
         <SystemsContext.Provider value={

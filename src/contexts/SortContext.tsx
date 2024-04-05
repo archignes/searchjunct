@@ -85,32 +85,50 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
         setSortStatus(newStatus);
     }
 
+
+    // Define customSort function with useCallback for optimized performance
     const customSort = useCallback((type?: string) => {
+        // Handle cases where sort is triggered by a click or initially
         if (type === "click" || type === "initial") {
+            // Prevent setting custom sort if it's already active
             if (sortStatus === 'custom') {
                 alert("Custom sort order is already active.");
                 return;
             }
+            // Alert if no custom sort order is set
             if (!systemsCustomOrder || systemsCustomOrder?.length === 0) {
-                alert("No custom sort order has been saved. Please set up a custom sort order in Settings first.");
+                alert("No custom sort order has been saved. Please set up a custom sort order by dragging systems.");
                 return;
             }
-            const order: string[] = systemsCustomOrder
-            const sortedSystems = order.map(id => systemsState.find(system => system.id === id)).filter(system => system) as System[];
+            // Retrieve custom order from storage
+            const order: string[] = systemsCustomOrder;
+            // Map the custom order to the systems state, filtering out any undefined entries
+            const sortedSystems: System[] = order.reduce((acc: System[], id) => {
+                const system = systems.find(system => system.id === id);
+                if (system) acc.push(system);
+                return acc;
+            }, []);
+            // Update state with the sorted systems
             setSystemsState(sortedSystems);
             setSystemsCurrentOrder(sortedSystems);
+            // Mark the sort status as custom
             updateSortStatus('custom');
-            updateURLQueryParams([{ urlParam: 'systems', value: '' }]); // Remove the systems param
+            // Clear the systems parameter from the URL
+            updateURLQueryParams([{ urlParam: 'systems', value: '' }]);
         } else if (customModeOnLoad && sortStatus === 'initial') {
+            // If custom mode should be loaded initially and sort status is initial, trigger custom sort
             customSort(type="initial");
         }
-    }, [updateURLQueryParams, setSystemsState, systemsCustomOrder, systemsState, sortStatus, customModeOnLoad]);
+    }, [updateURLQueryParams, setSystemsState, systems, systemsCustomOrder, sortStatus, customModeOnLoad]);
 
+    // Effect to handle initial custom sort based on conditions
     useEffect(() => {
+        // Check if custom mode should be loaded initially and sort status is 'initial'
         if (customModeOnLoad && sortStatus === 'initial') {
+            // Trigger custom sort function
             customSort();
         }
-    }, [customModeOnLoad, customSort, sortStatus]);
+    }, [customModeOnLoad, customSort, sortStatus]); // Dependencies for effect re-run
 
     useEffect(() => {
         if (systemsCustomOrder?.length === 0) {

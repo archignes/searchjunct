@@ -54,7 +54,7 @@ export const SystemSearchProvider: React.FC<SystemSearchProviderProps> = ({ chil
         Object.keys(systemsSearched).forEach(key => {
             systemsSearched[key] = false;
         });
-        setSystemsState(initializeSystemsState(systemsDisabled, systemsDeleted, systemsSearched));
+        initializeSystemsState(systemsDisabled, systemsDeleted, systemsSearched);
     };
 
     return (
