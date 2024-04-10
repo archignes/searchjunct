@@ -6,8 +6,8 @@ import systemsData from '../../data/systems.json';
 
 // Mock data
 const systemsMock = [
-    { id: "system-1", name: 'System 1', search_link: "ddd" },
-    { id: "system-2", name: 'System 2', search_link: "ddd" }
+    { id: "system-1", name: 'System 1', searchLink: "ddd" },
+    { id: "system-2", name: 'System 2', searchLink: "ddd" }
 ];
 
 // Mock SystemsContext

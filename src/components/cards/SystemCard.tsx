@@ -52,12 +52,12 @@ const NoticeAlert: React.FC<SystemCardProps> = ({ system }) => {
 
 const SearchLinkPatternAlert: React.FC<SystemCardProps> = ({ system }) => {
   const searchLinkPatternFormattedGithubIssueLink = 'https://github.com/archignes/searchjunct/issues/new' +
-    [`?title=${ encodeURIComponent('Update search_link for URL-driven search support for ' + system.name + ' (' + system.id + ')')}`,
-    `&body=${encodeURIComponent('# Add Search Link Pattern\n\nThe search_link pattern for ' + system.name + ' is: {}\n\n')}`,
+    [`?title=${ encodeURIComponent('Update searchLink for URL-driven search support for ' + system.name + ' (' + system.id + ')')}`,
+    `&body=${encodeURIComponent('# Add Search Link Pattern\n\nThe searchLink pattern for ' + system.name + ' is: {}\n\n')}`,
     `${encodeURIComponent('# Guidance\n\nBe sure to include the `%s` placeholder for the query string.\n\n')}`,
     `${encodeURIComponent('Please provide links to documentation, if available.\n\n')}`,
     `${encodeURIComponent('Please indicate if the system requires query terms to be joined by `%20`, rather than `+` ')}`,
-    `${encodeURIComponent('(this will be needed in the search_link_joiner field for the system because Searchjunct uses the plus as a default for readability).\n\n')}`,
+    `${encodeURIComponent('(this will be needed in the searchLink_joiner field for the system because Searchjunct uses the plus as a default for readability).\n\n')}`,
     `${encodeURIComponent('Thank you!')}`].join('');
 
 return (
@@ -109,7 +109,7 @@ const SearchLinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => {
           className="m-0 p-0 hover:bg-white font-normal flex-row items-center justify-center"
         >
           <div className="grid grid-cols-[auto_24px] hover:bg-blue-100 text-left p-1 items-center justify-center rounded-md underline">
-            <span className="overflow-auto max-w-full">{system.search_link}</span>
+            <span className="overflow-auto max-w-full">{system.searchLink}</span>
             <CopyIcon className="ml-1 h-4 w-4" />
           </div>
         </Button>
@@ -118,7 +118,7 @@ const SearchLinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => {
         <AlertDialogHeader className='w-90% mx-auto'>
           <AlertDialogTitle>Copied search link to clipboard!</AlertDialogTitle>
           <AlertDialogDescription className='text-left w-90% mx-auto'>
-            {system.search_link.includes('%s') ? (
+            {system.searchLink.includes('%s') ? (
               <>
                 <SetupCustomDefaultSystemInstructions system={system} />
               </>
@@ -160,9 +160,9 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
         <div className="flex flex-wrap break-words m-0 p-0 text-xs">
             <SearchLinkAlertDialog system={system} />
           </div>
-        {system.search_link_note && (
+        {system.searchLink_note && (
           <div className="w-90 flex border rounded-md m-1 p-1 flex-wrap items-center">
-            <p className="text-xs">Note: {system.search_link_note}</p>
+            <p className="text-xs">Note: {system.searchLink_note}</p>
           </div>
         )}
         {(system.open_source_license && system.github_link) && (
@@ -187,7 +187,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
         {(system.manual_switch_required || system.mobile_app_breaks_links_warning || system.account_required) && (
           <NoticeAlert system={system} />
         )}
-        {!system.search_link.includes('%s') && (
+        {!system.searchLink.includes('%s') && (
           <SearchLinkPatternAlert system={system} />
         )}
         {(system.android_choice_screen_options || system.default_in_browser) && (

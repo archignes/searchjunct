@@ -54,8 +54,10 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
     TargetTooltip,
     ButtonIndex
 }: MainMenuButtonProps) => {
-    const [isButtonTargetOpen, setIsButtonTargetOpen] = useState(false);
+    const [isButtonTargetOpen, setIsButtonTargetOpen] = useState<boolean>(false);
     const popoverContentRef = useRef<HTMLDivElement>(null);
+    const { setIsMainMenuExpanded } = useAppContext();
+
 
     const toggleButtonTargetOpen = useCallback(() => {
         setIsButtonTargetOpen((prevState) => !prevState);
@@ -78,6 +80,12 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
             document.removeEventListener("click", handleDocumentClick);
         };
     }, [TargetTitle]);
+
+    useEffect(() => {
+        if (window.innerWidth < 640 && isButtonTargetOpen) {
+            setIsMainMenuExpanded(false);
+        }
+    }, [isButtonTargetOpen, setIsMainMenuExpanded]);
 
     return (
         <Popover open={isButtonTargetOpen} onOpenChange={setIsButtonTargetOpen}>

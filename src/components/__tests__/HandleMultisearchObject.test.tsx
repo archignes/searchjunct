@@ -9,10 +9,10 @@ jest.mock('../search/CopyQueryToClipboard');
 
 
 const systems = [
-    { id: 'sys1', name: 'System 1', search_link: 'https://example.com/system1' },
-    { id: 'sys2', name: 'System 2', search_link: 'https://example.com/system2' },
-    { id: 'sys3', name: 'System 3', search_link: 'https://example.com/system3' },
-    { id: 'sys4', name: 'System 4', search_link: 'https://example.com/system4' },
+    { id: 'sys1', name: 'System 1', searchLink: 'https://example.com/system1' },
+    { id: 'sys2', name: 'System 2', searchLink: 'https://example.com/system2' },
+    { id: 'sys3', name: 'System 3', searchLink: 'https://example.com/system3' },
+    { id: 'sys4', name: 'System 4', searchLink: 'https://example.com/system4' },
 ];
 
 const systemsSearched = {};
@@ -76,9 +76,9 @@ describe('HandleMultisearch', () => {
             },
         };
         const systems: System[] = [
-            { id: 'sys1', name: 'System 1', search_link: 'search-link-sys1' },
-            { id: 'sys2', name: 'System 2', search_link: 'search-link-sys2' },
-            { id: 'sys3', name: 'System 3', search_link: 'search-link-sys3' },
+            { id: 'sys1', name: 'System 1', searchLink: 'search-link-sys1' },
+            { id: 'sys2', name: 'System 2', searchLink: 'search-link-sys2' },
+            { id: 'sys3', name: 'System 3', searchLink: 'search-link-sys3' },
         ];
 
         HandleMultisearchObject({

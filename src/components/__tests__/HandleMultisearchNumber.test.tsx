@@ -22,9 +22,9 @@ describe('HandleMultisearchNumber', () => {
     it('should remove numeric shortcut from query', () => {
         // Arrange
         const systems = [
-            { id: 'system-1', name: 'System 1', search_link: 'https://system1.com/search?q=%s' },
-            { id: 'system-2', name: 'System 2', search_link: 'https://system2.com/search?q=%s' },
-            { id: 'system-3', name: 'System 3', search_link: 'https://system3.com/search?q=%s' }
+            { id: 'system-1', name: 'System 1', searchLink: 'https://system1.com/search?q=%s' },
+            { id: 'system-2', name: 'System 2', searchLink: 'https://system2.com/search?q=%s' },
+            { id: 'system-3', name: 'System 3', searchLink: 'https://system3.com/search?q=%s' }
         ];
         const cleanupSearch = jest.fn();
         const getPreppedSearchLink = (params: PreppedSearchLinkParams) =>
@@ -56,9 +56,9 @@ describe('HandleMultisearchNumber', () => {
     it('should perform multi-search on all provided systems', async () => {
         // Arrange
         const systems = [
-            { id: 'system-1', name: 'System 1', search_link: 'https://system1.com/search?q=%s' },
-            { id: 'system-2', name: 'System 2', search_link: 'https://system2.com/search?q=%s' },
-            { id: 'system-3', name: 'System 3', search_link: 'https://system3.com/search?q=%s' }
+            { id: 'system-1', name: 'System 1', searchLink: 'https://system1.com/search?q=%s' },
+            { id: 'system-2', name: 'System 2', searchLink: 'https://system2.com/search?q=%s' },
+            { id: 'system-3', name: 'System 3', searchLink: 'https://system3.com/search?q=%s' }
         ];
         const cleanupSearch = jest.fn();
         const getPreppedSearchLink = (params: PreppedSearchLinkParams) =>
@@ -96,8 +96,8 @@ describe('HandleMultisearchNumber', () => {
     it('should handle empty search query', async () => {
         // Arrange
         const systems = [
-            { id: 'system-1', name: 'System 1', search_link: 'https://system1.com/search?q=' },
-            { id: 'system-2', name: 'System 2', search_link: 'https://system2.com/search?q=' }
+            { id: 'system-1', name: 'System 1', searchLink: 'https://system1.com/search?q=' },
+            { id: 'system-2', name: 'System 2', searchLink: 'https://system2.com/search?q=' }
         ];
         const cleanupSearch = jest.fn();
         const getPreppedSearchLink = (params: PreppedSearchLinkParams) =>

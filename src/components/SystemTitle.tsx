@@ -34,7 +34,9 @@ export const SystemTitle: React.FC<{ system: System,
       {hasMounted ? (
         <>
           {favicon_included && <FaviconImage system={system} mini_mode={mini_mode}/>}
-          <span className={`${mini_mode ? 'pr-2 py-1' : ''}`}>{system.name}</span>
+          <span className={`${mini_mode ? 'pr-2 py-1' : ''}`}>
+                  {system.name.includes(' - ') ? system.name.replace(/-/g, '') : system.name}
+                  </span>
           {system.special_note && !mini_mode && <span className="ml-2 bg-green-200 rounded-md px-1">
             {system.special_note}
             </span>}

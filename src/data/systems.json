@@ -2,7 +2,7 @@
   {
     "name": "Exa",
     "id": "exa",
-    "search_link": "https://exa.ai/search?&q=%s",
+    "searchLink": "https://exa.ai/search?&q=%s",
     "twitter_link": "https://twitter.com/ExaAILabs",
     "tagline": "Search content by meaning",
     "default_placeholder": "Try a prompt or paste a link...",
@@ -13,14 +13,14 @@
   {
     "name": "Findera",
     "id": "findera",
-    "search_link": "https://www.findera.ai/",
+    "searchLink": "https://www.findera.ai/",
     "twitter_link": "https://twitter.com/stonkyoli",
     "special_note": "demo"
   },
   {
     "name": "AskPandi",
     "id": "ask-pandi",
-    "search_link": "https://askpandi.com/ask",
+    "searchLink": "https://askpandi.com/ask",
     "special_note": "beta",
     "default_placeholder": "Ask me anything...",
     "twitter_link": "https://x.com/ask_pandi",
@@ -33,7 +33,7 @@
   {
     "name": "Brave",
     "id": "brave",
-    "search_link": "https://search.brave.com/search?q=%s",
+    "searchLink": "https://search.brave.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Brave_Search",
     "twitter_link": "https://twitter.com/brave",
     "android_choice_screen_options": true,
@@ -47,7 +47,7 @@
     "id": "youchat-research",
     "account_required": true,
     "paid_subscription_required": true,
-    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=research",
+    "searchLink": "https://you.com/search?q=%s&tbm=youchat&chatMode=research",
     "twitter_link": "https://twitter.com/YouSearchEngine"
   },
   {
@@ -55,7 +55,7 @@
     "id": "youchat-agent",
     "account_required": true,
     "paid_subscription_required": true,
-    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=agent",
+    "searchLink": "https://you.com/search?q=%s&tbm=youchat&chatMode=agent",
     "twitter_link": "https://twitter.com/YouSearchEngine"
   },
   {
@@ -63,13 +63,13 @@
     "id": "youchat-custom",
     "account_required": true,
     "paid_subscription_required": true,
-    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=custom",
+    "searchLink": "https://you.com/search?q=%s&tbm=youchat&chatMode=custom",
     "twitter_link": "https://twitter.com/YouSearchEngine"
   },
   {
     "name": "Perplexity AI",
     "id": "perplexity-ai",
-    "search_link": "https://www.perplexity.ai/search/?q=%s",
+    "searchLink": "https://www.perplexity.ai/search/?q=%s",
     "mobile_app_breaks_links_warning": true,
     "wikipedia_link": "https://en.wikipedia.org/wiki/Perplexity.ai",
     "twitter_link": "https://twitter.com/perplexity_ai"
@@ -77,20 +77,20 @@
   {
     "name": "Mojeek - RAG",
     "id": "mojeek-rag",
-    "search_link": "https://labs.mojeek.com/rag/index.html",
-    "search_link_note": "(undocumented) It is possible to mock a new `rid` for each search and use `https://labs.mojeek.com/rag/search.html?q=%s&rid={mock_this}`."
+    "searchLink": "https://labs.mojeek.com/rag/index.html",
+    "searchLink_note": "(undocumented) It is possible to mock a new `rid` for each search and use `https://labs.mojeek.com/rag/search.html?q=%s&rid={mock_this}`."
   },
   {
     "name": "You.com",
     "id": "you-com",
-    "search_link": "https://you.com/search?q=%s",
+    "searchLink": "https://you.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",
     "twitter_link": "https://twitter.com/YouSearchEngine"
   },
   {
     "name": "X (formerly Twitter)",
     "id": "twitter",
-    "search_link": "https://twitter.com/search?q=%s",
+    "searchLink": "https://twitter.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Twitter",
     "web_search_system": false,
     "account_required": true,
@@ -100,7 +100,7 @@
     "name": "ChatGPT - 3.5",
     "id": "chatgpt-3-5",
     "account_required": true,
-    "search_link": "https://chat.openai.com/?model=text-davinci-002-render-sha",
+    "searchLink": "https://chat.openai.com/?model=text-davinci-002-render-sha",
     "wikipedia_link": "https://en.wikipedia.org/wiki/ChatGPT",
     "twitter_link": "https://twitter.com/OpenAI"
   },
@@ -109,7 +109,7 @@
     "id": "chatgpt-4",
     "account_required": true,
     "paid_subscription_required": "true",
-    "search_link": "https://chat.openai.com/?model=gpt-4",
+    "searchLink": "https://chat.openai.com/?model=gpt-4",
     "wikipedia_link": "https://en.wikipedia.org/wiki/ChatGPT",
     "twitter_link": "https://twitter.com/OpenAI",
     "github_link": "https://github.com/openai/"
@@ -117,7 +117,7 @@
   {
     "name": "Bing",
     "id": "bing",
-    "search_link": "https://www.bing.com/search?q=%s",
+    "searchLink": "https://www.bing.com/search?q=%s",
         "default_in_browser": [
           "Edge",
           "Chrome",
@@ -132,16 +132,16 @@
   {
     "name": "Devv",
     "id": "devv",
-    "search_link": "https://devv.ai/search/%s",
-    "search_link_note": "Append `?agentMode=True` for Agent Mode",
-    "search_link_joiner": "%20",
+    "searchLink": "https://devv.ai/search/%s",
+    "searchLink_note": "Append `?agentMode=True` for Agent Mode",
+    "searchLink_joiner": "%20",
     "twitter_link": "https://twitter.com/devv_ai"
   },
   {
     "name": "DuckDuckGo",
     "id": "duckduckgo",
     "search_index": "bing",
-    "search_link": "https://duckduckgo.com/?q=%s",
+    "searchLink": "https://duckduckgo.com/?q=%s",
     "android_choice_screen_options": true,
     "wikipedia_link": "https://en.wikipedia.org/wiki/DuckDuckGo",
         "default_in_browser": [
@@ -157,7 +157,7 @@
   {
     "name": "Microsoft Copilot",
     "id": "microsoft-copilot",
-    "search_link": "https://copilot.microsoft.com/",
+    "searchLink": "https://copilot.microsoft.com/",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Microsoft_Copilot"
   },
   {
@@ -166,7 +166,7 @@
     "search_index": "bing",
     "charity_search_engine": true,
     "base_url": "https://www.ecosia.org",
-    "search_link": "https://www.ecosia.org/search?q=%s",
+    "searchLink": "https://www.ecosia.org/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Ecosia",
     "android_choice_screen_options": true,
         "default_in_browser": [
@@ -179,7 +179,7 @@
   {
     "name": "Andi Search",
     "id": "andi-search",
-    "search_link": "https://andisearch.com/",
+    "searchLink": "https://andisearch.com/",
     "twitter_link": "https://twitter.com/andi_search",
     "discord_link": "https://discord.com/invite/andi",
     "linkedin_link": "https://www.linkedin.com/company/andisearch/",
@@ -189,7 +189,7 @@
     "name": "Marginalia Search",
     "id": "marginalia-search",
     "about-link": "https://www.marginalia.nu/marginalia-search/about/",
-    "search_link": "https://search.marginalia.nu/search?query=%s",
+    "searchLink": "https://search.marginalia.nu/search?query=%s",
     "github_link": "https://github.com/Marginalia/search",
     "twitter_link": "https://twitter.com/MarginaliaNu",
     "open_source_license": "GNU Affero General Public License v3.0"
@@ -197,7 +197,7 @@
   {
     "name": "Perplexity AI - Pro",
     "id": "perplexity-ai-pro",
-    "search_link": "https://www.perplexity.ai/search?q=%s&copilot=true",
+    "searchLink": "https://www.perplexity.ai/search?q=%s&copilot=true",
     "account_required": true,
     "mobile_app_breaks_links_warning": true,
     "trial_limit": "100 searches",
@@ -210,7 +210,7 @@
   {
     "name": "Qwant",
     "id": "qwant",
-    "search_link": "https://www.qwant.com/?q=%s",
+    "searchLink": "https://www.qwant.com/?q=%s",
     "android_choice_screen_options": true,
         "default_in_browser": [
           "Brave"
@@ -220,21 +220,21 @@
   {
     "name": "YouChat",
     "id": "youchat",
-    "search_link": "https://you.com/search?q=%s&tbm=youchat&cfr=chat",
+    "searchLink": "https://you.com/search?q=%s&tbm=youchat&cfr=chat",
     "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",
     "twitter_link": "https://twitter.com/YouSearchEngine"
   },
   {
     "name": "Phind Search",
     "id": "phind-search",
-    "search_link": "https://www.phind.com/search?q=%s",
+    "searchLink": "https://www.phind.com/search?q=%s",
     "twitter_link": "https://twitter.com/phindsearch"
   },
   {
     "name": "Kagi",
     "id": "kagi",
     "account_required": true,
-    "search_link": "https://kagi.com/search?q=%s",
+    "searchLink": "https://kagi.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Kagi_(search_engine)",
     "twitter_link": "https://twitter.com/KagiHQ"
   },
@@ -242,15 +242,15 @@
     "name":"Globe Explorer",
     "id":"globe-explorer",
     "special_note": "v1",
-    "search_link": "https://explorer.globe.engineer/?q=%5B%22%s%22%5D",
-    "search_link_note": "The search link pattern creates square brackets and quotes around the query string, it is possible to manually split query terms with a comma in quotes (`\",\"`).",
+    "searchLink": "https://explorer.globe.engineer/?q=%5B%22%s%22%5D",
+    "searchLink_note": "The search link pattern creates square brackets and quotes around the query string, it is possible to manually split query terms with a comma in quotes (`\",\"`).",
     "twitter_link": "https://twitter.com/globe_engineer",
     "product_hunt_link": "https://www.producthunt.com/products/globe-explorer"
   },
   {
     "name": "Komo",
     "id": "komo",
-    "search_link": "https://komo.ai/",
+    "searchLink": "https://komo.ai/",
     "product_hunt_link": "https://www.producthunt.com/products/komo-search",
     "twitter_link": "https://twitter.com/komo__ai"
   },
@@ -258,7 +258,7 @@
     "name": "SciPhi",
     "id": "sciphi",
     "base_url": "https://search.sciphi.ai/",
-    "search_link": "https://search.sciphi.ai/search?q=%s",
+    "searchLink": "https://search.sciphi.ai/search?q=%s",
     "github_link": "https://github.com/SciPhi-AI/agent-search",
     "open_source_license": "Apache License 2.0"
   },
@@ -266,7 +266,7 @@
     "name": "Cohere Coral",
     "id": "cohere-coral",
     "account_required": true,
-    "search_link": "https://coral.cohere.com/",
+    "searchLink": "https://coral.cohere.com/",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Cohere",
     "manual_switch_required": true
   },
@@ -274,12 +274,12 @@
     "name": "Tavily",
     "id": "tavily",
     "account_required": true,
-    "search_link": "https://app.tavily.com/playground"
+    "searchLink": "https://app.tavily.com/playground"
   },
   {
     "name": "KARMA",
     "id": "karma",
-    "search_link": "https://karmasearch.org/search?q=%s",
+    "searchLink": "https://karmasearch.org/search?q=%s",
     "twitter_link": "https://twitter.com/searchkarma",
     "linkedin_link": "https://www.linkedin.com/company/karmasearch/",
     "tagline": "Help protect biodiversity and promote animal welfare by searching the web",
@@ -295,7 +295,7 @@
   {
     "name": "HuggingChat",
     "id": "huggingchat",
-    "search_link": "https://huggingface.co/chat/",
+    "searchLink": "https://huggingface.co/chat/",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Hugging_Face",
     "github_link": "https://github.com/huggingface/chat-ui",
     "open_source_license": "Apache License 2.0",
@@ -305,7 +305,7 @@
     "name": "Lepton Search",
     "id": "lepton-search",
     "special_note": "beta",
-    "search_link": "https://search.lepton.run/",
+    "searchLink": "https://search.lepton.run/",
     "github_link": "https://github.com/leptonai/search_with_lepton",
     "open_source_license": "Apache License 2.0",
     "twitter_link": "https://twitter.com/leptonai"
@@ -313,7 +313,7 @@
   {
     "id": "wikipedia",
     "name": "Wikipedia",
-    "search_link": "https://en.wikipedia.org/w/index.php?search=%s",
+    "searchLink": "https://en.wikipedia.org/w/index.php?search=%s",
     "nondistinct_url": false,
     "wikipedia_link": "https://en.wikipedia.org/wiki/Wikipedia",
     "twitter_link": "https://twitter.com/wikipedia",
@@ -327,14 +327,14 @@
   {
     "name": "Swisscows",
     "id": "swisscows",
-    "search_link": "https://swisscows.com/en/web?query=%s",
+    "searchLink": "https://swisscows.com/en/web?query=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Swisscows",
     "twitter_link": "https://twitter.com/swisscows_ch"
   },
   {
     "name": "Yandex",
     "id": "yandex",
-    "search_link": "https://yandex.com/search/?text=%s",
+    "searchLink": "https://yandex.com/search/?text=%s",
     "android_choice_screen_options": true,
         "default_in_browser": [
           "Edge",
@@ -347,7 +347,7 @@
     "name": "Yep",
     "id": "yep",
     "special_note": "beta",
-    "search_link": "https://yep.com/web?q=%s",
+    "searchLink": "https://yep.com/web?q=%s",
     "android_choice_screen_options": true,
     "twitter_link": "https://twitter.com/yepsearch"
   },
@@ -355,30 +355,30 @@
     "name": "Bing Deep Search",
     "id": "bing-deep-search",
     "twitter_link": "https://twitter.com/bing",
-    "search_link": "https://www.bing.com/search?q=%s&shm=cr&form=DEEPSH",
-    "search_link_note": "If the query is empty it is processed by Microsoft as a standard Bing search.",
-    "search_link_requires_query": true,
+    "searchLink": "https://www.bing.com/search?q=%s&shm=cr&form=DEEPSH",
+    "searchLink_note": "If the query is empty it is processed by Microsoft as a standard Bing search.",
+    "searchLink_requires_query": true,
     "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)"
   },
 {
     "name": "Wayback Machine",
     "id": "wayback-machine",
-    "search_link_joiner": "%20",
-    "search_link": "https://web.archive.org/web/*/%s",
+    "searchLink_joiner": "%20",
+    "searchLink": "https://web.archive.org/web/*/%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Wayback_Machine",
     "twitter_link": "https://twitter.com/waybackmachine"
   },
   {
     "name": "Mojeek",
     "id": "mojeek",
-    "search_link": "https://www.mojeek.com/search?q=%s",
+    "searchLink": "https://www.mojeek.com/search?q=%s",
     "android_choice_screen_options": true,
     "wikipedia_link": "https://en.wikipedia.org/wiki/Mojeek"
   },
   {
     "name": "MetaGer",
     "id": "metager",
-    "search_link": "https://metager.org/meta/meta.ger3?eingabe=%s",
+    "searchLink": "https://metager.org/meta/meta.ger3?eingabe=%s",
     "android_choice_screen_options": true,
     "wikipedia_link": "https://en.wikipedia.org/wiki/MetaGer"
   },
@@ -386,7 +386,7 @@
     "name": "Startpage",
     "id": "startpage",
     "search_index": "google",
-    "search_link": "https://www.startpage.com/do/search?q=%s",
+    "searchLink": "https://www.startpage.com/do/search?q=%s",
         "default_in_browser": [
           "Brave"
         ],
@@ -395,21 +395,21 @@
   {
     "id": "google-gemini",
     "name": "Google Gemini",
-    "search_link": "https://gemini.google.com/app",
+    "searchLink": "https://gemini.google.com/app",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Gemini_(chatbot)"
   },
   {
     "name": "Stract",
     "id": "stract",
     "special_note": "beta",
-    "search_link": "https://stract.com/search?q=%s",
+    "searchLink": "https://stract.com/search?q=%s",
     "github_link": "https://github.com/StractOrg/stract",
     "open_source_license": "GNU Affero General Public License v3.0"
   },
   {
     "name": "Google",
     "id": "google",
-    "search_link": "https://www.google.com/search?q=%s",
+    "searchLink": "https://www.google.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Google_Search",
     "twitter_link": "https://twitter.com/Google",
     "github_link": "https://github.com/google",
@@ -433,7 +433,7 @@
       "Arc",
       "Opera"
     ],
-    "search_link": "https://search.yahoo.com/search?p=%s",
+    "searchLink": "https://search.yahoo.com/search?p=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Yahoo!",
     "twitter_link": "https://twitter.com/Yahoo"
   }

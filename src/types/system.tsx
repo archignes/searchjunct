@@ -6,9 +6,9 @@ export interface System {
     nondistinct_url?: boolean;
     base_url_for?: string[];
     account_required?: boolean;
-    search_link: string;
-    search_link_joiner?: string;
-    search_link_note?: string;
+    searchLink: string;
+    searchLink_joiner?: string;
+    searchLink_note?: string;
     mobile_app_breaks_links_warning?: boolean;
     searched?: boolean;
     linkedin_link?: string;
@@ -37,7 +37,7 @@ export interface System {
     default_in_browser?: string[];
     base_url?: string;
     special_note?: string;
-    search_link_requires_query?: boolean;
+    searchLink_requires_query?: boolean;
     notable_features?: Feature[];
 }
 

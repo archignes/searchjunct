@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useStorageContext } from '../../../contexts/';
+import { useStorageContext } from '../../../contexts';
 import {
     Sheet,
     SheetContent,

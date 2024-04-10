@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { MultisearchActionObject } from '@/types';
-
+import { System } from '@/types';
 
 interface StorageContextType {
     // user setting used to initiate the first search immediately on load
@@ -45,6 +45,17 @@ interface StorageContextType {
     multisearchActionObjects: MultisearchActionObject[];
     addMultisearchActionObject: (shortcut: MultisearchActionObject) => void;
     removeMultisearchActionObject: (name: string) => void;
+
+    // private search systems
+    locallyStoredSearchSystems: System[];
+    addLocallyStoredSearchSystem: (system: System) => void;
+    removeLocallyStoredSearchSystem: (id: string) => void;
+    importLocallyStoredSearchSystems: (systems: System[]) => void;
+    exportLocallyStoredSearchSystems: () => System[];
+
+    // history of custom sorts to support undo/redo
+    customSortHistory: string[][];
+    setCustomSortHistory: (history: string[][]) => void;
 }
 
 const StorageContext = createContext<StorageContextType>({
@@ -68,9 +79,15 @@ const StorageContext = createContext<StorageContextType>({
     setShowIntroModal: () => { },
     multisearchActionObjects: [],
     addMultisearchActionObject: () => { },
-    removeMultisearchActionObject: () => { }
+    removeMultisearchActionObject: () => { },
+    locallyStoredSearchSystems: [],
+    addLocallyStoredSearchSystem: () => { },
+    removeLocallyStoredSearchSystem: () => { },
+    importLocallyStoredSearchSystems: () => { },
+    exportLocallyStoredSearchSystems: () => [],
+    customSortHistory: [],
+    setCustomSortHistory: () => {}
 });
-
 
 export const useStorageContext = () => useContext(StorageContext);
 
@@ -92,7 +109,6 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         return false;
     });
 
-
     // LocalStorage
     const [initiateSearchImmediately, setInitiateSearchImmediately] = useState<boolean>(() => {
         if (typeof window !== 'undefined') {
@@ -113,7 +129,6 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     const [systemsDisabled, setSystemDisabled] = useState<Record<string, boolean>>(() => {
         if (typeof window !== 'undefined') {
             const storedValue = localStorage.getItem('systemsDisabled');
-            // Ensure a default empty object is returned if storedValue is null
             return storedValue ? JSON.parse(storedValue) : {};
         }
         return {};
@@ -122,7 +137,6 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     const [systemsDeleted, setSystemDeleted] = useState<Record<string, boolean>>(() => {
         if (typeof window !== 'undefined') {
             const storedValue = localStorage.getItem('systemsDeleted');
-            // Ensure a default empty object is returned if storedValue is null
             return storedValue ? JSON.parse(storedValue) : {};
         }
         return {};
@@ -131,7 +145,6 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     const [systemsCustomOrder, setSystemsCustomOrder] = useState<string[]>(() => {
         if (typeof window !== 'undefined') {
             const storedValue = localStorage.getItem('systemsCustomOrder');
-            // Ensure a default empty array is returned if storedValue is null
             return storedValue ? JSON.parse(storedValue) : [];
         }
         return [];
@@ -153,18 +166,61 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         return true;
     });
 
+    const [locallyStoredSearchSystems, setLocallyStoredSearchSystems] = useState<System[]>(() => {
+        if (typeof window !== 'undefined') {
+            const storedValue = localStorage.getItem('locallyStoredSearchSystems');
+            return storedValue ? JSON.parse(storedValue) : [];
+        }
+        return [];
+    });
+
+    const [customSortHistory, setCustomSortHistory] = useState<string[][]>(() => {
+        if (typeof window !== 'undefined') {
+            const storedValue = localStorage.getItem('customSortHistory');
+            return storedValue ? JSON.parse(storedValue) : [];
+        }
+        return [];
+    });
+
+    const addLocallyStoredSearchSystem = useCallback((system: System) => {
+        setLocallyStoredSearchSystems(prev => [...prev, system]);
+    }, []);
+
+    const removeLocallyStoredSearchSystem = useCallback((id: string) => {
+        setLocallyStoredSearchSystems(prev => prev.filter(system => system.id !== id));
+    }, []); 
+    
+    const importLocallyStoredSearchSystems = useCallback((systems: System[]) => {
+        setLocallyStoredSearchSystems(prev => [...prev, ...systems]);
+    }, []);
+
+    const exportLocallyStoredSearchSystems = useCallback(() => {
+        return locallyStoredSearchSystems;
+    }, [locallyStoredSearchSystems]);
+
+    useEffect(() => {
+        localStorage.setItem('locallyStoredSearchSystems', JSON.stringify(locallyStoredSearchSystems));
+    }, [locallyStoredSearchSystems]);
+
+    useEffect(() => {
+        localStorage.setItem('customSortHistory', JSON.stringify(customSortHistory));
+    }, [customSortHistory]);
+
     const resetLocalStorage = () => {
         setSystemsCustomOrder([]);
         setSystemDeleted({});
         setSystemDisabled({});
         setMultisearchShortcuts([]);
+        setLocallyStoredSearchSystems([]);
+        setCustomSortHistory([]);
 
         localStorage.removeItem('systemsCustomOrder');
         localStorage.removeItem('systemsDeleted');
         localStorage.removeItem('systemsDisabled');
         localStorage.removeItem('multisearchActionObjects');
+        localStorage.removeItem('locallyStoredSearchSystems');
+        localStorage.removeItem('customSortHistory');
     };
-
 
     // Update sessionStorage when values change
     useEffect(() => {
@@ -174,14 +230,31 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     // Update localStorage when values change
     useEffect(() => {
         localStorage.setItem('initiateSearchImmediately', JSON.stringify(initiateSearchImmediately));
-        localStorage.setItem('customModeOnLoad', JSON.stringify(customModeOnLoad));
-        localStorage.setItem('systemsDisabled', JSON.stringify(systemsDisabled));
-        localStorage.setItem('systemsDeleted', JSON.stringify(systemsDeleted));
-        localStorage.setItem('systemsCustomOrder', JSON.stringify(systemsCustomOrder));
-        localStorage.setItem('showIntroModal', JSON.stringify(showIntroModal));
-        localStorage.setItem('multisearchActionObjects', JSON.stringify(multisearchActionObjects));
-    }, [initiateSearchImmediately, systemsDisabled, systemsDeleted, systemsCustomOrder, customModeOnLoad, showIntroModal, multisearchActionObjects]);
+    }, [initiateSearchImmediately]);
 
+    useEffect(() => {
+        localStorage.setItem('customModeOnLoad', JSON.stringify(customModeOnLoad));
+    }, [customModeOnLoad]);
+
+    useEffect(() => {
+        localStorage.setItem('systemsDisabled', JSON.stringify(systemsDisabled));
+    }, [systemsDisabled]);
+
+    useEffect(() => {
+        localStorage.setItem('systemsDeleted', JSON.stringify(systemsDeleted));
+    }, [systemsDeleted]);
+
+    useEffect(() => {
+        localStorage.setItem('systemsCustomOrder', JSON.stringify(systemsCustomOrder));
+    }, [systemsCustomOrder]);
+
+    useEffect(() => {
+        localStorage.setItem('showIntroModal', JSON.stringify(showIntroModal));
+    }, [showIntroModal]);
+    
+    useEffect(() => {
+        localStorage.setItem('multisearchActionObjects', JSON.stringify(multisearchActionObjects));
+    }, [multisearchActionObjects]);
 
     // Functions to update values
     const updateFlagSearchInitiated = (value: boolean) => {
@@ -195,7 +268,6 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     const resetLocalStorageSearched = () => {
         setSystemsStateSearched({});
     };
-    
     
     const updateSystemDisabled = (systemId: string, value: boolean) => {
         setSystemDisabled(prev => ({ ...prev, [systemId]: value }));
@@ -246,6 +318,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             multisearchActionObjects,
             addMultisearchActionObject,
             removeMultisearchActionObject,
+            locallyStoredSearchSystems,
+            addLocallyStoredSearchSystem,
+            removeLocallyStoredSearchSystem,
+            importLocallyStoredSearchSystems,
+            exportLocallyStoredSearchSystems,
+            customSortHistory,
+            setCustomSortHistory
         }),
         [
             initiateSearchImmediately,
@@ -261,6 +340,12 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             multisearchActionObjects,
             addMultisearchActionObject,
             removeMultisearchActionObject,
+            locallyStoredSearchSystems,
+            addLocallyStoredSearchSystem,
+            removeLocallyStoredSearchSystem,
+            importLocallyStoredSearchSystems,
+            exportLocallyStoredSearchSystems,
+            customSortHistory
         ]
     );
 

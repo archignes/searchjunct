@@ -19,9 +19,9 @@ import { useSystemsContext,
 import { Alert, AlertDescription } from '../ui/alert';
 
 
-const SettingsItemBox: React.FC<{children: React.ReactNode, label: string}> = ({ children, label }) => {
+export const SettingsItemBox: React.FC<{children: React.ReactNode, label: string}> = ({ children, label }) => {
   return (
-    <div className='w-full  flex flex-col px-1 space-y-1 mb-1'>
+    <div className='w-[90%] my-2 mx-auto flex flex-col px-1 space-y-1 border rounded-md shadow-sm'>
       <Label htmlFor="default-custom-mode" className="text-left w-2/3 text-xs text-gray-700">
         {label}
       </Label>
@@ -39,9 +39,7 @@ const SettingsCard: React.FC = () => {
   const { isResetDisabled } = useSystemToggleContext();
   const { resetLocalStorage, updateFlagSearchInitiated,
     initiateSearchImmediately, setInitiateSearchImmediately,
-    customModeOnLoad, setCustomModeOnLoad,
-    systemsCustomOrder, systemsDeleted
-  } = useStorageContext();
+    systemsDeleted } = useStorageContext();
 
 
 
@@ -53,24 +51,10 @@ const SettingsCard: React.FC = () => {
 
   return (
     <Card className='rounded-md bg-white shadow-none mx-auto'>
+      <div className="w-[320px] sm:w-full">
       <CardTitle className='text-left pl-2 py-1 mb-2'>Settings</CardTitle>
-      <CardContent className="p-0 flex justify-center items-center flex-col">
-        <SettingsItemBox label="Default to custom mode on load.">
-            <div className="inline-flex items-center">
-              <Switch
-                id="default-custom-mode"
-                checked={customModeOnLoad}
-                onCheckedChange={() => setCustomModeOnLoad(!customModeOnLoad)}
-                className="focus-visible:ring-primary"
-              />
-              <span className={`ml-2 text-sm font-semibold ${customModeOnLoad ? 'text-green-500' : 'text-red-500'}`}>
-                {customModeOnLoad ? 'Enabled' : 'Disabled'}
-              </span>
-            </div>
-            {systemsCustomOrder.length === 0 && (
-              <p className="ml-2 text-sm text-gray-500">Note: You do <span className='underline'>not</span> currently have a custom order is set.</p>
-            )}
-          </SettingsItemBox>
+        <CardContent className="p-0 flex items-left flex-col">
+        
           <SettingsItemBox label="Immediately initiate URL-driven search upon page load.">
             <div className="inline-flex items-center">
               <Switch
@@ -80,7 +64,7 @@ const SettingsCard: React.FC = () => {
                 className="focus-visible:ring-primary text-xs"
               />
               <span id="initiate-search-immediately-status"
-                className={`ml-2 text-xs font-semibold ${initiateSearchImmediately ? 'text-green-500' : 'text-red-500'}`}>
+                className={`ml-2 text-xs font-semibold ${initiateSearchImmediately ? 'text-black' : 'text-gray-500'}`}>
                 {initiateSearchImmediately ? 'Enabled' : 'Disabled'}
               </span>
             </div>
@@ -92,7 +76,7 @@ const SettingsCard: React.FC = () => {
             </p>
           </SettingsItemBox>
           <SettingsItemBox label="Reset Local Storage">
-          <Alert className='w-full'>
+            <Alert className='mt-2 w-[95%] mx-auto'>
             <AlertDescription>
               This will remove all 'Systems' data stored in your browser's localStorage and reset preferences to default.
             </AlertDescription>
@@ -140,6 +124,7 @@ const SettingsCard: React.FC = () => {
         </SettingsItemBox>
 
       </CardContent>
+      </div>
     </Card>
   );
 };

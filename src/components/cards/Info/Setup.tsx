@@ -13,7 +13,7 @@ import SetupCustomDefaultSystemInstructions from "../SetupCustomDefaultSystemIns
 const SetupInstructionsCard: React.FC = () => {
   
   const mockedSearchjunctSystem = {
-    search_link: "https://searchjunct.com/?q=%s",
+    searchLink: "https://searchjunct.com/?q=%s",
     id: "searchjunct",
     name: "Searchjunct"
   };
@@ -21,7 +21,7 @@ const SetupInstructionsCard: React.FC = () => {
   const [isCopied, setIsCopied] = React.useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(mockedSearchjunctSystem.search_link);
+    navigator.clipboard.writeText(mockedSearchjunctSystem.searchLink);
     setButtonText('Copied');
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000); // Reset isCopied after 2 seconds
@@ -34,7 +34,7 @@ const SetupInstructionsCard: React.FC = () => {
           <div className="text-xl pb-2 font-bold">Setup Searchjunct as Your Default Search Engine</div>
           
           <Button variant="ghost" size="sm" className={`hover:bg-blue-100 p-1 rounded-md}`} onClick={handleCopy}>
-            <code>{mockedSearchjunctSystem.search_link}</code>
+            <code>{mockedSearchjunctSystem.searchLink}</code>
             <CopyIcon className="inline mx-1 h-4 w-4" /><span className={`${isCopied ? "font-bold transition-all duration-200 ease-out" : ""}`}>{buttonText}</span></Button>
 
           <SetupCustomDefaultSystemInstructions system={mockedSearchjunctSystem}/>

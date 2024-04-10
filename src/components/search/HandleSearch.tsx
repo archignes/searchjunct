@@ -137,7 +137,7 @@ const HandleSearch: React.FC<HandleSearchProps> = ({
         return null;
     }
 
-    if (currentQuery !== '' && system.search_link && !system.search_link.includes('%s')) {
+    if (currentQuery !== '' && system.searchLink && !system.searchLink.includes('%s')) {
         CopyQueryToClipboard({query: currentQuery})
     }
 

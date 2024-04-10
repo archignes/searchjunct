@@ -43,12 +43,12 @@ interface SystemAccordionItemProps {
   className?: string;
   system: System;
   showDragHandle: boolean;
-  queryObject: Query;
-  activeSystemId: string | undefined;
-  submitSearch: ({ system }: { system: System }) => void;
-  getPreppedSearchLink: ({ system, query }: { system: System; query: string }) => string;
-  openItem: string | undefined;
-  setOpenItem: (value: string | undefined) => void;
+  queryObject?: Query;
+  activeSystemId?: string | undefined;
+  submitSearch?: ({ system }: { system: System }) => void;
+  getPreppedSearchLink?: ({ system, query }: { system: System; query: string }) => string;
+  openItem?: string | undefined;
+  setOpenItem?: (value: string | undefined) => void;
   attributes: any;
   listeners: any;
   setDragHandleRef: any;
@@ -69,9 +69,10 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = ({
   setDragHandleRef
  }) => {
   return (
-    <AccordionItem value="item-1" className={`${className} ${showDragHandle ? 'border rounded-md sm:w-1/2' : 'border-none'}`}>
+    <AccordionItem value="item-1" className={`${className} ${showDragHandle ? 'border rounded-md w-3/4 sm:w-full' : 'border-none'}`}>
       <div className="w-full flex justify-between">
         <div className="w-full flex items-center ml-1">
+          {getPreppedSearchLink && submitSearch && queryObject &&  (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -86,6 +87,9 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = ({
               <TooltipContent side="right" className="text-base">Search with {system.name}</TooltipContent>
             </Tooltip>
           </TooltipProvider>
+          )}
+          {activeSystemId ? (
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild className='p-0 px-0 mx-0'>
@@ -103,6 +107,11 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = ({
               <TooltipContent side="top" className="text-base">Toggle system card</TooltipContent>
             </Tooltip>
           </TooltipProvider>
+          ) : (<SystemTitle
+            className={`px-0 flex items-center flex-grow w-full ${activeSystemId === system.id ? 'text-lg' : 'text-base'}`}
+            system={system}
+            favicon_included={true}
+          />)}
         </div>
         {showDragHandle && (
           <div
@@ -234,23 +243,17 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
               ${systemsDeleted?.[system.id] ? '' : ''}
               ${isDragging ? 'opacity-75 z-50 border-2 border-dashed border-blue-500' : 'opacity-100'}
               ${isOver ? 'opacity-50' : ''}
-              ${showDragHandle ? 'border-none' : 'border-none'}
+              ${showDragHandle ? 'bg-transparent' : 'border-none'}
               `}
           collapsible
         >
           {showDragHandle ? (
-            <div className="grid grid-cols-10 items-start">
+              <div className="grid grid-cols-10 items-start mx-auto w-[95%]">
                 <span className="mx-2 col-start-1 text-right align-top" style={{ minWidth: '2ch', display: 'inline-flex', alignItems: 'start', textAlign: 'right' }}>{getSortOrder()}.</span>
                 <SystemAccordionItem
                   className={'col-span-9'}
                   system={system}
                   showDragHandle={showDragHandle}
-                  queryObject={queryObject}
-                  activeSystemId={activeSystemId}
-                  submitSearch={submitSearch}
-                  getPreppedSearchLink={getPreppedSearchLink}
-                  openItem={openItem}
-                  setOpenItem={setOpenItem}
                   attributes={attributes}
                   listeners={listeners}
                   setDragHandleRef={setDragHandleRef}

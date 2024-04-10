@@ -17,8 +17,8 @@ const TestComponent = () => {
             <button onClick={toggleAlphabeticalSortOrder}>Toggle Alphabetical Sort</button>
             <button onClick={() => setShuffleSystems(true)}>Shuffle Systems</button>
             <button onClick={() => updateDragOrder([
-                { id: 'system-1', name: 'System 1', search_link: 'https://example.com/system1' },
-                { id: 'system-2', name: 'System 2', search_link: 'https://example.com/system2' }])}>
+                { id: 'system-1', name: 'System 1', searchLink: 'https://example.com/system1' },
+                { id: 'system-2', name: 'System 2', searchLink: 'https://example.com/system2' }])}>
                 Update Drag Order
             </button>
         </div>
@@ -26,9 +26,9 @@ const TestComponent = () => {
 };
 
 const mockSystems = [
-    { id: 'system-1', name: 'System 1', search_link: 'https://example.com/system1' },
-    { id: 'system-2', name: 'System 2', search_link: 'https://example.com/system2' },
-    { id: 'system-3', name: 'System 3', search_link: 'https://example.com/system3' }
+    { id: 'system-1', name: 'System 1', searchLink: 'https://example.com/system1' },
+    { id: 'system-2', name: 'System 2', searchLink: 'https://example.com/system2' },
+    { id: 'system-3', name: 'System 3', searchLink: 'https://example.com/system3' }
 ];
 
 describe('SortContext', () => {
@@ -129,5 +129,5 @@ describe('shuffleSystems', () => {
         const shuffled = shuffleSystems(mockSystems);
         expect(shuffled).not.toEqual(mockSystems);
         expect(shuffled).toHaveLength(mockSystems.length);
-        expect(shuffled.every(system => mockSystems.includes(system as { id: string; name: string; search_link: string; }))).toBe(true);    });
+        expect(shuffled.every(system => mockSystems.includes(system as { id: string; name: string; searchLink: string; }))).toBe(true);    });
 });

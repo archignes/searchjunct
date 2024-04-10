@@ -18,6 +18,10 @@ interface SortContextType {
     setShuffleSystems: (click?: boolean) => void;
     updateSortStatus: (newStatus: 'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial') => void;
     updateDragOrder: (newOrderedSystems: System[]) => void;
+    isUndoAvailable: boolean;
+    isRedoAvailable: boolean;
+    undoSort: () => void;
+    redoSort: () => void;
 }
 // contexts/SortContext.tsx
 const SortContext = createContext<SortContextType>(
@@ -30,6 +34,10 @@ const SortContext = createContext<SortContextType>(
         setShuffleSystems: () => { },
         updateSortStatus: () => { },
         updateDragOrder: () => { },
+        isUndoAvailable: false,
+        isRedoAvailable: false,
+        undoSort: () => { },
+        redoSort: () => { },
     });
 
 export const shuffleSystems = (systems: System[], manualTrigger: boolean = false) => {
@@ -158,9 +166,70 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
         }
     };
 
-    // useEffect(() => {
-    //     console.log("sortStatus", sortStatus)
-    // }, [sortStatus]);
+
+    // Sort history, undo/redo functionality
+    const { customSortHistory, setCustomSortHistory } = useStorageContext();
+    const [currentSortIndex, setCurrentSortIndex] = useState(customSortHistory.length - 1);
+
+    useEffect(() => {
+        // Ensure the currentSortIndex is updated when customSortHistory changes
+        setCurrentSortIndex(customSortHistory.length - 1);
+    }, [customSortHistory]);
+    // Function to undo the last sort action
+    const undoSort = () => {
+        // Calculate the new index by decrementing the current index
+        const newIndex = currentSortIndex - 1;
+        // Check if the new index is valid
+        if (newIndex >= 0) {
+            // Retrieve the system IDs from the custom sort history at the new index
+            const previousSortSystemIds = customSortHistory[newIndex];
+            // Map the system IDs to their corresponding system objects, ensuring no undefined values
+            const previousSortSystems = previousSortSystemIds
+                .map(systemId => systemsState.find(system => system.id === systemId))
+                .filter((system): system is System => system !== undefined);
+            // Update the current order of systems to the previous sort
+            setSystemsCurrentOrder(previousSortSystems);
+            // Update the current sort index to the new index
+            setCurrentSortIndex(newIndex);
+            // Update the sort status to 'custom' to reflect the undo action
+            updateSortStatus('custom');
+        }
+    };
+
+    // Function to redo the last undone sort action
+    const redoSort = () => {
+        // Calculate the next index in the sort history
+        const newIndex = currentSortIndex + 1;
+        // Check if the next index is within the bounds of the sort history
+        if (newIndex < customSortHistory.length) {
+            // Retrieve the system IDs for the next sort from the history
+            const nextSortSystemIds = customSortHistory[newIndex];
+            // Map the system IDs to their corresponding system objects
+            // and filter out any undefined values
+            const nextSortSystems = nextSortSystemIds
+                .map(systemId => systemsState.find(system => system.id === systemId))
+                .filter((system): system is System => system !== undefined);
+            // Update the current order of systems to the next sort
+            setSystemsCurrentOrder(nextSortSystems);
+            // Update the current sort index to the new index
+            setCurrentSortIndex(newIndex);
+            // Update the sort status to 'custom' to reflect the redo action
+            updateSortStatus('custom');
+        }
+    };
+
+    const addSortToHistory = (newSort: string[]) => {
+        // If a new sort is added after undoing, remove all sorts that came after the current index
+        const updatedHistory = [...customSortHistory.slice(0, currentSortIndex + 1), newSort];
+        setCustomSortHistory(updatedHistory);
+        setCurrentSortIndex(updatedHistory.length - 1); // Update index to the new latest sort
+    };
+
+    const isUndoAvailable = currentSortIndex > 0;
+    const isRedoAvailable = currentSortIndex < customSortHistory.length - 1;
+
+
+
 
     const setShuffleSystems = (click?: boolean) => {
         if (click) {
@@ -175,6 +244,7 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
     const updateDragOrder = (newOrderedSystems: System[]) => {
         setSystemsCurrentOrder(newOrderedSystems);
         setSystemsCustomOrder(newOrderedSystems.map(item => item.id));
+        addSortToHistory(newOrderedSystems.map(item => item.id));
         setSortStatus('custom');
     }
 
@@ -188,6 +258,10 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
             setSystemsCurrentOrder,
             setShuffleSystems,
             updateDragOrder,
+            undoSort,
+            redoSort,
+            isUndoAvailable,
+            isRedoAvailable,
         }}>
             {children}
         </SortContext.Provider>

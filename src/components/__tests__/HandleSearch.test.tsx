@@ -98,9 +98,9 @@ describe('HandleMultisearchNumber', () => {
     // Test handleShortcutSearch with number shortcut
     test('handleShortcutSearch calls HandleMultisearchNumber with correct params for a number shortcut', () => {
         // Arrange
-        const systems = [{ id: 'system-1', name: 'System 1', search_link: 'https://example.com/system1' },
-            { id: 'system-2', name: 'System 2', search_link: 'https://example.com/system2' },
-            { id: 'system-3', name: 'System 3', search_link: 'https://example.com/system3' }];
+        const systems = [{ id: 'system-1', name: 'System 1', searchLink: 'https://example.com/system1' },
+            { id: 'system-2', name: 'System 2', searchLink: 'https://example.com/system2' },
+            { id: 'system-3', name: 'System 3', searchLink: 'https://example.com/system3' }];
         const cleanupSearch = jest.fn();
         const getPreppedSearchLink = jest.fn();
         const getNextUnsearchedSystems = jest.fn()
@@ -131,9 +131,9 @@ describe('HandleMultisearchNumber', () => {
     test('handleShortcutSearch calls HandleMultisearchActionObject with correct params for a valid shortcut', () => {
         // Arrange
         const systems = [
-            { id: 'system-1', name: 'System 1', search_link: 'https://example.com/system1' },
-            { id: 'system-2', name: 'System 2', search_link: 'https://example.com/system2' },
-            { id: 'system-3', name: 'System 3', search_link: 'https://example.com/system3' }
+            { id: 'system-1', name: 'System 1', searchLink: 'https://example.com/system1' },
+            { id: 'system-2', name: 'System 2', searchLink: 'https://example.com/system2' },
+            { id: 'system-3', name: 'System 3', searchLink: 'https://example.com/system3' }
         ];
         const getNextUnsearchedSystems = jest.fn();
         const cleanupSearch = jest.fn();

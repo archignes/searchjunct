@@ -7,7 +7,7 @@ const system = {
   name: 'Test System',
   id: 'test-system',
   account_required: false,
-  search_link: 'https://www.google.com',
+  searchLink: 'https://www.google.com',
   mobile_app_breaks_links_warning: false,
   searched: false,
   linkedin_link: 'https://www.linkedin.com',
