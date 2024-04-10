@@ -27,7 +27,7 @@ describe('HandleMultisearchNumber', () => {
             { id: 'system-3', name: 'System 3', search_link: 'https://system3.com/search?q=%s' }
         ];
         const cleanupSearch = jest.fn();
-        const preppedSearchLink = (params: PreppedSearchLinkParams) =>
+        const getPreppedSearchLink = (params: PreppedSearchLinkParams) =>
             `${params.system.name}/search?q=${params.query}`;
         const shortcut: MultisearchNumberShortcut = {
             type: 'multisearch_number',
@@ -38,7 +38,7 @@ describe('HandleMultisearchNumber', () => {
         // Act
         HandleMultisearchNumber({
             queryObject: {
-                raw_string: 'test /3',
+                rawString: 'test /3',
                 query: 'test',
                 shortcut: shortcut,
                 in_address_bar: false,
@@ -46,7 +46,7 @@ describe('HandleMultisearchNumber', () => {
             },
             systemsToSearch: systems,
             cleanupSearch,
-            preppedSearchLink,
+            getPreppedSearchLink,
         });
 
         // Assert
@@ -61,7 +61,7 @@ describe('HandleMultisearchNumber', () => {
             { id: 'system-3', name: 'System 3', search_link: 'https://system3.com/search?q=%s' }
         ];
         const cleanupSearch = jest.fn();
-        const preppedSearchLink = (params: PreppedSearchLinkParams) =>
+        const getPreppedSearchLink = (params: PreppedSearchLinkParams) =>
             `${params.system.name}/search?q=${params.query}`;
         const shortcut: MultisearchNumberShortcut = {
             type: 'multisearch_number',
@@ -70,9 +70,9 @@ describe('HandleMultisearchNumber', () => {
         };
 
         // Act
-        await HandleMultisearchNumber({
+        HandleMultisearchNumber({
             queryObject: {
-                raw_string: 'test /3',
+                rawString: 'test /3',
                 query: 'test',
                 shortcut: shortcut,
                 in_address_bar: false,
@@ -80,7 +80,7 @@ describe('HandleMultisearchNumber', () => {
             },
             systemsToSearch: systems,
             cleanupSearch,
-            preppedSearchLink,
+            getPreppedSearchLink,
         });
 
         // Assert
@@ -100,7 +100,7 @@ describe('HandleMultisearchNumber', () => {
             { id: 'system-2', name: 'System 2', search_link: 'https://system2.com/search?q=' }
         ];
         const cleanupSearch = jest.fn();
-        const preppedSearchLink = (params: PreppedSearchLinkParams) =>
+        const getPreppedSearchLink = (params: PreppedSearchLinkParams) =>
             `${params.system.name}/search?q=${params.query}`;
         const shortcut: MultisearchNumberShortcut = {
             type: 'multisearch_number',
@@ -109,9 +109,9 @@ describe('HandleMultisearchNumber', () => {
         };
 
         // Act
-        await HandleMultisearchNumber({
+        HandleMultisearchNumber({
             queryObject: {
-                raw_string: '/2',
+                rawString: '/2',
                 query: '',
                 shortcut: shortcut,
                 in_address_bar: false,
@@ -119,7 +119,7 @@ describe('HandleMultisearchNumber', () => {
             },
             systemsToSearch: systems,
             cleanupSearch,
-            preppedSearchLink,
+            getPreppedSearchLink,
 
         });
 

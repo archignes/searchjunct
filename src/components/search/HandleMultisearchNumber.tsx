@@ -1,9 +1,11 @@
+// search/HandleMultisearchNumber.tsx
+import React from 'react';
 import { System } from'@/types';
 import { PreppedSearchLinkParams } from'@/types';
 import {CopyQueryToClipboard} from './';
 import { Query } from '@/types';
 import { Shortcut } from '@/types';
-
+import LaunchSearch from './LaunchSearch';
 
 export type MultisearchNumberShortcut = Shortcut & {
     type: 'multisearch_number'
@@ -18,15 +20,15 @@ interface HandleMultisearchNumberProps {
     queryObject: MultisearchNumberQuery,
     systemsToSearch: System[],
     cleanupSearch: (system: System, query: string, shortcut?: string) => void,
-    preppedSearchLink: (params: PreppedSearchLinkParams) => string
+    getPreppedSearchLink: (params: PreppedSearchLinkParams) => string
 }
 
-export default function HandleMultisearchNumber({
+const HandleMultisearchNumber: React.FC<HandleMultisearchNumberProps> = ({
     queryObject,
     systemsToSearch,
     cleanupSearch,
-    preppedSearchLink
-}: HandleMultisearchNumberProps) {
+    getPreppedSearchLink
+}: HandleMultisearchNumberProps) => {
     CopyQueryToClipboard({ query: queryObject.query })
 
     const systemIds = systemsToSearch.map(system => system.id);
@@ -39,12 +41,15 @@ export default function HandleMultisearchNumber({
 
     for (const system of systemsToSearch) {
         console.log('Searching on system: ', system.name);
-        const url = preppedSearchLink({ system, query: queryObject.query });
-        window.open(url, '_blank');
+        const url = getPreppedSearchLink({ system, query: queryObject.query });
+        LaunchSearch({ preppedSearchLink: url, system, queryObject: queryObject });
         systemsMultisearched.push(system);
     }
     systemsMultisearched.forEach(system => {
         cleanupSearch(system, queryObject.query);
     });
+    return <></>
 }
+
+export default HandleMultisearchNumber;
 

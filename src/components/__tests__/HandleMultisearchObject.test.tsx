@@ -20,11 +20,11 @@ const systemsSearched = {};
 
 describe('HandleMultisearch', () => {
     let cleanupSearchMock: jest.Mock;
-    let preppedSearchLinkMock: jest.Mock;
+    let getPreppedSearchLinkMock: jest.Mock;
 
     beforeEach(() => {
         cleanupSearchMock = jest.fn();
-        preppedSearchLinkMock = jest.fn(({system, query}) => `search-link-${system.id}-${query}`);
+        getPreppedSearchLinkMock = jest.fn(({system, query}) => `search-link-${system.id}-${query}`);
         
         jest.spyOn(window, 'open').mockImplementation();
     });
@@ -35,7 +35,7 @@ describe('HandleMultisearch', () => {
 
     test('should handle always selected systems', async () => {
         const cleanupSearchMock = jest.fn();
-        const preppedSearchLinkMock = jest.fn(({system, query}: PreppedSearchLinkParams) => `search-link-${system.id}-${query}`);
+        const getPreppedSearchLinkMock = jest.fn(({system, query}: PreppedSearchLinkParams) => `search-link-${system.id}-${query}`);
         const shortcut: MultisearchObjectShortcut = {
             type: 'multisearch_object',
             name: 'test_shortcut',
@@ -46,9 +46,9 @@ describe('HandleMultisearch', () => {
             },
         };
 
-        await HandleMultisearchObject({
+        HandleMultisearchObject({
             queryObject: {
-                raw_string: 'query',
+                rawString: 'query',
                 query: 'query',
                 shortcut: shortcut,
                 in_address_bar: false,
@@ -57,7 +57,7 @@ describe('HandleMultisearch', () => {
             systemsSearched,
             systems,
             cleanupSearch: cleanupSearchMock,
-            preppedSearchLink: preppedSearchLinkMock,
+            getPreppedSearchLink: getPreppedSearchLinkMock,
         });
 
         expect(window.open).toHaveBeenCalledWith('search-link-sys1-query', '_blank');
@@ -83,7 +83,7 @@ describe('HandleMultisearch', () => {
 
         HandleMultisearchObject({
             queryObject: {
-                raw_string: 'query',
+                rawString: 'query',
                 query: 'query',
                 shortcut: shortcut,
                 in_address_bar: false,
@@ -92,7 +92,7 @@ describe('HandleMultisearch', () => {
             systems,
             systemsSearched,
             cleanupSearch: cleanupSearchMock,
-            preppedSearchLink: preppedSearchLinkMock,
+            getPreppedSearchLink: getPreppedSearchLinkMock,
         });
 
         expect(CopyQueryToClipboard).toHaveBeenCalledWith({query: 'query'});
@@ -111,11 +111,11 @@ describe('HandleMultisearch', () => {
             },
         };
         const cleanupSearchMock = jest.fn();
-        const preppedSearchLinkMock = jest.fn();
+        const getPreppedSearchLinkMock = jest.fn();
 
         HandleMultisearchObject({
             queryObject: {
-                raw_string: 'query',
+                rawString: 'query',
                 query: 'query',
                 shortcut: shortcut,
                 in_address_bar: false,
@@ -124,7 +124,7 @@ describe('HandleMultisearch', () => {
             systemsSearched,
             systems,
             cleanupSearch: cleanupSearchMock,
-            preppedSearchLink: preppedSearchLinkMock,
+            getPreppedSearchLink: getPreppedSearchLinkMock,
         });
 
         expect(window.open).not.toHaveBeenCalled();
@@ -142,13 +142,13 @@ describe('HandleMultisearch', () => {
             },
         };
         const cleanupSearchMock = jest.fn();
-        const preppedSearchLinkMock = jest.fn(
+        const getPreppedSearchLinkMock = jest.fn(
             ({system, query}: PreppedSearchLinkParams) => `search-link-${system.id}-${query}`
         );
 
         HandleMultisearchObject({
             queryObject: {
-                raw_string: 'query',
+                rawString: 'query',
                 query: 'query',
                 shortcut: shortcut,
                 in_address_bar: false,
@@ -157,7 +157,7 @@ describe('HandleMultisearch', () => {
             systems,
             systemsSearched,
             cleanupSearch: cleanupSearchMock,
-            preppedSearchLink: preppedSearchLinkMock,
+            getPreppedSearchLink: getPreppedSearchLinkMock,
         });
 
         expect(window.open).toHaveBeenCalledTimes(2);

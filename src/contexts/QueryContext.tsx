@@ -15,7 +15,7 @@ interface QueryContextType {
 }
 
 const QueryContext = createContext<QueryContextType>({
-    queryObject: { raw_string: '', query: '', shortcut: null, in_address_bar: false, from_address_bar: false },
+    queryObject: { rawString: '', query: '', shortcut: null, in_address_bar: false, from_address_bar: false },
     setQueryObjectIntoURL: () => { },
     processTextInputForQueryObject: () => { },
 });
@@ -45,7 +45,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
 
 
     const [queryObject, setQueryObject] = useState<Query>({
-        raw_string: '',
+        rawString: '',
         query: '',
         shortcut: null,
         in_address_bar: false,
@@ -100,7 +100,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
                 }
                 
                 setQueryObject({
-                    raw_string: initialRawQuery,
+                    rawString: initialRawQuery,
                     query: initialQuery,
                     shortcut: initialShortcut,
                     in_address_bar: true,
@@ -118,7 +118,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-        warnAboutBackslash(queryObject.raw_string);
+        warnAboutBackslash(queryObject.rawString);
     }, [queryObject]);
 
 
@@ -128,13 +128,10 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
         const shortcut = getShortcutFromQuery(text);
         if (shortcut) {
             query = text.replace(`/${shortcut.name}`, '').trim();
-            if (query === queryObject.query && shortcut.name && queryObject.shortcut && queryObject.shortcut.name && shortcut.name === queryObject.shortcut.name) {
-                return;
-            }
         }
-        
+
         if (query !== queryObject.query || shortcut !== queryObject.shortcut) {
-            setQueryObject(q => ({ ...q, raw_string: text, query, shortcut, from_address_bar: false }));
+            setQueryObject(q => ({ ...q, rawString: text, query, shortcut, from_address_bar: false }));
             if (shortcut) {
                 updateURLQueryParams([{ urlParam: 'shortcut', value: shortcut.name }]);
                 setQueryObject(q => ({ ...q, in_address_bar: true }));

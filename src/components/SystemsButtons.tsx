@@ -1,9 +1,9 @@
 // SystemButtons.tsx
 
 import React from 'react';
-import { System } from '../../types/system';
-import { Button } from '../ui/button';
-import { useStorageContext, useSystemToggleContext } from '../../contexts';
+import { System } from '../types/system';
+import { Button } from './ui/button';
+import { useStorageContext, useSystemToggleContext } from '../contexts';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const DisableSystemButton: React.FC<{ system: System }> = ({ system }) => {

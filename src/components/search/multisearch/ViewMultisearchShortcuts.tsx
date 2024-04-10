@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useStorageContext } from '../../../contexts/';
 import { Card, CardContent, CardHeader, CardFooter } from '../../ui/card';
-import MiniSearchSystemItem from '../../sj-ui/MiniSearchSystemItem';
+import MiniSearchSystemItem from '../../MiniSearchSystemItem';
 import { MultisearchActionObject } from '@/types';
 import { Button } from '../../ui/button';
 import { TrashIcon } from '@radix-ui/react-icons';
@@ -18,7 +18,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from '../../ui/alert-dialog';
-import { SpecialCardTitle } from '../../sj-ui/SystemTitle';
+import { SpecialCardTitle } from '../../SystemTitle';
 
 
 const MultisearchActionObjectBucket: React.FC<{ title: string, systems: string[], additionalClasses?: string }> = ({ title, systems, additionalClasses }) => {

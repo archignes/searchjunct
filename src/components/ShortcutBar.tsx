@@ -8,7 +8,7 @@ import {
 } from '../contexts';
 import { MultisearchActionObjectBuckets } from './search/multisearch/ViewMultisearchShortcuts';
 
-const ShortcutBar = () => {
+const ShortcutBar: React.FC = () => {
   const { queryObject } = useQueryContext();
   const { systemsSearched } = useStorageContext();
   const shortcut = queryObject.shortcut;
@@ -28,7 +28,7 @@ const ShortcutBar = () => {
   
   return (
     <div id="shortcut-bar"
-    className={`flex flex-row mt-2 justify-center rounded-md p-1 mx-1 items-center ${allShortcutSystemsSearched ? 'bg-gray-300' : ''}`}>
+      className={`${shortcut ? 'mt-2 flex flex-row justify-center rounded-md p-1 mx-1 items-center' : 'hidden'} ${allShortcutSystemsSearched ? 'bg-gray-300' : ''}`}>
       {shortcut && (<div>{allShortcutSystemsSearched ? <s>/{shortcut?.name}</s> : `/${shortcut?.name}`}</div>)}
       {shortcut && shortcut.action && typeof shortcut.action === 'object' && 
         <MultisearchActionObjectBuckets shortcut={shortcut.action} />

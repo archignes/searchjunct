@@ -11,10 +11,10 @@ interface SetupCustomDefaultSystemInstructionsProps {
 
 
 const SetupCustomDefaultSystemInstructions: React.FC<SetupCustomDefaultSystemInstructionsProps> = ({ system }: { system: System }) => {
-  const { preppedSearchLink } = useSearchContext();
+  const { getPreppedSearchLink } = useSearchContext();
 
   
-  const searchJunctSearchLink = preppedSearchLink({ system, query: "What is Searchjunct.com?" });
+  const searchJunctSearchLink = getPreppedSearchLink({ system, query: "What is Searchjunct.com?" });
 
   return (
     <div className='w-90% mx-auto'>

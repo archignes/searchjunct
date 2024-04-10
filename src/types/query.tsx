@@ -3,7 +3,7 @@
 import { Shortcut } from './shortcut';
 
 export interface Query {
-    raw_string: string;
+    rawString: string;
     query: string;
     shortcut: Shortcut | null;
     in_address_bar: boolean;

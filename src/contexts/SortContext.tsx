@@ -158,9 +158,9 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        console.log("sortStatus", sortStatus)
-    }, [sortStatus]);
+    // useEffect(() => {
+    //     console.log("sortStatus", sortStatus)
+    // }, [sortStatus]);
 
     const setShuffleSystems = (click?: boolean) => {
         if (click) {

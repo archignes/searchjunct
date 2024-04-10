@@ -72,7 +72,9 @@
         --radius: 0.5rem;
     }
 }
-
+body {
+    background-color: #f3f4f6;
+}
 @layer base {
     * {
         @apply border-border;
@@ -82,4 +84,28 @@
         @apply bg-background text-foreground;
         font-feature-settings: "rlig" 1, "calt" 1;
     }
+}
+
+/* styles.css */
+.DialogOverlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    overflow-y: auto;
+    /* Allows scrolling on the overlay */
+}
+
+.DialogContent {
+    max-height: 100vh;
+    /* Sets a maximum height to 80% of the viewport height */
+    background: white;
+    padding: 30px;
+    border-radius: 4px;
+    overflow-y: auto;
+    /* Allows scrolling within the dialog if content exceeds max-height */
 }

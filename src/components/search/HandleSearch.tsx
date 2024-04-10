@@ -1,10 +1,12 @@
+import React from 'react';
 import { System } from'@/types';
 import HandleMultisearchNumber, { MultisearchNumberQuery } from './HandleMultisearchNumber';
 import HandleMultisearchObject, { MultisearchObjectQuery } from './HandleMultisearchObject';
-import { getNextUnsearchedSystemParams, PreppedSearchLinkParams, HandleSearchParams } from'@/types';
+import { getNextUnsearchedSystemParams, PreppedSearchLinkParams, HandleSearchProps } from'@/types';
 import { CopyQueryToClipboard } from './';
 import { Shortcut } from '@/types';
 import { Query } from '@/types';
+import LaunchSearch from './LaunchSearch';
 
 export type ShortcutQuery = Query & {
     shortcut: Shortcut
@@ -14,7 +16,7 @@ interface HandleShortcutSearchProps {
     queryObject: ShortcutQuery;
     systems: System[];
     cleanupSearch: (system: System, query: string) => void;
-    preppedSearchLink: (params: PreppedSearchLinkParams) => string;
+    getPreppedSearchLink: (params: PreppedSearchLinkParams) => string;
     getNextUnsearchedSystems: (params: getNextUnsearchedSystemParams) => System[];
     systemsSearched: Record<string, boolean>;
 }
@@ -23,7 +25,7 @@ export const handleShortcutSearch = ({
     queryObject,
     systems,
     cleanupSearch,
-    preppedSearchLink,
+    getPreppedSearchLink,
     getNextUnsearchedSystems,
     systemsSearched,
 }: HandleShortcutSearchProps) => {
@@ -37,19 +39,20 @@ export const handleShortcutSearch = ({
             queryObject: queryObject as MultisearchNumberQuery,
             systemsToSearch,
             cleanupSearch,
-            preppedSearchLink
+            getPreppedSearchLink
         });
-        return;
+        return <></>
     } else if (queryObject.shortcut.type === 'multisearch_object') {
         HandleMultisearchObject({
             queryObject: queryObject as MultisearchObjectQuery,
             systems,
             cleanupSearch,
-            preppedSearchLink,
+            getPreppedSearchLink,
             systemsSearched,
         });
-        return;
+        return <></>
     }
+    return <></>
 };
 
 interface HandleSkipLogicParams {
@@ -111,44 +114,39 @@ export const handleSkipLogic = ({
     return false; // If the skip parameter does not match expected values, return false.
 };
 
-export const prepareSearchUrlAndOpen = (
-    system: System, 
-    currentQuery: string, 
-    preppedSearchLink: (params: PreppedSearchLinkParams) => string, 
-    cleanupSearch: (system: System, currentQuery: string) => void
-) => {
-    const url = preppedSearchLink({ system, query: currentQuery });
-    window.open(url, '_blank');
-    cleanupSearch(system, currentQuery);
-};
 
 
-export default function HandleSearch ({
+const HandleSearch: React.FC<HandleSearchProps> = ({
     system, 
-    currentQuery, 
+    queryObject, 
     getLastSkippedSystem, 
     updateSystemsSkipped, 
     handleSearch, 
     systemsDisabled, 
     systemsDeleted, 
     systemsCurrentOrder, 
-    preppedSearchLink, 
+    getPreppedSearchLink, 
     cleanupSearch 
-}: HandleSearchParams) {
+}: HandleSearchProps) => {
+    const currentQuery = queryObject.query;
     if (systemsDisabled[system.id] || systemsDeleted[system.id]) {
         const enabledSystem = systemsCurrentOrder.find(s => !systemsDisabled[s.id] && !systemsDeleted[s.id]);
         if (enabledSystem !== undefined) {
-            handleSearch({ system: enabledSystem, currentQuery, getLastSkippedSystem, updateSystemsSkipped, handleSearch, systemsDisabled, systemsDeleted, systemsCurrentOrder, preppedSearchLink, cleanupSearch });
+            handleSearch({ system: enabledSystem, queryObject, getLastSkippedSystem, updateSystemsSkipped, handleSearch, systemsDisabled, systemsDeleted, systemsCurrentOrder, getPreppedSearchLink, cleanupSearch });
         }
-        return;
+        return null;
     }
 
     if (currentQuery !== '' && system.search_link && !system.search_link.includes('%s')) {
         CopyQueryToClipboard({query: currentQuery})
     }
 
-    const url = preppedSearchLink({ system, query: currentQuery });
-    window.open(url, '_blank');
+    const preppedSearchLink = getPreppedSearchLink({ system, query: currentQuery });
+    LaunchSearch({ preppedSearchLink: preppedSearchLink, system, queryObject: queryObject });
     cleanupSearch(system, currentQuery);
+    return null;
 
 }
+
+export default HandleSearch;
+

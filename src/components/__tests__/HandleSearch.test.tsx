@@ -102,27 +102,27 @@ describe('HandleMultisearchNumber', () => {
             { id: 'system-2', name: 'System 2', search_link: 'https://example.com/system2' },
             { id: 'system-3', name: 'System 3', search_link: 'https://example.com/system3' }];
         const cleanupSearch = jest.fn();
-        const preppedSearchLink = jest.fn();
+        const getPreppedSearchLink = jest.fn();
         const getNextUnsearchedSystems = jest.fn()
             .mockReturnValueOnce([{ id: 'system-1' }, { id: 'system-2' }, { id: 'system-3' }]);
         // Act
 
         handleShortcutSearch({
-            queryObject: { raw_string: 'search term', query: 'search term', in_address_bar: false, from_address_bar: false, shortcut: { type: 'multisearch_number', name: '3', action: 3 } },
+            queryObject: { rawString: 'search term', query: 'search term', in_address_bar: false, from_address_bar: false, shortcut: { type: 'multisearch_number', name: '3', action: 3 } },
             systems,
             systemsSearched: {},
             cleanupSearch,
-            preppedSearchLink,
+            getPreppedSearchLink,
             getNextUnsearchedSystems
         });
 
         // Assert
         expect(HandleMultisearchNumber).toHaveBeenCalledWith({
 
-            queryObject: { raw_string: 'search term', query: 'search term', in_address_bar: false, from_address_bar: false, shortcut: { type: 'multisearch_number', name: '3', action: 3 } },
+            queryObject: { rawString: 'search term', query: 'search term', in_address_bar: false, from_address_bar: false, shortcut: { type: 'multisearch_number', name: '3', action: 3 } },
             systemsToSearch: [{ id: 'system-1' }, { id: 'system-2' }, { id: 'system-3' }],
             cleanupSearch,
-            preppedSearchLink
+            getPreppedSearchLink
 
         });
     });
@@ -137,7 +137,7 @@ describe('HandleMultisearchNumber', () => {
         ];
         const getNextUnsearchedSystems = jest.fn();
         const cleanupSearch = jest.fn();
-        const preppedSearchLink = jest.fn();
+        const getPreppedSearchLink = jest.fn();
         const systemsToSearch = systems; // Ensure this matches the expected structure
 
         // Mock HandleMultisearchActionObject if not already mocked
@@ -146,7 +146,7 @@ describe('HandleMultisearchNumber', () => {
         // Act
         handleShortcutSearch({
             queryObject: {
-                raw_string: 'search term',
+                rawString: 'search term',
                 query: 'search term',
                 in_address_bar: false,
                 from_address_bar: false,
@@ -156,13 +156,13 @@ describe('HandleMultisearchNumber', () => {
             systemsSearched: {},
             systems,
             cleanupSearch,
-            preppedSearchLink
+            getPreppedSearchLink
         });
 
         // Assert
         expect(HandleMultisearchNumber).toHaveBeenCalledWith({
             queryObject: {
-                raw_string: 'search term',
+                rawString: 'search term',
                 query: 'search term',
                 in_address_bar: false,
                 from_address_bar: false,
@@ -170,7 +170,7 @@ describe('HandleMultisearchNumber', () => {
             },
             systemsToSearch: undefined,
             cleanupSearch,
-            preppedSearchLink
+            getPreppedSearchLink
         });
     });
 

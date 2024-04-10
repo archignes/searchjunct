@@ -1,3 +1,4 @@
+import { Query } from "@/types";
 import { System, MultisearchActionObject } from "@/types";
 
 export interface PreppedSearchLinkParams {
@@ -24,18 +25,18 @@ export interface HandleSearchShortcutCandidateParams {
     multisearchActionObjects: MultisearchActionObject[];
     getNextUnsearchedSystem: (updatedSystemsSearched?: Record<string, boolean>, skipSteps?: number) => System | undefined;
     cleanupSearch: (system: System, query: string) => void;
-    preppedSearchLink: ({ system, query }: { system: System, query: string }) => string
+    getPreppedSearchLink: ({ system, query }: { system: System, query: string }) => string
 }
 
-export interface HandleSearchParams {
+export interface HandleSearchProps {
     system: System,
-    currentQuery: string,
+    queryObject: Query,
     getLastSkippedSystem: () => System | undefined,
     updateSystemsSkipped: (systemId: string, skipped: boolean) => void,
-    handleSearch: (params: HandleSearchParams) => void,
+    handleSearch: (params: HandleSearchProps) => void,
     systemsDisabled: Record<string, boolean>,
     systemsDeleted: Record<string, boolean>,
     systemsCurrentOrder: System[],
-    preppedSearchLink: ({ system, query }: { system: System, query: string }) => string
+    getPreppedSearchLink: ({ system, query }: { system: System, query: string }) => string
     cleanupSearch: (system: System, currentQuery: string) => void,
 }

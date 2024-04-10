@@ -16,7 +16,7 @@ type SearchContextType = {
     submitSearch: ({ system, urlQuery, skip }: { system?: System, urlQuery?: string, skip?: "skip" | "skipback" }) => void,
     getNextUnsearchedSystem: ({ updatedSystemsSearched, skipSteps }: getNextUnsearchedSystemParams) => System | undefined,
     getNextUnsearchedSystems: ({ updatedSystemsSearched, skipSteps }: getNextUnsearchedSystemParams) => System[],
-    preppedSearchLink: ({ system, query }: { system: System, query: string }) => string
+    getPreppedSearchLink: ({ system, query }: { system: System, query: string }) => string
 };
 
 
@@ -24,12 +24,14 @@ const SearchContext = createContext<SearchContextType>({
     submitSearch: () => { },
     getNextUnsearchedSystem: () => undefined,
     getNextUnsearchedSystems: () => [],
-    preppedSearchLink: () => ''
+    getPreppedSearchLink: () => ''
 });
+
+
 
 export const useSearchContext = () => useContext(SearchContext);
 
-export const SearchProvider = ({ children }: { children: ReactNode }) => {
+export const SearchProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const { systemsCurrentOrder } = useSortContext();
     const { setSystemSearched, systemsSkipped, updateSystemsSkipped } = useSystemSearchContext();
     const { initiateSearchImmediately, systemsSearched, systemsDeleted, systemsDisabled, flagSearchInitiated, updateFlagSearchInitiated } = useStorageContext();
@@ -65,9 +67,9 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         return getNextUnsearchedSystems(params)[0];
     }, [getNextUnsearchedSystems]);
 
-    const preppedSearchLink = useCallback(({ system, query }: { system: System; query: string }) => {
+    const getPreppedSearchLink = useCallback(({ system, query }: { system: System; query: string }) => {
         if (!system) {
-            console.error("System is undefined in preppedSearchLink");
+            console.error("System is undefined in getPreppedSearchLink");
             return '';
         }
         if (query === '' && system.base_url) {
@@ -136,7 +138,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                         queryObject: queryObject as ShortcutQuery,
                         systems,
                         cleanupSearch,
-                        preppedSearchLink,
+                        getPreppedSearchLink,
                         getNextUnsearchedSystems,
                         systemsSearched
                     });
@@ -157,14 +159,14 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
 
             HandleSearch({
                 system,
-                currentQuery: queryObject.query,
+                queryObject: queryObject,
                 getLastSkippedSystem,
                 updateSystemsSkipped,
                 handleSearch: submitSearch,
                 systemsDisabled,
                 systemsDeleted,
                 systemsCurrentOrder,
-                preppedSearchLink,
+                getPreppedSearchLink,
                 cleanupSearch,
             });
         },
@@ -176,7 +178,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             getNextUnsearchedSystem,
             getNextUnsearchedSystems,
             updateSystemsSkipped,
-            preppedSearchLink,
+            getPreppedSearchLink,
             cleanupSearch,
             getLastSkippedSystem,
             queryObject,
@@ -207,7 +209,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             submitSearch,
             getNextUnsearchedSystem,
             getNextUnsearchedSystems,
-            preppedSearchLink,
+            getPreppedSearchLink,
         }}>
             {children}
         </SearchContext.Provider>

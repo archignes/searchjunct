@@ -1,8 +1,9 @@
 // search/HandleMultisearchObject.tsx
-
+import React from 'react';
 import { System, Query, MultisearchActionObject, Shortcut, PreppedSearchLinkParams } from '@/types';
 import { CopyQueryToClipboard } from '.';
 import {  } from '../../contexts/QueryContext';
+import LaunchSearch from './LaunchSearch';
 
 export interface MultisearchObjectShortcut extends Shortcut {
     type: 'multisearch_object'
@@ -18,18 +19,18 @@ interface HandleMultisearchObjectProps {
     queryObject: MultisearchObjectQuery;
     systems: System[];
     cleanupSearch: (system: System, query: string, shortcut?: string) => void;
-    preppedSearchLink: (params: PreppedSearchLinkParams) => string;
+    getPreppedSearchLink: (params: PreppedSearchLinkParams) => string;
     systemsSearched: Record<string, boolean>;
 }
 
 
-function HandleMultisearchObject({
+const HandleMultisearchObject: React.FC<HandleMultisearchObjectProps> = ({
     queryObject,
     systems,
     cleanupSearch,
-    preppedSearchLink,
+    getPreppedSearchLink,
     systemsSearched
-}: HandleMultisearchObjectProps) {
+}: HandleMultisearchObjectProps) => {
     
     console.log('Handling multisearch shortcut: ', queryObject.shortcut.name);
     CopyQueryToClipboard({ query: queryObject.query })
@@ -54,11 +55,13 @@ function HandleMultisearchObject({
     let systemsToSearch = [...alwaysSystems, ...selectedRandomSystems];
 
     systemsToSearch.forEach((system) => {
-        const url = preppedSearchLink({ system, query: queryObject.query });
-        window.open(url, "_blank");
+        const url = getPreppedSearchLink({ system, query: queryObject.query });
+        LaunchSearch({ preppedSearchLink: url, system, queryObject: queryObject });
         cleanupSearch(system, queryObject.query);
         console.log("Searching on system: ", system.name);
     });
+
+    return <></>
 };
 
 export default HandleMultisearchObject;

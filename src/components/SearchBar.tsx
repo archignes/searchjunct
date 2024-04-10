@@ -16,7 +16,8 @@ import {
   useSystemsContext
 } from '../contexts/';
 
-const SearchBar = () => {
+
+const SearchBar: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { submitSearch } = useSearchContext();
   const { activeSystem } = useSystemsContext();
@@ -61,7 +62,7 @@ const SearchBar = () => {
 
   return (
     <div id="search-bar" className="flex justify-center items-center space-x-2">
-      <div className="w-full mx-1 justify-center items-center flex flex-wrap space-x-2">
+      <div className="w-full justify-center items-center flex flex-wrap space-x-2">
         <form ref={formRef}
           className="flex
     flex-col sm:flex-row // This makes items stack vertically by default, and horizontally on small screens and up
@@ -79,10 +80,12 @@ const SearchBar = () => {
             <Textarea
               ref={textareaRef}
               id="search-input"
-              className="text-base w-full"
+              className={`text-base w-full
+                ${queryObject.rawString === "" ? "bg-blue-100 border-transparent" : ""} focus:bg-white`
+              }
               rows={1}
               placeholder="Type your query here..."
-              value={queryObject.raw_string}
+              value={queryObject.rawString}
               onChange={(e) => processTextInputForQueryObject(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey && !(e.altKey)) {

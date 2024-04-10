@@ -30,7 +30,7 @@ import { cibWikipedia } from '@coreui/icons';
 
 import { useAppContext } from '../../contexts/AppContext';
 import { System } from "../../types/system";
-import { DeleteSystemButton, DisableSystemButton } from '../sj-ui/SystemsButtons';
+import { DeleteSystemButton, DisableSystemButton } from '../SystemsButtons';
 import SetupCustomDefaultSystemInstructions from './SetupCustomDefaultSystemInstructions';
 
 const alertClass = "mt-1 w-full mx-auto flex flex-col"
@@ -141,7 +141,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
   const { settingsCardActive } = useAppContext();
 
   return (<>
-    <Card className="border-none mt-0 p-2 pt-0 none px-1 mx-1 shadow-none w-full">
+    <Card className="border-none shadow-none mt-0 p-2 pt-0 px-1 mx-1">
       <CardContent className="px-1 pb-2 grid grid-cols-1 gap-0">
           {system.tagline && (
             <div className="text-sm text-gray-600 text-center w-2/5 mx-auto italic my-2">

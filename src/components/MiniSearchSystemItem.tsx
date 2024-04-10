@@ -1,10 +1,10 @@
 // ui/MiniSearchSystemItem.tsx 
 
 import React from 'react';
-import { System } from '../../types/system';
-import { useStorageContext } from '../../contexts/StorageContext';
+import { System } from '../types/system';
+import { useStorageContext } from '../contexts/StorageContext';
 import { SystemTitle } from './SystemTitle';
-import { useSystemsContext } from '../../contexts/SystemsContext';
+import { useSystemsContext } from '../contexts/SystemsContext';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
 interface MiniSearchSystemItemProps {
@@ -37,6 +37,7 @@ const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId })
                 className={`py-0 px-0 flex items-center`}
                 system={system}
                 mini_mode={true}
+                favicon_included={true}
               />
             </div>
           </div>

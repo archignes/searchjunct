@@ -12,9 +12,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-import { useQueryContext, useAddressContext } from '../../contexts/';
+import { useQueryContext, useAddressContext } from '../../contexts';
 
-const ShareDropdownMenu = () => {
+const ShareDropdownMenu: React.FC<{ className?: string }> = ({ className }) => {
   const { setQueryObjectIntoURL } = useQueryContext();
   const [isSharePopoverOpen, setIsSharePopoverOpen] = useState(false);
   const { baseURL, url } = useAddressContext();
@@ -53,11 +53,13 @@ const ShareDropdownMenu = () => {
             <DropdownMenuTrigger asChild>
               <Button
                 id="share-button"
-                variant="outline"
+                variant="ghost"
                 title="Share"
-                className={`p-1 w-full ${isSharePopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}`}
+                className={`p-0 h-7 mt-2 px-1 ml-auto
+                  ${isSharePopoverOpen ? 'bg-blue-500 text-white' : 'text-current hover:bg-blue-100'}
+                  ${className}`}
               >
-                <Share2Icon className={`${isSharePopoverOpen ? 'text-white' : 'text-current'}`} />
+                <Share2Icon className={`w-4 h-4 ${isSharePopoverOpen ? 'text-white' : 'text-current'}`} />
               </Button>
             </DropdownMenuTrigger>
           </TooltipTrigger>
