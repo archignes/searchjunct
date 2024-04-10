@@ -1,24 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useStorageContext } from '../../../contexts';
+import React, { useState, useEffect, useRef } from 'react';
+import { useAppContext, useStorageContext } from '../../../contexts';
 import {
     Sheet,
     SheetContent,
     SheetHeader,
-    SheetTitle,
-    SheetTrigger,
+    SheetTitle
 } from "@/components/ui/sheet"
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '../../ui/button';
 import { SpecialCardTitle } from '../../SystemTitle';
 import ViewMultisearchShortcuts from './ViewMultisearchShortcuts';
 import AddMultisearchActionObject from './AddMultisearchActionObject';
 
 export default function ViewMultisearchSheet() {
     const { multisearchActionObjects } = useStorageContext();
+    const { isMultisearchManagementSheetOpen, toggleIsMultisearchManagementSheetOpen } = useAppContext();
     const [isClient, setIsClient] = useState(false);
 
-    const [isOpen, setIsOpen] = useState(false);
 
+    
 
     useEffect(() => {
         setIsClient(true);
@@ -38,17 +36,13 @@ export default function ViewMultisearchSheet() {
     }
 
 
-
+    
 
     return (
-        <Sheet>
-        <SheetTrigger asChild>
-            <Button variant="outline" size="sm" className="text-xs hover:bg-blue-100 mx-2">
-                Manage multisearch shortcuts
-            </Button>
-        </SheetTrigger>
-            <SheetContent onClick={(event) => event.stopPropagation()             }
-                className="p-2 w-[375px] sm:w-[840px] sm:max-w-2xl p-2">
+        <Sheet open={isMultisearchManagementSheetOpen} onOpenChange={toggleIsMultisearchManagementSheetOpen}>
+        
+            <SheetContent 
+            className="p-2 w-[375px] sm:w-[840px] sm:max-w-2xl p-2">
             <SheetHeader>
                 <SheetTitle>Manage multisearch shortcuts</SheetTitle>
             </SheetHeader>

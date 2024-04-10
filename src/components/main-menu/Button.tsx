@@ -11,6 +11,7 @@ type MainMenuButtonProps = {
     TargetTitle: string;
     TargetTooltip: string;
     ButtonIndex: number;
+    PortalButton?: {label: string};
 };
 
 type TargetButtonProps = {
@@ -52,16 +53,28 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
     TargetComponent,
     TargetTitle,
     TargetTooltip,
-    ButtonIndex
+    ButtonIndex,
+    PortalButton
 }: MainMenuButtonProps) => {
     const [isButtonTargetOpen, setIsButtonTargetOpen] = useState<boolean>(false);
+    const { isAddSearchSystemOpen, toggleIsAddSearchSystemOpen } = useAppContext();
+
+    useEffect(() => {
+        if (TargetTitle === "Add") {
+            setIsButtonTargetOpen(isAddSearchSystemOpen);
+        }
+    }, [isAddSearchSystemOpen, TargetTitle]);
+
     const popoverContentRef = useRef<HTMLDivElement>(null);
     const { setIsMainMenuExpanded } = useAppContext();
 
 
     const toggleButtonTargetOpen = useCallback(() => {
         setIsButtonTargetOpen((prevState) => !prevState);
-    }, []);
+        if (TargetTitle === "Add") {
+            toggleIsAddSearchSystemOpen();
+        }
+    }, [TargetTitle, toggleIsAddSearchSystemOpen]);
 
     useEffect(() => {
         const handleDocumentClick = (event: MouseEvent) => {

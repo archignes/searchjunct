@@ -36,6 +36,7 @@ interface SortableItemProps {
   showDisableDeleteButtons: boolean;
   showDragHandle: boolean;
   activeSystemId: string | undefined;
+  className?: string;
 }
 
 
@@ -66,10 +67,10 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = ({
   setOpenItem,
   attributes,
   listeners,
-  setDragHandleRef
- }) => {
+  setDragHandleRef,
+}) => {
   return (
-    <AccordionItem value="item-1" className={`${className} ${showDragHandle ? 'border rounded-md w-3/4 sm:w-full' : 'border-none'}`}>
+    <AccordionItem value="item-1" className={`${showDragHandle ? 'border rounded-md w-3/4 sm:w-full' : 'border-none'} ${className}`}>
       <div className="w-full flex justify-between">
         <div className="w-full flex items-center ml-1">
           {getPreppedSearchLink && submitSearch && queryObject &&  (
@@ -147,7 +148,8 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   system,
   showDisableDeleteButtons,
   showDragHandle,
-  activeSystemId
+  activeSystemId,
+  className
 }) => {
   const { systemsSkipped} = useSystemSearchContext();
   const { getPreppedSearchLink } = useSearchContext();
@@ -261,6 +263,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
             </div>
           ) : (
           <SystemAccordionItem
+            className={className}
             system={system}
             showDragHandle={showDragHandle}
             queryObject={queryObject}

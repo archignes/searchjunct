@@ -30,6 +30,7 @@ import {
   AlertDialogTrigger
 } from '../../ui/alert-dialog';
 import { MultisearchActionObject } from '@/types';
+import { Avatar } from '@mui/material';
 
 const AddMultisearchActionObject: React.FC = () => {
   const { multisearchActionObjects, addMultisearchActionObject } = useStorageContext();
@@ -70,7 +71,7 @@ const AddMultisearchActionObject: React.FC = () => {
   }, [addMultisearchActionObject, multisearchActionObjects]);
 
 
-  const { systems } = useSystemsContext();
+  const { allSystems } = useSystemsContext();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const formSchema = z.object({
@@ -113,7 +114,12 @@ const AddMultisearchActionObject: React.FC = () => {
     }).optional(),
   });
 
-  const systemNames = systems.map((system) => ({
+  const getSystemIcon = (systemId: string) => {
+    const system = allSystems.find((system) => system.id === systemId);
+    return system?.favicon || `/favicons/${systemId}.ico`;
+  }
+
+  const systemNames = allSystems.map((system) => ({
     label: system.name,
     value: system.id,
   }));
@@ -198,11 +204,20 @@ const AddMultisearchActionObject: React.FC = () => {
                 control={form.control}
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <Autocomplete
+                    disablePortal
                     multiple
                     options={systemNames}
                     getOptionLabel={(option) => option.label}
-                    value={value ? value.map((val: string) => systemNames.find(option => option.value === val) || { label: '', value: '' }) : []}
+                    value={value.map(val => systemNames.find(option => option.value === val) || { label: '', value: '' })}
                     onChange={(_, data) => onChange(data.map(item => item.value))}
+                    renderOption={(props, option) => (
+                      <li {...props}>
+                        <Avatar
+                          src={getSystemIcon(option.value)}
+                          sx={{ width: 15, height: 15, marginRight: 1 }} />
+                        {option.label}
+                      </li>
+                    )}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -213,7 +228,9 @@ const AddMultisearchActionObject: React.FC = () => {
                     )}
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
-                        <Chip variant="outlined" label={option ? option.label : ''} {...getTagProps({ index })} />
+                        <Chip variant="outlined" label={option.label}
+                          avatar={<Avatar src={getSystemIcon(option.value)}
+                            sx={{ width: 15, height: 15, marginRight: 1 }} />} {...getTagProps({ index })} />
                       ))
                     }
                   />
@@ -230,8 +247,16 @@ const AddMultisearchActionObject: React.FC = () => {
                     multiple
                     options={systemNames}
                     getOptionLabel={(option) => option.label}
-                    value={value ? value.map((val: string) => systemNames.find(option => option.value === val) || { label: '', value: '' }) : []}
+                    value={value.map(val => systemNames.find(option => option.value === val) || { label: '', value: '' })}
                     onChange={(_, data) => onChange(data.map(item => item.value))}
+                    renderOption={(props, option) => (
+                      <li {...props}>
+                        <Avatar
+                          src={getSystemIcon(option.value)}
+                          sx={{ width: 15, height: 15, marginRight: 1 }} />
+                        {option.label}
+                      </li>
+                    )}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -242,7 +267,9 @@ const AddMultisearchActionObject: React.FC = () => {
                     )}
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
-                        <Chip variant="outlined" label={option ? option.label : ''} {...getTagProps({ index })} />
+                        <Chip variant="outlined" label={option.label}
+                          avatar={<Avatar src={getSystemIcon(option.value)}
+                            sx={{ width: 15, height: 15, marginRight: 1 }} />} {...getTagProps({ index })} />
                       ))
                     }
                   />

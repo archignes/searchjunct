@@ -35,7 +35,7 @@ export const SettingsItemBox: React.FC<{children: React.ReactNode, label: string
 
 const SettingsCard: React.FC = () => {
 
-  const { systems } = useSystemsContext();
+  const { allSystems } = useSystemsContext();
   const { isResetDisabled } = useSystemToggleContext();
   const { resetLocalStorage, updateFlagSearchInitiated,
     initiateSearchImmediately, setInitiateSearchImmediately,
@@ -102,7 +102,7 @@ const SettingsCard: React.FC = () => {
             </Alert>
           ) : (
             Object.entries(systemsDeleted).filter(([_, value]) => value).map(([systemId, _], index) => {
-              const system = systems.find((system) => system.id === systemId);
+              const system = allSystems.find((system) => system.id === systemId);
               if (!system) {
                 console.error(`System with ID ${systemId} not found.`);
                 return null;

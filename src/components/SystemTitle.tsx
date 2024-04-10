@@ -11,12 +11,20 @@ export const SpecialCardTitle: React.FC<{ title: string }> = ({ title }) => {
 }
 
 export const FaviconImage: React.FC<{ system: System, mini_mode?: boolean }> = ({ system, mini_mode }) => {
-  return (
-    <Image src={`/favicons/${system.id}.ico`}
+  
+  if (system.favicon?.startsWith('http')) {
+    return (
+      <img src={system.favicon}
+      alt={`${system.name} favicon`} width={15} height={15}
+      className={`rounded-md p-1 ${mini_mode ? 'bg-white w-4 h-4 mx-1' : 'flex-shrink-0 w-6 h-6 mr-2'}`} />
+    )
+  } else {
+    return (
+      <Image src={`/favicons/${system.id}.ico`}
       alt={`${system.name} favicon`} width={15} height={15} quality={75}
       className={`rounded-md p-1 ${mini_mode ? 'bg-white w-4 h-4 mx-1' : 'flex-shrink-0 w-6 h-6 mr-2'}`} />
-  )
-}
+    )} 
+  }
 
 
 export const SystemTitle: React.FC<{ system: System,

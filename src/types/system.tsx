@@ -4,6 +4,7 @@ export interface System {
     id: string;
     name: string;
     nondistinct_url?: boolean;
+    description?: string;
     base_url_for?: string[];
     account_required?: boolean;
     searchLink: string;
@@ -21,7 +22,7 @@ export interface System {
     nonprofit_verification?: string;
     web_search_system?: boolean;
     product_hunt_link?: string;
-    favicon?: boolean;
+    favicon?: string;
     about_link?: string;
     disabled?: boolean;
     deleted?: boolean;

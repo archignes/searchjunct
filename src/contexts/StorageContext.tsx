@@ -49,6 +49,7 @@ interface StorageContextType {
     // private search systems
     locallyStoredSearchSystems: System[];
     addLocallyStoredSearchSystem: (system: System) => void;
+    updateLocallyStoredSearchSystem: (id: string, system: System) => void;
     removeLocallyStoredSearchSystem: (id: string) => void;
     importLocallyStoredSearchSystems: (systems: System[]) => void;
     exportLocallyStoredSearchSystems: () => System[];
@@ -82,6 +83,7 @@ const StorageContext = createContext<StorageContextType>({
     removeMultisearchActionObject: () => { },
     locallyStoredSearchSystems: [],
     addLocallyStoredSearchSystem: () => { },
+    updateLocallyStoredSearchSystem: () => { },
     removeLocallyStoredSearchSystem: () => { },
     importLocallyStoredSearchSystems: () => { },
     exportLocallyStoredSearchSystems: () => [],
@@ -184,6 +186,14 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
 
     const addLocallyStoredSearchSystem = useCallback((system: System) => {
         setLocallyStoredSearchSystems(prev => [...prev, system]);
+    }, []);
+
+    const updateLocallyStoredSearchSystem = useCallback((id: string, system: System) => {
+        // First, filter out the system with the old id, if it exists.
+        // Then, add the new system object to the array.
+        // This ensures that if the system.id does not match the provided id,
+        // the old system is removed, and the new one is added.
+        setLocallyStoredSearchSystems(prev => [...prev.filter(s => s.id !== id), system]);
     }, []);
 
     const removeLocallyStoredSearchSystem = useCallback((id: string) => {
@@ -320,6 +330,7 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             removeMultisearchActionObject,
             locallyStoredSearchSystems,
             addLocallyStoredSearchSystem,
+            updateLocallyStoredSearchSystem,
             removeLocallyStoredSearchSystem,
             importLocallyStoredSearchSystems,
             exportLocallyStoredSearchSystems,
@@ -342,6 +353,7 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             removeMultisearchActionObject,
             locallyStoredSearchSystems,
             addLocallyStoredSearchSystem,
+            updateLocallyStoredSearchSystem,
             removeLocallyStoredSearchSystem,
             importLocallyStoredSearchSystems,
             exportLocallyStoredSearchSystems,

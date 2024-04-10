@@ -12,7 +12,7 @@ import useFeatureFlag from '../hooks/useFeatureFlag';
 const SystemList = () => {
   const { isFeatureEnabled } = useFeatureFlag();
  
-  const { systems, activeSystem, setActiveSystem } = useSystemsContext();
+  const { allSystems, activeSystem, setActiveSystem } = useSystemsContext();
   const { systemsSearched, systemsDisabled, systemsDeleted } = useStorageContext();
   const { systemsCurrentOrder } = useSortContext();
   const { systemsSkipped } = useSystemSearchContext();
@@ -64,7 +64,7 @@ const SystemList = () => {
           href="https://github.com/danielsgriffin/searchjunct/blob/main/src/data/systems.json"
           target="_blank"
           rel="noopener noreferrer">
-          Showing {visibleSystems.length} of {systems.length} systems
+          Showing {visibleSystems.length} of {allSystems.length} systems
         </a>
       </div>
     </div>

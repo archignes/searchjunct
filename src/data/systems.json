@@ -310,6 +310,15 @@
     "open_source_license": "Apache License 2.0",
     "twitter_link": "https://twitter.com/leptonai"
   },
+    {
+      "name": "Morphic",
+      "id": "morphic",
+      "special_note": "beta",
+      "searchLink": "https://morphic.sh/",
+      "github_link": "https://github.com/miurla/morphic",
+      "open_source_license": "Apache License 2.0",
+      "twitter_link": "https://twitter.com/miiura"
+    },
   {
     "id": "wikipedia",
     "name": "Wikipedia",

@@ -35,7 +35,7 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const { systemsCurrentOrder } = useSortContext();
     const { setSystemSearched, systemsSkipped, updateSystemsSkipped } = useSystemSearchContext();
     const { initiateSearchImmediately, systemsSearched, systemsDeleted, systemsDisabled, flagSearchInitiated, updateFlagSearchInitiated } = useStorageContext();
-    const { setActiveSystem, systems } = useSystemsContext();
+    const { setActiveSystem, allSystems } = useSystemsContext();
     const { queryObject, setQueryObjectIntoURL } = useQueryContext();
     const initiateSearchImmediatelyRef = useRef(true);
 
@@ -136,7 +136,7 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({ children }) 
                 if (!shortcutsCompletedStatus) {
                     handleShortcutSearch({
                         queryObject: queryObject as ShortcutQuery,
-                        systems,
+                        systems: allSystems,
                         cleanupSearch,
                         getPreppedSearchLink,
                         getNextUnsearchedSystems,
@@ -174,7 +174,7 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             systemsDeleted,
             systemsDisabled,
             systemsCurrentOrder,
-            systems,
+            allSystems,
             getNextUnsearchedSystem,
             getNextUnsearchedSystems,
             updateSystemsSkipped,

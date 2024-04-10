@@ -1,10 +1,11 @@
 // SystemsContext.tsx
 
-import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback, useMemo } from 'react';
 import systemsData from "../data/systems.json";
 import { System } from "../types/system";
+import { useStorageContext } from "./StorageContext";
 
-const systems: System[] = systemsData as System[];
+const baseSystems: System[] = systemsData as System[];
 
 interface SystemsProviderProps {
     children: ReactNode;
@@ -12,7 +13,8 @@ interface SystemsProviderProps {
 }
 
 interface SystemsContextType {
-    systems: System[];
+    baseSystems: System[];
+    allSystems: System[];
     activeSystem: System | undefined;
     setActiveSystem: (systemId: string) => void;
     initializeSystemsState: (systemsDisabled: any, systemsDeleted: any, systemsSearched: any) => void;
@@ -23,7 +25,8 @@ interface SystemsContextType {
 // Create the context with a default value
 const SystemsContext = createContext<SystemsContextType>(
     {
-        systems: [],
+        baseSystems: [],
+        allSystems: [],
         activeSystem: undefined,
         setActiveSystem: () => { },
         initializeSystemsState: () => { return []; },
@@ -35,7 +38,11 @@ const SystemsContext = createContext<SystemsContextType>(
 export const useSystemsContext = () => useContext(SystemsContext);
 
 export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) => {
-    const [activeSystem, setActiveSystemState] = useState<System | undefined>(systems[0]);
+    // allSystems is a combination of baseSystems and locally stored search systems
+    const { locallyStoredSearchSystems } = useStorageContext();
+    const allSystems = useMemo(() => [...locallyStoredSearchSystems, ...baseSystems], [locallyStoredSearchSystems]);
+
+    const [activeSystem, setActiveSystemState] = useState<System | undefined>(allSystems[0]);
     const [systemsState, setSystemsState] = useState<System[]>([]);
 
     const initializeSystemsState = useCallback((
@@ -43,35 +50,35 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
         systemsDeleted: Record<string, boolean> = {},
         systemsSearched: Record<string, boolean> = {}
     ) => {
-        setSystemsState(systems.map(system => ({
+        setSystemsState(allSystems.map(system => ({
             ...system,
             searched: systemsSearched[system.id] ?? {},
             disabled: systemsDisabled[system.id] ?? {},
             deleted: systemsDeleted[system.id] ?? {},
         })));
-    }, []);
+    }, [allSystems]);
 
     const setActiveSystem = (systemId: string) => {
-        const matchingSystem = systems.find(system => system.id === systemId);
+        const matchingSystem = allSystems.find(system => system.id === systemId);
         setActiveSystemState(matchingSystem);
     };
 
     useEffect(() => {
         if (!activeSystem) {
-            setActiveSystemState(systems[0]);
+            setActiveSystemState(allSystems[0]);
         }
-    }, [activeSystem]);
-
+    }, [activeSystem, allSystems]);    
 
     return (
         <SystemsContext.Provider value={
             {
-                systems,
+                baseSystems,
                 activeSystem,
                 setActiveSystem,
                 initializeSystemsState,
                 systemsState,
                 setSystemsState,
+                allSystems
             }}>
             {children}
         </SystemsContext.Provider>

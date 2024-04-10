@@ -9,14 +9,13 @@ import {
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 
-import { useShortcutContext, useQueryContext } from '@/contexts';
+import { useShortcutContext, useQueryContext, useAppContext } from '@/contexts';
 import { MultisearchActionObject } from '@/types';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import ViewMultisearchSheet from '@/src/components/search/multisearch/MultisearchManagementSheet';
 
 const ShortcutsCard: React.FC = () => {
-    const { queryObject } = useQueryContext();
+    const { queryObject, processTextInputForQueryObject } = useQueryContext();
     const { multisearchActionObjects } = useShortcutContext();
+    const { toggleIsMultisearchManagementSheetOpen } = useAppContext();
 
     return (
         <>
@@ -33,7 +32,9 @@ const ShortcutsCard: React.FC = () => {
                                 You can create, edit, and delete multisearch shortcuts.
                                 You can also use numbered shortcuts, like `/3`, to search the next # of available systems. 
                         </p>
-                    <ViewMultisearchSheet/>
+                    <Button variant="outline" size="sm" className="text-xs hover:bg-blue-100 mx-2" onClick={toggleIsMultisearchManagementSheetOpen}>
+                        Manage multisearch shortcuts
+                    </Button>
                         
 
                     {multisearchActionObjects.map((shortcut: MultisearchActionObject, index) => (
@@ -47,6 +48,7 @@ const ShortcutsCard: React.FC = () => {
                                 // Move the cursor to the end of the text
                                 const textLength = searchInput.value.length;
                                 searchInput.setSelectionRange(textLength, textLength);
+                                processTextInputForQueryObject(updatedQuery);
                             }
                         }}>/{shortcut.name}</Button>
                         { shortcut.description && <p className="col-span-4 text-sm text-gray-500 px-2 align-top">{shortcut.description}</p>}

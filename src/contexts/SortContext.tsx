@@ -40,8 +40,8 @@ const SortContext = createContext<SortContextType>(
         redoSort: () => { },
     });
 
-export const shuffleSystems = (systems: System[], manualTrigger: boolean = false) => {
-    let shuffledSystems = [...systems];
+export const shuffleSystems = (allSystems: System[], manualTrigger: boolean = false) => {
+    let shuffledSystems = [...allSystems];
     let isSameOrder = true;
 
 
@@ -51,7 +51,7 @@ export const shuffleSystems = (systems: System[], manualTrigger: boolean = false
         if (currentURL.searchParams.has("systems")) {
             const systemIDs = currentURL.searchParams.get("systems")?.split(',');
             if (Array.isArray(systemIDs)) {
-                const foundSystems = systemIDs.map(systemID => systems.find((system: System) => system.id === systemID)).filter(system => system !== undefined);
+                const foundSystems = systemIDs.map(systemID => allSystems.find((system: System) => system.id === systemID)).filter(system => system !== undefined);
                 if (foundSystems.length > 0) {
                     return foundSystems;
                 } else {
@@ -67,9 +67,9 @@ export const shuffleSystems = (systems: System[], manualTrigger: boolean = false
             [shuffledSystems[i], shuffledSystems[j]] = [shuffledSystems[j], shuffledSystems[i]];
         }
 
-        isSameOrder = shuffledSystems.every((system, index) => system === systems[index]);
+        isSameOrder = shuffledSystems.every((system, index) => system === allSystems[index]);
         if (isSameOrder) {
-            shuffledSystems = [...systems];
+            shuffledSystems = [...allSystems];
         }
     }
 
@@ -82,10 +82,10 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
     const { systemsCustomOrder,
         customModeOnLoad,
         setSystemsCustomOrder } = useStorageContext();
-    const { systems, systemsState, setSystemsState } = useSystemsContext();
+    const { allSystems, systemsState, setSystemsState } = useSystemsContext();
     const { updateURLQueryParams } = useAddressContext();
 
-    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems(systems) as System[]);
+    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems(allSystems) as System[]);
     
     const [sortStatus, setSortStatus] = useState<'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial'>('initial');
 
@@ -112,13 +112,13 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
             const order: string[] = systemsCustomOrder;
             // Map the custom order to the systems state, filtering out any undefined entries
             const sortedSystems: System[] = order.reduce((acc: System[], id) => {
-                const system = systems.find(system => system.id === id);
+                const system = allSystems.find(system => system.id === id);
                 if (system) acc.push(system);
                 return acc;
             }, []);
 
             // Add any systems not in order (new systems) to the end of sortedSystems
-            systems.forEach((system) => {
+            allSystems.forEach((system) => {
                 if (!order.includes(system.id)) {
                     sortedSystems.push(system);
                 }
@@ -134,7 +134,7 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
             // If custom mode should be loaded initially and sort status is initial, trigger custom sort
             customSort(type="initial");
         }
-    }, [updateURLQueryParams, setSystemsState, systems, systemsCustomOrder, sortStatus, customModeOnLoad]);
+    }, [updateURLQueryParams, setSystemsState, allSystems, systemsCustomOrder, sortStatus, customModeOnLoad]);
 
     // Effect to handle initial custom sort based on conditions
     useEffect(() => {
@@ -233,10 +233,10 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
 
     const setShuffleSystems = (click?: boolean) => {
         if (click) {
-            setSystemsCurrentOrder(shuffleSystems(systems, click) as System[]);
+            setSystemsCurrentOrder(shuffleSystems(allSystems, click) as System[]);
             updateURLQueryParams([{ urlParam: 'systems', value: '' }]); // Remove the systems param
         } else {
-            setSystemsCurrentOrder(shuffleSystems(systems) as System[]);
+            setSystemsCurrentOrder(shuffleSystems(allSystems) as System[]);
         }
         updateSortStatus('shuffled');
     }

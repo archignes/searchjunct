@@ -1,6 +1,6 @@
 // Add.tsx
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Card,
     CardContent,
@@ -10,7 +10,9 @@ import {
 } from '../ui/card';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { GitHubLogoIcon } from '@radix-ui/react-icons';
+import { MainMenuButton } from './Button';
+import { PlusIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
+import { useAppContext } from '@/contexts/AppContext';
 
 
 import { z } from "zod";
@@ -24,6 +26,7 @@ import {
     AlertDialog,
     AlertDialogAction,
     AlertDialogContent,
+    AlertDialogDescription,
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger
@@ -31,12 +34,26 @@ import {
 import ManageLocallyStoredSearchSystemsSheet from '../search/ManageLocallyStoredSearchSystems';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
-export const AddSystem: React.FC = () => {
-    const { locallyStoredSearchSystems, addLocallyStoredSearchSystem } = useStorageContext();
-    const { systems } = useSystemsContext();
-    const allSystems = [...locallyStoredSearchSystems, ...systems]
+
+export const AddSystem: React.FC<{ 
+    defaultValues?: { name: string, description?: string, id: string, searchLink: string, favicon?: string }, onClose?: () => void
+      }> = ({ defaultValues, onClose }) => {
+    const { addLocallyStoredSearchSystem, locallyStoredSearchSystems, updateLocallyStoredSearchSystem } = useStorageContext();
+    const { allSystems } = useSystemsContext();
 
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+    const onCloseRef = React.useRef(false);
+    
+    useEffect(() => {
+      if (onClose && onCloseRef.current && !isDialogOpen) {
+        onClose();
+      }
+      if (isDialogOpen && onClose) {
+        onCloseRef.current = true;
+      }
+    }, [isDialogOpen, onClose]);
+
 
 
     const getSystemId = (name: string) => {
@@ -44,8 +61,8 @@ export const AddSystem: React.FC = () => {
     }
 
     const formSchema = z.object({
-        name: z.string().min(1, "A system name is required").refine((name) => {
-          const nameExists = allSystems.some((system) => system.name === name);
+      searchSystemName: z.string().min(1, "A system name is required").refine((name) => {
+        const nameExists = allSystems.some((system) => system.name === name && system.id !== defaultValues?.id);
             if (nameExists) {
                 console.error(`System name '${name}' already exists.`);
                 return false;
@@ -55,7 +72,7 @@ export const AddSystem: React.FC = () => {
             message: "System name already exists.",
         }).refine((name) => {
           const id = getSystemId(name);
-          const idExists = allSystems.some((system) => system.id === id);
+          const idExists = allSystems.some((system) => system.id === id && system.id !== defaultValues?.id);
           if (idExists) {
             const existingName = allSystems.find((system) => system.id === id)?.name;
             console.error(`System ID '${id}' already exists for '${existingName}'.`);
@@ -68,38 +85,80 @@ export const AddSystem: React.FC = () => {
         searchLink: z.string().url({
           message: "Search link must be a valid URL.",
         }),
+        description: z.string().optional(),
+        favicon: z.string().optional(),
     });
 
+    let setValues = defaultValues ? {
+      searchSystemName: defaultValues.name,
+      searchLink: defaultValues.searchLink,
+      description: defaultValues.description || "",
+      favicon: defaultValues.favicon || "",
+    } : {
+      searchSystemName: "",
+      searchLink: "",
+      description: "",
+      favicon: "",
+    };
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+      defaultValues: setValues
+    });
 
-        defaultValues: {
-            name: "",
-            searchLink: "",
-        },
-    })
-
+    let editsAttempted = false;
+    if (defaultValues) {
+    if (JSON.stringify(setValues) === JSON.stringify(form.getValues())) {
+        editsAttempted = false;
+    } else {
+        editsAttempted = true;
+        console.log(editsAttempted);
+    }
+    }
+    const disableSubmit = (editsAttempted || !defaultValues) ? false : true;
 
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            console.log(`Submitting system: ${values.name}`);
+          console.log(`Submitting system: ${values.searchSystemName}`);
+          if (defaultValues) {
+            const defaultValuesSystemId = getSystemId(defaultValues?.name);
+            const systemExists = allSystems.some(system => system.id === defaultValuesSystemId);
+            if (systemExists) {
+              updateLocallyStoredSearchSystem(defaultValuesSystemId, {
+                id: getSystemId(values.searchSystemName),
+                name: values.searchSystemName,
+                searchLink: values.searchLink,
+                description: values.description,
+                favicon: values.favicon
+              });
+              console.log(`Updated search system: ${values.searchSystemName}`);
+            }
+          } else {
             addLocallyStoredSearchSystem({
-                name: values.name,
-                id: getSystemId(values.name),
-                searchLink: values.searchLink
+              name: values.searchSystemName,
+              id: getSystemId(values.searchSystemName),
+              searchLink: values.searchLink,
+              description: values.description,
+              favicon: values.favicon
             });
-            console.log(`Added search system: ${values.name}`);
-            setIsDialogOpen(true); // Open the AlertDialog on success
+            console.log(`Added search system: ${values.searchSystemName}`);
+          }
+          setIsDialogOpen(true); // Open the AlertDialog on success
+          
         } catch (error) {
             console.error('Error adding search system:', error);
         }
     }
 
-    const getSystemLink = (id: string) => {
+  const getSystemLink = ({ id, skipCheck }: { id: string, skipCheck?: boolean }) => {
       const systemExists = allSystems.some(system => system.id === id);
+
       if (systemExists) {
+        const link = <a className="underline" href={`https://searchjunct.com/?systems=${id}`}>{id}</a>;
+        if (skipCheck) {
+          return link;
+        }
         return (<span>
           <a className="underline" href={`https://searchjunct.com/?systems=${id}`}>
             {id}
@@ -117,17 +176,17 @@ export const AddSystem: React.FC = () => {
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
                   control={form.control}
-                    name="name"
+                    name="searchSystemName"
 
                     render={({ field }) => (
                       <FormItem className="mb-5">
                         <FormControl>
                           <>
-                          <FormLabel>Name</FormLabel>
-                          <Input placeholder="Example Name" {...field} />
+                          <FormLabel>Search System Name</FormLabel>
+                          <Input placeholder="" {...field} />
                           <FormDescription>
                               This is the name that will appear in the systems list.<br />
-                              This will be used to generate the system ID: {field.value ? getSystemLink(getSystemId(field.value)) : '____'}
+                              This will be used to generate the system ID: {field.value ? getSystemLink({id: getSystemId(field.value), skipCheck: true}) : '____'}
                               </FormDescription>
                           <FormMessage />
                           </>
@@ -143,7 +202,7 @@ export const AddSystem: React.FC = () => {
                               <FormControl>
                                 <>
                                   <FormLabel>Search Link</FormLabel>
-                                  <Input placeholder="https://www.example.com/search?q=%s" {...field} />
+                                  <Input placeholder="Ex. https://www.example.com/search?q=%s" {...field} />
                             <FormDescription>
                               Provide the search URL (or search link), put a `%s` where the search query will go.
                             </FormDescription>
@@ -153,9 +212,49 @@ export const AddSystem: React.FC = () => {
                           </FormItem >
                       )}
                   />
-                        <Button className="mt-3" type="submit" disabled={form.formState.isSubmitting}>
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                          <FormItem className="mb-3">
+                              <FormControl>
+                                <>
+                                  <FormLabel>Description</FormLabel>
+                                  <Input placeholder="Optional" {...field} />
+                            <FormDescription>
+                              Provide a description for the search system.
+                            </FormDescription>
+                            <FormMessage />
+                            </>
+                              </FormControl>
+                          </FormItem >
+                      )}
+                  />
+                    <FormField
+                      control={form.control}
+                      name="favicon"
+                      render={({ field }) => (
+                          <FormItem className="mb-3">
+                              <FormControl>
+                                <>
+                                  <FormLabel>Favicon</FormLabel>
+                                  <Input placeholder="Optional" {...field} />
+                            <FormDescription>
+                              Provide a URL for the favicon of the search system.
+                            </FormDescription>
+                            <FormMessage />
+                            </>
+                              </FormControl>
+                          </FormItem >
+                      )}
+                  />
+                        <Button className="mt-3" type="submit" disabled={form.formState.isSubmitting || disableSubmit}>
                             {form.formState.isSubmitting ? 'Submitting...' : 'Submit'}
                         </Button>
+                        {onClose && (
+                        <Button variant="outline" className="ml-3 mt-3" onClick={onClose}>
+                            Cancel
+                        </Button>)}
                     </form>
                 </Form>
             </CardContent>
@@ -166,11 +265,41 @@ export const AddSystem: React.FC = () => {
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Successfully added a search system!</AlertDialogTitle>
+              <AlertDialogTitle>{`Successfully ${onClose ? 'edited' : 'added'} a search system!`}</AlertDialogTitle>
+              <AlertDialogDescription>
+                {`You just ${onClose ? 'edited' : 'added'} `}
+                {getSystemLink({ id: getSystemId(form.getValues().searchSystemName), skipCheck: true })}
+                {` ${onClose ? 'in' : 'to'} your locally stored search systems.`}
+                <br />
+                {`You now have ${locallyStoredSearchSystems.length} locally stored search system${locallyStoredSearchSystems.length !== 1 ? 's' : ''}.`}
+              </AlertDialogDescription>
                 </AlertDialogHeader>
+            {onClose ? (<AlertDialogAction asChild>
+              <Button size="sm" className="w-[300px] text-xs mx-auto bg-white text-black hover:bg-blue-100"
+                autoFocus
+                variant="outline"
+                onClick={() => setIsDialogOpen(false)}>
+                OK
+              </Button>
+            </AlertDialogAction>):(<>
                 <AlertDialogAction asChild>
-                    <button autoFocus onClick={() => setIsDialogOpen(false)}>Enter</button>
+              <ManageLocallyStoredSearchSystemsSheet />
                 </AlertDialogAction>
+                <AlertDialogAction asChild>
+              <Button size="sm" className="w-[300px] text-xs mx-auto bg-white text-black hover:bg-blue-100"
+                variant="outline"
+                onClick={(e) => { e.stopPropagation(); setIsDialogOpen(false); }}>
+                    Return to Add Search System
+                  </Button>
+                </AlertDialogAction>
+                <AlertDialogAction asChild>
+              <Button size="sm" className="w-[300px] text-xs mx-auto bg-white text-black hover:bg-blue-100"
+                      autoFocus
+                      variant="outline"
+                      onClick={() => setIsDialogOpen(false)}>
+                        Return to Searchjunct
+                    </Button>
+                </AlertDialogAction></>)}
             </AlertDialogContent>
         </AlertDialog>
       </>
@@ -179,11 +308,12 @@ export const AddSystem: React.FC = () => {
 
 
 const AddCard: React.FC = () => {
+  const {locallyStoredSearchSystems} = useStorageContext();
 
     return (
       <Card className='rounded-md bg-white shadow-none mx-auto'>
-        <ScrollArea className="h-[calc(100vh-200px)] w-[320px] sm:w-full">
-        <CardTitle className='text-left pl-2 py-1 mb-2'>Add System</CardTitle>
+        <ScrollArea className="h-[calc(100vh-45px)] sm:h-full w-[320px] sm:w-full">
+        <CardTitle className='text-left pl-2 py-1 mb-2'>Add Search System</CardTitle>
         <CardContent className="p-0 flex items-left flex-col">
         <p
            className="text-xs text-gray-500 px-2 w-[95%] break-words">
@@ -193,6 +323,10 @@ const AddCard: React.FC = () => {
           </p>
           
             <Alert className='mt-2 w-[95%] mx-auto'>
+              <p
+                className="text-xs text-gray-500 mt-3 px-2 w-[95%] break-words">
+                You have {locallyStoredSearchSystems.length} locally stored search system{locallyStoredSearchSystems.length !== 1 ? 's' : ''}.
+              </p>
             <AlertTitle><ManageLocallyStoredSearchSystemsSheet /></AlertTitle>
             <AlertDescription className='text-xs'>You can remove, import, and export your locally stored search systems.</AlertDescription>
           </Alert>

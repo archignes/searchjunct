@@ -13,8 +13,8 @@ interface MiniSearchSystemItemProps {
 
 const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId }) => {
   const {systemsDeleted, systemsDisabled } = useStorageContext();
-  const { systems } = useSystemsContext();
-  const system = systems.find((system: System) => system.id === systemId);
+  const { allSystems } = useSystemsContext();
+  const system = allSystems.find((system: System) => system.id === systemId);
   const { systemsSearched } = useStorageContext();
 
   if (!system) return <div><ExclamationTriangleIcon />This is not a system.</div>;
