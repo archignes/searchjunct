@@ -313,7 +313,7 @@
   {
     "name": "Cynay",
     "id": "cynay",
-    "searchLink": "https://cynay.com/search?q=%s/",
+    "searchLink": "https://cynay.com/search?q=%s",
     "twitter_link": "https://twitter.com/CynayEngine",
     "instagram_link": "https://www.instagram.com/cynay.official/"
   },
