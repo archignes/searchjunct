@@ -15,7 +15,7 @@ import { useSystemsContext,
   useStorageContext,
   useSystemToggleContext } from '../../contexts';
 
-
+import { DeleteSystemButton } from '../SystemsButtons';
 import { Alert, AlertDescription } from '../ui/alert';
 
 
@@ -108,7 +108,7 @@ const SettingsCard: React.FC = () => {
                 return null;
               }
               return (
-                <div key={systemId} className="w-full">
+                <div key={systemId} className="flex w-full">
                   <SearchSystemItem
                     id={systemId}
                     system={system}
@@ -116,6 +116,7 @@ const SettingsCard: React.FC = () => {
                     showDragHandle={false}
                     activeSystemId={undefined}
                   />
+                  <DeleteSystemButton system={system} />
                 </div>
               );
             })
