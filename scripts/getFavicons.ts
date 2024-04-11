@@ -31,13 +31,17 @@ const downloadFavicons = async () => {
   for (const system of systems) {
     const domain = getDomainFromUrl(system.searchLink);
     if (domain) {
-      const faviconUrl = `https://external-content.duckduckgo.com/ip3/${domain}.ico`;
-      const destPath = path.join(__dirname, '../public/favicons', `${system.id}.ico`);
-      try {
-        await downloadFile(faviconUrl, destPath);
-        console.log(`Downloaded favicon for ${system.name}`);
-      } catch (error) {
-        console.error(`Failed to download favicon for ${system.name}:`, error);
+      const faviconPath = path.join(__dirname, '../public/favicons', `${system.id}.ico`);
+      if (!fs.existsSync(faviconPath)) {
+        const faviconUrl = `https://external-content.duckduckgo.com/ip3/${domain}.ico`;
+        try {
+          await downloadFile(faviconUrl, faviconPath);
+          console.log(`Downloaded favicon for ${system.name}`);
+        } catch (error) {
+          console.error(`Failed to download favicon for ${system.name}:`, error);
+        }
+      } else {
+        console.log(`Favicon already exists for ${system.name}`);
       }
     }
   }

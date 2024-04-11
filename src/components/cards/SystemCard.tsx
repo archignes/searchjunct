@@ -24,7 +24,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog"
 
-import { DiscordLogoIcon, GitHubLogoIcon, LinkedInLogoIcon, TwitterLogoIcon, ExclamationTriangleIcon, InfoCircledIcon, Link2Icon, CopyIcon, DownloadIcon, CheckIcon } from '@radix-ui/react-icons';
+import { DiscordLogoIcon, GitHubLogoIcon, InstagramLogoIcon, LinkedInLogoIcon, TwitterLogoIcon, ExclamationTriangleIcon, InfoCircledIcon, Link2Icon, CopyIcon, DownloadIcon, CheckIcon } from '@radix-ui/react-icons';
 import CIcon from '@coreui/icons-react';
 import { cibWikipedia } from '@coreui/icons';
 
@@ -275,6 +275,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                   {system.wikipedia_link && <a href={system.wikipedia_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibWikipedia} className="w-4 h-4" /></a>}
                     {system.twitter_link && <a href={system.twitter_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><TwitterLogoIcon /></a>}
                     {system.github_link && <a href={system.github_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><GitHubLogoIcon /></a>}
+                    {system.instagram_link && <a href={system.instagram_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><InstagramLogoIcon /></a>}
                     {system.discord_link && <a href={system.discord_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><DiscordLogoIcon/></a>}
                     {system.linkedin_link && <a href={system.linkedin_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><LinkedInLogoIcon/></a>}
                     {system.product_hunt_link && <a href={system.product_hunt_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block">

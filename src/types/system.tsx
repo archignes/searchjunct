@@ -14,6 +14,7 @@ export interface System {
     searched?: boolean;
     linkedin_link?: string;
     wikipedia_link?: string;
+    instagram_link?: string;
     twitter_link?: string;
     github_link?: string;
     discord_link?: string;

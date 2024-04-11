@@ -310,6 +310,13 @@
     "open_source_license": "Apache License 2.0",
     "twitter_link": "https://twitter.com/leptonai"
   },
+  {
+    "name": "Cynay",
+    "id": "cynay",
+    "searchLink": "https://cynay.com/search?q=%s/",
+    "twitter_link": "https://twitter.com/CynayEngine",
+    "instagram_link": "https://www.instagram.com/cynay.official/"
+  },
     {
       "name": "Morphic",
       "id": "morphic",
