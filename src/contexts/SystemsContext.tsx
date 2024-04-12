@@ -34,6 +34,9 @@ interface SystemsContextType {
     getSystemsWithoutQueryPlaceholder: () => System[];
     getAllDeletedStatus: (systemIds: System[]) => boolean;
     deleteSystemsBulk: (systemIds: System[]) => void;
+    resetSystemShortcutCandidates: () => void;
+    addSystemShortcutCandidate: (systemId: string) => void;
+    systemShortcutCandidates: Record<string, boolean>;
 }
 
 // Create the context with a default value
@@ -50,6 +53,9 @@ const SystemsContext = createContext<SystemsContextType>(
         getSystemsWithoutQueryPlaceholder: () => [],
         getAllDeletedStatus: () => false,
         deleteSystemsBulk: () => {},
+        resetSystemShortcutCandidates: () => {},
+        addSystemShortcutCandidate: () => {},
+        systemShortcutCandidates: {},
     });
 
 // Export the useContext hook for SystemsContext
@@ -107,6 +113,21 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
         });
     }, [setSystemDeleted]);
 
+    const [systemShortcutCandidates, setSystemShortcutCandidates] = useState<Record<string, boolean>>({});
+    const resetSystemShortcutCandidates = () => {
+        setSystemShortcutCandidates({});
+    }
+
+    const addSystemShortcutCandidate = (systemId: string) => {
+        setSystemShortcutCandidates(prevCandidates => {
+            if (!prevCandidates[systemId]) {
+                const updatedCandidates = { ...prevCandidates, [systemId]: true };
+                return updatedCandidates;
+            }
+            return prevCandidates;
+        });
+    }
+
     return (
         <SystemsContext.Provider value={
             {
@@ -121,6 +142,9 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
                 getSystemsWithoutQueryPlaceholder,
                 getAllDeletedStatus,
                 deleteSystemsBulk,
+                resetSystemShortcutCandidates,
+                addSystemShortcutCandidate,
+                systemShortcutCandidates,
             }}>
             {children}
         </SystemsContext.Provider>

@@ -2,10 +2,11 @@
 // This context is responsible for handling shortcuts:
 // - getting shortcut from query
 
-import React, { useContext, createContext, ReactNode } from 'react';
+import React, { useContext, createContext, ReactNode, useMemo } from 'react';
 import { useStorageContext } from './';
 import { Shortcut, MultisearchActionObject} from '@/types';
-
+import { useSystemsContext } from './';
+import { symbol } from 'zod';
 
 // interface ShortcutProviderProps {
 //     children: ReactNode;
@@ -56,6 +57,7 @@ export function getShortcutCandidate(query: string) {
 
 export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
     const { multisearchActionObjects, addMultisearchActionObject, removeMultisearchActionObject } = useStorageContext();
+    const { allSystems, resetSystemShortcutCandidates, addSystemShortcutCandidate } = useSystemsContext();
 
     // getting shortcut from query
     
@@ -71,17 +73,69 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
         return null;
     }
     
+    const shortcutStarts = useMemo(() => {
+        const shortcuts = multisearchActionObjects.map(shortcut => shortcut.name);
+        const starts: string[] = [];
+        shortcuts.forEach(shortcut => {
+            for (let i = 1; i <= shortcut.length; i++) {
+                starts.push(shortcut.substring(0, i));
+            }
+        });
+        return starts;
+    }, [multisearchActionObjects]);
+
+    /**
+     * Generates a list of system IDs starting with the given input.
+     * This is used for autocomplete functionality by matching the input with system IDs.
+     *
+     * @param input The starting string to match system IDs against.
+     * @returns A list of system IDs that start with the input.
+     */
+    const getSystemShortcutsAutocomplete = (input: string) => 
+        allSystems
+            .filter(system => system.id.startsWith(input))
+            .map(system => system.id);
+
     const getShortcutFromQuery = (query: string) => {
-        const shortcutCandidateName = getShortcutCandidate(query);  
+        let shortcutType: 'multisearch_number' | 'multisearch_object' | 'systems_shortcut';
+        let action: MultisearchActionObject | number | string[];
+
+        const shortcutCandidateName = getShortcutCandidate(query);
+
         if (!shortcutCandidateName) {
             return null;
         }
         if (!isNaN(parseFloat(shortcutCandidateName))) {
             const shortcutCandidateNumber = parseFloat(shortcutCandidateName).toString();
-            return getShortcut({type: 'multisearch_number', shortcutCandidate: shortcutCandidateNumber, completed: false});
+            return getShortcut({ type: 'multisearch_number', shortcutCandidate: shortcutCandidateNumber, completed: false });
         }
         if (shortcutCandidateName) {
-            return getShortcut({type: 'multisearch_object', shortcutCandidate: shortcutCandidateName, completed: false});
+            const multisearchShortcut = getShortcut({ type: 'multisearch_object', shortcutCandidate: shortcutCandidateName, completed: false });
+            if (multisearchShortcut) {
+                return multisearchShortcut;
+            } else if (shortcutStarts.includes(shortcutCandidateName)) {
+                console.log("could be a multisearch object: ", shortcutCandidateName)
+                return null
+            } else {
+                const possibleSystemCompletions = getSystemShortcutsAutocomplete(shortcutCandidateName);
+                if (possibleSystemCompletions.length > 0) {
+                    console.log("possible system completions: ", possibleSystemCompletions)
+                    resetSystemShortcutCandidates();
+                    possibleSystemCompletions.forEach(system => {
+                        addSystemShortcutCandidate(system);
+                    });
+                    shortcutType = 'systems_shortcut';
+                    action = possibleSystemCompletions;
+                    return {
+                        type: shortcutType,
+                        name: shortcutCandidateName,
+                        completed: false,
+                        action: action };
+                } else {
+                    resetSystemShortcutCandidates();
+                    return null;
+                }
+            }
         }
         return null;
     }

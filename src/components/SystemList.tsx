@@ -5,24 +5,41 @@ import { VariableSizeList as List } from 'react-window';
 import SortingContainer from './SortingContainer';
 import { useSystemsContext,
   useStorageContext,
-  useSortContext,
   useSystemSearchContext } from '../contexts/';
+
 import useFeatureFlag from '../hooks/useFeatureFlag';
 
 const SystemList = () => {
   const { isFeatureEnabled } = useFeatureFlag();
  
-  const { allSystems, activeSystem, setActiveSystem } = useSystemsContext();
+  const { allSystems,
+    activeSystem, setActiveSystem,
+    systemShortcutCandidates } = useSystemsContext();
   const { systemsSearched, systemsDisabled, systemsDeleted } = useStorageContext();
-  const { systemsCurrentOrder } = useSortContext();
   const { systemsSkipped } = useSystemSearchContext();
   const [isClient, setIsClient] = useState(false);
-  const visibleSystems = useMemo(
-    () => systemsCurrentOrder.filter((system) => !systemsDeleted[system.id]),
-    [systemsCurrentOrder, systemsDeleted]
-  );
 
-  const listRef = useRef<List>(null); // Step 1: Create a ref for the List
+  
+  const [visibleSystems, setVisibleSystems] = useState(allSystems);
+
+  const listRef = useRef<List>(null);
+
+  useEffect(() => {
+    let filteredSystems = allSystems.filter(
+      (system) => !systemsDeleted[system.id]
+    );
+
+    if (Object.keys(systemShortcutCandidates).length > 0) {
+      console.log("systemShortcutCandidates", systemShortcutCandidates);
+      filteredSystems = filteredSystems.filter(
+        (system) => systemShortcutCandidates[system.id]
+      );
+      console.log(filteredSystems);
+    }
+
+    setVisibleSystems(filteredSystems);
+  }, [allSystems, systemsDeleted, systemShortcutCandidates]);
+
 
   useEffect(() => {
     const firstVisibleSystem = visibleSystems.find((system) =>

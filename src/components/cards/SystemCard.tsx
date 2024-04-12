@@ -26,7 +26,7 @@ import {
 
 import { DiscordLogoIcon, GitHubLogoIcon, InstagramLogoIcon, LinkedInLogoIcon, TwitterLogoIcon, ExclamationTriangleIcon, InfoCircledIcon, Link2Icon, CopyIcon, DownloadIcon, CheckIcon } from '@radix-ui/react-icons';
 import CIcon from '@coreui/icons-react';
-import { cibWikipedia, cibYoutube, cibMatrix, cibReddit } from '@coreui/icons';
+import { cibWikipedia, cibYoutube, cibMatrix, cibReddit, cibMastodon, cibFacebook } from '@coreui/icons';
 
 import { useAppContext } from '../../contexts/AppContext';
 import { System } from "../../types/system";
@@ -358,6 +358,8 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                         <img src={platform_icons["Hacker News"]} alt="Hacker News Icon" className="w-4 h-4" style={{filter: "grayscale(1) contrast(100) brightness(1)"}} />
                       </a>
                     )}
+                    {system.mastodon_link && <a href={system.mastodon_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibMastodon} className="w-4 h-4" /></a>}
+                    {system.facebook_link && <a href={system.facebook_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibFacebook} className="w-4 h-4" /></a>}
                     {system.reddit_link && <a href={system.reddit_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibReddit} className="w-4 h-4" /></a>}
                     {system.linkedin_link && <a href={system.linkedin_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><LinkedInLogoIcon/></a>}
                     {system.youtube_link && <a href={system.youtube_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibYoutube} className='w-4 h-4'/></a>}

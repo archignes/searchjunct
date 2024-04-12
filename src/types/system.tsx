@@ -20,6 +20,8 @@ export interface System {
     matrix_link?: string;
     github_link?: string;
     hacker_news_link?: string;
+    mastodon_link?: string;
+    facebook_link?: string;
     discord_link?: string;
     youtube_link?: string;
     open_source_license?: string;

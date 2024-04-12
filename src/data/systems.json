@@ -430,10 +430,15 @@
     "id": "startpage",
     "search_index": "google",
     "search_link": "https://www.startpage.com/do/search?q=%s",
-        "default_in_browser": [
-          "Brave"
-        ],
-    "wikipedia_link": "https://en.wikipedia.org/wiki/Startpage.com" 
+    "default_in_browser": [
+      "Brave"
+    ],
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Startpage.com",
+    "mastodon_link": "https://mastodon.social/@StartpageSearch",
+    "facebook_link": "https://www.facebook.com/startpagesearch/",
+    "instagram_link": "https://www.instagram.com/startpage/",
+    "reddit_link": "https://www.reddit.com/r/StartpageSearch/",
+    "twitter_link": "https://twitter.com/startpage"
   },
   {
     "id": "google-gemini",
