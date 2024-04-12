@@ -1,9 +1,6 @@
 // SettingsItem.tsx
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useAppContext } from "@/contexts";
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
 
 import {

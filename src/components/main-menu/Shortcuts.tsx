@@ -1,26 +1,14 @@
 // Shortcuts.tsx
 
 import React from 'react';
-import {
-    Card,
-    CardContent,
-    CardTitle,
-} from '../ui/card';
-import { Label } from '../ui/label';
-import { Button } from '../ui/button';
-
-import { useShortcutContext, useQueryContext, useAppContext } from '@/contexts';
-import { MultisearchActionObject } from '@/types';
+import { useQueryContext } from '@/contexts';
 import ViewMultisearchShortcuts from '../search/multisearch/ViewMultisearchShortcuts';
 import AddMultisearchActionObject from '../search/multisearch/AddMultisearchActionObject';
-import { SettingsItem, SettingsText, SettingsButton, SettingsSubtitle } from './SettingsItem';
+import { SettingsItem, SettingsText, SettingsButton } from './SettingsItem';
 
 
 const ShortcutsCard: React.FC = () => {
-    const { queryObject, processTextInputForQueryObject } = useQueryContext();
-    const { multisearchActionObjects } = useShortcutContext();
-    const { toggleIsMultisearchManagementSheetOpen } = useAppContext();
-    
+    const { queryObject, processTextInputForQueryObject } = useQueryContext();    
     const setNumberedShortcutExample = () => {
         const updatedQuery = `${queryObject.rawString} /3 `;
         const searchInput = document.getElementById('search-input') as HTMLInputElement;

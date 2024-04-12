@@ -2,7 +2,6 @@
 
 import { handleShortcutSearch, handleSkipLogic } from '../search/HandleSearch';
 import HandleMultisearchNumber from '../search/HandleMultisearchNumber';
-import HandleMultisearchObject from '../search/HandleMultisearchObject';
 import { getShortcutCandidate } from '@/contexts/ShortcutContext';
 import { useShortcutContext } from '@/contexts/ShortcutContext';
 
@@ -138,7 +137,6 @@ describe('HandleMultisearchNumber', () => {
         const getNextUnsearchedSystems = jest.fn();
         const cleanupSearch = jest.fn();
         const getPreppedSearchLink = jest.fn();
-        const systemsToSearch = systems; // Ensure this matches the expected structure
 
         // Mock HandleMultisearchActionObject if not already mocked
         // jest.mock('../search/HandleMultisearchActionObject');

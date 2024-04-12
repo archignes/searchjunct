@@ -1,14 +1,11 @@
 // LeftSidebar.tsx
 
 import React from 'react';
-import { PlusIcon, GearIcon, SlashIcon, ExclamationTriangleIcon, QuestionMarkIcon, CaretSortIcon } from '@radix-ui/react-icons';
+import { GearIcon, SlashIcon, QuestionMarkIcon } from '@radix-ui/react-icons';
 import { MainMenuButton } from './Button';
 import SettingsCard from './SettingsCard';
 import InfoCard from './Info';
 import QuickShortcutsCard from './QuickShortcuts';
-import SortCard from './Sort';
-import AlertsCard from './Alerts';
-import AddCard from './Systems';
 
 import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
@@ -73,20 +70,6 @@ const LeftSidebar: React.FC<{ className?: string }> = ({ className }) => {
         TargetIcon={<SlashIcon />}
         ButtonIndex={2}
       />
-      {/* <MainMenuButton
-        TargetTitle="Add"
-        TargetTooltip="Add"
-        TargetComponent={<AddCard />}
-        TargetIcon={<PlusIcon />}
-        ButtonIndex={3}
-      /> */}
-      {/* <MainMenuButton
-        TargetTitle="Alerts"
-        TargetTooltip="Alerts"
-        TargetComponent={<AlertsCard />}
-        TargetIcon={<ExclamationTriangleIcon />}
-        ButtonIndex={5}
-      /> */}
       <div id="action-buttons" className="mt-2">
       <TooltipProvider>
         <Tooltip>

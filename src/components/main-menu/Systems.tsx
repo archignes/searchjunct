@@ -3,20 +3,16 @@
 
 import React, { useState } from 'react';
 import {
-    Card,
-    CardContent,
     CardFooter,
-    CardTitle,
 } from '../ui/card';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { DeleteSystemButton } from '../SystemsButtons';
-import { Alert, AlertDescription } from '../ui/alert';
 
 import SearchSystemItem from '../SystemItem';
 import { useSystemsContext } from '@/contexts/SystemsContext';
-import { useStorageContext, useSystemToggleContext } from '@/contexts';
+import { useStorageContext } from '@/contexts';
 import ManageLocallyStoredSearchSystemsSheet from '../search/ManageLocallyStoredSearchSystems';
 import AddSystem from './AddSystem';
 import { SettingsItem, SettingsText, SettingsButton, SettingsSubtitle } from './SettingsItem';
@@ -44,7 +40,6 @@ const SystemsSettings: React.FC = () => {
     getSystemsWithoutQueryPlaceholder,
     getAllDeletedStatus,
     deleteSystemsBulk } = useSystemsContext();
-  const { checkResetDisabled } = useSystemToggleContext();
   const { resetSystemsDeletedDisabled, setSystemDeleted, systemsDeleted } = useStorageContext();
   const { getAnyDeletedStatus, getAnyDisabledStatus } = useStorageContext();
   const {locallyStoredSearchSystems} = useStorageContext();

@@ -1,27 +1,10 @@
 // Search.tsx
 // Main Menu Settings Component: Manage your search settings.
 
-import React, { useState } from 'react';
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardTitle,
-} from '../ui/card';
-import { Button } from '@/components/ui/button';
+import React from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { GitHubLogoIcon } from '@radix-ui/react-icons';
-import { DeleteSystemButton } from '../SystemsButtons';
-import { Alert, AlertDescription } from '../ui/alert';
-
-import SearchSystemItem from '../SystemItem';
-import { useSystemsContext } from '@/contexts/SystemsContext';
-import { useStorageContext, useSystemToggleContext } from '@/contexts';
-import ManageLocallyStoredSearchSystemsSheet from '../search/ManageLocallyStoredSearchSystems';
-import AddSystem from './AddSystem';
-import { SettingsItem, SettingsText, SettingsButton, SettingsSubtitle } from './SettingsItem';
-import MiniSearchSystemItem from '../MiniSearchSystemItem';
-import { System } from '@/types';
+import { useStorageContext } from '@/contexts';
+import { SettingsItem } from './SettingsItem';
 import { Switch } from '@/components/ui/switch';
 
 const SearchSettings: React.FC = () => {

@@ -1,4 +1,4 @@
-// Info_About.tsx
+// SettingsCard.tsx
 
 import React from 'react';
 
@@ -22,16 +22,6 @@ import SearchSettings from './Search';
 
 import { ScrollArea } from '../ui/scroll-area';
 import { Label } from '../ui/label';
-import { Switch } from '../ui/switch';
-import SearchSystemItem from '../SystemItem';
-import { Button } from '../ui/button';
-import { useSystemsContext,
-  useStorageContext,
-  useSystemToggleContext } from '../../contexts';
-
-import { DeleteSystemButton } from '../SystemsButtons';
-import { Alert, AlertDescription } from '../ui/alert';
-
 
 export const SettingsItemBox: React.FC<{children: React.ReactNode, label: string}> = ({ children, label }) => {
   return (

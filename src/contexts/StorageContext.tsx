@@ -285,13 +285,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         setSystemDeleted(prev => ({ ...prev, [systemId]: value }));
     };
 
-    const getAnyDeletedStatus = (systems: System[]) => {
+    const getAnyDeletedStatus = useCallback(() => {
         return Object.values(systemsDeleted).some(value => value);
-    };
+    }, [systemsDeleted]);
 
-    const getAnyDisabledStatus = (systems: System[]) => {
+    const getAnyDisabledStatus = useCallback(() => {
         return Object.values(systemsDisabled).some(value => value);
-    };
+    }, [systemsDisabled]);
 
     // Inside your component or functional hook
     const addMultisearchActionObject = useCallback(

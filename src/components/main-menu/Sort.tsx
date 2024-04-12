@@ -1,22 +1,12 @@
-// Shortcuts.tsx
+// Sort.tsx
 
 import React from 'react';
-
 import { StarIcon } from '@radix-ui/react-icons';
-import {
-    Card,
-    CardContent,
-    CardTitle,
-} from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
-
 import SortingContainer from '@/components/SortingContainer';
-import { SettingsItemBox } from './SettingsCard';
 import { useSortContext, useStorageContext } from '@/contexts';
-import { SettingsItem, SettingsText, SettingsButton, SettingsSubtitle } from './SettingsItem';
+import { SettingsItem, SettingsText } from './SettingsItem';
 
 const ShortcutsCard: React.FC = () => {
     const { systemsCurrentOrder, undoSort, redoSort, isUndoAvailable, isRedoAvailable } = useSortContext();
