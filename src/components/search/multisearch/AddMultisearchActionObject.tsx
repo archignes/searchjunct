@@ -17,6 +17,7 @@ import { Form, FormField, FormItem, FormDescription, FormLabel, FormControl, For
 import { Input } from '../../ui/input';
 import { Button } from '../../ui/button';
 import Autocomplete from '@mui/material/Autocomplete';
+import { Label } from '../../ui/label';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import { useStorageContext } from '../../../contexts';
@@ -70,6 +71,8 @@ const AddMultisearchActionObject: React.FC = () => {
     });
   }, [addMultisearchActionObject, multisearchActionObjects]);
 
+
+  const [showCard, setShowCard] = React.useState(false);
 
   const { allSystems } = useSystemsContext();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
@@ -156,11 +159,17 @@ const AddMultisearchActionObject: React.FC = () => {
 
   return (
     <>
-      <Card className="w-full m-2 py-0 mx-auto">
-        <CardHeader className='py-2 ml-0 pl-0'>
-          <SpecialCardTitle title="Add Shortcut" />
-            <CardDescription className='ml-4 p-0 my-0'>
-              Add a new multisearch shortcut.
+      <Card className={`border py-0 mx-3 my-2 shadow-none ${showCard ? "border-blue-500" : "border-transparent"}`}>
+        <div className="flex justify-center">
+          <Button
+            variant="outline"
+            className={`text-center w-[200px] hover:bg-blue-100 p-1 text-sm my-1 ${showCard ? "bg-blue-500 text-white" : ""}`}
+            onClick={() => setShowCard(!showCard)}>{showCard ? "Adding" : "Add"} Multisearch Shortcut</Button>
+        </div>
+        {showCard && (<>
+        <CardHeader className='py-2 ml-0 pl-0'>          
+              <CardDescription className='ml-4 p-0 my-0'>
+                Add a new multisearch shortcut.
             </CardDescription>
         </CardHeader>
       <CardContent>
@@ -308,7 +317,8 @@ const AddMultisearchActionObject: React.FC = () => {
             </form>
           </Form>
       </CardContent>
-      </Card>
+        </>)}
+        </Card>
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogTrigger asChild>
           <button style={{ display: "none" }}>Open</button>

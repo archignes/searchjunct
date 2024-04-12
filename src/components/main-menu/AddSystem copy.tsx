@@ -4,17 +4,9 @@ import React, { useEffect } from 'react';
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
-    CardTitle,
+
 } from '../ui/card';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { MainMenuButton } from './Button';
-import { PlusIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
-import { useAppContext } from '@/contexts/AppContext';
-
-
 import { z } from "zod";
 import { useSystemsContext } from '@/contexts/SystemsContext';
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -32,7 +24,6 @@ import {
     AlertDialogTrigger
 } from '@/components/ui/alert-dialog';
 import ManageLocallyStoredSearchSystemsSheet from '../search/ManageLocallyStoredSearchSystems';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 
 export const AddSystem: React.FC<{ 
@@ -307,48 +298,6 @@ export const AddSystem: React.FC<{
 };
 
 
-const AddCard: React.FC = () => {
-  const {locallyStoredSearchSystems} = useStorageContext();
 
-    return (
-      <Card className='rounded-md bg-white shadow-none mx-auto'>
-        <ScrollArea className="h-[calc(100vh-45px)] sm:h-full w-[320px] sm:w-full">
-        <CardTitle className='text-left pl-2 py-1 mb-2'>Add Search System</CardTitle>
-        <CardContent className="p-0 flex items-left flex-col">
-        <p
-           className="text-xs text-gray-500 px-2 w-[95%] break-words">
-            Add a new search system to your locally stored systems list.
-            These systems are only available to you. They will be saved in
-            your web browser and will not be synced to other devices.
-          </p>
-          
-            <Alert className='mt-2 w-[95%] mx-auto'>
-              <p
-                className="text-xs text-gray-500 mt-3 px-2 w-[95%] break-words">
-                You have {locallyStoredSearchSystems.length} locally stored search system{locallyStoredSearchSystems.length !== 1 ? 's' : ''}.
-              </p>
-            <AlertTitle><ManageLocallyStoredSearchSystemsSheet /></AlertTitle>
-            <AlertDescription className='text-xs'>You can remove, import, and export your locally stored search systems.</AlertDescription>
-          </Alert>
-            <p
-              className="text-xs text-gray-500 mt-3 px-2 w-[95%] break-words">
-              Add a search system here.
-            </p>
-            <AddSystem />
-          </CardContent>
-          <CardFooter className='flex p-2 bg-gray-200 flex-col items-center'>
-            <span className="text-sm">You can suggest a system to be added to the public systems list here:</span>
-            <Button variant="outline" className='mt-1'>
-              <GitHubLogoIcon className='w-4 h-4 mr-2' />
-              <a href="https://github.com/archignes/searchjunct/issues/new" target="_blank" rel="noopener noreferrer">
-                Add Search System to Public List
-              </a>
-            </Button>
-          </CardFooter>
-      </ScrollArea>
-      </Card>
-    );
-};
-
-export default AddCard;
+export default AddSystem;
 

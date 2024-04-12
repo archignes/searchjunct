@@ -9,9 +9,10 @@ import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
 interface MiniSearchSystemItemProps {
   systemId: string;
+  className?: string;
 }
 
-const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId }) => {
+const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId, className }) => {
   const {systemsDeleted, systemsDisabled } = useStorageContext();
   const { allSystems } = useSystemsContext();
   const system = allSystems.find((system: System) => system.id === systemId);
@@ -27,7 +28,8 @@ const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId })
         className={`text-xs m-1 border rounded-md bg-background shadow-sm flex items-center justify-between space-x-1
                   ${systemsSearched?.[system.id] ? 'bg-gray-300 border-white' : ''}
                   ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-none' : ''}
-                  ${systemsDeleted?.[system.id] ? '' : ''}`}
+                  ${systemsDeleted?.[system.id] ? 'bg-red-300 border-none' : ''}
+                  ${className}`}
 
       >
         <div className="w-full">

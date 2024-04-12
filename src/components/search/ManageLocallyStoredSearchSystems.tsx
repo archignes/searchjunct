@@ -11,7 +11,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Button } from '../ui/button';
-import {AddSystem} from '../main-menu/Add';
+import {AddSystem} from '../main-menu/AddSystem';
 import SystemItem from '../SystemItem';
 
 const ManagePrivateSystems: React.FC = () => {

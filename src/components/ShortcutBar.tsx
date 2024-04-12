@@ -25,14 +25,24 @@ const ShortcutBar: React.FC = () => {
     setAllShortcutSystemsSearched(searched);
   }, [shortcut, systemsSearched]);
 
-  
+
+  let shortcutTypeLabel;
+  if (shortcut && typeof shortcut.action === 'object') {
+    shortcutTypeLabel = <p className="text-xs w-[200px] text-center text-gray-400">Multisearch Shortcut</p>;
+  } else if (shortcut) {
+    shortcutTypeLabel = <p className="text-xs w-[200px] text-center text-gray-400">Numbered Shortcut</p>;
+  }
+
   return (
     <div id="shortcut-bar"
-      className={`${shortcut ? 'mt-2 flex flex-row justify-center rounded-md p-1 mx-1 items-center' : 'hidden'} ${allShortcutSystemsSearched ? 'bg-gray-300' : ''}`}>
-      {shortcut && (<div>{allShortcutSystemsSearched ? <s>/{shortcut?.name}</s> : `/${shortcut?.name}`}</div>)}
-      {shortcut && shortcut.action && typeof shortcut.action === 'object' && 
-        <MultisearchActionObjectBuckets shortcut={shortcut.action} />
-      }
+      className={`${shortcut ? 'mt-2 flex flex-row flex-wrap justify-center items-center mx-1' : 'hidden'} ${allShortcutSystemsSearched ? 'bg-gray-300' : ''}`}>
+      {shortcutTypeLabel}
+      <div className="rounded-md shadow-sm border p-1">
+        {shortcut && (<div className="text-center">{allShortcutSystemsSearched ? <s>/{shortcut?.name}</s> : `/${shortcut?.name}`}</div>)}
+        {shortcut && shortcut.action && typeof shortcut.action === 'object' ? 
+          (<MultisearchActionObjectBuckets shortcut={shortcut.action}/>)
+        : (<div className="border text-xs border-gray-300 rounded-md p-1">Search the next {shortcut?.name} systems</div>)}
+      </div>
       </div>
   );
 };

@@ -16,15 +16,22 @@ export interface System {
     wikipedia_link?: string;
     instagram_link?: string;
     twitter_link?: string;
+    reddit_link?: string;
+    matrix_link?: string;
     github_link?: string;
+    hacker_news_link?: string;
     discord_link?: string;
+    youtube_link?: string;
     open_source_license?: string;
     open_source_license_url?: string;
     nonprofit_verification?: string;
     web_search_system?: boolean;
     product_hunt_link?: string;
     favicon?: string;
-    about_link?: string;
+    about_link?: {
+        title: string;
+        url: string;
+    };
     disabled?: boolean;
     deleted?: boolean;
     manual_switch_required?: boolean;
@@ -41,6 +48,24 @@ export interface System {
     special_note?: string;
     searchLink_requires_query?: boolean;
     notable_features?: Feature[];
+    theses_links?: {
+        title: string;
+        url: string;
+        author: string;
+        date: string;
+    }[];
+    references?: {
+        title: string;
+        date: string;
+        author?: string;
+        platform?: string;
+        url: string;
+    }[];
+    github_sponsor_link?: string;
+    pronunciation?: {
+        string: string;
+        url: string;
+    };
 }
 
 export interface Feature {

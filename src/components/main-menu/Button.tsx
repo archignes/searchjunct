@@ -54,7 +54,7 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
     TargetTitle,
     TargetTooltip,
     ButtonIndex,
-    PortalButton
+    PortalButton,
 }: MainMenuButtonProps) => {
     const [isButtonTargetOpen, setIsButtonTargetOpen] = useState<boolean>(false);
     const { isAddSearchSystemOpen, toggleIsAddSearchSystemOpen } = useAppContext();

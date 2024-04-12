@@ -48,7 +48,6 @@ const HomePage = () => {
         <div className={`w-full bg-white rounded-md mr-1 p-1`}>
           <SearchBar />
           <ShortcutBar />
-          <Toolbar />
           <SystemList />
           <Footer />
           <FeedbackAction />

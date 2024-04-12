@@ -1,6 +1,6 @@
 // contexts/SystemToggleContext.tsx
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
 import { useStorageContext } from "./"; 
 
 interface SystemToggleProviderProps {
@@ -12,7 +12,7 @@ interface SystemToggleContextType {
     toggleSystemDeleted: (systemId: string) => void;
     systemsDisabled: Record<string, boolean>;
     systemsDeleted: Record<string, boolean>;
-    isResetDisabled: boolean;
+    checkResetDisabled: () => boolean;
 }
 
 const SystemToggleContext = createContext<SystemToggleContextType>(
@@ -21,7 +21,7 @@ const SystemToggleContext = createContext<SystemToggleContextType>(
         toggleSystemDeleted: () => {},
         systemsDisabled: {},
         systemsDeleted: {},
-        isResetDisabled: true,
+        checkResetDisabled: () => false,
     }
 );
 
@@ -29,7 +29,6 @@ export const useSystemToggleContext = () => useContext(SystemToggleContext);
 
 export const SystemToggleProvider: React.FC<SystemToggleProviderProps> = ({ children }) => {
     const { systemsDisabled, systemsDeleted, setSystemDisabled, setSystemDeleted } = useStorageContext();
-    const [isResetDisabled, setIsResetDisabled] = useState<boolean>(true);
 
     const toggleSystemDisabled = (systemId: string) => {
         setSystemDisabled(systemId, !systemsDisabled[systemId]);
@@ -43,7 +42,7 @@ export const SystemToggleProvider: React.FC<SystemToggleProviderProps> = ({ chil
 
     const checkResetDisabled = () => {
         const hasDeletedOrDisabledSystems = Object.values(systemsDeleted).some(value => value) || Object.values(systemsDisabled).some(value => value);
-        setIsResetDisabled(!hasDeletedOrDisabledSystems);
+        return !hasDeletedOrDisabledSystems;
     };
 
     return (
@@ -53,7 +52,7 @@ export const SystemToggleProvider: React.FC<SystemToggleProviderProps> = ({ chil
                 toggleSystemDeleted,
                 systemsDisabled,
                 systemsDeleted,
-                isResetDisabled,
+                checkResetDisabled
             }}>
             {children}
         </SystemToggleContext.Provider>

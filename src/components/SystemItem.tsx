@@ -99,6 +99,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = ({
                     className={`px-0 flex items-center flex-grow w-full ${activeSystemId === system.id ? 'text-lg' : 'text-base'}`}
                     system={system}
                     favicon_included={true}
+                    focus_mode={activeSystemId === system.id}
                   />
                   {(openItem === "item-1") && (
                     <ChevronDownIcon className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ml-1 ${openItem === "item-1" ? 'rotate-0' : 'rotate-180'}`} />

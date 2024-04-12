@@ -5,7 +5,17 @@ import systemsData from "../data/systems.json";
 import { System } from "../types/system";
 import { useStorageContext } from "./StorageContext";
 
-const baseSystems: System[] = systemsData as System[];
+// This transforms fields with "search_link" in .json to "searchLink"
+const baseSystems: System[] = systemsData.map((system: any) => {
+  const { search_link, search_link_joiner, search_link_note, ...rest } = system;
+  return { 
+    ...rest, 
+    searchLink: search_link,
+    searchLinkJoiner: search_link_joiner,
+    searchLinkNote: search_link_note,
+  };
+}) as System[];
+
 
 interface SystemsProviderProps {
     children: ReactNode;
@@ -20,6 +30,10 @@ interface SystemsContextType {
     initializeSystemsState: (systemsDisabled: any, systemsDeleted: any, systemsSearched: any) => void;
     systemsState: System[];
     setSystemsState: (systems: System[]) => void;
+    getSystemsRequiringAccounts: () => System[];
+    getSystemsWithoutQueryPlaceholder: () => System[];
+    getAllDeletedStatus: (systemIds: System[]) => boolean;
+    deleteSystemsBulk: (systemIds: System[]) => void;
 }
 
 // Create the context with a default value
@@ -32,6 +46,10 @@ const SystemsContext = createContext<SystemsContextType>(
         initializeSystemsState: () => { return []; },
         systemsState: [],
         setSystemsState: () => { },
+        getSystemsRequiringAccounts: () => [],
+        getSystemsWithoutQueryPlaceholder: () => [],
+        getAllDeletedStatus: () => false,
+        deleteSystemsBulk: () => {},
     });
 
 // Export the useContext hook for SystemsContext
@@ -39,7 +57,7 @@ export const useSystemsContext = () => useContext(SystemsContext);
 
 export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) => {
     // allSystems is a combination of baseSystems and locally stored search systems
-    const { locallyStoredSearchSystems } = useStorageContext();
+    const { locallyStoredSearchSystems, setSystemDeleted, systemsDeleted } = useStorageContext();
     const allSystems = useMemo(() => [...locallyStoredSearchSystems, ...baseSystems], [locallyStoredSearchSystems]);
 
     const [activeSystem, setActiveSystemState] = useState<System | undefined>(allSystems[0]);
@@ -69,6 +87,26 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
         }
     }, [activeSystem, allSystems]);    
 
+
+    const getSystemsRequiringAccounts = useCallback(() => {
+        return allSystems.filter(system => system.account_required);
+    }, [allSystems]);
+
+    const getSystemsWithoutQueryPlaceholder = useCallback(() => {
+        return allSystems.filter(system => !system.searchLink.includes('%s'));
+    }, [allSystems]);
+
+    const getAllDeletedStatus = useCallback((systems: System[]) => {
+        // If any system is not deleted, return false
+        return !systems.some(system => !systemsDeleted[system.id]);
+    }, [systemsDeleted]);
+
+    const deleteSystemsBulk = useCallback((systems: System[]) => {
+        systems.forEach(system => {
+            setSystemDeleted(system.id, true);
+        });
+    }, [setSystemDeleted]);
+
     return (
         <SystemsContext.Provider value={
             {
@@ -78,7 +116,11 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
                 initializeSystemsState,
                 systemsState,
                 setSystemsState,
-                allSystems
+                allSystems,
+                getSystemsRequiringAccounts,
+                getSystemsWithoutQueryPlaceholder,
+                getAllDeletedStatus,
+                deleteSystemsBulk,
             }}>
             {children}
         </SystemsContext.Provider>

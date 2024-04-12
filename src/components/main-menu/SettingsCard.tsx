@@ -7,6 +7,20 @@ import {
   CardContent,
   CardTitle,
 } from '../ui/card';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../ui/tabs"
+
+import SortCard from './Sort';
+import ShortcutsCard from './Shortcuts';
+import SystemsSettings from './Systems';
+import SearchSettings from './Search';
+
+
+import { ScrollArea } from '../ui/scroll-area';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 import SearchSystemItem from '../SystemItem';
@@ -35,18 +49,6 @@ export const SettingsItemBox: React.FC<{children: React.ReactNode, label: string
 
 const SettingsCard: React.FC = () => {
 
-  const { allSystems } = useSystemsContext();
-  const { isResetDisabled } = useSystemToggleContext();
-  const { resetLocalStorage, updateFlagSearchInitiated,
-    initiateSearchImmediately, setInitiateSearchImmediately,
-    systemsDeleted } = useStorageContext();
-
-
-
-  const toggleInitiateSearchImmediately = () => {
-    updateFlagSearchInitiated(true);
-    setInitiateSearchImmediately(!initiateSearchImmediately);
-  }
 
 
   return (
@@ -54,79 +56,34 @@ const SettingsCard: React.FC = () => {
       <div className="w-[320px] sm:w-full">
       <CardTitle className='text-left pl-2 py-1 mb-2'>Settings</CardTitle>
         <CardContent className="p-0 flex items-left flex-col">
-        
-          <SettingsItemBox label="Immediately initiate URL-driven search upon page load.">
-            <div className="inline-flex items-center">
-              <Switch
-                id="initiate-search-immediately"
-                checked={initiateSearchImmediately}
-                onCheckedChange={toggleInitiateSearchImmediately}
-                className="focus-visible:ring-primary text-xs"
-              />
-              <span id="initiate-search-immediately-status"
-                className={`ml-2 text-xs font-semibold ${initiateSearchImmediately ? 'text-black' : 'text-gray-500'}`}>
-                {initiateSearchImmediately ? 'Enabled' : 'Disabled'}
-              </span>
-            </div>
-
-            <p className="text-xs">
-              Syntax: <code>/?q=%s</code>.
-            </p>
-            <p className="text-xs">For example, try <a className="underline" href="/?q=an+example+query" target="_blank" rel="noopener noreferrer">/?q=an+example+query</a>.
-            </p>
-          </SettingsItemBox>
-          <SettingsItemBox label="Reset Local Storage">
-            <Alert className='mt-2 w-[95%] mx-auto'>
-            <AlertDescription>
-              This will remove all 'Systems' data stored in your browser's localStorage and reset preferences to default.
-            </AlertDescription>
-          </Alert>
-          <Button
-            variant="destructive"
-            onClick={resetLocalStorage}
-            disabled={isResetDisabled}
-          >
-            Reset Local Storage
-          </Button>
-          {isResetDisabled && (
-            <p className="text-xs text-center">No preferences are saved. You're using the default settings.</p>
-          )}
-          </SettingsItemBox>
-          <SettingsItemBox label="Deleted Systems">
-        <div id="settings-systems-list">
-          {Object.values(systemsDeleted).every(value => !value) ? (
-            <Alert className='w-full'>
-              <AlertDescription>
-                No systems have been deleted.
-              </AlertDescription>
-            </Alert>
-          ) : (
-            Object.entries(systemsDeleted).filter(([_, value]) => value).map(([systemId, _], index) => {
-              const system = allSystems.find((system) => system.id === systemId);
-              if (!system) {
-                console.error(`System with ID ${systemId} not found.`);
-                return null;
-              }
-              return (
-                <div key={systemId} className="flex w-full">
-                  <SearchSystemItem
-                    id={systemId}
-                    system={system}
-                    showDisableDeleteButtons={true}
-                    showDragHandle={false}
-                    activeSystemId={undefined}
-                  />
-                  <DeleteSystemButton system={system} />
-                </div>
-              );
-            })
-          )}
-        </div>
-        </SettingsItemBox>
-
-      </CardContent>
-      </div>
+          <Tabs defaultValue="search" className="px-0 w-full">
+            <TabsList className="grid mx-2 grid-cols-4">
+              <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="search">
+                Search
+              </TabsTrigger>
+              <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="systems">Systems</TabsTrigger>
+              <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="shortcuts">Shortcuts</TabsTrigger>
+              <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="sort">Sort</TabsTrigger>
+            </TabsList>
+            <ScrollArea style={{ height: `calc(100vh - 260px)` }} className="p-0">
+              <TabsContent value="search" className='p-0 m-0'>
+               <SearchSettings />
+              </TabsContent>
+              <TabsContent value="systems" className='p-0 m-0'>
+                <SystemsSettings />
+              </TabsContent>
+              <TabsContent value="shortcuts" className='p-0 m-0'>
+                <ShortcutsCard />
+              </TabsContent>
+              <TabsContent value="sort" className='p-0 m-0'>
+                <SortCard />
+              </TabsContent>
+            </ScrollArea>
+            </Tabs>
+        </CardContent>
+    </div>
     </Card>
+    
   );
 };
 

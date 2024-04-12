@@ -14,24 +14,26 @@ interface StorageContextType {
     // user setting used in determining which systems are disabled
     systemsDisabled: Record<string, boolean>;
     setSystemDisabled: (systemId: string, value: boolean) => void;
-    
+    getAnyDisabledStatus: (systems: System[]) => boolean;
+
     // user setting used in determining which systems are deleted
     systemsDeleted: Record<string, boolean>;
     setSystemDeleted: (systemId: string, value: boolean) => void;
+    getAnyDeletedStatus: (systems: System[]) => boolean;
     
     // user setting used in determining the order of systems in the custom mode
     systemsCustomOrder: string[];
     setSystemsCustomOrder: (order: string[]) => void;
     
-    // UI event to reset localStorage re deleted, disabled, and custom order
-    resetLocalStorage: () => void;
+    // UI event to reset localStorage re deleted and disabled
+    resetSystemsDeletedDisabled: () => void;
     
     // logs which systems have been searched with
     systemsSearched: Record<string, boolean>;
     setSystemsStateSearched: (systemId: string, value: boolean) => void;
 
     // UI event resets the search log
-    resetLocalStorageSearched: () => void;
+    resetSystemsDeletedDisabledSearched: () => void;
     
     // user setting used in determining if custom sort is set on load
     customModeOnLoad: boolean;
@@ -66,14 +68,16 @@ const StorageContext = createContext<StorageContextType>({
     updateFlagSearchInitiated: () => { },
     systemsDisabled: {},
     setSystemDisabled: () => { },
+    getAnyDisabledStatus: () => false,
     systemsDeleted: {},
     setSystemDeleted: () => { },
+    getAnyDeletedStatus: () => false,
     systemsCustomOrder: [],
     setSystemsCustomOrder: () => { },
-    resetLocalStorage: () => { },
+    resetSystemsDeletedDisabled: () => { },
     systemsSearched: {},
     setSystemsStateSearched: () => { },
-    resetLocalStorageSearched: () => { },
+    resetSystemsDeletedDisabledSearched: () => { },
     customModeOnLoad: false,
     setCustomModeOnLoad: () => { },
     showIntroModal: true,
@@ -189,7 +193,9 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     }, []);
 
     const updateLocallyStoredSearchSystem = useCallback((id: string, system: System) => {
-        // First, filter out the system with the old id, if it exists.
+        // First, remove the old system object from the array.
+        // This ensures that if the system.id does not match the provided id,
+        // the old system is removed.
         // Then, add the new system object to the array.
         // This ensures that if the system.id does not match the provided id,
         // the old system is removed, and the new one is added.
@@ -216,20 +222,12 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         localStorage.setItem('customSortHistory', JSON.stringify(customSortHistory));
     }, [customSortHistory]);
 
-    const resetLocalStorage = () => {
-        setSystemsCustomOrder([]);
+    const resetSystemsDeletedDisabled = () => {
         setSystemDeleted({});
         setSystemDisabled({});
-        setMultisearchShortcuts([]);
-        setLocallyStoredSearchSystems([]);
-        setCustomSortHistory([]);
 
-        localStorage.removeItem('systemsCustomOrder');
         localStorage.removeItem('systemsDeleted');
         localStorage.removeItem('systemsDisabled');
-        localStorage.removeItem('multisearchActionObjects');
-        localStorage.removeItem('locallyStoredSearchSystems');
-        localStorage.removeItem('customSortHistory');
     };
 
     // Update sessionStorage when values change
@@ -275,7 +273,7 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         setSystemsStateSearched(prev => ({ ...prev, [systemId]: value }));
     };
 
-    const resetLocalStorageSearched = () => {
+    const resetSystemsDeletedDisabledSearched = () => {
         setSystemsStateSearched({});
     };
     
@@ -285,6 +283,14 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
 
     const updateSystemDeleted = (systemId: string, value: boolean) => {
         setSystemDeleted(prev => ({ ...prev, [systemId]: value }));
+    };
+
+    const getAnyDeletedStatus = (systems: System[]) => {
+        return Object.values(systemsDeleted).some(value => value);
+    };
+
+    const getAnyDisabledStatus = (systems: System[]) => {
+        return Object.values(systemsDisabled).some(value => value);
     };
 
     // Inside your component or functional hook
@@ -317,10 +323,10 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             setSystemDisabled: updateSystemDisabled,
             systemsCustomOrder,
             setSystemsCustomOrder,
-            resetLocalStorage,
+            resetSystemsDeletedDisabled,
             systemsSearched,
             setSystemsStateSearched: updateSystemsSearched,
-            resetLocalStorageSearched,
+            resetSystemsDeletedDisabledSearched,
             customModeOnLoad,
             setCustomModeOnLoad,
             showIntroModal,
@@ -335,7 +341,9 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             importLocallyStoredSearchSystems,
             exportLocallyStoredSearchSystems,
             customSortHistory,
-            setCustomSortHistory
+            setCustomSortHistory,
+            getAnyDeletedStatus,
+            getAnyDisabledStatus
         }),
         [
             initiateSearchImmediately,
@@ -357,7 +365,9 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
             removeLocallyStoredSearchSystem,
             importLocallyStoredSearchSystems,
             exportLocallyStoredSearchSystems,
-            customSortHistory
+            customSortHistory,
+            getAnyDeletedStatus,
+            getAnyDisabledStatus
         ]
     );
 

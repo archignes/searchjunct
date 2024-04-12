@@ -32,6 +32,7 @@ const Toolbar = () => {
     return null;
   }
 
+
   return (
     <div id="toolbar" className="flex flex-row space-x-1 mt-1 justify-center items-center">
       <TooltipProvider>
