@@ -268,7 +268,7 @@
   {
     "name":"Globe Explorer",
     "id":"globe-explorer",
-    "special_note": "v1",
+    "special_note": "v2",
     "search_link": "https://explorer.globe.engineer/?q=%5B%22%s%22%5D",
     "search_link_note": "The search link pattern creates square brackets and quotes around the query string, it is possible to manually split query terms with a comma in quotes (`\",\"`).",
     "twitter_link": "https://twitter.com/globe_engineer",
