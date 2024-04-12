@@ -36,7 +36,7 @@ const ShortcutBar: React.FC = () => {
   }
 
   if (shortcut && shortcut.type === 'systems_shortcut') {
-    return null;
+    shortcutTypeLabel = <p className="text-xs w-[200px] text-center text-gray-400">Autocomplete Systems Shortcut</p>;
   }
 
   return (
@@ -45,9 +45,13 @@ const ShortcutBar: React.FC = () => {
       {shortcutTypeLabel}
       <div className="rounded-md shadow-sm border p-1">
         {shortcut && (<div className="text-center">{allShortcutSystemsSearched ? <s>/{shortcut?.name}</s> : `/${shortcut?.name}`}</div>)}
-        {shortcut && shortcut.action && typeof shortcut.action === 'object' && 'systems' in shortcut.action ? 
+        {shortcut && shortcut.type === 'multisearch_object' && shortcut.action && typeof shortcut.action === 'object' && 'systems' in shortcut.action ? 
           (<MultisearchActionObjectBuckets shortcut={shortcut.action as MultisearchActionObject}/>)
-        : (<div className="border text-xs border-gray-300 rounded-md p-1">Search the next {shortcut?.name} systems</div>)}
+        : shortcut && shortcut.type === 'multisearch_number' ?
+          (<div className="border text-xs border-gray-300 rounded-md p-1">Search the next {shortcut?.name} systems</div>)
+        : shortcut && shortcut.type === 'systems_shortcut' ?
+          ("")
+        : (<div className="border text-xs border-gray-300 rounded-md p-1">Unsupported shortcut type</div>)}
       </div>
       </div>
   );

@@ -141,6 +141,7 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
     }
 
 
+
     return (
         <ShortcutContext.Provider value={{
             getShortcutFromQuery,

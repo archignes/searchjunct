@@ -5,7 +5,7 @@ import { VariableSizeList as List } from 'react-window';
 import SortingContainer from './SortingContainer';
 import { useSystemsContext,
   useStorageContext,
-  useSystemSearchContext } from '../contexts/';
+  useSystemSearchContext, useSortContext } from '../contexts/';
 
 import useFeatureFlag from '../hooks/useFeatureFlag';
 
@@ -18,7 +18,7 @@ const SystemList = () => {
   const { systemsSearched, systemsDisabled, systemsDeleted } = useStorageContext();
   const { systemsSkipped } = useSystemSearchContext();
   const [isClient, setIsClient] = useState(false);
-
+  const { setSystemsCurrentOrder } = useSortContext();
   
   const [visibleSystems, setVisibleSystems] = useState(allSystems);
 
@@ -36,10 +36,9 @@ const SystemList = () => {
       );
       console.log(filteredSystems);
     }
-
     setVisibleSystems(filteredSystems);
-  }, [allSystems, systemsDeleted, systemShortcutCandidates]);
-
+    setSystemsCurrentOrder(filteredSystems);
+  }, [allSystems, systemsDeleted, systemShortcutCandidates, setSystemsCurrentOrder]);
 
   useEffect(() => {
     const firstVisibleSystem = visibleSystems.find((system) =>

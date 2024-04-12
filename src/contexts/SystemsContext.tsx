@@ -113,6 +113,8 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
         });
     }, [setSystemDeleted]);
 
+
+
     const [systemShortcutCandidates, setSystemShortcutCandidates] = useState<Record<string, boolean>>({});
     const resetSystemShortcutCandidates = () => {
         setSystemShortcutCandidates({});
@@ -127,6 +129,7 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
             return prevCandidates;
         });
     }
+
 
     return (
         <SystemsContext.Provider value={

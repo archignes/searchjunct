@@ -5,7 +5,7 @@
 // children and supplies the query state and related functions.
 
 import React, { createContext, useEffect, useRef, useContext, ReactNode, useState, useCallback } from 'react';
-import { useAddressContext, useShortcutContext, useStorageContext } from './';
+import { useAddressContext, useShortcutContext, useStorageContext, useSystemsContext } from './';
 import { Query } from '@/types';
 
 interface QueryContextType {
@@ -41,7 +41,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
     const { updateURLQueryParams, urlShortcut, urlQuery } = useAddressContext();
     const { getShortcutFromQuery } = useShortcutContext(); 
     const {updateFlagSearchInitiated} = useStorageContext();
-
+    const {resetSystemShortcutCandidates} = useSystemsContext();
 
 
     const [queryObject, setQueryObject] = useState<Query>({
@@ -60,10 +60,17 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
             updateURLQueryParams([{ urlParam: 'q', value: queryObject.query }]);
             return;
         }
+        if (queryObject.shortcut.type === 'systems_shortcut') {
+            console.log('setting query object into url');
+            updateURLQueryParams([
+                { urlParam: 'q', value: queryObject.query },
+            ]);
+        } else {
         updateURLQueryParams([
             { urlParam: 'q', value: queryObject.query },
             { urlParam: 'shortcut', value: queryObject.shortcut.name }
-        ]);
+            ]);
+        }
         setQueryObject({ ...queryObject, in_address_bar: true });
     }, [queryObject, updateURLQueryParams]);
 
@@ -133,11 +140,23 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
         if (query !== queryObject.query || shortcut !== queryObject.shortcut) {
             setQueryObject(q => ({ ...q, rawString: text, query, shortcut, from_address_bar: false }));
             if (shortcut) {
-                updateURLQueryParams([{ urlParam: 'shortcut', value: shortcut.name }]);
+                if (shortcut.type === 'systems_shortcut') {
+                } else {
+                    updateURLQueryParams([{ urlParam: 'shortcut', value: shortcut.name }]);
+                }
                 setQueryObject(q => ({ ...q, in_address_bar: true }));
             }
         }
     };
+
+
+
+    useEffect(() => {
+        if (!queryObject.shortcut) {
+            resetSystemShortcutCandidates();
+        }
+    }, [queryObject.shortcut, resetSystemShortcutCandidates]);
+
 
 
     return (
