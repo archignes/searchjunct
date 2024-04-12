@@ -19,7 +19,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from '../../ui/alert-dialog';
-import { SpecialCardTitle } from '../../SystemTitle';
 
 
 const MultisearchActionObjectBucket: React.FC<{ title: string, systems: string[], additionalClasses?: string }> = ({ title, systems, additionalClasses }) => {

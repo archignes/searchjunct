@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ChatBubbleIcon, EnvelopeClosedIcon, ExitIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
 import {

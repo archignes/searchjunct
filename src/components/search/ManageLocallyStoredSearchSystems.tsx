@@ -20,15 +20,7 @@ const ManagePrivateSystems: React.FC = () => {
     const [editingSystemId, setEditingSystemId] = useState<string | null>(null);
     
     const { locallyStoredSearchSystems,
-        importLocallyStoredSearchSystems,
-        exportLocallyStoredSearchSystems,
         removeLocallyStoredSearchSystem } = useStorageContext();
-
-
-    const editLocallyStoredSearchSystem = (id: string) => {
-        // TODO: Implement editLocallyStoredSearchSystem
-    }
-
 
     if (locallyStoredSearchSystems.length === 0) {
         return <p>No locally stored search systems found.</p>;

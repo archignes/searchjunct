@@ -6,7 +6,6 @@ import React, { useContext, createContext, ReactNode, useMemo } from 'react';
 import { useStorageContext } from './';
 import { Shortcut, MultisearchActionObject} from '@/types';
 import { useSystemsContext } from './';
-import { symbol } from 'zod';
 
 // interface ShortcutProviderProps {
 //     children: ReactNode;

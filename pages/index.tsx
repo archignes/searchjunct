@@ -4,7 +4,6 @@ import Head from 'next/head';
 import Script from 'next/script';
 import Header from '../src/components/header/Header';
 import Footer from '../src/components/Footer';
-import Toolbar from "../src/components/Toolbar";
 import SystemList from "../src/components/SystemList";
 import SearchBar from "../src/components/SearchBar";
 import ShortcutBar from "../src/components/ShortcutBar";

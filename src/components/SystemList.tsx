@@ -1,6 +1,6 @@
 // SystemList.tsx
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { VariableSizeList as List } from 'react-window';
 import SortingContainer from './SortingContainer';
 import { useSystemsContext,

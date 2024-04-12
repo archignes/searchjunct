@@ -1,7 +1,6 @@
 // types/shortcut.tsx
 
 import { MultisearchActionObject } from '@/types';
-import { System } from '@/types';
 
 export interface Shortcut {
     type: 'multisearch_number' | 'multisearch_object' | 'systems_shortcut';
