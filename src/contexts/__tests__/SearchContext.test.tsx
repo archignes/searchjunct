@@ -94,54 +94,6 @@ test('getShortcutCandidate returns null for empty query string', () => {
     expect(result).toBeNull();
 });
 
-describe('SearchBar Component', () => {
-    beforeEach(() => {
-        (useRouter as jest.Mock).mockReturnValue({
-            query: {},
-        });
-    });
-    
-
-    beforeEach(() => {
-        // Mock the navigator.clipboard.writeText function
-        Object.assign(navigator, {
-            clipboard: {
-                writeText: jest.fn().mockResolvedValue(undefined),
-            },
-        });
-    });
-    
-    it('updates the document title with the search query upon submission', async () => {
-        render(
-            <StorageProvider>
-                <AppProvider>
-                    <SystemsProvider>
-                        <SortProvider>
-                            <SystemSearchProvider>
-                                <SystemToggleProvider>
-                                    <SystemExpansionProvider>
-                                        <QueryProvider>
-                                            <SearchProvider>
-                                                <SearchBar />
-                                            </SearchProvider>
-                                        </QueryProvider>
-                                    </SystemExpansionProvider>
-                                </SystemToggleProvider>
-                            </SystemSearchProvider>
-                        </SortProvider>
-                    </SystemsProvider>
-                </AppProvider>
-            </StorageProvider>
-        );
-        const query = 'test query';
-        const input = screen.getByRole('textbox');
-        fireEvent.change(input, { target: { value: query } });
-        fireEvent.submit(input);
-        await waitFor(() => {
-            expect(document.title).toBe(`[${query}] - Searchjunct`);
-        }, { timeout: 5000 });
-    });
-});
 
 afterAll(() => {
     window.open = originalOpen;

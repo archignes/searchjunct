@@ -158,7 +158,11 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   const {systemsDeleted, systemsDisabled, systemsSearched } = useStorageContext();
   const { expandAllStatus, setExpandedSystemCards, expandedSystemCards } = useSystemExpansionContext();
   const { submitSearch } = useSearchContext();
+  
+  // only used here for expanding the system card
   const { urlSystems } = useAddressContext();
+  
+
   const { isOver } = useDroppable({
     id,
   });

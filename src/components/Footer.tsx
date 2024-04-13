@@ -1,5 +1,5 @@
 import React from "react";
-const lastUpdated = "2024-04-12T23:35:35.462Z";
+const lastUpdated = "2024-04-13T08:12:49.690Z";
 
 const Footer: React.FC = () => {
   return (

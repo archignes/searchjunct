@@ -2,10 +2,10 @@
 // Main Menu Settings Component: Manage your search settings.
 
 import React from 'react';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea } from '@/src/components/ui/scroll-area';
 import { useStorageContext } from '@/contexts';
 import { SettingsItem } from './SettingsItem';
-import { Switch } from '@/components/ui/switch';
+import { Switch } from '@/src/components/ui/switch';
 
 const SearchSettings: React.FC = () => {
   const { updateFlagSearchInitiated,

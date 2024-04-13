@@ -7,7 +7,7 @@ describe('Search Flow', () => {
 
     beforeAll(async () => {
         jest.setTimeout(20000); // Set timeout to 20 seconds
-        browser = await puppeteer.launch({ headless: false, slowMo: 1000 });
+        browser = await puppeteer.launch({ headless: true, slowMo: 1000 });
         page = await browser.newPage();
     });
 

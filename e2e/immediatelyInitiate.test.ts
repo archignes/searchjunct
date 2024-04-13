@@ -45,8 +45,17 @@ describe('Immediately initiate URL-driven search', () => {
         const newPage = await browser.newPage();
         await newPage.goto('http://localhost:3000/?q=test+query');
         const pages = await browser.pages();
-        await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for 3 seconds
-        const allUrls = await Promise.all(pages.map(async (page) => await page.url()));
+
+        // Use a more controlled promise-based approach to handle the timer
+        await new Promise<void>((resolve) => {
+            setTimeout(() => {
+                console.log("Timer executed");
+                resolve(); // Resolve the promise when the timer completes
+            }, 3000);
+            // No need to unref() here as we want the timer to keep the process alive until it's done
+        });
+
+        const allUrls = await Promise.all(pages.map(async (page: puppeteer.Page) => await page.url()));
         console.log("All URLs:", allUrls);
         expect(pages.length).toBe(startPageLength + 2);
         await newPage.close();

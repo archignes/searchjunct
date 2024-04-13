@@ -85,14 +85,24 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
     const { allSystems, systemsState, setSystemsState } = useSystemsContext();
     const { updateURLQueryParams, urlSystems } = useAddressContext();
 
-    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(shuffleSystems(allSystems) as System[]);
+    // Check if allSystems is empty and initialize systemsCurrentOrder accordingly
+    const [systemsCurrentOrder, setSystemsCurrentOrder] = useState<System[]>(
+        allSystems.length > 0 ? shuffleSystems(allSystems) as System[] : []
+    );
     
     const [sortStatus, setSortStatus] = useState<'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial'>('initial');
 
-    const updateSortStatus = (newStatus: 'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial') => {
+    const updateSortStatus = useCallback((newStatus: 'abc' | 'zyx' | 'param' | 'custom' | 'shuffled' | 'initial') => {
         setSortStatus(newStatus);
-    }
+    }, [setSortStatus]);
 
+    useEffect(() => {
+        if (urlSystems.length > 0) {
+            const systems = urlSystems.split(",");
+            setSystemsCurrentOrder(systems.map((systemID: string) => allSystems.find(system => system.id === systemID) as System));
+            updateSortStatus('param');
+        }
+    }, [urlSystems, allSystems, setSystemsCurrentOrder, updateSortStatus]);
 
     // Define customSort function with useCallback for optimized performance
     const customSort = useCallback((type?: string) => {
@@ -134,7 +144,9 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
             // If custom mode should be loaded initially and sort status is initial, trigger custom sort
             customSort(type="initial");
         }
-    }, [updateURLQueryParams, setSystemsState, allSystems, systemsCustomOrder, sortStatus, customModeOnLoad, urlSystems]);
+    }, [updateURLQueryParams, setSystemsState, 
+        allSystems, systemsCustomOrder, sortStatus,
+        customModeOnLoad, urlSystems, updateSortStatus]);
 
     // Effect to handle initial custom sort based on conditions
     useEffect(() => {
@@ -146,12 +158,11 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
     }, [customModeOnLoad, customSort, sortStatus]); // Dependencies for effect re-run
 
     useEffect(() => {
-        if (systemsCustomOrder?.length === 0) {
+        if (systemsCustomOrder?.length === 0 && urlSystems.length === 0) {
             updateSortStatus('shuffled');
-            return;
         }
-    }, [systemsCustomOrder]);
-   
+    }, [systemsCustomOrder, urlSystems, updateSortStatus]);
+
     const toggleAlphabeticalSortOrder = () => {
         if (sortStatus === 'abc') {
             const sortedSystems = [...systemsState].sort((a, b) => b.name.localeCompare(a.name));
@@ -230,7 +241,6 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
 
 
 
-
     const setShuffleSystems = (click?: boolean) => {
         if (click) {
             setSystemsCurrentOrder(shuffleSystems(allSystems, click) as System[]);
@@ -240,6 +250,8 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
         }
         updateSortStatus('shuffled');
     }
+
+
 
     const updateDragOrder = (newOrderedSystems: System[]) => {
         setSystemsCurrentOrder(newOrderedSystems);

@@ -19,7 +19,8 @@ describe('System List', () => {
     });
 
     it('should scroll to the bottom of the system list and verify the presence of system buttons', async () => {
-        console.log('Navigating to the home page');
+        try {
+             console.log('Navigating to the home page');
         await page.goto('http://localhost:3000/', { waitUntil: 'networkidle0', timeout: 5000 });
 
         // Wait for the system list to be present
@@ -55,6 +56,14 @@ describe('System List', () => {
         console.log('Bottom of list text:', bottomOfListText);
         expect(bottomOfListText).toEqual(`Showing ${numberOfSystems} of ${numberOfSystems} systems`);
 
-    }, 10000); // 10 seconds timeout
+        } catch (error) {
+            console.error('Test failed:', error);
+            throw error;
+        } finally {
+            if (page) {
+                await page.close();
+            }
+        }
+    }, 10000);
 });
 

@@ -1,6 +1,6 @@
 // cards/Settings/MultisearchCustomsUI.tsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useStorageContext } from '../../../contexts/';
 import { Card, CardContent, CardHeader, CardFooter } from '../../ui/card';
 import MiniSearchSystemItem from '../../MiniSearchSystemItem';
@@ -64,7 +64,7 @@ export const ViewIndividualMultisearchActionObject: React.FC<{shortcut: Multisea
     const { removeMultisearchActionObject } = useStorageContext();
 
 
-
+    const exampleQueryLink = useMemo(() => getExampleQueryLink(shortcut), [shortcut]);
 
     const deleteShortcut = (name: string) => {
         removeMultisearchActionObject(name);
@@ -82,7 +82,7 @@ export const ViewIndividualMultisearchActionObject: React.FC<{shortcut: Multisea
                 {shortcut.description && <span className='text-sm ml-6 pb-0'>{shortcut.description}</span>}
                 </div>
             <span className='text-xs w-full ml-6 pb-0'>An example query:</span>
-            {getExampleQueryLink(shortcut)}
+            {exampleQueryLink}
         </CardHeader>
         <CardContent className="flex flex-row gap-1 pb-3">
                 <MultisearchActionObjectBucket

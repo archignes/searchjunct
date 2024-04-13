@@ -4,15 +4,14 @@ import React, { useEffect } from 'react';
 import {
     Card,
     CardContent,
-
 } from '../ui/card';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/src/components/ui/button';
 import { z } from "zod";
 import { useSystemsContext } from '@/contexts/SystemsContext';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Form, FormField, FormItem, FormDescription, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form, FormField, FormItem, FormDescription, FormLabel, FormControl, FormMessage } from '@/src/components/ui/form';
+import { Input } from '@/src/components/ui/input';
 import { useStorageContext } from '@/contexts';
 import {
     AlertDialog,
@@ -22,7 +21,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger
-} from '@/components/ui/alert-dialog';
+} from '@/src/components/ui/alert-dialog';
 import ManageLocallyStoredSearchSystemsSheet from '../search/ManageLocallyStoredSearchSystems';
 
 
@@ -165,80 +164,83 @@ export const AddSystem: React.FC<{
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
+
                 <FormField
                   control={form.control}
-                    name="searchSystemName"
-
-                    render={({ field }) => (
-                      <FormItem className="mb-5">
-                        <FormControl>
-                          <>
-                          <FormLabel>Search System Name</FormLabel>
-                          <Input placeholder="" {...field} />
+                  name="searchSystemName"
+                  render={({ field }) => (
+                    <FormItem className="mb-5">
+                      <FormControl>
+                        <>
+                          <FormLabel htmlFor="searchSystemName">Search System Name</FormLabel>
+                          <Input id="searchSystemName" placeholder="" {...field} />
                           <FormDescription>
-                              This is the name that will appear in the systems list.<br />
-                              This will be used to generate the system ID: {field.value ? getSystemLink({id: getSystemId(field.value), skipCheck: true}) : '____'}
-                              </FormDescription>
+                            This is the name that will appear in the systems list.<br />
+                            This will be used to generate the system ID: {field.value ? getSystemLink({ id: getSystemId(field.value), skipCheck: true }) : '____'}
+                          </FormDescription>
                           <FormMessage />
-                          </>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="searchLink"
-                      render={({ field }) => (
-                          <FormItem className="mb-3">
-                              <FormControl>
-                                <>
-                                  <FormLabel>Search Link</FormLabel>
-                                  <Input placeholder="Ex. https://www.example.com/search?q=%s" {...field} />
-                            <FormDescription>
-                              Provide the search URL (or search link), put a `%s` where the search query will go.
-                            </FormDescription>
-                            <FormMessage />
-                            </>
-                              </FormControl>
-                          </FormItem >
-                      )}
-                  />
-                    <FormField
-                      control={form.control}
-                      name="description"
-                      render={({ field }) => (
-                          <FormItem className="mb-3">
-                              <FormControl>
-                                <>
-                                  <FormLabel>Description</FormLabel>
-                                  <Input placeholder="Optional" {...field} />
-                            <FormDescription>
-                              Provide a description for the search system.
-                            </FormDescription>
-                            <FormMessage />
-                            </>
-                              </FormControl>
-                          </FormItem >
-                      )}
-                  />
-                    <FormField
-                      control={form.control}
-                      name="favicon"
-                      render={({ field }) => (
-                          <FormItem className="mb-3">
-                              <FormControl>
-                                <>
-                                  <FormLabel>Favicon</FormLabel>
-                                  <Input placeholder="Optional" {...field} />
-                            <FormDescription>
-                              Provide a URL for the favicon of the search system.
-                            </FormDescription>
-                            <FormMessage />
-                            </>
-                              </FormControl>
-                          </FormItem >
-                      )}
-                  />
+                        </>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="searchLink"
+                  render={({ field }) => (
+                    <FormItem className="mb-3">
+                      <FormControl>
+                        <>
+                          <FormLabel htmlFor="searchLink">Search Link</FormLabel>
+                          <Input id="searchLink" placeholder="Ex. https://www.example.com/search?q=%s" {...field} />
+                          <FormDescription>
+                            Provide the search URL (or search link), put a `%s` where the search query will go.
+                          </FormDescription>
+                          <FormMessage />
+                        </>
+                      </FormControl>
+                    </FormItem >
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="mb-3">
+                      <FormControl>
+                        <>
+                          <FormLabel htmlFor="description">Description</FormLabel>
+                          <Input id="description" placeholder="Optional" {...field} />
+                          <FormDescription>
+                            Provide a description for the search system.
+                          </FormDescription>
+                          <FormMessage />
+                        </>
+                      </FormControl>
+                    </FormItem >
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="favicon"
+                  render={({ field }) => (
+                    <FormItem className="mb-3">
+                      <FormControl>
+                        <>
+                          <FormLabel htmlFor="favicon">Favicon</FormLabel>
+                          <Input id="favicon" placeholder="Optional" {...field} />
+                          <FormDescription>
+                            Provide a URL for the favicon of the search system.
+                          </FormDescription>
+                          <FormMessage />
+                        </>
+                      </FormControl>
+                    </FormItem >
+                  )}
+                />
                         <Button className="mt-3" type="submit" disabled={form.formState.isSubmitting || disableSubmit}>
                             {form.formState.isSubmitting ? 'Submitting...' : 'Submit'}
                         </Button>

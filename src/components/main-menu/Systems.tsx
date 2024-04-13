@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import {
     CardFooter,
 } from '../ui/card';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/src/components/ui/button';
+import { ScrollArea } from '@/src/components/ui/scroll-area';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { DeleteSystemButton } from '../SystemsButtons';
 

@@ -8,8 +8,8 @@ import InfoCard from './Info';
 import QuickShortcutsCard from './QuickShortcuts';
 
 import { useEffect, useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+import { Button } from "@/src/components/ui/button";
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/src/components/ui/tooltip';
 import { StarFilledIcon, StarIcon, ChevronDownIcon, ReloadIcon, ShuffleIcon } from "@radix-ui/react-icons";
 import {
   useStorageContext,

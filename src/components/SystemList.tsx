@@ -11,14 +11,16 @@ import useFeatureFlag from '../hooks/useFeatureFlag';
 
 const SystemList = () => {
   const { isFeatureEnabled } = useFeatureFlag();
- 
+  
   const { allSystems,
     activeSystem, setActiveSystem,
     systemShortcutCandidates } = useSystemsContext();
   const { systemsSearched, systemsDisabled, systemsDeleted } = useStorageContext();
   const { systemsSkipped } = useSystemSearchContext();
   const [isClient, setIsClient] = useState(false);
-  const { setSystemsCurrentOrder } = useSortContext();
+  
+  const { setSystemsCurrentOrder, systemsCurrentOrder } = useSortContext();
+  const { sortStatus } = useSortContext();
   
   const [visibleSystems, setVisibleSystems] = useState(allSystems);
 
@@ -28,7 +30,11 @@ const SystemList = () => {
     let filteredSystems = allSystems.filter(
       (system) => !systemsDeleted[system.id]
     );
-
+    if (sortStatus === 'param') {
+      filteredSystems = filteredSystems.filter(
+        (system) => systemsCurrentOrder.includes(system));
+    }
+    
     if (Object.keys(systemShortcutCandidates).length > 0) {
       console.log("systemShortcutCandidates", systemShortcutCandidates);
       filteredSystems = filteredSystems.filter(
@@ -38,7 +44,8 @@ const SystemList = () => {
     }
     setVisibleSystems(filteredSystems);
     setSystemsCurrentOrder(filteredSystems);
-  }, [allSystems, systemsDeleted, systemShortcutCandidates, setSystemsCurrentOrder]);
+  }, [allSystems, systemsDeleted, systemShortcutCandidates,
+      systemsCurrentOrder, sortStatus, setSystemsCurrentOrder]);
 
   useEffect(() => {
     const firstVisibleSystem = visibleSystems.find((system) =>
@@ -63,10 +70,6 @@ const SystemList = () => {
     }
   }, [activeSystem, visibleSystems]);
 
-
-  if (!isFeatureEnabled('toolbar')) {
-    return null;
-  }
   
   if (!isClient) {
     return null;

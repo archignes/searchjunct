@@ -1,8 +1,8 @@
 // MainMenuButton.tsx
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/src/components/ui/tooltip";
+import { Button } from "@/src/components/ui/button";
 import { useAppContext } from "@/contexts";
 
 type MainMenuButtonProps = {

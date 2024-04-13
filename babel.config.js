@@ -16,7 +16,7 @@ module.exports = {
                     "@src/contexts": "./src/contexts",
                     "@/contexts/*": "./src/contexts/*",
                     "@/types": "./src/types",
-                    "@/components/*": "./src/components/*",
+                    "@/src/components/*": "./src/components/*",
                 },
             },
         ],

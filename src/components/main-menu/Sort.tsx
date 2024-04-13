@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { StarIcon } from '@radix-ui/react-icons';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import SortingContainer from '@/components/SortingContainer';
+import { Button } from '@/src/components/ui/button';
+import { Switch } from '@/src/components/ui/switch';
+import SortingContainer from '@/src/components/SortingContainer';
 import { useSortContext, useStorageContext } from '@/contexts';
 import { SettingsItem, SettingsText } from './SettingsItem';
 

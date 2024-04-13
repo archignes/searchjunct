@@ -9,7 +9,7 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/src/components/ui/sheet"
 import { Button } from '../ui/button';
 import {AddSystem} from '../main-menu/AddSystem';
 import SystemItem from '../SystemItem';

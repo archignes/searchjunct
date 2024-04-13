@@ -1,14 +1,14 @@
 // SettingsItem.tsx
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/src/components/ui/button";
+import { Card, CardTitle, CardContent } from "@/src/components/ui/card";
 
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/src/components/ui/accordion"
 
 interface SettingsItemProps {
     title: string;
@@ -30,7 +30,6 @@ interface SettingsButtonProps {
 }
 
 export const SettingsButton: React.FC<SettingsButtonProps> = ({ onClick, label, ariaDisabled, status, variant }) => {
-    console.log(ariaDisabled);
     return (
         <div className="flex flex-row items-center justify-left">
         <Button
@@ -66,7 +65,6 @@ export const SettingsItem: React.FC<SettingsItemProps> = ({ title, disabled, chi
     const toggleOpen = () => setIsOpen(!isOpen);
     const openValue = isOpen ? "item-open" : "item-closed";
 
-    console.log(title, openValue);
     return (
         <Accordion type="single" collapsible value={openValue} onValueChange={toggleOpen}>
             <AccordionItem value={openValue} className="mx-3">

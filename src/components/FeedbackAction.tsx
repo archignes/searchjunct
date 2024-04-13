@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/src/components/ui/button';
 import { ChatBubbleIcon, EnvelopeClosedIcon, ExitIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
 import {
   Drawer,
@@ -10,7 +10,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/src/components/ui/drawer"
 
 
 export const FeedbackAction: React.FC = () => {

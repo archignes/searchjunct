@@ -1,6 +1,6 @@
 // MainMenu.tsx
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/src/components/ui/button';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { useAppContext } from '@/contexts/AppContext';
 
