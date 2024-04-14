@@ -5,3 +5,4 @@ _archive
 .DS_Store
 test-results.txt
 concat.md
+venv
