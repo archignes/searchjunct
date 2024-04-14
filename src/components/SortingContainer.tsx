@@ -61,7 +61,7 @@ const SortingContainer: React.FC<SortingContainerProps> = (
             <FormProvider {...form}>
                 <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
                     {systemsCurrentOrder.filter(system => include.includes(system)).map((system, index) => (    
-                        <div id={`${system.id}-bucket`} key={system.id} className="w-full">
+                        <div id={`${system.id}-bucket`} key={system.id} className="system-item w-full">
                             <SearchSystemItem
                             id={system.id}
                             system={system}

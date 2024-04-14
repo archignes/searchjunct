@@ -77,7 +77,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = ({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <a className="items-center flex hover:bg-blue-100 p-1 hover:rounded-md"
+                <a id={`system-search-link-${system.id}`} className="items-center flex hover:bg-blue-100 p-1 hover:rounded-md"
                   href={getPreppedSearchLink({ system, query: queryObject.query })}
                   onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
                   <MagnifyingGlassIcon
