@@ -6,6 +6,7 @@ import SortingContainer from './SortingContainer';
 import { useSystemsContext,
   useStorageContext,
   useSystemSearchContext, useSortContext } from '../contexts/';
+import { System } from '../types/system';
 
 import useFeatureFlag from '../hooks/useFeatureFlag';
 
@@ -26,27 +27,48 @@ const SystemList = () => {
 
   const listRef = useRef<List>(null);
 
+  const systemsCurrentOrderPreShortcutRef = useRef<System[] | null>(null);
+  // This effect ensures the visible systems are filtered, this was added
+  // particularly to deal w/ the shortcuts.
   useEffect(() => {
     let filteredSystems = allSystems.filter(
       (system) => !systemsDeleted[system.id]
     );
+    
     if (sortStatus === 'param') {
+      // Filter the systems based on the current order specified in the sort context
+      // This ensures that only systems included in the systemsCurrentOrder are shown
       filteredSystems = filteredSystems.filter(
         (system) => systemsCurrentOrder.includes(system));
     }
     
     if (Object.keys(systemShortcutCandidates).length > 0) {
+      // Preserve the initial order of filtered systems before applying shortcuts
+      // to restore if shortcuts are removed
+      if (systemsCurrentOrderPreShortcutRef.current === null) {
+        systemsCurrentOrderPreShortcutRef.current = systemsCurrentOrder;
+      }
       console.log("systemShortcutCandidates", systemShortcutCandidates);
       filteredSystems = filteredSystems.filter(
         (system) => systemShortcutCandidates[system.id]
       );
+      filteredSystems.sort((a, b) => a.id.localeCompare(b.id));
+      setSystemsCurrentOrder(filteredSystems);
       console.log(filteredSystems);
+    } else {
+      if (systemsCurrentOrderPreShortcutRef.current) {
+        setSystemsCurrentOrder(systemsCurrentOrderPreShortcutRef.current);
+        systemsCurrentOrderPreShortcutRef.current = null;
+      }
     }
-    setVisibleSystems(filteredSystems);
-    setSystemsCurrentOrder(filteredSystems);
+    setVisibleSystems(filteredSystems.sort((a, b) => 
+      systemsCurrentOrder.findIndex(system => system.id === a.id) - 
+      systemsCurrentOrder.findIndex(system => system.id === b.id)
+    ));
   }, [allSystems, systemsDeleted, systemShortcutCandidates,
       systemsCurrentOrder, sortStatus, setSystemsCurrentOrder]);
 
+  
   useEffect(() => {
     const firstVisibleSystem = visibleSystems.find((system) =>
       !(systemsDisabled?.[system.id]) &&

@@ -186,6 +186,7 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
         // Ensure the currentSortIndex is updated when customSortHistory changes
         setCurrentSortIndex(customSortHistory.length - 1);
     }, [customSortHistory]);
+    
     // Function to undo the last sort action
     const undoSort = () => {
         // Calculate the new index by decrementing the current index
@@ -243,15 +244,16 @@ export const SortProvider: React.FC<SortProviderProps> = ({ children }) => {
 
     const setShuffleSystems = (click?: boolean) => {
         if (click) {
-            setSystemsCurrentOrder(shuffleSystems(allSystems, click) as System[]);
+            const shuffledSystems = shuffleSystems(allSystems, click) as System[];
+            setSystemsCurrentOrder(shuffledSystems);
             updateURLQueryParams([{ urlParam: 'systems', value: '' }]); // Remove the systems param
         } else {
-            setSystemsCurrentOrder(shuffleSystems(allSystems) as System[]);
+            const shuffledSystems = shuffleSystems(allSystems) as System[];
+            setSystemsCurrentOrder(shuffledSystems);
         }
         updateSortStatus('shuffled');
+
     }
-
-
 
     const updateDragOrder = (newOrderedSystems: System[]) => {
         setSystemsCurrentOrder(newOrderedSystems);

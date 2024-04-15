@@ -16,7 +16,8 @@ import {
   useSortContext,
   useSystemSearchContext,
   useSystemExpansionContext,
-  useAppContext
+  useAppContext,
+  useQueryContext
 } from '@/contexts';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 
@@ -28,6 +29,7 @@ const LeftSidebar: React.FC<{ className?: string }> = ({ className }) => {
   const { toggleExpandAll, expandAllStatus } = useSystemExpansionContext();
   const { reloadSystems } = useSystemSearchContext();
   const { isMainMenuExpanded } = useAppContext();
+  const { queryObject } = useQueryContext();
 
 
   const [disableCustomSortButton, setDisableCustomSortButton] = useState(false);
@@ -71,22 +73,29 @@ const LeftSidebar: React.FC<{ className?: string }> = ({ className }) => {
         ButtonIndex={2}
       />
       <div id="action-buttons" className="mt-2">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              id="shuffle-button"
-              variant="ghost"
-              onClick={() => setShuffleSystems(true)}
-              className={`${actionButtonClassName}`}
-            >
-              <ShuffleIcon className="w-4 h-4" />
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                id="shuffle-button"
+                variant="ghost"
+                onClick={() => {
+                  if (queryObject.shortcut?.type !== 'systems_shortcut') {
+                    setShuffleSystems(true);
+                  }
+                }}
+                className={`${actionButtonClassName} ${queryObject.shortcut?.type === 'systems_shortcut' ? 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300' : ''}`}
+                aria-disabled={queryObject.shortcut?.type === 'systems_shortcut'}
+              >
+                <ShuffleIcon className="w-4 h-4" />
                 {isMainMenuExpanded && <span className="ml-2 text-xs">Shuffle</span>}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="top" className="text-base">Shuffle</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-base">
+              {queryObject.shortcut?.type === 'systems_shortcut' ? "Shuffle not supported while systems list is controlled by systems shortcut" : "Shuffle"}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
       <TooltipProvider>
         <Tooltip>
@@ -144,7 +153,7 @@ const LeftSidebar: React.FC<{ className?: string }> = ({ className }) => {
             </Button>
           </TooltipTrigger>
           <TooltipContent side="top" className="text-base flex flex-wrap overflow-auto break-words sm:flex-col">
-            {Object.values(systemsSearched).some(searched => searched) ? 'Reload' : <span>Reload button is only available<br />after a search has been initiated.</span>}
+            {Object.values(systemsSearched).some(searched => searched) ? 'Reload' : <span className="text-center">Reload button is only available<br />after a search has been initiated.</span>}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

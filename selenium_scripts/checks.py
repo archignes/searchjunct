@@ -4,7 +4,7 @@ p -m pytest selenium_scripts/checks.py --html=report.html -n 4
 
 Ensure the web application is running on the configured BASE_URL before testing.
 """
-
+import time
 import json
 from pydantic import BaseModel, ValidationError
 
@@ -140,10 +140,15 @@ class TestShortcutFunctionality:
 @pytest.mark.usefixtures("driver", "systems_data")
 class TestNumberedShortcutFunctionality:
     def test_shortcut_numbered_url(self):
+        print("Navigating to BASE_URL")
         self.driver.get(BASE_URL)
+        print(f"Waiting for the search box to be present at {BASE_URL}")
         search_box = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "textarea")))
+        print("Sending keys 'blah /3' to the search box")
         search_box.send_keys("blah /3")
-        assert self.driver.current_url == f"{BASE_URL}/?shortcut=3"
+        print("Checking if the current URL matches the expected URL with shortcut")
+        assert self.driver.current_url == f"{BASE_URL}/?shortcut=3", f"Expected URL: {BASE_URL}/?shortcut=3, but got: {self.driver.current_url}"
+        print("Test for shortcut numbered URL passed")
 
     def test_shortcut_numbered_new_tabs(self):  
         self.driver.get(f"{BASE_URL}/?shortcut=3")
@@ -161,6 +166,33 @@ class TestNumberedShortcutFunctionality:
                 f"Text presence verification: Failure. Expected to find text '{expected_text}'"
             self.driver.close()
         self.driver.switch_to.window(self.driver.window_handles[0])
+
+@pytest.mark.usefixtures("driver", "systems_data")
+class TestShuffleFunctionality:
+    def test_shuffle_button_order_change(self):
+        self.driver.get(BASE_URL)
+        systems_list_element = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.ID, "systems-list"))
+        )
+        initial_order = systems_list_element.text
+        print(["Initial Order:", initial_order])
+        
+        shuffle_button = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.ID, "shuffle-button")))
+        shuffle_button.click()  # Ensure the shuffle button is clicked
+        time.sleep(1)  # Wait to let the shuffle button do its thing
+        confirmed_order = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.ID, "systems-list"))
+        ).text
+        print(["Confirmed Order:", confirmed_order])
+        assert initial_order != confirmed_order, \
+            "Shuffle functionality verification: Failure, the order did not change"
+        time.sleep(1)  # Wait to confirm the new order is stable
+        final_order = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.ID, "systems-list"))
+        ).text
+        assert confirmed_order == final_order, \
+            "Shuffle functionality verification: Failure, the order changed after 1 second"
 
 @pytest.mark.usefixtures("driver", "systems_data")
 class TestSystemsList:
