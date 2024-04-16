@@ -142,7 +142,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
                     favicon_included={true}
                     focus_mode={activeSystemId === system.id}
                   />
-                  {(openItem === "item-1") && (
+                    {(openItem === "item-1" && !showDragHandle) && (
                     <ChevronDownIcon className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ml-1 ${openItem === "item-1" ? 'rotate-0' : 'rotate-180'}`} />
                   )}
                 </AccordionTrigger>
@@ -177,7 +177,9 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
         )}
       </div>
       <AccordionContent className="p-0 pb-1">
-        <SystemCard system={system} />
+        {!showDragHandle && (
+          <SystemCard system={system} />
+        )}
       </AccordionContent>
     </AccordionItem>
   );
@@ -288,7 +290,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
       <Accordion value={openItem} onValueChange={setOpenItem}
           type="single"
             className={`w-full border rounded-md
-              ${openItem === "item-1" ? 'shadow-sm' : 'border-transparent'}
+              ${(openItem === "item-1" && !showDragHandle) ? 'shadow-sm' : 'border-transparent'}
               ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-transparent' : ''}
               ${systemsSkipped?.[system.id] ? 'bg-yellow-300 border-transparent' : ''}
               ${systemsSearched?.[system.id] ? 'bg-gray-200' : ''}
@@ -322,7 +324,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
             submitSearch={submitSearch}
             getPreppedSearchLink={getPreppedSearchLink}
             openItem={openItem}
-            setOpenItem={setOpenItem}
+            setOpenItem={setOpenItemStable}
             attributes={attributes}
             listeners={listeners}
             setDragHandleRef={setDragHandleRef}
