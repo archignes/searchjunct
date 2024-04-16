@@ -80,19 +80,19 @@ const LeftSidebar: React.FC<{ className?: string }> = ({ className }) => {
                 id="shuffle-button"
                 variant="ghost"
                 onClick={() => {
-                  if (queryObject.shortcut?.type !== 'systems_shortcut') {
+                  if (!['completion_shortcut', 'unsupported'].includes(queryObject.shortcut?.type || '')) {
                     setShuffleSystems(true);
                   }
                 }}
-                className={`${actionButtonClassName} ${queryObject.shortcut?.type === 'systems_shortcut' ? 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300' : ''}`}
-                aria-disabled={queryObject.shortcut?.type === 'systems_shortcut'}
+                className={`${actionButtonClassName} ${['completion_shortcut', 'unsupported'].includes(queryObject.shortcut?.type || '') ? 'opacity-50 cursor-default bg-gray-300 hover:bg-gray-300' : ''}`}
+                aria-disabled={['completion_shortcut', 'unsupported'].includes(queryObject.shortcut?.type || '')}
               >
                 <ShuffleIcon className="w-4 h-4" />
                 {isMainMenuExpanded && <span className="ml-2 text-xs">Shuffle</span>}
               </Button>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-base">
-              {queryObject.shortcut?.type === 'systems_shortcut' ? "Shuffle not supported while systems list is controlled by systems shortcut" : "Shuffle"}
+              {['completion_shortcut', 'unsupported'].includes(queryObject.shortcut?.type || '') ? "Shuffle not supported while systems list is controlled by systems shortcut" : "Shuffle"}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
