@@ -183,11 +183,29 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
     const [customSortHistory, setCustomSortHistory] = useState<string[][]>(() => {
         if (typeof window !== 'undefined') {
             const storedValue = localStorage.getItem('customSortHistory');
-            return storedValue ? JSON.parse(storedValue) : [];
+            if (storedValue) {
+                try {
+                    return JSON.parse(storedValue);
+                } catch (e) {
+                    localStorage.setItem('customSortHistory', JSON.stringify([]));
+                    return [];
+                }
+            }
         }
         return [];
     });
 
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            try {
+                localStorage.setItem('customSortHistory', JSON.stringify(customSortHistory));
+            } catch (e) {
+                console.error('Error saving customSortHistory to localStorage:', e);
+            }
+        }
+    }, [customSortHistory]);
+
+    
     const addLocallyStoredSearchSystem = useCallback((system: System) => {
         setLocallyStoredSearchSystems(prev => [...prev, system]);
     }, []);
@@ -218,9 +236,6 @@ export const StorageProvider: React.FC<React.PropsWithChildren<{}>> = ({ childre
         localStorage.setItem('locallyStoredSearchSystems', JSON.stringify(locallyStoredSearchSystems));
     }, [locallyStoredSearchSystems]);
 
-    useEffect(() => {
-        localStorage.setItem('customSortHistory', JSON.stringify(customSortHistory));
-    }, [customSortHistory]);
 
     const resetSystemsDeletedDisabled = () => {
         setSystemDeleted({});

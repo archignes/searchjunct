@@ -165,14 +165,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
             className="handle py-2 px-3 hover:bg-blue-100 hover:rounded-md"
             aria-label="Drag handle for reordering"
           >
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent side="top" className="text-base">Drag and sort</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />    
           </div>
         )}
       </div>

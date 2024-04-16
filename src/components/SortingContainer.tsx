@@ -1,12 +1,11 @@
 // SortingContainer.tsx 
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSortContext } from '../contexts/';
 import { System } from '../types/system';
 import SearchSystemItem from './systems/SystemItem';
-import { isMobile } from 'react-device-detect';
 import { useForm, FormProvider } from 'react-hook-form';
 
 interface SortingContainerProps {
@@ -24,9 +23,7 @@ const SortingContainer: React.FC<SortingContainerProps> = (
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
-            activationConstraint: isMobile
-                ? { delay: 50, tolerance: 10 } // Adjusted settings for mobile
-                : { delay: 100, tolerance: 5 } // Default settings for desktop
+            activationConstraint: { delay: 20, tolerance: 5 } // Default settings
         }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
@@ -57,11 +54,15 @@ const SortingContainer: React.FC<SortingContainerProps> = (
         },
     });
 
+    const filteredSystems = useMemo(() => {
+        return systemsCurrentOrder.filter(system => include.includes(system));
+    }, [systemsCurrentOrder, include]);
+
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <FormProvider {...form}>
-                <SortableContext items={systemsCurrentOrder.map(system => system.id)} strategy={verticalListSortingStrategy}>
-                    {systemsCurrentOrder.filter(system => include.includes(system)).map((system, index) => (    
+                <SortableContext items={filteredSystems.map((system: System) => system.id)} strategy={verticalListSortingStrategy}>
+                    {filteredSystems.map((system: System) => (
                         <div id={`${system.id}-bucket`} key={system.id} className="system-item w-full">
                             <SearchSystemItem
                             id={system.id}
