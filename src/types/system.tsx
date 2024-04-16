@@ -56,7 +56,7 @@ export interface System {
         author: string;
         date: string;
     }[];
-    references?: {
+    discussions?: {
         title: string;
         date: string;
         author?: string;

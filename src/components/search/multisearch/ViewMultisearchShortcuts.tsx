@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useStorageContext } from '../../../contexts/';
 import { Card, CardContent, CardHeader, CardFooter } from '../../ui/card';
-import MiniSearchSystemItem from '../../MiniSearchSystemItem';
+import MiniSearchSystemItem from '../../systems/MiniSearchSystemItem';
 import { MultisearchActionObject } from '@/types';
 import { Button } from '../../ui/button';
 import { TrashIcon } from '@radix-ui/react-icons';

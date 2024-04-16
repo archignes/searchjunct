@@ -8,15 +8,15 @@ import {
 import { Button } from '@/src/components/ui/button';
 import { ScrollArea } from '@/src/components/ui/scroll-area';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
-import { DeleteSystemButton } from '../SystemsButtons';
+import { DeleteSystemButton } from '../systems/SystemsButtons';
 
-import SearchSystemItem from '../SystemItem';
+import SearchSystemItem from '../systems/SystemItem';
 import { useSystemsContext } from '@/contexts/SystemsContext';
 import { useStorageContext } from '@/contexts';
 import ManageLocallyStoredSearchSystemsSheet from '../search/ManageLocallyStoredSearchSystems';
 import AddSystem from './AddSystem';
 import { SettingsItem, SettingsText, SettingsButton, SettingsSubtitle } from './SettingsItem';
-import MiniSearchSystemItem from '../MiniSearchSystemItem';
+import MiniSearchSystemItem from '../systems/MiniSearchSystemItem';
 import { System } from '@/types';
 
 interface ShowFilteredSystemsProps {

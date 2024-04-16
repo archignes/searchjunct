@@ -1,10 +1,10 @@
 // ui/MiniSearchSystemItem.tsx 
 
 import React from 'react';
-import { System } from '../types/system';
-import { useStorageContext } from '../contexts/StorageContext';
+import { System } from '../../types/system';
+import { useStorageContext } from '../../contexts/StorageContext';
 import { SystemTitle } from './SystemTitle';
-import { useSystemsContext } from '../contexts/SystemsContext';
+import { useSystemsContext } from '../../contexts/SystemsContext';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
 interface MiniSearchSystemItemProps {

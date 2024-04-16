@@ -1,9 +1,9 @@
 // SettingButtons.tsx
 
 import React from 'react';
-import { System } from '../types/system';
-import { Button } from './ui/button';
-import { useStorageContext, useSystemToggleContext } from '../contexts';
+import { System } from '../../types/system';
+import { Button } from '../ui/button';
+import { useStorageContext, useSystemToggleContext } from '../../contexts';
 
 export const DisableSystemButton: React.FC<{ system: System }> = ({ system }) => {
   const { toggleSystemDisabled } = useSystemToggleContext();

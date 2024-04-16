@@ -12,7 +12,7 @@ import {
 } from "@/src/components/ui/sheet"
 import { Button } from '../ui/button';
 import {AddSystem} from '../main-menu/AddSystem';
-import SystemItem from '../SystemItem';
+import SystemItem from '../systems/SystemItem';
 
 const ManagePrivateSystems: React.FC = () => {
 

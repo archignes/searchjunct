@@ -5,14 +5,17 @@ import { VariableSizeList as List } from 'react-window';
 import SortingContainer from './SortingContainer';
 import { useSystemsContext,
   useStorageContext,
-  useSystemSearchContext, useSortContext } from '../contexts/';
+  useSystemSearchContext,
+  useSortContext,
+  useQueryContext
+} from '../contexts/';
 import { System } from '../types/system';
+import { Alert, AlertTitle, AlertDescription } from '../components/ui/alert';
 
-import useFeatureFlag from '../hooks/useFeatureFlag';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
 const SystemList = () => {
-  const { isFeatureEnabled } = useFeatureFlag();
-  
+  const { queryObject } = useQueryContext();
   const { allSystems,
     activeSystem, setActiveSystem,
     systemShortcutCandidates } = useSystemsContext();
@@ -23,51 +26,76 @@ const SystemList = () => {
   const { setSystemsCurrentOrder, systemsCurrentOrder } = useSortContext();
   const { sortStatus } = useSortContext();
   
-  const [visibleSystems, setVisibleSystems] = useState(allSystems);
+  const [visibleSystems, setVisibleSystems] = useState<System[]>(allSystems);
 
   const listRef = useRef<List>(null);
 
   const systemsCurrentOrderPreShortcutRef = useRef<System[] | null>(null);
   // This effect ensures the visible systems are filtered, this was added
   // particularly to deal w/ the shortcuts.
+  const shortcutCandidatesListRef = useRef<string[] | null>(null);
+  
+  
+  
+
   useEffect(() => {
+    // Initial filtering to exclude deleted systems
     let filteredSystems = allSystems.filter(
       (system) => !systemsDeleted[system.id]
     );
     
+    // Apply sorting if sortStatus is set to 'param'
     if (sortStatus === 'param') {
-      // Filter the systems based on the current order specified in the sort context
-      // This ensures that only systems included in the systemsCurrentOrder are shown
+      // Ensures visibility of only those systems present in systemsCurrentOrder
       filteredSystems = filteredSystems.filter(
         (system) => systemsCurrentOrder.includes(system));
     }
     
+
+    // Check for system shortcuts then filter systems accordingly
     if (Object.keys(systemShortcutCandidates).length > 0) {
-      // Preserve the initial order of filtered systems before applying shortcuts
-      // to restore if shortcuts are removed
+      // Check if system shortcut candidates have changed, using a string comparison
+      const currentShortcuts = shortcutCandidatesListRef.current?.sort().join(",");
+      const newShortcuts = Object.keys(systemShortcutCandidates).sort().join(",");
+      if (currentShortcuts !== newShortcuts) {
+        shortcutCandidatesListRef.current = Object.keys(systemShortcutCandidates);
+      } else {
+        return;
+      }
+
+      // Backup the current order before applying shortcuts for potential restoration
       if (systemsCurrentOrderPreShortcutRef.current === null) {
         systemsCurrentOrderPreShortcutRef.current = systemsCurrentOrder;
       }
-      console.log("systemShortcutCandidates", systemShortcutCandidates);
+      // Filter systems based on shortcut candidates and sort them by ID
       filteredSystems = filteredSystems.filter(
         (system) => systemShortcutCandidates[system.id]
       );
+      // Update the current order of systems based on shortcuts
       filteredSystems.sort((a, b) => a.id.localeCompare(b.id));
       setSystemsCurrentOrder(filteredSystems);
-      console.log(filteredSystems);
+      setVisibleSystems(filteredSystems);
+      return;
     } else {
+      // Restore the original order if no shortcuts are active
       if (systemsCurrentOrderPreShortcutRef.current) {
         setSystemsCurrentOrder(systemsCurrentOrderPreShortcutRef.current);
         systemsCurrentOrderPreShortcutRef.current = null;
       }
-    }
-    setVisibleSystems(filteredSystems.sort((a, b) => 
-      systemsCurrentOrder.findIndex(system => system.id === a.id) - 
-      systemsCurrentOrder.findIndex(system => system.id === b.id)
+      shortcutCandidatesListRef.current = null;
+      // Sort and set the visible systems based on the current order
+      setVisibleSystems(filteredSystems.sort((a, b) => 
+        systemsCurrentOrder.findIndex(system => system.id === a.id) - 
+        systemsCurrentOrder.findIndex(system => system.id === b.id)
     ));
+    }
+    // Restore the original order if no shortcuts are active
+    if (systemsCurrentOrderPreShortcutRef.current) {
+      setSystemsCurrentOrder(systemsCurrentOrderPreShortcutRef.current);
+      systemsCurrentOrderPreShortcutRef.current = null;
+    }
   }, [allSystems, systemsDeleted, systemShortcutCandidates,
       systemsCurrentOrder, sortStatus, setSystemsCurrentOrder]);
-
   
   useEffect(() => {
     const firstVisibleSystem = visibleSystems.find((system) =>
@@ -95,6 +123,18 @@ const SystemList = () => {
   
   if (!isClient) {
     return null;
+  }
+
+  if (queryObject.shortcut?.type === "unsupported") {
+    return (
+      <Alert variant="destructive" id="null-systems-list" className="flex w-2/3 mx-auto flex-col space-y-1 mt-4 text-center">
+        <ExclamationTriangleIcon className="h-4 w-4" />
+        <AlertTitle>There are no systems that match the shortcut: <code>{queryObject.shortcut.name}</code></AlertTitle>
+        <AlertDescription>
+          Please try a different shortcut.
+        </AlertDescription>
+      </Alert>
+    )
   }
 
   return (

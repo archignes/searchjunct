@@ -10,6 +10,7 @@ import ShortcutBar from "../src/components/ShortcutBar";
 import { FeedbackAction } from "../src/components/FeedbackAction";
 import LeftSidebar from '../src/components/main-menu/LeftSidebar';
 import ViewMultisearchSheet from '../src/components/search/multisearch/MultisearchManagementSheet';
+import SetDefaults from '../src/components/SetDefaults';
 
 const title = "Searchjunct"
 const description = "Searchjunct helps you explore possibility in search by routing your query across multiple search engines.";
@@ -54,7 +55,9 @@ const HomePage = () => {
         </div>
         </div>
         </div>
+      <SetDefaults />
     </>
+    
   );
 };
 

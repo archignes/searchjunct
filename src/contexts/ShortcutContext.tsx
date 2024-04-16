@@ -4,7 +4,7 @@
 
 import React, { useContext, createContext, ReactNode, useMemo } from 'react';
 import { useStorageContext } from './';
-import { Shortcut, MultisearchActionObject} from '@/types';
+import { Shortcut, MultisearchActionObject, ShortcutType, ShortcutAction } from '@/types';
 import { useSystemsContext } from './';
 
 // interface ShortcutProviderProps {
@@ -36,19 +36,24 @@ export const useShortcutContext = () => useContext(ShortcutContext);
 export function getShortcutCandidate(query: string) {
     /**
      * Regular expression to find a candidate shortcut in a query string.
-     * A candidate is identified by a single forward slash followed by non-whitespace characters.
+     * A candidate is identified by a single forward slash followed by non-whitespace characters,
+     * or by a single forward slash at the end of the string.
      * The candidate must either:
      * - start the string (and have whitespace after),
-     * - end the string (and have whitespace before),
+     * - end the string (and have whitespace before or be the only character),
      * - or be surrounded by whitespace.
      * This regex disqualifies any candidates immediately preceded by multiple forward slashes.
      */
-    const regex = /(?:^|\s)\/(\S+)(?=\s|$)/g;
-    const disqualifiedRegex = /\/{2,}\S+/; // Regex to check for multiple forward slashes before a string
+    const regex = /(?:^|\s)\/(\S*)(?=\s|$)/g;
+    const disqualifiedRegex = /\/{2,}\S*/; // Regex to check for multiple forward slashes before a string
     const disqualifiedMatches = query.match(disqualifiedRegex);
     const matches = Array.from(query.matchAll(regex));
     if (matches.length > 0 && disqualifiedMatches === null) {
         const shortcutCandidate = matches[0][1];
+        // Special case to allow a single '/' at the end of a string
+        if (shortcutCandidate === '' && query.trim().endsWith('/')) {
+            return '/';
+        }
         return shortcutCandidate;
     }
     return null;
@@ -88,16 +93,35 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
      * This is used for autocomplete functionality by matching the input with system IDs.
      *
      * @param input The starting string to match system IDs against.
-     * @returns A list of system IDs that start with the input.
+     * @returns A list of objects with system IDs that start with the input.
      */
-    const getSystemShortcutsAutocomplete = (input: string) => 
+    const getSystemShortcutsAutocomplete = (input: string): {id: string, type: 'system_completion'}[] => 
         allSystems
             .filter(system => system.id.startsWith(input))
-            .map(system => system.id);
+            .map(system => ({id: system.id, type: 'system_completion'}));
 
+
+    const getMultisearchShortcutsAutocomplete = (input: string): {name: string, type: 'multisearch_action_object_completion'}[] =>
+        multisearchActionObjects
+            .filter(shortcut => shortcut.name.startsWith(input))
+            .map(shortcut => ({name: shortcut.name, type: 'multisearch_action_object_completion'}));
+
+
+    const updateSystemShortcutCandidates = (possibleSystemCompletions: {id: string, type: 'system_completion'}[]) => {
+        resetSystemShortcutCandidates();
+        possibleSystemCompletions.forEach(system => {
+            addSystemShortcutCandidate(system.id);
+        });
+    }
+    /**
+     * Retrieves the shortcut based on the query.
+     * 
+     * @param query The query string to match against.
+     * @returns The shortcut based on the query (number, object, or system completions), or null if no shortcut is found.
+     */
     const getShortcutFromQuery = (query: string) => {
-        let shortcutType: 'multisearch_number' | 'multisearch_object' | 'systems_shortcut';
-        let action: MultisearchActionObject | number | string[];
+        let shortcutType: ShortcutType;
+        let action: ShortcutAction;
 
         const shortcutCandidateName = getShortcutCandidate(query);
 
@@ -114,17 +138,42 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
                 return multisearchShortcut;
             } else if (shortcutStarts.includes(shortcutCandidateName)) {
                 console.log("could be a multisearch object: ", shortcutCandidateName)
-                return null
-            } else {
+                shortcutType = 'completion_shortcut';
+                const possibleMultisearchShortcuts = getMultisearchShortcutsAutocomplete(shortcutCandidateName);
+                const possibleSystemShortcuts = getSystemShortcutsAutocomplete(shortcutCandidateName);
+                if (possibleMultisearchShortcuts.length > 0) {
+                    updateSystemShortcutCandidates(possibleSystemShortcuts);
+                }
+                action = { multisearch_completions: possibleMultisearchShortcuts, system_completions: possibleSystemShortcuts };
+                return {
+                    type: shortcutType,
+                    name: shortcutCandidateName,
+                    completed: false,
+                    action: action
+                }
+            } else if (shortcutCandidateName === '/') {
+                resetSystemShortcutCandidates();
+                shortcutType = 'completion_shortcut';
+                action = {
+                    multisearch_completions: multisearchActionObjects.map(shortcut => ({name: shortcut.name, type: 'multisearch_action_object_completion'})),
+                    system_completions: []
+                };
+                return {
+                    type: shortcutType,
+                    name: '/',
+                    completed: false,
+                    action: action
+                };
+            } else 
+            {
                 const possibleSystemCompletions = getSystemShortcutsAutocomplete(shortcutCandidateName);
                 if (possibleSystemCompletions.length > 0) {
-                    console.log("possible system completions: ", possibleSystemCompletions)
-                    resetSystemShortcutCandidates();
-                    possibleSystemCompletions.forEach(system => {
-                        addSystemShortcutCandidate(system);
-                    });
-                    shortcutType = 'systems_shortcut';
-                    action = possibleSystemCompletions;
+                    updateSystemShortcutCandidates(possibleSystemCompletions);
+                    shortcutType = 'completion_shortcut';
+                    action = {
+                        multisearch_completions: [],
+                        system_completions: possibleSystemCompletions
+                    };
                     return {
                         type: shortcutType,
                         name: shortcutCandidateName,
@@ -132,7 +181,14 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
                         action: action };
                 } else {
                     resetSystemShortcutCandidates();
-                    return null;
+                    shortcutType = 'unsupported';
+                    action = 'unsupported';
+                    return {
+                        type: shortcutType,
+                        name: shortcutCandidateName,
+                        completed: false,
+                        action: action
+                    };
                 }
             }
         }

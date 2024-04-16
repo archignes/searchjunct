@@ -103,7 +103,7 @@
     "search_link": "https://chat.openai.com/?model=text-davinci-002-render-sha",
     "wikipedia_link": "https://en.wikipedia.org/wiki/ChatGPT",
     "twitter_link": "https://twitter.com/OpenAI",
-    "references": [
+    "discussions": [
       {
         "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
         "date": "2023-12",
@@ -136,7 +136,7 @@
           "Safari"
         ],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)",
-    "references": [
+    "discussions": [
       {
         "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
         "date": "2023-12",
@@ -256,7 +256,7 @@
     "search_link": "https://kagi.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Kagi_(search_engine)",
     "twitter_link": "https://twitter.com/KagiHQ",
-    "references": [
+    "discussions": [
       {
         "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
         "date": "2023-12",
@@ -469,12 +469,25 @@
           "Firefox",
           "Opera"
         ],
-    "references": [
+    "discussions": [
       {
         "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
         "date": "2023-12",
         "author": "Dan Luu",
         "url": "https://danluu.com/seo-spam/"
+      },
+      {
+        "title": "Google Search Really Has Gotten Worse, Researchers Find",
+        "platform": "404 Media",
+        "date": "2024-01-16",
+        "author": "Jason Koebler",
+        "url": "https://www.404media.co/google-search-really-has-gotten-worse-researchers-find/"
+      },
+      {
+        "title": "Google Search Is Dying",
+        "date": "2022-02-15",
+        "author": "Dmitri Brereton",
+        "url": "https://dkb.blog/p/google-search-is-dying"
       }
     ]
   },
@@ -523,7 +536,7 @@
     "open_source_license": "GNU Affero General Public License v3.0",
     "youtube_link": "https://www.youtube.com/@mwmbl",
     "pronunciation": {"string": "mumble", "url": "https://github.com/mwmbl/mwmbl?tab=readme-ov-file#how-do-you-pronounce-mwmbl"},
-    "references": [
+    "discussions": [
       {
         "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
         "date": "2023-12",

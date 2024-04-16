@@ -135,7 +135,17 @@ class TestShortcutFunctionality:
         assert len(systems) == 2, "Shortcut functionality verification: Failure"
         system_names = [system.text for system in systems]
         assert "Google" in system_names, "Google system not found in filtered list"
-        assert "Google Gemini" in system_names, "Google Scholar system not found in filtered list"
+        assert "Google Gemini" in system_names, "Google Gemini system not found in filtered list"
+
+    def test_shortcut_autocomplete_quickshortcut_button(self):
+        self.driver.get(BASE_URL)
+        search_box = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "textarea")))
+        search_box.send_keys("/li")
+        time.sleep(1)
+        quickshortcut_button = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "shortcutbar-button-links")))
+        quickshortcut_button.click()
+        assert "/links" in search_box.get_attribute('value'), "Links shortcut button not found in textarea"
+
 
 @pytest.mark.usefixtures("driver", "systems_data")
 class TestNumberedShortcutFunctionality:
@@ -151,20 +161,30 @@ class TestNumberedShortcutFunctionality:
         print("Test for shortcut numbered URL passed")
 
     def test_shortcut_numbered_new_tabs(self):  
+        print("Navigating to URL with shortcut parameter")
         self.driver.get(f"{BASE_URL}/?shortcut=3")
-        search_box = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "textarea"))) 
+        print("Waiting for the search box to be present")
+        search_box = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.TAG_NAME, "textarea"))) 
+        print("Sending RETURN key to search box")
         search_box.send_keys(Keys.RETURN)
-        WebDriverWait(self.driver, 10).until(lambda driver: len(driver.window_handles) == 4)
+        print("Waiting for the expected number of new tabs/windows to open")
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: len(driver.window_handles) == 4)
+        print("Iterating through the opened windows")
         for window_handle in self.driver.window_handles[1:]:
             self.driver.switch_to.window(window_handle)
             expected_url_prefix = f"{BASE_URL}/testing" 
             actual_url = self.driver.current_url
+            print(f"Checking if the current URL starts with {expected_url_prefix}")
             assert actual_url.startswith(expected_url_prefix), \
                 f"URL verification: Failure. Expected URL to start with {expected_url_prefix}, but got {actual_url}"
             expected_text = "Click here to open the link"
+            print(f"Verifying presence of expected text: '{expected_text}'")
             assert expected_text in self.driver.page_source, \
                 f"Text presence verification: Failure. Expected to find text '{expected_text}'"
             self.driver.close()
+        print("Switching back to the original window")
         self.driver.switch_to.window(self.driver.window_handles[0])
 
 @pytest.mark.usefixtures("driver", "systems_data")
@@ -204,3 +224,23 @@ class TestSystemsList:
         )
         systems = systems_list.find_elements(By.CLASS_NAME, "system-item")
         assert len(systems) == len(systems_data), "Number of systems verification: Failure"
+
+    def test_systems_shortcut_candidates_list_order(self, systems_data):
+        self.driver.get(BASE_URL)
+        search_box = self.wait.until(EC.presence_of_element_located((By.TAG_NAME, "textarea")))
+        for letter in "agz":
+            search_box.send_keys(f"/{letter}") 
+            time.sleep(1)
+            print(f"Search box content for letter '{letter}': {search_box.get_attribute('value')}")
+            systems_list = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.ID, "systems-list")) or EC.presence_of_element_located((By.ID, "null-systems-list"))
+            )
+            system_ids = [system.get_attribute('id') for system in systems_list.find_elements(By.CLASS_NAME, "system-item")]
+            if not system_ids:
+                continue  # Skip the assertion if no system_ids are found for the letter
+            # assert that the order of the systems list is alphabetical for each letter
+            print(len(system_ids))
+            print(f"first 5 system ids: {system_ids[:5]}")
+            assert sorted(system_ids) == system_ids, f"Shortcut candidates in system list order verification: Failure for letter {letter}"
+            # clear search box
+            search_box.clear()

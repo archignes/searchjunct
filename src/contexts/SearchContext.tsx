@@ -129,7 +129,7 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const submitSearch = useCallback(
         ({ system, skip }: { system?: System; skip?: "skip" | "skipback" }) => {
             let shortcutsCompletedStatus = false;
-            if (queryObject.shortcut && queryObject.shortcut.type !== 'systems_shortcut') {
+            if (queryObject.shortcut && queryObject.shortcut.type !== 'completion_shortcut') {
                 if (isMultisearchActionObject(queryObject.shortcut.action)) {
                     shortcutsCompletedStatus = getShortcutsCompletedStatus(queryObject.shortcut.action, systemsSearched);
                 }

@@ -4,21 +4,21 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './ui/tooltip';
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 import { MagnifyingGlassIcon, 
   DragHandleDots2Icon,
   ChevronDownIcon
 } from '@radix-ui/react-icons';
-import { Query } from '../types';
+import { Query } from '../../types';
 import { useDroppable } from '@dnd-kit/core';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion-minus"
-import { System } from '../types/system';
-import SystemCard from './cards/SystemCard';
+} from "../ui/accordion-minus"
+import { System } from '../../types/system';
+import SystemCard from './SystemCard';
 import { useSystemExpansionContext,
   useQueryContext,
   useSystemSearchContext,
@@ -26,7 +26,7 @@ import { useSystemExpansionContext,
   useStorageContext,
   useAddressContext, 
   useSortContext
-} from '../contexts';
+} from '../../contexts';
 import { SystemTitle } from './SystemTitle';
 
 

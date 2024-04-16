@@ -5,7 +5,7 @@ import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor,
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSortContext } from '../contexts/';
 import { System } from '../types/system';
-import SearchSystemItem from './SystemItem';
+import SearchSystemItem from './systems/SystemItem';
 import { isMobile } from 'react-device-detect';
 import { useForm, FormProvider } from 'react-hook-form';
 

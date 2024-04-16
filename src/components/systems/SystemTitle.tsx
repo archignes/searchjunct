@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { System } from '../types/system';
+import { System } from '../../types/system';
 
 export const SpecialCardTitle: React.FC<{ title: string }> = ({ title }) => {
   return (

@@ -30,9 +30,9 @@ import { cibWikipedia, cibYoutube, cibMatrix, cibReddit, cibMastodon, cibFaceboo
 
 import { useAppContext } from '../../contexts/AppContext';
 import { System } from "../../types/system";
-import { DeleteSystemButton, DisableSystemButton } from '../SystemsButtons';
-import SetupCustomDefaultSystemInstructions from './SetupCustomDefaultSystemInstructions';
-
+import { DeleteSystemButton, DisableSystemButton } from './SystemsButtons';
+import SetupCustomDefaultSystemInstructions from '../cards/SetupCustomDefaultSystemInstructions';
+import Discussions from './Discussions';
 
 type PlatformIcons = {
   [key: string]: string;
@@ -103,32 +103,7 @@ const ThesesLinks: React.FC<SystemCardProps> = ({ system }) => {
   )
 }
 
-const References: React.FC<SystemCardProps> = ({ system }) => {
-  if (!system.references) return null;
-  
-  
 
-  
-
-  return (
-    <div id="references" className='ml-1'>
-      <span className="text-xs">References:</span>
-      <ul className='list-outside'>{system.references.map((reference, index) => (
-        <li key={index} className='space-x-1 text-xs mx-4 list-["-_"]'>
-          {reference.author && `${reference.author} `}
-          {reference.platform && platform_icons[reference.platform] ? (
-            <img src={platform_icons[reference.platform]} alt={`${reference.platform} icon`} className="inline h-4 w-4 mr-1" />
-          ) : null}
-          {reference.platform && `${reference.platform} `}
-          <a href={reference.url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100">
-                {reference.title}
-            </a> ({reference.date.split('-')[0]})
-        </li>
-      ))}
-      </ul>
-    </div>
-  )
-}
 
 
 const PermalinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => {
@@ -261,7 +236,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
         )}
         
         <ThesesLinks system={system} />
-        <References system={system} />
+        <Discussions system={system} />
         {(system.manual_switch_required || system.mobile_app_breaks_links_warning || system.account_required) && (
           <NoticeAlert system={system} />
         )}

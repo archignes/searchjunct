@@ -60,7 +60,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
             updateURLQueryParams([{ urlParam: 'q', value: queryObject.query }]);
             return;
         }
-        if (queryObject.shortcut.type === 'systems_shortcut') {
+        if (['completion_shortcut', 'unsupported'].includes(queryObject.shortcut.type)) {
             console.log('setting query object into url');
             updateURLQueryParams([
                 { urlParam: 'q', value: queryObject.query },
@@ -140,7 +140,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
         if (query !== queryObject.query || shortcut !== queryObject.shortcut) {
             setQueryObject(q => ({ ...q, rawString: text, query, shortcut, from_address_bar: false }));
             if (shortcut) {
-                if (shortcut.type === 'systems_shortcut') {
+                if (['completion_shortcut', 'unsupported'].includes(shortcut.type)) {
                 } else {
                     updateURLQueryParams([{ urlParam: 'shortcut', value: shortcut.name }]);
                 }

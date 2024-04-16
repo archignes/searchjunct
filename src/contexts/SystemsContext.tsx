@@ -114,13 +114,16 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
     }, [setSystemDeleted]);
 
 
-
     const [systemShortcutCandidates, setSystemShortcutCandidates] = useState<Record<string, boolean>>({});
+
     const resetSystemShortcutCandidates = () => {
         setSystemShortcutCandidates({});
     }
 
     const addSystemShortcutCandidate = (systemId: string) => {
+        if (systemId === "") {
+            return;
+        }
         setSystemShortcutCandidates(prevCandidates => {
             if (!prevCandidates[systemId]) {
                 const updatedCandidates = { ...prevCandidates, [systemId]: true };
