@@ -12,6 +12,7 @@ PREAMBLE = """// This file is a concatenation of key files in a web application.
 
 """
 
+
 def get_directory_structure(path):
     """
     Generate the directory structure of the given path.
@@ -30,11 +31,11 @@ def get_directory_structure(path):
     structure = ""
     for root, dirs, files in os.walk(path):
         # implement ignores
-        dirs[:] = [d for d in dirs if not d.startswith('.')]
-        files[:] = [f for f in files if not f.startswith('.')]
-        if 'node_modules' in root:
+        dirs[:] = [d for d in dirs if not d.startswith(".")]
+        files[:] = [f for f in files if not f.startswith(".")]
+        if "node_modules" in root:
             continue
-        if 'concat.py' in root:
+        if "concat.py" in root:
             continue
         level = root.replace(path, "").count(os.sep)
         indent = " " * 4 * (level)
@@ -44,28 +45,29 @@ def get_directory_structure(path):
             structure += f"{sub_indent}{file}\n"
     return structure
 
+
 # Directory where the component files are located
-components_path = './src/components'
+components_path = "./src/components"
 # Directory where the e2e test files are located
-e2e_tests_path = './e2e/'
+e2e_tests_path = "./e2e/"
 # Additional files with their respective paths
 additional_files = ["./pages/index.tsx", "./pages/_app.tsx"]
 
 # Output file
-output_file = '/Users/dsg/searchjunct_concat.md'
+output_file = "/Users/dsg/searchjunct_concat.md"
 
 # Get all the files in the components directory (without entering the ui subdirectory)
 filenames = []
 for root, dirs, files in os.walk(components_path):
-    if os.path.basename(root) == 'ui':
+    if os.path.basename(root) == "ui":
         continue
     for file in files:
-        if file.endswith('.tsx'):
+        if file.endswith(".tsx"):
             filenames.append(os.path.join(root, file))
 
 # Add the paths of the e2e test files to the filenames list
 for file_path in os.listdir(e2e_tests_path):
-    if file_path.endswith('.ts'):
+    if file_path.endswith(".ts"):
         filenames.append(os.path.join(e2e_tests_path, file_path))
 
 # Add the paths of the additional files to the filenames list
@@ -77,7 +79,7 @@ for file_path in additional_files:
 included_files = []  # List to store the names of included files
 
 # Open the output file in write mode
-with open(output_file, 'w') as outfile:
+with open(output_file, "w") as outfile:
     # Write the preamble to the output file
     outfile.write(PREAMBLE)
     # Write the directory structure to the output file
@@ -89,16 +91,18 @@ with open(output_file, 'w') as outfile:
         # Check if the file exists
         if os.path.isfile(file_path):
             # Open the file in read mode
-            with open(file_path, 'r') as infile:
+            with open(file_path, "r") as infile:
                 # Read the file's content
                 contents = infile.read()
                 # Write the content to the output file
                 outfile.write("\n```\n")
                 outfile.write(contents)
                 # Optionally, write a newline or some separator if needed
-                outfile.write('\n')
+                outfile.write("\n")
                 outfile.write("```\n")
-                included_files.append(file_path)  # Add the file name to the included_files list
+                included_files.append(
+                    file_path
+                )  # Add the file name to the included_files list
         else:
             print(f"File not found: {file_path}")
 

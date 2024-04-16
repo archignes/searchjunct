@@ -52,10 +52,10 @@ const NoticeAlert: React.FC<SystemCardProps> = ({ system }) => {
       <ExclamationTriangleIcon className="h-4 w-4" />
       <AlertTitle>Notice</AlertTitle>
       <AlertDescription className="flex flex-col">
-        {system.account_required && <><span className="text-red-500">Account Required</span><br></br></>}
-        {system.mobile_app_breaks_links_warning && (<>
+        {system.accountRequired && <><span className="text-red-500">Account Required</span><br></br></>}
+        {system.mobileAppBreaksLinksWarning && (<>
           <span className="text-red-500">Warning: Links may not work in mobile app</span><br></br></>)}
-        {system.manual_switch_required && (<><span className="text-red-500">Web Search requires toggling a switch manually.</span><br></br></>)}
+        {system.manualSwitchRequired && (<><span className="text-red-500">Web Search requires toggling a switch manually.</span><br></br></>)}
       </AlertDescription>
     </Alert>
   )
@@ -87,11 +87,11 @@ return (
 }
 
 const ThesesLinks: React.FC<SystemCardProps> = ({ system }) => {
-  if (!system.theses_links) return null;
+  if (!system.thesesLinks) return null;
   return (
     <div id="theses-links" className='ml-1'>
       <span className="text-xs">Theses:</span>
-      <ul className='list-outside'>{system.theses_links.map((thesis, index) => (
+      <ul className='list-outside'>{system.thesesLinks.map((thesis, index) => (
         <li key={index} className='text-xs mx-4 list-["-_"]'>
           {thesis.author} <a href={thesis.url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100">
                 {thesis.title}
@@ -191,45 +191,45 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
         <div className="flex flex-wrap break-words m-0 p-0 text-xs">
             <SearchLinkAlertDialog system={system} />
           </div>
-        {system.searchLink_note && (
+        {system.searchLinkNote && (
           <div className="w-90 flex border rounded-md m-1 p-1 flex-wrap items-center">
-            <p className="text-xs">Note: {system.searchLink_note}</p>
+            <p className="text-xs">Note: {system.searchLinkNote}</p>
           </div>
         )}
-        {system.about_link && <div className="flex flex-row flex-grow gap-x-1 justify-left items-center ml-1 text-xs">
-          About:<a href={system.about_link.url} target="_blank" rel="noopener noreferrer" className="hover:bg-blue-100 underline p-1 block">{system.about_link.title}</a>
+        {system.aboutLink && <div className="flex flex-row flex-grow gap-x-1 justify-left items-center ml-1 text-xs">
+          About:<a href={system.aboutLink.url} target="_blank" rel="noopener noreferrer" className="hover:bg-blue-100 underline p-1 block">{system.aboutLink.title}</a>
         </div>}
         {system.pronunciation && <div className="flex flex-row flex-grow gap-x-1 ml-1 justify-left items-center text-xs">
           Pronunciation:<a href={system.pronunciation.url} target="_blank" rel="noopener noreferrer" className="block hover:bg-blue-100 underline p-1">{system.pronunciation.string}</a>
         </div>}
-        {(system.open_source_license && system.github_link) && (
+        {(system.openSourceLicense && system.githubLink) && (
           <div className="flex flex-wrap items-center">
             <span className="text-xs ml-1">Open Source?<CheckIcon className="h-5 w-5 pb-1 m-0 inline align-middle" /></span>
-            <a href={system.github_link} className="mx-auto sm:mx-0">
+            <a href={system.githubLink} className="mx-auto sm:mx-0">
               <Button
                 className="m-0 max-h-6 underline ml-0 pl-0 pb-1 hover:bg-blue-100 rounded-me font-normal justify-start text-left"
                 variant="ghost"
                 size="sm"
               >
-                {system.open_source_license}
+                {system.openSourceLicense}
               </Button>
             </a>
           </div>
         )}
-        {(system.github_sponsor_link) && (
+        {(system.githubSponsorLink) && (
           <div className="flex flex-wrap justify-center items-center">
             <Button
               className="m-0 max-h-6 ml-0 pl-0 hover:bg-blue-100 rounded-me font-normal justify-start text-left"
               variant="outline"
               size="sm"
             >
-              <a href={system.github_sponsor_link} target="_blank" rel="noopener noreferrer" className="">
+              <a href={system.githubSponsorLink} target="_blank" rel="noopener noreferrer" className="">
                 <GitHubLogoIcon className="inline ml-2" /> Become a sponsor to {system.name}
             </a>
           </Button>
           </div>
         )}
-        {(system.charity_search_engine) && (
+        {(system.charitySearchEngine) && (
           <div className="flex flex-wrap items-center ml-4">
             <span className="text-xs bg-green-300 p-1 rounded-md mb-1">charity search engine</span>
           </div>
@@ -237,20 +237,20 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
         
         <ThesesLinks system={system} />
         <Discussions system={system} />
-        {(system.manual_switch_required || system.mobile_app_breaks_links_warning || system.account_required) && (
+        {(system.manualSwitchRequired || system.mobileAppBreaksLinksWarning || system.accountRequired) && (
           <NoticeAlert system={system} />
         )}
         {!system.searchLink.includes('%s') && (
           <SearchLinkPatternAlert system={system} />
         )}
-        {(system.android_choice_screen_options || system.default_in_browser) && (
+        {(system.androidChoiceScreenOptions || system.defaultInBrowser) && (
           <Alert className="mt-1">
             <InfoCircledIcon className="h-4 w-4" />
             <AlertTitle>Did you know?</AlertTitle>
             <AlertDescription>
               <div className="hover:bg-blue-100 rounded-md p-1">
-                {system.android_choice_screen_options && (<><span >This system is included in the <a className="underline" href="https://www.android.com/choicescreen-winners/" target="_blank" rel="noopener noreferrer">Android Choice Screen Options for September 2023 - August 2024</a>.</span></>)}
-                {system.default_in_browser && <p className="mt-1">This system is included in the default search engine options for the following web browsers: {system.default_in_browser.join(', ')}.</p>}
+                {system.androidChoiceScreenOptions && (<><span >This system is included in the <a className="underline" href="https://www.android.com/choicescreen-winners/" target="_blank" rel="noopener noreferrer">Android Choice Screen Options for September 2023 - August 2024</a>.</span></>)}
+                {system.defaultInBrowser && <p className="mt-1">This system is included in the default search engine options for the following web browsers: {system.defaultInBrowser.join(', ')}.</p>}
               </div>
             </AlertDescription>
           </Alert>
@@ -263,28 +263,28 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
       )}
       <CardDescription>
       </CardDescription>
-      {(system.android_app || system.ios_app || system.chrome_extension || system.safari_extension) && (
+      {(system.androidApp || system.iosApp || system.chromeExtension || system.safariExtension) && (
       <>
           <Alert>
             <DownloadIcon className="h-4 w-4" />
             <AlertTitle>Download & Install</AlertTitle>
             <AlertDescription>
               <div className="flex flex-col space-y-2">
-                {(system.chrome_extension || system.safari_extension) && (
+                {(system.chromeExtension || system.safariExtension) && (
                 <>
                     <span className="text-xs">Browser: </span>
                     <ul className="pl-3 text-xs">
-                    {system.chrome_extension && (
+                    {system.chromeExtension && (
                     <li className="m-0 pt-0">
-                    <a href={system.chrome_extension} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
+                    <a href={system.chromeExtension} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
                     Chrome Extension
                     </a>
                     </li>
                     )}
                     {
-                    system.safari_extension && (
+                    system.safariExtension && (
                     <li className="m-0 pt-0">
-                    <a href={system.safari_extension} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
+                    <a href={system.safariExtension} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
                     Safari Extension
                     </a>
                     </li>
@@ -292,19 +292,19 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                     </ul>
                     </>
                     )}
-                    {(system.android_app || system.ios_app) && (<>
+                    {(system.androidApp || system.iosApp) && (<>
                     <span className="text-xs">Mobile:</span>
                     <ul className="pl-3 text-xs">
-                    {system.ios_app && (
+                    {system.iosApp && (
                     <li className="m-0 pt-0">
-                    <a href={system.ios_app} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
+                    <a href={system.iosApp} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
                     iOS App
                     </a>
                     </li>
                     )}
-                    {system.android_app && (
+                    {system.androidApp && (
                     <li className="m-0 pt-0">
-                    <a href={system.android_app} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
+                    <a href={system.androidApp} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
                     Android App
                     </a>
                     </li>
@@ -322,23 +322,23 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
               <CardFooter id="system-card-footer" data-testid="system-card-footer" className="pb-1">
                 <div className="border-t pt-1 flex flex-col items-center w-full">
                 <div className="flex flex-row flex-grow space-x-1 justify-center items-center">
-                  {system.wikipedia_link && <a href={system.wikipedia_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibWikipedia} className="w-4 h-4" /></a>}
-                    {system.twitter_link && <a href={system.twitter_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><TwitterLogoIcon /></a>}
-                    {system.github_link && <a href={system.github_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><GitHubLogoIcon /></a>}
-                    {system.instagram_link && <a href={system.instagram_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><InstagramLogoIcon /></a>}                   
-                    {system.matrix_link && <a href={system.matrix_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibMatrix} className="w-4 h-4" /></a>}
-                    {system.discord_link && <a href={system.discord_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><DiscordLogoIcon/></a>}
-                    {system.hacker_news_link && (
-                      <a href={system.hacker_news_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-gray-100 rounded-md block">
+                  {system.wikipediaLink && <a href={system.wikipediaLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibWikipedia} className="w-4 h-4" /></a>}
+                    {system.twitterLink && <a href={system.twitterLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><TwitterLogoIcon /></a>}
+                    {system.githubLink && <a href={system.githubLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><GitHubLogoIcon /></a>}
+                    {system.instagramLink && <a href={system.instagramLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><InstagramLogoIcon /></a>}                   
+                    {system.matrixLink && <a href={system.matrixLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibMatrix} className="w-4 h-4" /></a>}
+                    {system.discordLink && <a href={system.discordLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><DiscordLogoIcon/></a>}
+                    {system.hackerNewsLink && (
+                      <a href={system.hackerNewsLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-gray-100 rounded-md block">
                         <img src={platform_icons["Hacker News"]} alt="Hacker News Icon" className="w-4 h-4" style={{filter: "grayscale(1) contrast(100) brightness(1)"}} />
                       </a>
                     )}
-                    {system.mastodon_link && <a href={system.mastodon_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibMastodon} className="w-4 h-4" /></a>}
-                    {system.facebook_link && <a href={system.facebook_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibFacebook} className="w-4 h-4" /></a>}
-                    {system.reddit_link && <a href={system.reddit_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibReddit} className="w-4 h-4" /></a>}
-                    {system.linkedin_link && <a href={system.linkedin_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><LinkedInLogoIcon/></a>}
-                    {system.youtube_link && <a href={system.youtube_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibYoutube} className='w-4 h-4'/></a>}
-                    {system.product_hunt_link && <a href={system.product_hunt_link} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block">
+                    {system.mastodonLink && <a href={system.mastodonLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibMastodon} className="w-4 h-4" /></a>}
+                    {system.facebookLink && <a href={system.facebookLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibFacebook} className="w-4 h-4" /></a>}
+                    {system.redditLink && <a href={system.redditLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibReddit} className="w-4 h-4" /></a>}
+                    {system.linkedinLink && <a href={system.linkedinLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><LinkedInLogoIcon/></a>}
+                    {system.youtubeLink && <a href={system.youtubeLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block"><CIcon icon={cibYoutube} className='w-4 h-4'/></a>}
+            {system.productHuntLink && <a href={system.productHuntLink} target="_blank" rel="noopener noreferrer" className="p-1 hover:bg-blue-100 rounded-md block">
                       <svg height="18px" id="Layer_1" version="1.1" viewBox="0 0 56.7 56.7" width="18px" xmlns="http://www.w3.org/2000/svg"><g><g><path d="M28.35,3.5943c-13.6721,0-24.7556,11.0835-24.7556,24.7556c0,13.6722,11.0835,24.7557,24.7556,24.7557    c13.6722,0,24.7556-11.0835,24.7556-24.7557C53.1056,14.6778,42.0222,3.5943,28.35,3.5943z M31.6508,33.3011L31.6508,33.3011    l-7.0141,0.0001v7.4266h-4.9511V15.9721l11.9653,0.0001v-0.0001c4.7853,0,8.6644,3.8793,8.6644,8.6645    C40.3152,29.4219,36.4361,33.3011,31.6508,33.3011z" /></g><g><path d="M31.6508,20.9233L31.6508,20.9233l-7.0141,0.0001V28.35h7.0141v-0.0001c2.0508,0,3.7132-1.6625,3.7132-3.7133    C35.364,22.5858,33.7016,20.9233,31.6508,20.9233z" /></g></g>
                       </svg></a>}
                     </div>

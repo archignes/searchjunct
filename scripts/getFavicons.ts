@@ -29,7 +29,7 @@ const getDomainFromUrl = (url) => {
 
 const downloadFavicons = async () => {
   for (const system of systems) {
-    const domain = getDomainFromUrl(system.search_link);
+    const domain = getDomainFromUrl(system.searchLink);
     if (domain) {
       const faviconPath = path.join(__dirname, '../public/favicons', `${system.id}.ico`);
       if (!fs.existsSync(faviconPath)) {

@@ -19,7 +19,7 @@ interface AppContextType {
     toggleIsMultisearchManagementSheetOpen: () => void;
 }
 
-const AppContext = createContext<AppContextType>({
+export const AppContext = createContext<AppContextType>({
     settingsCardActive: false,
     setSettingsCardActive: () => {},
     isMainMenuExpanded: false,
@@ -29,7 +29,7 @@ const AppContext = createContext<AppContextType>({
     isAddSearchSystemOpen: false,
     toggleIsAddSearchSystemOpen: () => {},
     isMultisearchManagementSheetOpen: false,
-    toggleIsMultisearchManagementSheetOpen: () => {}
+    toggleIsMultisearchManagementSheetOpen: () => {},
 });
 
 
@@ -55,13 +55,15 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         setIsAddSearchSystemOpen(!isAddSearchSystemOpen);
     }
 
+
     return (
         <AppContext.Provider value={{
             settingsCardActive, setSettingsCardActive,
             isMainMenuExpanded, setIsMainMenuExpanded,
             isManageLocallyStoredSearchSystemsOpen, toggleIsManageLocallyStoredSearchSystemsOpen,
             isMultisearchManagementSheetOpen, toggleIsMultisearchManagementSheetOpen,
-            isAddSearchSystemOpen, toggleIsAddSearchSystemOpen }}>
+            isAddSearchSystemOpen, toggleIsAddSearchSystemOpen
+        }}>
             {children}
         </AppContext.Provider>
     );

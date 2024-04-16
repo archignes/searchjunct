@@ -2,7 +2,7 @@
 // This context is responsible for handling shortcuts:
 // - getting shortcut from query
 
-import React, { useContext, createContext, ReactNode, useMemo } from 'react';
+import React, { useContext, createContext, ReactNode, useMemo, useCallback, useState } from 'react';
 import { useStorageContext } from './';
 import { Shortcut, MultisearchActionObject, ShortcutType, ShortcutAction } from '@/types';
 import { useSystemsContext } from './';
@@ -65,7 +65,7 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
 
     // getting shortcut from query
     
-    const getShortcut = ({ type, shortcutCandidate, completed }: { type: 'multisearch_number' | 'multisearch_object', shortcutCandidate: string, completed: boolean }) => {
+    const getShortcut = useCallback(({ type, shortcutCandidate, completed }: { type: 'multisearch_number' | 'multisearch_object', shortcutCandidate: string, completed: boolean }) => {
         if (type === 'multisearch_number') {
             return { type, name: shortcutCandidate, completed, action: Number(shortcutCandidate) } as Shortcut;
         }
@@ -75,7 +75,7 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
             return { type, name: shortcut.name, completed, action: shortcut } as Shortcut;
         }
         return null;
-    }
+    }, [multisearchActionObjects]);
     
     const shortcutStarts = useMemo(() => {
         const shortcuts = multisearchActionObjects.map(shortcut => shortcut.name);
@@ -95,106 +95,126 @@ export const ShortcutProvider = ({ children }: { children: ReactNode }) => {
      * @param input The starting string to match system IDs against.
      * @returns A list of objects with system IDs that start with the input.
      */
-    const getSystemShortcutsAutocomplete = (input: string): {id: string, type: 'system_completion'}[] => 
+    const getSystemShortcutsAutocomplete = useCallback((input: string): {id: string, type: 'system_completion'}[] => 
         allSystems
             .filter(system => system.id.startsWith(input))
-            .map(system => ({id: system.id, type: 'system_completion'}));
+            .map(system => ({id: system.id, type: 'system_completion'})),
+    [allSystems]);
 
-
-    const getMultisearchShortcutsAutocomplete = (input: string): {name: string, type: 'multisearch_action_object_completion'}[] =>
+    const getMultisearchShortcutsAutocomplete = useCallback((input: string): {name: string, type: 'multisearch_action_object_completion'}[] =>
         multisearchActionObjects
             .filter(shortcut => shortcut.name.startsWith(input))
-            .map(shortcut => ({name: shortcut.name, type: 'multisearch_action_object_completion'}));
+            .map(shortcut => ({name: shortcut.name, type: 'multisearch_action_object_completion'})),
+    [multisearchActionObjects]);
 
-
-    const updateSystemShortcutCandidates = (possibleSystemCompletions: {id: string, type: 'system_completion'}[]) => {
+    const updateSystemShortcutCandidates = useCallback((possibleSystemCompletions: {id: string, type: 'system_completion'}[]) => {
         resetSystemShortcutCandidates();
         possibleSystemCompletions.forEach(system => {
             addSystemShortcutCandidate(system.id);
         });
-    }
-    /**
-     * Retrieves the shortcut based on the query.
-     * 
-     * @param query The query string to match against.
-     * @returns The shortcut based on the query (number, object, or system completions), or null if no shortcut is found.
-     */
-    const getShortcutFromQuery = (query: string) => {
-        let shortcutType: ShortcutType;
-        let action: ShortcutAction;
+    }, [resetSystemShortcutCandidates, addSystemShortcutCandidate]);
+    
+    const [lastQuery, setLastQuery] = useState<string | null>(null);
+    const [lastShortcut, setLastShortcut] = useState<Shortcut | null>(null);
 
-        const shortcutCandidateName = getShortcutCandidate(query);
+    const getShortcutFromQuery = useCallback((query: string) => {
+        if (query === lastQuery) {
+            return lastShortcut;
+        } else {
+            let shortcutType: ShortcutType;
+            let action: ShortcutAction;
 
-        if (!shortcutCandidateName) {
-            return null;
-        }
-        if (!isNaN(parseFloat(shortcutCandidateName))) {
-            const shortcutCandidateNumber = parseFloat(shortcutCandidateName).toString();
-            return getShortcut({ type: 'multisearch_number', shortcutCandidate: shortcutCandidateNumber, completed: false });
-        }
-        if (shortcutCandidateName) {
-            const multisearchShortcut = getShortcut({ type: 'multisearch_object', shortcutCandidate: shortcutCandidateName, completed: false });
-            if (multisearchShortcut) {
-                return multisearchShortcut;
-            } else if (shortcutStarts.includes(shortcutCandidateName)) {
-                console.log("could be a multisearch object: ", shortcutCandidateName)
-                shortcutType = 'completion_shortcut';
-                const possibleMultisearchShortcuts = getMultisearchShortcutsAutocomplete(shortcutCandidateName);
-                const possibleSystemShortcuts = getSystemShortcutsAutocomplete(shortcutCandidateName);
-                if (possibleMultisearchShortcuts.length > 0) {
-                    updateSystemShortcutCandidates(possibleSystemShortcuts);
-                }
-                action = { multisearch_completions: possibleMultisearchShortcuts, system_completions: possibleSystemShortcuts };
-                return {
-                    type: shortcutType,
-                    name: shortcutCandidateName,
-                    completed: false,
-                    action: action
-                }
-            } else if (shortcutCandidateName === '/') {
-                resetSystemShortcutCandidates();
-                shortcutType = 'completion_shortcut';
-                action = {
-                    multisearch_completions: multisearchActionObjects.map(shortcut => ({name: shortcut.name, type: 'multisearch_action_object_completion'})),
-                    system_completions: []
-                };
-                return {
-                    type: shortcutType,
-                    name: '/',
-                    completed: false,
-                    action: action
-                };
-            } else 
-            {
-                const possibleSystemCompletions = getSystemShortcutsAutocomplete(shortcutCandidateName);
-                if (possibleSystemCompletions.length > 0) {
-                    updateSystemShortcutCandidates(possibleSystemCompletions);
+            const shortcutCandidateName = getShortcutCandidate(query);
+
+            if (!shortcutCandidateName) {
+                setLastQuery(query);
+                setLastShortcut(null);
+                return null;
+            }
+            if (!isNaN(parseFloat(shortcutCandidateName))) {
+                const shortcutCandidateNumber = parseFloat(shortcutCandidateName).toString();
+                const shortcut = getShortcut({ type: 'multisearch_number', shortcutCandidate: shortcutCandidateNumber, completed: false });
+                setLastQuery(query);
+                setLastShortcut(shortcut);
+                return shortcut;
+            }
+            if (shortcutCandidateName) {
+                const multisearchShortcut = getShortcut({ type: 'multisearch_object', shortcutCandidate: shortcutCandidateName, completed: false });
+                if (multisearchShortcut) {
+                    setLastQuery(query);
+                    setLastShortcut(multisearchShortcut);
+                    return multisearchShortcut;
+                } else if (shortcutStarts.includes(shortcutCandidateName)) {
+                    console.log("could be a multisearch object: ", shortcutCandidateName)
                     shortcutType = 'completion_shortcut';
-                    action = {
-                        multisearch_completions: [],
-                        system_completions: possibleSystemCompletions
-                    };
-                    return {
-                        type: shortcutType,
-                        name: shortcutCandidateName,
-                        completed: false,
-                        action: action };
-                } else {
-                    resetSystemShortcutCandidates();
-                    shortcutType = 'unsupported';
-                    action = 'unsupported';
-                    return {
+                    const possibleMultisearchShortcuts = getMultisearchShortcutsAutocomplete(shortcutCandidateName);
+                    const possibleSystemShortcuts = getSystemShortcutsAutocomplete(shortcutCandidateName);
+                    if (possibleMultisearchShortcuts.length > 0) {
+                        updateSystemShortcutCandidates(possibleSystemShortcuts);
+                    }
+                    action = { multisearch_completions: possibleMultisearchShortcuts, system_completions: possibleSystemShortcuts };
+                    const shortcut = {
                         type: shortcutType,
                         name: shortcutCandidateName,
                         completed: false,
                         action: action
                     };
+                    setLastQuery(query);
+                    setLastShortcut(shortcut);
+                    return shortcut;
+                } else if (shortcutCandidateName === '/') {
+                    resetSystemShortcutCandidates();
+                    shortcutType = 'completion_shortcut';
+                    action = {
+                        multisearch_completions: multisearchActionObjects.map(shortcut => ({name: shortcut.name, type: 'multisearch_action_object_completion'})),
+                        system_completions: []
+                    };
+                    const shortcut = {
+                        type: shortcutType,
+                        name: '/',
+                        completed: false,
+                        action: action
+                    };
+                    setLastQuery(query);
+                    setLastShortcut(shortcut);
+                    return shortcut;
+                } else {
+                    const possibleSystemCompletions = getSystemShortcutsAutocomplete(shortcutCandidateName);
+                    if (possibleSystemCompletions.length > 0) {
+                        updateSystemShortcutCandidates(possibleSystemCompletions);
+                        shortcutType = 'completion_shortcut';
+                        action = {
+                            multisearch_completions: [],
+                            system_completions: possibleSystemCompletions
+                        };
+                        const shortcut = {
+                            type: shortcutType,
+                            name: shortcutCandidateName,
+                            completed: false,
+                            action: action
+                        };
+                        setLastQuery(query);
+                        setLastShortcut(shortcut);
+                        return shortcut;
+                    } else {
+                        resetSystemShortcutCandidates();
+                        shortcutType = 'unsupported';
+                        action = 'unsupported';
+                        const shortcut = {
+                            type: shortcutType,
+                            name: shortcutCandidateName,
+                            completed: false,
+                            action: action
+                        };
+                        setLastQuery(query);
+                        setLastShortcut(shortcut);
+                        return shortcut;
+                    }
                 }
             }
+            return null;
         }
-        return null;
-    }
-
+    }, [lastQuery, lastShortcut, getShortcut, shortcutStarts, getMultisearchShortcutsAutocomplete, getSystemShortcutsAutocomplete, updateSystemShortcutCandidates, resetSystemShortcutCandidates, multisearchActionObjects]);
 
 
     return (

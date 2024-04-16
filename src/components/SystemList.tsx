@@ -1,6 +1,6 @@
 // SystemList.tsx
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { VariableSizeList as List } from 'react-window';
 import SortingContainer from './SortingContainer';
 import { useSystemsContext,
@@ -26,9 +26,9 @@ const SystemList = () => {
   const { setSystemsCurrentOrder, systemsCurrentOrder } = useSortContext();
   const { sortStatus } = useSortContext();
   
-  const [visibleSystems, setVisibleSystems] = useState<System[]>(allSystems);
-
   const listRef = useRef<List>(null);
+  const activeSystemRef = useRef<HTMLDivElement | null>(null);
+
 
   const systemsCurrentOrderPreShortcutRef = useRef<System[] | null>(null);
   // This effect ensures the visible systems are filtered, this was added
@@ -38,19 +38,19 @@ const SystemList = () => {
   
   
 
-  useEffect(() => {
+  const visibleSystems = useMemo(() => {
     // Initial filtering to exclude deleted systems
     let filteredSystems = allSystems.filter(
       (system) => !systemsDeleted[system.id]
     );
-    
+
     // Apply sorting if sortStatus is set to 'param'
     if (sortStatus === 'param') {
       // Ensures visibility of only those systems present in systemsCurrentOrder
       filteredSystems = filteredSystems.filter(
-        (system) => systemsCurrentOrder.includes(system));
+        (system) => systemsCurrentOrder.includes(system)
+      );
     }
-    
 
     // Check for system shortcuts then filter systems accordingly
     if (Object.keys(systemShortcutCandidates).length > 0) {
@@ -60,7 +60,7 @@ const SystemList = () => {
       if (currentShortcuts !== newShortcuts) {
         shortcutCandidatesListRef.current = Object.keys(systemShortcutCandidates);
       } else {
-        return;
+        return filteredSystems;
       }
 
       // Backup the current order before applying shortcuts for potential restoration
@@ -74,8 +74,7 @@ const SystemList = () => {
       // Update the current order of systems based on shortcuts
       filteredSystems.sort((a, b) => a.id.localeCompare(b.id));
       setSystemsCurrentOrder(filteredSystems);
-      setVisibleSystems(filteredSystems);
-      return;
+      return filteredSystems;
     } else {
       // Restore the original order if no shortcuts are active
       if (systemsCurrentOrderPreShortcutRef.current) {
@@ -84,19 +83,13 @@ const SystemList = () => {
       }
       shortcutCandidatesListRef.current = null;
       // Sort and set the visible systems based on the current order
-      setVisibleSystems(filteredSystems.sort((a, b) => 
-        systemsCurrentOrder.findIndex(system => system.id === a.id) - 
+      return filteredSystems.sort((a, b) =>
+        systemsCurrentOrder.findIndex(system => system.id === a.id) -
         systemsCurrentOrder.findIndex(system => system.id === b.id)
-    ));
-    }
-    // Restore the original order if no shortcuts are active
-    if (systemsCurrentOrderPreShortcutRef.current) {
-      setSystemsCurrentOrder(systemsCurrentOrderPreShortcutRef.current);
-      systemsCurrentOrderPreShortcutRef.current = null;
+      );
     }
   }, [allSystems, systemsDeleted, systemShortcutCandidates,
-      systemsCurrentOrder, sortStatus, setSystemsCurrentOrder]);
-  
+    systemsCurrentOrder, sortStatus, setSystemsCurrentOrder]);
   useEffect(() => {
     const firstVisibleSystem = visibleSystems.find((system) =>
       !(systemsDisabled?.[system.id]) &&
@@ -114,12 +107,10 @@ const SystemList = () => {
 
   useEffect(() => {
     // Step 3: Scroll to the active system when it changes
-    const activeIndex = visibleSystems.findIndex(system => system.id === activeSystem?.id);
-    if (activeIndex !== -1 && listRef.current) {
-      listRef.current.scrollToItem(activeIndex, 'smart'); // 'smart' smoothly scrolls the item into view if it's not already visible
+    if (activeSystemRef.current) {
+      activeSystemRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-  }, [activeSystem, visibleSystems]);
-
+  }, [activeSystem]);
   
   if (!isClient) {
     return null;
@@ -139,12 +130,19 @@ const SystemList = () => {
 
   return (
     <div id="systems-list" data-testid="system-list" className="flex flex-col space-y-1 mt-1">
-      <SortingContainer include={visibleSystems} activeSystemId={activeSystem?.id} showDragHandleBoolean={false} />
+      <SortingContainer
+        include={visibleSystems}
+        activeSystemId={activeSystem?.id}
+        showDragHandleBoolean={false}
+        setActiveSystemRef={activeSystemRef}
+      />
       <div className="text-sm text-gray-500" data-testid="bottom-of-list-number-of-systems">
-        <a className="underline hover:bg-blue-100 rounded-md p-1"
+        <a
+          className="underline hover:bg-blue-100 rounded-md p-1"
           href="https://github.com/danielsgriffin/searchjunct/blob/main/src/data/systems.json"
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+        >
           Showing {visibleSystems.length} of {allSystems.length} systems
         </a>
       </div>

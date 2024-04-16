@@ -1,6 +1,6 @@
 // Sort.tsx
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { StarIcon } from '@radix-ui/react-icons';
 import { Button } from '@/src/components/ui/button';
 import { Switch } from '@/src/components/ui/switch';
@@ -60,7 +60,7 @@ const ShortcutsCard: React.FC = () => {
                 <Button onClick={undoSort} size="sm" disabled={!isUndoAvailable}>Undo</Button>
                 <Button onClick={redoSort} size="sm" disabled={!isRedoAvailable}>Redo</Button>
             </div>
-                <SortingContainer include={systemsCurrentOrder} activeSystemId={undefined} showDragHandleBoolean={true} />
+                <SortingContainer include={systemsCurrentOrder} activeSystemId={undefined} showDragHandleBoolean={true} setActiveSystemRef={useRef<HTMLDivElement | null>(null)} />
             </SettingsItem>
         </>
     );

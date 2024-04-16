@@ -48,7 +48,6 @@ export const SystemSearchProvider: React.FC<SystemSearchProviderProps> = ({ chil
 
     const reloadSystems = () => {
         if (Object.values(systemsSearched).length === 0) {
-            alert("No systems have been searched in this session.")
             return;
         }
         Object.keys(systemsSearched).forEach(key => {

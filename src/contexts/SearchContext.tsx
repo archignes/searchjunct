@@ -72,11 +72,11 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             console.error("System is undefined in getPreppedSearchLink");
             return '';
         }
-        if (query === '' && system.base_url) {
-            return system.base_url;
+        if (query === '' && system.baseUrl) {
+            return system.baseUrl;
         }
         // if system.searchLink_joiner is defined as "%20", use that to replace spaces in the URL
-        if (system.searchLink_joiner === "%20") {
+        if (system.searchLinkJoiner === "%20") {
             return system.searchLink.replace('%s', encodeURIComponent(query));
         }
         // default processing for making the URL easy to read

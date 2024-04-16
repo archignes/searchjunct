@@ -15,10 +15,11 @@ interface SortingContainerProps {
     isInsideSettingsCard?: boolean;
     activeSystemId: string | undefined;
     showDragHandleBoolean: boolean;
+    setActiveSystemRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 const SortingContainer: React.FC<SortingContainerProps> = (
-    { showDisableDeleteButtons = false, include = [], activeSystemId, showDragHandleBoolean = false }) => {
+    { showDisableDeleteButtons = false, include = [], activeSystemId, showDragHandleBoolean = false, setActiveSystemRef }) => {
     const { updateDragOrder, systemsCurrentOrder } = useSortContext();
 
     const sensors = useSensors(

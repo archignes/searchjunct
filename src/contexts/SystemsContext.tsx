@@ -5,15 +5,14 @@ import systemsData from "../data/systems.json";
 import { System } from "../types/system";
 import { useStorageContext } from "./StorageContext";
 
-// This transforms fields with "search_link" in .json to "searchLink"
+// This transforms fields with "foo_bar" in .json to "fooBar"
 const baseSystems: System[] = systemsData.map((system: any) => {
-  const { search_link, search_link_joiner, search_link_note, ...rest } = system;
-  return { 
-    ...rest, 
-    searchLink: search_link,
-    searchLinkJoiner: search_link_joiner,
-    searchLinkNote: search_link_note,
-  };
+  const transformedSystem = Object.keys(system).reduce((acc: Record<string, any>, key) => {
+    const transformedKey = key.replace(/_([a-z])/g, (match, p1) => p1.toUpperCase());
+    acc[transformedKey] = system[key];
+    return acc;
+  }, {});
+  return transformedSystem;
 }) as System[];
 
 
@@ -95,7 +94,7 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
 
 
     const getSystemsRequiringAccounts = useCallback(() => {
-        return allSystems.filter(system => system.account_required);
+        return allSystems.filter(system => system.accountRequired);
     }, [allSystems]);
 
     const getSystemsWithoutQueryPlaceholder = useCallback(() => {

@@ -9,10 +9,10 @@ const system = {
   id: 'test-system',
   account_required: false,
   searchLink: 'https://www.google.com',
-  mobile_app_breaks_links_warning: false,
+  mobile_app_breaksLinks_warning: false,
   searched: false,
-  linkedin_link: 'https://www.linkedin.com',
-  wikipedia_link: 'https://www.wikipedia.com',
+  linkedinLink: 'https://www.linkedin.com',
+  wikipediaLink: 'https://www.wikipedia.com',
 };
 
 describe('SystemCard', () => {

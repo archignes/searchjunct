@@ -78,7 +78,7 @@ const SystemsSettings: React.FC = () => {
           <SettingsSubtitle subtitle="Remove Systems Without Query Placeholders" />
           <SettingsText lines={[
             "Start with only search systems that provide URL-based search results.",
-            "Currently, when a search system does not support query placeholders (indicated in the search_links with a `%s`), it is not possible to open a link directly to the search results for a query on that system.",
+            "Currently, when a search system does not support query placeholders (indicated in the searchLinks with a `%s`), it is not possible to open a link directly to the search results for a query on that system.",
             "This will remove all search systems that do not support query placeholders, they can be recovered in the 'Recover Deleted Systems' section."
           ]} />
           <ShowFilteredSystems systems={systemsWithoutQueryPlaceholder} label="without-query-placeholder" />

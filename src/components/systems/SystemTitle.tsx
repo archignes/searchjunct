@@ -46,8 +46,8 @@ export const SystemTitle: React.FC<{ system: System,
           <span className={`${mini_mode ? 'pr-2 py-1' : ''}`}>
                   {system.name.includes(' - ') ? system.name.replace(/-/g, '') : system.name}
                   </span>
-          {system.special_note && !mini_mode && <span className="ml-2 bg-green-200 rounded-md px-1">
-            {system.special_note}
+          {system.specialNote && !mini_mode && <span className="ml-2 bg-green-200 rounded-md px-1">
+            {system.specialNote}
             </span>}
         </>
       ) : (

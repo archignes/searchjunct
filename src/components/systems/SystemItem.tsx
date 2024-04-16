@@ -28,6 +28,7 @@ import { useSystemExpansionContext,
   useSortContext
 } from '../../contexts';
 import { SystemTitle } from './SystemTitle';
+import AlertQueryNeeded from './AlertQueryNeeded';
 
 
 interface SortableItemProps {
@@ -41,7 +42,7 @@ interface SortableItemProps {
 
 
 interface SystemAccordionItemProps {
-  className?: string;
+  className?: string; // Ensure this line is present
   system: System;
   showDragHandle: boolean;
   queryObject?: Query;
@@ -55,7 +56,42 @@ interface SystemAccordionItemProps {
   setDragHandleRef: any;
 }
 
-const SystemAccordionItem: React.FC<SystemAccordionItemProps> = ({ 
+interface MagnifyingGlassButtonToInitiateSearchProps {
+  system: System;
+  getPreppedSearchLink: ({ system, query }: { system: System; query: string }) => string;
+  queryObject: Query;
+  submitSearch: ({ system }: { system: System }) => void;
+  activeSystemId: string | undefined;
+}
+
+export const MagnifyingGlassButtonToInitiateSearch: React.FC<MagnifyingGlassButtonToInitiateSearchProps> = ({
+  system,
+  getPreppedSearchLink,
+  queryObject,
+  submitSearch,
+  activeSystemId
+}) => {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <a id={`system-search-link-${system.id}`} className="items-center flex hover:bg-blue-100 p-1 hover:rounded-md"
+            href={getPreppedSearchLink({ system, query: queryObject.query })}
+            onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
+            <MagnifyingGlassIcon
+              className={`flex-shrink-0 cursor-pointer
+                                  ${activeSystemId === system.id ? 'w-8 h-8' : 'w-4 h-4'}`} />
+          </a>
+        </TooltipTrigger>
+        <TooltipContent side="right" className="text-base">Search with {system.name}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}
+
+
+
+const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
   className,
   system,
   showDragHandle,
@@ -73,21 +109,26 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = ({
     <AccordionItem value="item-1" className={`${showDragHandle ? 'border rounded-md w-3/4 sm:w-full' : 'border-none'} ${className}`}>
       <div className="w-full flex justify-between">
         <div className="w-full flex items-center ml-1">
-          {getPreppedSearchLink && submitSearch && queryObject &&  (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <a id={`system-search-link-${system.id}`} className="items-center flex hover:bg-blue-100 p-1 hover:rounded-md"
-                  href={getPreppedSearchLink({ system, query: queryObject.query })}
-                  onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
-                  <MagnifyingGlassIcon
-                    className={`flex-shrink-0 cursor-pointer
-                              ${activeSystemId === system.id ? 'w-8 h-8' : 'w-4 h-4'}`} />
-                </a>
-              </TooltipTrigger>
-              <TooltipContent side="right" className="text-base">Search with {system.name}</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          {getPreppedSearchLink && submitSearch && queryObject && (
+            <div>
+              {system.searchLinkRequiresQuery && queryObject.query === "" ? (
+                  <AlertQueryNeeded
+                    system={system}
+                    getPreppedSearchLink={getPreppedSearchLink}
+                    queryObject={queryObject}
+                    submitSearch={submitSearch}
+                    activeSystemId={activeSystemId}
+                  />
+              ) : (
+                <MagnifyingGlassButtonToInitiateSearch
+                  system={system}
+                  getPreppedSearchLink={getPreppedSearchLink}
+                  queryObject={queryObject}
+                  submitSearch={submitSearch}
+                  activeSystemId={activeSystemId}
+                />
+              )}
+            </div>
           )}
           {activeSystemId ? (
 
@@ -140,7 +181,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = ({
       </AccordionContent>
     </AccordionItem>
   );
-};
+});
 
 
 
@@ -208,6 +249,10 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     }
   }, [expandAllStatus]);
 
+  // Inside the parent component of SystemAccordionItem, wrap setOpenItem with useCallback
+  const setOpenItemStable = useCallback((value: string | undefined) => {
+    setOpenItem(value);
+  }, [setOpenItem]); // Add any dependencies if setOpenItem depends on props or state
 
   // system param expansion
   useEffect(() => {
@@ -264,6 +309,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
                   attributes={attributes}
                   listeners={listeners}
                   setDragHandleRef={setDragHandleRef}
+                  setOpenItem={setOpenItemStable}
                 />
             </div>
           ) : (
