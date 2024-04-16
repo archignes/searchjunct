@@ -87,7 +87,7 @@ export const SystemsProvider: React.FC<SystemsProviderProps> = ({ children }) =>
     };
 
     useEffect(() => {
-        if (!activeSystem) {
+        if (allSystems.length > 0 && !activeSystem) {
             setActiveSystemState(allSystems[0]);
         }
     }, [activeSystem, allSystems]);    

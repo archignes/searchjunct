@@ -41,7 +41,7 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
     const { updateURLQueryParams, urlShortcut, urlQuery } = useAddressContext();
     const { getShortcutFromQuery } = useShortcutContext(); 
     const {updateFlagSearchInitiated} = useStorageContext();
-    const {resetSystemShortcutCandidates} = useSystemsContext();
+    const { systemShortcutCandidates, resetSystemShortcutCandidates} = useSystemsContext();
 
 
     const [queryObject, setQueryObject] = useState<Query>({
@@ -118,17 +118,6 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [urlQuery, urlShortcut, queryObject, updateURLQueryParams, getShortcutFromQuery, updateFlagSearchInitiated]);
     
-    const warnAboutBackslash = (rawString: string) => {
-        if (rawString.includes('\\')) {
-            alert('Did you mean to use a backslash? Searchjunct search shortcuts use a forward slash.');
-        }
-    };
-
-    useEffect(() => {
-        warnAboutBackslash(queryObject.rawString);
-    }, [queryObject]);
-
-
 
     const processTextInputForQueryObject = (text: string) => {
         let query = text;
@@ -152,11 +141,10 @@ export const QueryProvider = ({ children }: { children: ReactNode }) => {
 
 
     useEffect(() => {
-        if (!queryObject.shortcut) {
+        if (!queryObject.shortcut && Object.keys(systemShortcutCandidates).length > 0) {
             resetSystemShortcutCandidates();
         }
-    }, [queryObject.shortcut, resetSystemShortcutCandidates]);
-
+    }, [queryObject.shortcut, resetSystemShortcutCandidates, systemShortcutCandidates]);
 
 
     return (
