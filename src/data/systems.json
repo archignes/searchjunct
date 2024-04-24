@@ -394,6 +394,13 @@
     "android_choice_screen_options": true,
     "twitter_link": "https://twitter.com/yepsearch"
   },
+    {
+      "name": "OpenPerPlex",
+      "id": "openperplex",
+      "special_note": "beta",
+      "search_link": "https://openperplex.com",
+      "twitter_link": "https://twitter.com/KhazzanYassine"
+    },
   {
     "name": "Bing Deep Search",
     "id": "bing-deep-search",
