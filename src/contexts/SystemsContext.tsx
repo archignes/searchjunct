@@ -5,14 +5,52 @@ import systemsData from "../data/systems.json";
 import { System } from "../types/system";
 import { useStorageContext } from "./StorageContext";
 
+// Reference the parent system to grab fields for the children
+const addParentSystemData = (system: System) => {
+    const parentSystem = systemsData.find(sys => sys.id === system.parent);
+    const skipTheseKeysForChildren = [
+        "parent",
+        "children",
+        "micro_posts",
+        "discussions",
+        "default_in_browser",
+        "android_choice_screen_options",
+    ];
+    
+    if (parentSystem) {
+        const childSystem = { ...system } as Record<string, any>;
+        (Object.keys(parentSystem) as string[]).forEach((key) => {
+            if (!(key in childSystem) && !skipTheseKeysForChildren.includes(key)) {
+                childSystem[key] = parentSystem[key as keyof typeof parentSystem];
+            }
+        });
+        if (parentSystem.children) {
+            childSystem.seeAlso = [parentSystem.id, ...parentSystem.children.filter(child => child !== system.id)];
+        } else {
+            childSystem.seeAlso = [parentSystem.id];
+        }
+        return childSystem as System;
+    } else if (system.children) {
+        const childSystem = { ...system } as Record<string, any>;
+        childSystem.seeAlso = system.children;
+        return childSystem as System;
+    }
+    return system;
+};
+
+const systemsDataConnected = systemsData.map((system: any) => {
+    return addParentSystemData(system);
+});
+
 // This transforms fields with "foo_bar" in .json to "fooBar"
-const baseSystems: System[] = systemsData.map((system: any) => {
+const baseSystems: System[] = systemsDataConnected.map((system: any) => {
   const transformedSystem = Object.keys(system).reduce((acc: Record<string, any>, key) => {
     const transformedKey = key.replace(/_([a-z])/g, (match, p1) => p1.toUpperCase());
     acc[transformedKey] = system[key];
     return acc;
   }, {});
-  return transformedSystem;
+
+  return transformedSystem as System;
 }) as System[];
 
 

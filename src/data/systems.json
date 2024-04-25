@@ -46,33 +46,47 @@
     "name": "YouChat - Research",
     "id": "youchat-research",
     "account_required": true,
+    "parent": "you-com",
     "paid_subscription_required": true,
-    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=research",
-    "twitter_link": "https://twitter.com/YouSearchEngine"
+    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=research"
   },
   {
     "name": "YouChat - Agent",
     "id": "youchat-agent",
+    "parent": "you-com",
     "account_required": true,
     "paid_subscription_required": true,
-    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=agent",
-    "twitter_link": "https://twitter.com/YouSearchEngine"
+    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=agent"
   },
   {
     "name": "YouChat - Custom",
     "id": "youchat-custom",
     "account_required": true,
+    "parent": "you-com",
     "paid_subscription_required": true,
     "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=custom",
-    "twitter_link": "https://twitter.com/YouSearchEngine"
+    "micro_posts":[
+      {
+        "date": "2024-04-11",
+        "text": "Our AI Model Selector keeps getting better ✨\n\nWithin 24 hours of their release we added the newest version of GPT-4 Turbo, Gemini 1.5 Pro (beta), Command R, and Command R+ to http://You.com.\n\nYou can now easily compare these models along with all your other favorite LLMs in one place.\n\n#youdotcom #aimodelselector",
+        "url": "https://twitter.com/YouSearchEngine/status/1778473189376671906",
+        "author": "You.com"
+      }
+    ]
   },
   {
     "name": "Perplexity AI",
     "id": "perplexity-ai",
+    "children": ["perplexity-ai-pro"],
     "search_link": "https://www.perplexity.ai/search/?q=%s",
-    "mobile_app_breaks_links_warning": true,
-    "wikipedia_link": "https://en.wikipedia.org/wiki/Perplexity.ai",
-    "twitter_link": "https://twitter.com/perplexity_ai"
+    "micro_posts":[
+      {
+        "date": "2023-01-19",
+        "text": "Announcing a major update to Perplexity Ask: the world’s first conversational search engine! Now, you can read answers with up-to-date sources and ask follow-up questions to dig deeper. In other words, you can chat with your search engine!\n\nTry it out at http://perplexity.ai",
+        "url": "https://twitter.com/perplexity_ai/status/1616120452338036736",
+        "author": "Perplexity AI"
+      }
+    ]
   },
   {
     "name": "Mojeek - RAG",
@@ -83,6 +97,12 @@
   {
     "name": "You.com",
     "id": "you-com",
+    "children": [
+      "youchat",
+      "youchat-agent",
+      "youchat-custom",
+      "youchat-research"
+    ],
     "search_link": "https://you.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",
     "twitter_link": "https://twitter.com/YouSearchEngine"
@@ -99,9 +119,10 @@
   {
     "name": "ChatGPT - 3.5",
     "id": "chatgpt-3-5",
-    "account_required": true,
+    "children": ["chatgpt-4"],
     "search_link": "https://chat.openai.com/?model=text-davinci-002-render-sha",
     "wikipedia_link": "https://en.wikipedia.org/wiki/ChatGPT",
+    "github_link": "https://github.com/openai/",
     "twitter_link": "https://twitter.com/OpenAI",
     "discussions": [
       {
@@ -115,12 +136,10 @@
   {
     "name": "ChatGPT - 4",
     "id": "chatgpt-4",
+    "parent": "chatgpt-3-5",
     "account_required": true,
     "paid_subscription_required": "true",
-    "search_link": "https://chat.openai.com/?model=gpt-4",
-    "wikipedia_link": "https://en.wikipedia.org/wiki/ChatGPT",
-    "twitter_link": "https://twitter.com/OpenAI",
-    "github_link": "https://github.com/openai/"
+    "search_link": "https://chat.openai.com/?model=gpt-4"
   },
   {
     "name": "Bing",
@@ -135,6 +154,7 @@
           "Opera",
           "Safari"
         ],
+    "children": ["bing-deep-search", "microsoft-copilot"],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)",
     "discussions": [
       {
@@ -173,6 +193,7 @@
   {
     "name": "Microsoft Copilot",
     "id": "microsoft-copilot",
+    "parent": "bing",
     "search_link": "https://copilot.microsoft.com/",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Microsoft_Copilot"
   },
@@ -199,7 +220,8 @@
     "twitter_link": "https://twitter.com/andi_search",
     "discord_link": "https://discord.com/invite/andi",
     "linkedin_link": "https://www.linkedin.com/company/andisearch/",
-    "product_hunt_link": "https://www.producthunt.com/products/andi"
+    "product_hunt_link": "https://www.producthunt.com/products/andi",
+    "landing_page_screenshots": ["screencapture-andisearch-2024-04-25-15_26_15.png"]
   },
   {
     "name": "Marginalia Search",
@@ -216,6 +238,7 @@
   {
     "name": "Perplexity AI - Pro",
     "id": "perplexity-ai-pro",
+    "parent": "perplexity-ai",
     "search_link": "https://www.perplexity.ai/search?q=%s&copilot=true",
     "account_required": true,
     "mobile_app_breaks_links_warning": true,
@@ -224,7 +247,17 @@
         "default_in_browser": [
           "Arc"
         ],
-    "wikipedia_link": "https://en.wikipedia.org/wiki/Perplexity.ai"
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Perplexity.ai",
+    "twitter_link": "https://twitter.com/perplexity_ai",
+    "naming_note": "The paid offering was previously known as Perplexity Copilot.",
+    "micro_posts":[
+      {
+        "date": "2023-05-18",
+        "text": "The next iteration of Perplexity has arrived: Copilot, your interactive AI search companion. 🚀🤖 Perplexity Copilot guides your search experience with interactive inputs, leading you to a rich, personalized answer, powered by GPT-4. Try it for free at http://perplexity.ai",
+        "url": "https://twitter.com/perplexity_ai/status/1659229846587711490",
+        "author": "Perplexity AI"
+      }
+    ]
   },
   {
     "name": "Qwant",
@@ -239,9 +272,8 @@
   {
     "name": "YouChat",
     "id": "youchat",
-    "search_link": "https://you.com/search?q=%s&tbm=youchat&cfr=chat",
-    "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",
-    "twitter_link": "https://twitter.com/YouSearchEngine"
+    "parent": "you-com",
+    "search_link": "https://you.com/search?q=%s&tbm=youchat&cfr=chat"
   },
   {
     "name": "Phind Search",
@@ -278,8 +310,17 @@
     "name": "Komo",
     "id": "komo",
     "search_link": "https://komo.ai/",
+    "hugging_face_link": "https://huggingface.co/komo-ai",
     "product_hunt_link": "https://www.producthunt.com/products/komo-search",
-    "twitter_link": "https://twitter.com/komo__ai"
+    "twitter_link": "https://twitter.com/komo__ai",
+    "micro_posts": [
+      {
+        "date": "2023-01-17",
+        "text": "Exciting updates from Komo Search! 🚀 #komo now provides more structured, up-to-date answers with sources for factual claims.🔮Besides, Komo now is divided into Chat, Explore, Search journeys for easy navigations. 1/3 #ai #aitools #openai #searchengine #chatgpt #startup",
+        "url": "https://twitter.com/komo__ai/status/1615468223390175233",
+        "author": "Komo AI"
+      }
+    ]
   },
   {
     "name": "SciPhi",
@@ -295,7 +336,15 @@
     "account_required": true,
     "search_link": "https://coral.cohere.com/",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Cohere",
-    "manual_switch_required": true
+    "manual_switch_required": true,
+    "micro_posts": [
+      {
+        "author": "Cohere",
+        "text": "The Cohere Toolkit is here! We’re releasing an open-source repository for devs to build RAG applications, just like the Cohere demo. It's a game-changer for developers to accelerate and simplify building enterprise AI apps like knowledge assistants.\n\nhttps://cohere.com/blog/cohere-toolkit",
+        "date": "2024-04-24",
+        "url": "https://twitter.com/cohere/status/1783216554483855783"
+      }
+    ]
   },
   {
     "name": "Tavily",
@@ -399,16 +448,32 @@
       "id": "openperplex",
       "special_note": "beta",
       "search_link": "https://openperplex.com",
-      "twitter_link": "https://twitter.com/KhazzanYassine"
+      "twitter_link": "https://twitter.com/KhazzanYassine",
+      "micro_posts": [
+          {
+            "date": "2024-04-19",
+            "text": "Launched a simple Perplexity clone using @GroqInc and llama3-8b. Visit https://openperplex.com\n\nI will be sharing the source code on GitHub #AI #Tech #groq #Llama3 @sundeep @GavinSherry",
+            "url": "https://twitter.com/KhazzanYassine/status/1781479335175627115",
+            "author": "Khazzan Yassine"
+          }
+        ]
     },
   {
     "name": "Bing Deep Search",
     "id": "bing-deep-search",
-    "twitter_link": "https://twitter.com/bing",
+    "parent": "bing",
     "search_link": "https://www.bing.com/search?q=%s&shm=cr&form=DEEPSH",
     "search_link_note": "If the query is empty it is processed by Microsoft as a standard Bing search.",
     "search_link_requires_query": true,
-    "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)"
+    "micro_posts": [
+      {
+        "date": "2023-12-05",
+        "text": "Something I'm super-excited about: Deep Search (aka \"Search Harder\"). You know how, when researching something complicated, you try several queries, read many documents? We make GPT-4 do it for you. Already flighting:\nhttps://blogs.bing.com/search-quality-insights/december-2023/Introducing-Deep-Search",
+        "url": "https://twitter.com/MParakhin/status/1732092242012275178",
+        "author": "Mikhail Parakhin",
+        "author_label": "(at the time, Head of Bing Search)"
+      }
+    ]
   },
 {
     "name": "Wayback Machine",
@@ -559,3 +624,4 @@
     ]
   }
 ]
+

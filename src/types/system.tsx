@@ -1,10 +1,21 @@
 // systems.tsx
 
+export interface MicroPost {
+    date: string;
+    text: string;
+    url: string;
+    author: string;
+    author_label: string;
+}
+
 export interface System {
     id: string;
     name: string;
     nondistinctUrl?: boolean;
     description?: string;
+    parent?: string;
+    children?: string[];
+    seeAlso?: string[];
     baseUrlFor?: string[];
     accountRequired?: boolean;
     searchLink: string;
@@ -14,9 +25,12 @@ export interface System {
     mobileAppBreaksLinksWarning?: boolean;
     searched?: boolean;
     linkedinLink?: string;
+    huggingFaceLink?: string;
     wikipediaLink?: string;
     instagramLink?: string;
+    namingNote?: string;
     twitterLink?: string;
+    microPosts?: MicroPost[];
     redditLink?: string;
     matrixLink?: string;
     githubLink?: string;
@@ -44,6 +58,7 @@ export interface System {
     charitySearchEngine?: boolean;
     defaultPlaceholder?: string;
     tagline?: string;
+    landingPageScreenshots?: string[];
     iosApp?: string;
     androidApp?: string;
     defaultInBrowser?: string[];
