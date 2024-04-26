@@ -1,6 +1,7 @@
 // ui/SystemItem.tsx 
 
 import React, { useState, useEffect, useCallback } from 'react';
+
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Button } from '../ui/button';
@@ -94,6 +95,7 @@ export const TitleToInitiateSearch: React.FC<MagnifyingGlassButtonToInitiateSear
 
 
 
+
 const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
   className,
   system,
@@ -116,10 +118,11 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
       e.stopPropagation();
     } else {
       if (setOpenItem) {
-        setOpenItem(openItem === "item-1" ? undefined : "item-1");
+          setOpenItem(openItem === "item-1" ? undefined : "item-1");
       }
     }
   };
+
   return (
     <AccordionItem value="item-1" className={`rounded-md accordion-item-hover ${showDragHandle ? 'border rounded-md w-3/4 sm:w-full' : 'border-none'} ${className}`}
       onClick={handleAccordionToggle}>
@@ -128,15 +131,15 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
           {getPreppedSearchLink && submitSearch && queryObject && (
             <div>
               {system.searchLinkRequiresQuery && queryObject.query === "" ? (
-                  <AlertQueryNeeded
-                    system={system}
-                    getPreppedSearchLink={getPreppedSearchLink}
-                    queryObject={queryObject}
-                    submitSearch={submitSearch}
-                    activeSystemId={activeSystemId}
-                  />
+                <AlertQueryNeeded
+                  system={system}
+                  getPreppedSearchLink={getPreppedSearchLink}
+                  queryObject={queryObject}
+                  submitSearch={submitSearch}
+                  activeSystemId={activeSystemId}
+                />
               ) : (
-                  <TitleToInitiateSearch
+                <TitleToInitiateSearch
                   system={system}
                   getPreppedSearchLink={getPreppedSearchLink}
                   queryObject={queryObject}
@@ -147,21 +150,20 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
             </div>
           )}
           {activeSystemId ? (
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild className='p-0 px-0 mx-0'>
-                <AccordionTrigger className="mr-0 hover:rounded-md hover:bg-blue-100 pr-0">
-                  <Button variant="ghost" className="p-0">
-                    {(openItem === "item-1" && !showDragHandle) && (
-                    <ChevronDownIcon className={`h-4 w-4 mx-4 shrink-0 text-muted-foreground transition-transform duration-200 ml-1 ${openItem === "item-1" ? 'rotate-0' : 'rotate-180'}`} />
-                  )}
-                  </Button>
-                </AccordionTrigger>
-              </TooltipTrigger>
-              <TooltipContent side="top" className="text-base">Toggle system card</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild className='p-0 px-0 mx-0'>
+                  <AccordionTrigger asChild className="mr-0 hover:rounded-md hover:bg-blue-100 pr-0">
+                    <Button variant="ghost" className="p-0">
+                      {(openItem === "item-1" && !showDragHandle) && (
+                        <ChevronDownIcon className={`h-4 w-4 mx-4 shrink-0 text-muted-foreground transition-transform duration-200 ml-1 ${openItem === "item-1" ? 'rotate-0' : 'rotate-180'}`} />
+                      )}
+                    </Button>
+                  </AccordionTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-base">Toggle system card</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           ) : (<SystemTitle
             className={`px-0 flex items-center flex-grow w-full ${activeSystemId === system.id ? 'text-lg' : 'text-base'}`}
             system={system}
@@ -177,7 +179,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
             className="handle py-2 px-3 hover:bg-blue-100 hover:rounded-md"
             aria-label="Drag handle for reordering"
           >
-            <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />    
+            <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
           </div>
         )}
       </div>
