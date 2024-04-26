@@ -1,13 +1,12 @@
 // ui/SystemItem.tsx 
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Button } from '../ui/button';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
-import { MagnifyingGlassIcon, 
-  DragHandleDots2Icon,
+import { DragHandleDots2Icon,
   ChevronDownIcon
 } from '@radix-ui/react-icons';
 import { Query } from '../../types';
@@ -57,7 +56,7 @@ interface SystemAccordionItemProps {
   setDragHandleRef: any;
 }
 
-interface MagnifyingGlassButtonToInitiateSearchProps {
+interface TitleToInitiateSearchProps {
   system: System;
   getPreppedSearchLink: ({ system, query }: { system: System; query: string }) => string;
   queryObject: Query;
@@ -65,7 +64,7 @@ interface MagnifyingGlassButtonToInitiateSearchProps {
   activeSystemId: string | undefined;
 }
 
-export const TitleToInitiateSearch: React.FC<MagnifyingGlassButtonToInitiateSearchProps> = ({
+export const TitleToInitiateSearch: React.FC<TitleToInitiateSearchProps> = ({
   system,
   getPreppedSearchLink,
   queryObject,
@@ -92,8 +91,6 @@ export const TitleToInitiateSearch: React.FC<MagnifyingGlassButtonToInitiateSear
     </TooltipProvider>
   )
 }
-
-
 
 
 const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
@@ -243,14 +240,14 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
 
   const [openItem, setOpenItem] = useState<string | undefined>(undefined);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Update everAllExpanded when any system card is expanded
     if (openItem === "item-1") {
       setEverClickedReExpansionCollapse(true);
     }
   }, [openItem]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (expandAllStatus) {
       setOpenItem("item-1");
     } else {
@@ -264,7 +261,7 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
   }, [setOpenItem]); // Add any dependencies if setOpenItem depends on props or state
 
   // system param expansion
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window !== 'undefined' && !everClickedReExpansionCollapse) {
       if (urlSystems && urlSystems.split(',').includes(system.id)) {
         setOpenItem("item-1");
@@ -279,8 +276,9 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     const index = systemsCurrentOrder.findIndex(System => System.id === system.id.toString());
     return index + 1; // Adding 1 to make it human-readable (1-indexed instead of 0-indexed)
   }, [systemsCurrentOrder, system.id]);
-
+  console.log(system)
   return (
+
     <div className={`w-full border rounded-md
           ${activeSystemId === system.id ? 'border-blue-500' : 'border-transparent'}`
         }>
@@ -297,14 +295,14 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
       <Accordion value={openItem} onValueChange={setOpenItem}
           type="single"
             className={`w-full border rounded-md
-              ${(openItem === "item-1" && !showDragHandle) ? 'shadow-sm' : 'border-transparent'}
-              ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-transparent' : ''}
-              ${systemsSkipped?.[system.id] ? 'bg-yellow-300 border-transparent' : ''}
-              ${systemsSearched?.[system.id] ? 'bg-gray-200' : ''}
-              ${systemsDeleted?.[system.id] ? '' : ''}
-              ${isDragging ? 'opacity-75 z-50 border-2 border-dashed border-blue-500' : 'opacity-100'}
-              ${isOver ? 'opacity-50' : ''}
-              ${showDragHandle ? 'bg-transparent' : 'border-none'}
+          ${(openItem === "item-1" && !showDragHandle) ? 'shadow-sm' : 'border-transparent'}
+            ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-transparent' : ''}
+            ${systemsSkipped?.[system.id] ? 'bg-yellow-300 border-transparent' : ''}
+            ${systemsSearched?.[system.id] ? 'bg-gray-200' : ''}
+            ${systemsDeleted?.[system.id] ? '' : ''}
+            ${isDragging ? 'opacity-75 z-50 border-2 border-dashed border-blue-500' : 'opacity-100'}
+            ${isOver ? 'opacity-50' : ''}
+            ${showDragHandle ? 'bg-transparent' : 'border-transparent'}
               `}
           collapsible
         >

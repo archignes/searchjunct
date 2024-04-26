@@ -111,9 +111,9 @@ body {
 }
 
 /* Apply hover effect to the entire AccordionItem */
+
 .accordion-item-hover:hover {
     background-color: rgb(219, 234, 254);
-    /* Example hover color */
 }
 
 /* Negate hover effect for the search link */

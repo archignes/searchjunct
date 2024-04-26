@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import { System } from '@/types';
 
+const responsiveClassItems = "w-full max-w-full h-auto"
 
 export const SpecialFeatureImage: React.FC<{ image: string, title: string }> = ({ image, title }) => {
   if (!image) return null;
@@ -11,30 +12,39 @@ export const SpecialFeatureImage: React.FC<{ image: string, title: string }> = (
     <Image
       src={`/screenshots/special_features/${image}`}
       alt={`Screenshot of ${title}`}
-      layout="responsive"
       width={500}
       height={500}
-      className="rounded-md border m-1 mx-auto"
+      className={`${responsiveClassItems} rounded-md border m-1 mx-auto`}
+      loading="lazy"
     />
     );
 };
 
 export const LandingPageScreenshots: React.FC<{ system: System }> = ({ system }) => {
-  if (!system.landingPageScreenshots) return null;
+  const screenshots = system.landingPageScreenshots;
+
+  if (!screenshots || screenshots.length === 0) {
+    return null; // No images to display
+  }
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center">
-      {system.landingPageScreenshots.map((screenshot, index) => {
-        const isQueryExample = screenshot.includes("query_example");
+    <div className="my-1 flex flex-col sm:flex-row gap-1 justify-center w-full">
+      {screenshots.slice(0, 2).map((screenshot, index) => {
+        const isWide = index === 1; // Assume second image might be wider
+
         return (
-          <div key={index} className="m-1">
+          <div
+            key={index}
+            className={`${isWide ? 'sm:w-2/3' : 'sm:w-1/3'}`} // Adjust width for second image
+          >
             <Image
               src={`/screenshots/landing_pages/${screenshot}`}
               alt={`Screenshot ${index + 1}`}
-              layout="responsive"
-              width={isQueryExample ? 300 : 100}
-              height={isQueryExample ? 300 : 100}
-              className="rounded-md border mx-auto"
+              width={isWide ? 800 : 400} // Wider for second image
+              height={422}
+              className="rounded-md border"
+              quality={100} // Retain high quality
+              loading="lazy"
             />
           </div>
         );
@@ -42,3 +52,4 @@ export const LandingPageScreenshots: React.FC<{ system: System }> = ({ system })
     </div>
   );
 };
+

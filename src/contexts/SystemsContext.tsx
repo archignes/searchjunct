@@ -43,7 +43,7 @@ const systemsDataConnected = systemsData.map((system: any) => {
 });
 
 // This transforms fields with "foo_bar" in .json to "fooBar"
-const baseSystems: System[] = systemsDataConnected.map((system: any) => {
+export const baseSystems: System[] = systemsDataConnected.map((system: any) => {
   const transformedSystem = Object.keys(system).reduce((acc: Record<string, any>, key) => {
     const transformedKey = key.replace(/_([a-z])/g, (match, p1) => p1.toUpperCase());
     acc[transformedKey] = system[key];

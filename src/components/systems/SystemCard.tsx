@@ -113,7 +113,7 @@ const ThesesLinks: React.FC<SystemCardProps> = ({ system }) => {
     <div id="theses-links" className='ml-1'>
       <span className="text-xs">Theses:</span>
       <ul className='list-outside'>{system.thesesLinks.map((thesis, index) => (
-        <li key={index} className='text-xs mx-4 list-["-_"]'>
+        <li key={`thesis-${index}`} className='text-xs mx-4 list-["-_"]'>
           {thesis.author} <a href={thesis.url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100">
                 {thesis.title}
             </a> ({thesis.date.split('-')[0]})
@@ -126,7 +126,6 @@ const ThesesLinks: React.FC<SystemCardProps> = ({ system }) => {
 
 
 const MicroPostsLinks: React.FC<SystemCardProps> = ({ system }) => {
-  console.log(system)
   if (!system.microPosts) return null;
 
   const getAuthorLine = (microPost: MicroPost) => (
@@ -161,7 +160,7 @@ const MicroPostsLinks: React.FC<SystemCardProps> = ({ system }) => {
   return (
     <div id="micro-posts-links" className='ml-1'>
       <ul className='list-outside'>{system.microPosts.map((microPost, index) => (
-        <li key={index} className='text-sm urlx-4 border rounded-md p-1 w-full sm:w-1/2'>
+        <li key={`micro-post-${index}`} className='text-sm urlx-4 border rounded-md p-1 w-full sm:w-1/2'>
           {getAuthorLine(microPost)}
           {getTextContent(microPost)}
         </li>
@@ -177,7 +176,7 @@ const SpecialFeatures: React.FC<SystemCardProps> = ({ system }) => {
     <div id="special-features" className='ml-1 border-t pt-2'>
       <span className="text-sm font-bold">Special Features</span>
         <ul>{system.specialFeatures.map((feature, index) => (
-        <li key={feature.type.replace(/ /g, '-')} className='text-sm mx-4'>
+        <li key={`${system.id}-${feature.type.replace(/ /g, '-')}`} className='text-sm mx-4'>
             <span className="font-bold">{feature.type}: </span>
           <a href={feature.url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100">{feature.title}</a>
             <br></br>
@@ -187,7 +186,7 @@ const SpecialFeatures: React.FC<SystemCardProps> = ({ system }) => {
       ))}
       </ul>
     </div>
-  )
+  );
 }
 
 
@@ -296,13 +295,13 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
           See: {system.seeAlso.map((relatedSystemId, index, array) => {
           const relatedSystem = allSystems.find((sys) => sys.id === relatedSystemId);
           return relatedSystem ? (
-            <>
+            <React.Fragment key={relatedSystem.id}>
               <a href={`${window.location.origin}/?systems=${relatedSystem.id}`}
                  className="hover:bg-blue-100 rounded-md underline p-1 block">
                 {relatedSystem.name}
               </a>
               {index < array.length - 1 && <span className="mx-1">|</span>}
-            </>
+            </React.Fragment>
           ) : null;
         })}
         </div>}
@@ -382,7 +381,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                     <span className="text-xs">Browser: </span>
                     <ul className="pl-3 text-xs">
                     {system.chromeExtension && (
-                    <li className="m-0 pt-0">
+                    <li key="chrome-extension" className="m-0 pt-0">
                     <a href={system.chromeExtension} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
                     Chrome Extension
                     </a>
@@ -390,7 +389,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                     )}
                     {
                     system.safariExtension && (
-                    <li className="m-0 pt-0">
+                    <li key="safari-extension" className="m-0 pt-0">
                     <a href={system.safariExtension} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
                     Safari Extension
                     </a>
@@ -403,14 +402,14 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
                     <span className="text-xs">Mobile:</span>
                     <ul className="pl-3 text-xs">
                     {system.iosApp && (
-                    <li className="m-0 pt-0">
+                    <li key="ios-app" className="m-0 pt-0">
                     <a href={system.iosApp} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
                     iOS App
                     </a>
                     </li>
                     )}
                     {system.androidApp && (
-                    <li className="m-0 pt-0">
+                    <li key="android-app" className="m-0 pt-0">
                     <a href={system.androidApp} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">
                     Android App
                     </a>

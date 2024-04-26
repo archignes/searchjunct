@@ -16,6 +16,8 @@ import { System, Query } from "../../types";
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 
+import { SystemTitle } from "./SystemTitle";
+
 interface AlertQueryNeededInterface {
   system: System;
   getPreppedSearchLink: ({ system, query }: { system: System; query: string }) => string;
@@ -37,12 +39,15 @@ const AlertQueryNeeded: React.FC<AlertQueryNeededInterface> = ({
         <Tooltip>
           <AlertDialogTrigger asChild>
             <TooltipTrigger asChild>
-              <div className="items-center flex hover:bg-blue-100 p-1 hover:rounded-md">
-                <MagnifyingGlassIcon
-                  className={`flex-shrink-0 cursor-pointer
-                                  ${activeSystemId === system.id ? 'w-8 h-8' : 'w-4 h-4'}`}
+              <span id={`system-search-link-${system.id}`} className="system-search-link items-center flex rounded-l-md hover:bg-blue-100 p-1 pr-2 hover:rounded-md"
+                >
+                <SystemTitle
+                  className={`px-0 flex items-center flex-grow w-full ${activeSystemId === system.id ? 'text-lg' : 'text-base'}`}
+                  system={system}
+                  favicon_included={true}
+                  focus_mode={activeSystemId === system.id}
                 />
-              </div>
+              </span>
             </TooltipTrigger>
           </AlertDialogTrigger>
           <TooltipContent side="right" className="text-base">Search with {system.name}</TooltipContent>

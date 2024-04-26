@@ -490,7 +490,8 @@
       "search_link": "https://morphic.sh/",
       "github_link": "https://github.com/miurla/morphic",
       "open_source_license": "Apache License 2.0",
-      "twitter_link": "https://twitter.com/miiura"
+      "twitter_link": "https://twitter.com/miiura",
+      "landing_page_screenshots": ["screencapture-morphic-sh-2024-04-26-10_55_55.png"]
     },
   {
     "id": "wikipedia",
