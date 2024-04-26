@@ -109,3 +109,15 @@ body {
     overflow-y: auto;
     /* Allows scrolling within the dialog if content exceeds max-height */
 }
+
+/* Apply hover effect to the entire AccordionItem */
+.accordion-item-hover:hover {
+    background-color: rgb(219, 234, 254);
+    /* Example hover color */
+}
+
+/* Negate hover effect for the search link */
+.accordion-item-hover:hover .system-search-link {
+    background-color: rgb(147, 197, 253);
+}
+

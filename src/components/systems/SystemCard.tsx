@@ -181,8 +181,8 @@ const SpecialFeatures: React.FC<SystemCardProps> = ({ system }) => {
             <span className="font-bold">{feature.type}: </span>
           <a href={feature.url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100">{feature.title}</a>
             <br></br>
-            <span>{feature.description}</span>
-            <SpecialFeatureImage image={feature.image} title={feature.title} />
+            {feature.description && <span>{feature.description}</span>}
+            {feature.image && <SpecialFeatureImage image={feature.image} title={feature.title} />}
         </li>
       ))}
       </ul>
@@ -259,7 +259,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
   const {allSystems} = useSystemsContext();
 
   return (<>
-    <Card className="border-none shadow-none mt-0 p-2 pt-0 px-1 mx-1">
+    <Card id={`system-card-${system.id}`} className="border-none shadow-none mt-0 p-2 pt-0 px-1 mx-1">
       <CardContent className="px-1 pb-2 grid grid-cols-1 gap-0">
           {system.tagline && (
             <div className="text-sm text-gray-600 text-center w-2/5 mx-auto italic my-2">

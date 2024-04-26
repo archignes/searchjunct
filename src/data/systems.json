@@ -8,7 +8,8 @@
     "default_placeholder": "Try a prompt or paste a link...",
     "discord_link": "https://discord.com/invite/HCShtBqbfV",
     "github_link": "https://github.com/exa-labs",
-    "product_hunt_link": "https://www.producthunt.com/products/metaphor-search-api"
+    "product_hunt_link": "https://www.producthunt.com/products/metaphor-search-api",
+    "landing_page_screenshots": ["screencapture-exa-ai-search-2024-04-26-02_00_56-edit.png"]
   },
   {
     "name": "Findera",
@@ -80,6 +81,20 @@
     "id": "perplexity-ai",
     "children": ["perplexity-ai-pro"],
     "search_link": "https://www.perplexity.ai/search/?q=%s",
+    "discussions": [
+      {
+        "title": "How I search in 2024",
+        "date": "2024-04-25",
+        "author": "Vicki Boykis",
+        "url": "https://vickiboykis.com/2024/04/25/how-i-search-in-2024/",
+        "excerpts": [
+          {
+            "text": "Perplexity has been surprisingly good for the use-case of when I want to look something technical up and also want the citations and the links because I don’t trust LLMs to just generate the answer for me.",
+            "system": "perplexity-ai"
+          }
+        ]
+      }
+    ],
     "micro_posts":[
       {
         "date": "2023-01-19",
@@ -106,7 +121,15 @@
     ],
     "search_link": "https://you.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",
-    "twitter_link": "https://twitter.com/YouSearchEngine"
+    "twitter_link": "https://twitter.com/YouSearchEngine",
+    "special_features": [
+      {
+        "type": "feedback",
+        "title": "Feedback",
+        "url": "https://yousearch.canny.io/",
+        "image": "you-feedback-2024-04-26-03_07_39.png"
+      }
+    ]
   },
   {
     "name": "X (formerly Twitter)",
@@ -172,7 +195,8 @@
     "search_link": "https://devv.ai/search/%s",
     "search_link_note": "Append `?agentMode=True` for Agent Mode",
     "search_link_joiner": "%20",
-    "twitter_link": "https://twitter.com/devv_ai"
+    "twitter_link": "https://twitter.com/devv_ai",
+    "screenshots": ["screencapture-devv-ai-2024-04-26-01_55_05.png"]
   },
   {
     "name": "DuckDuckGo",
@@ -234,7 +258,27 @@
     "search_link": "https://search.marginalia.nu/search?query=%s",
     "github_link": "https://github.com/Marginalia/search",
     "twitter_link": "https://twitter.com/MarginaliaNu",
-    "open_source_license": "GNU Affero General Public License v3.0"
+    "open_source_license": "GNU Affero General Public License v3.0",
+    "discussions": [
+      {
+        "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
+        "date": "2023-12",
+        "author": "Dan Luu",
+        "url": "https://danluu.com/seo-spam/"
+      },
+      {
+        "title": "How I search in 2024",
+        "date": "2024-04-25",
+        "author": "Vicki Boykis",
+        "url": "https://vickiboykis.com/2024/04/25/how-i-search-in-2024/",
+          "excerpts": [
+            {
+              "text": "I love everything about Marginalia, which is a search engine with its own index, run by a single dude, initially on a server in his apartment.",
+              "system": "marginalia-search"
+            }
+          ]
+      }
+    ]
   },
   {
     "name": "Perplexity AI - Pro",
@@ -258,7 +302,8 @@
         "url": "https://twitter.com/perplexity_ai/status/1659229846587711490",
         "author": "Perplexity AI"
       }
-    ]
+    ],
+    "landing_page_screenshots": ["screencapture-perplexity-ai-2024-04-26-02_06_32.png"]
   },
   {
     "name": "Qwant",
@@ -289,12 +334,40 @@
     "search_link": "https://kagi.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Kagi_(search_engine)",
     "twitter_link": "https://twitter.com/KagiHQ",
+    "github_link": "https://github.com/kagisearch/",
+    "discord_link": "https://discord.com/invite/aDNg6E9szy",
+    "special_features": [
+      {
+        "type": "small web",
+        "title": "'Kagi Small Web'",
+        "description": "'Kagi Small Web offers a fresh approach by promoting recently published content from the “small web.” We gather new content, published within the last week...'",
+        "url": "https://blog.kagi.com/small-web"
+      },
+      {
+        "type": "feedback",
+        "title": "'Kagi Search Issue Tracker'",
+        "image": "kagi_feedback_2024-04-26-02_52_50.png",
+        "url": "https://kagifeedback.org/"
+      }
+    ],
     "discussions": [
       {
         "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
         "date": "2023-12",
         "author": "Dan Luu",
         "url": "https://danluu.com/seo-spam/"
+      },
+      {
+        "title": "How I search in 2024",
+        "date": "2024-04-25",
+        "author": "Vicki Boykis",
+        "url": "https://vickiboykis.com/2024/04/25/how-i-search-in-2024/",
+        "excerpts": [
+          {
+            "text": "I’ve been hearing more and more about Kagi and finally decided to try it out in January. The results were so good that I immediately bought a subscription and switched my default search engine in my web and mobile browser to Kagi.",
+            "system": "kagi"
+          }
+        ]
       }
     ]
   },
@@ -305,7 +378,8 @@
     "search_link": "https://explorer.globe.engineer/?q=%5B%22%s%22%5D",
     "search_link_note": "The search link pattern creates square brackets and quotes around the query string, it is possible to manually split query terms with a comma in quotes (`\",\"`).",
     "twitter_link": "https://twitter.com/globe_engineer",
-    "product_hunt_link": "https://www.producthunt.com/products/globe-explorer"
+    "product_hunt_link": "https://www.producthunt.com/products/globe-explorer",
+    "landing_page_screenshots": ["screencapture-explorer-globe-engineer-2024-04-26-02_00_06.png"]
   },
   {
     "name": "Komo",
@@ -321,7 +395,8 @@
         "url": "https://twitter.com/komo__ai/status/1615468223390175233",
         "author": "Komo AI"
       }
-    ]
+    ],
+    "landing_page_screenshots": ["screencapture-komo-ai-2024-04-26-02_03_39.png"]
   },
   {
     "name": "SciPhi",
@@ -329,7 +404,8 @@
     "base_url": "https://search.sciphi.ai/",
     "search_link": "https://search.sciphi.ai/search?q=%s",
     "github_link": "https://github.com/SciPhi-AI/agent-search",
-    "open_source_license": "Apache License 2.0"
+    "open_source_license": "Apache License 2.0",
+    "landing_page_screenshots": ["screencapture-search-sciphi-ai-2024-04-26-01_58_29.png"]
   },
   {
     "name": "Cohere Coral",
@@ -338,6 +414,8 @@
     "search_link": "https://coral.cohere.com/",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Cohere",
     "manual_switch_required": true,
+    "github_link": "https://github.com/cohere-ai/cohere-toolkit/",
+    "open_source_license": "MIT License",
     "micro_posts": [
       {
         "author": "Cohere",
@@ -345,7 +423,8 @@
         "date": "2024-04-24",
         "url": "https://twitter.com/cohere/status/1783216554483855783"
       }
-    ]
+    ],
+    "landing_page_screenshots": ["screencapture-coral-cohere-2024-04-26-02_25_55-edit.png"]
   },
   {
     "name": "Tavily",
@@ -401,7 +480,8 @@
     "id": "cynay",
     "search_link": "https://cynay.com/search?q=%s",
     "twitter_link": "https://twitter.com/CynayEngine",
-    "instagram_link": "https://www.instagram.com/cynay.official/"
+    "instagram_link": "https://www.instagram.com/cynay.official/",
+    "landing_page_screenshots": ["screencapture-cynay-2024-04-26-01_56_12.png"]
   },
     {
       "name": "Morphic",
@@ -475,7 +555,8 @@
             "url": "https://twitter.com/KhazzanYassine/status/1781479335175627115",
             "author": "Khazzan Yassine"
           }
-        ]
+        ],
+        "landing_page_screenshots": ["screencapture-openperplex-2024-04-26-02_07_44-edit.png", "openperplex-example-query-2024-04-26-03_14_04.png"]
     },
   {
     "name": "Bing Deep Search",
@@ -552,7 +633,8 @@
     "special_note": "beta",
     "search_link": "https://stract.com/search?q=%s",
     "github_link": "https://github.com/StractOrg/stract",
-    "open_source_license": "GNU Affero General Public License v3.0"
+    "open_source_license": "GNU Affero General Public License v3.0",
+    "screenshots": ["screencapture-stract-2024-04-26-01_57_13.png"]
   },
   {
     "name": "Google",

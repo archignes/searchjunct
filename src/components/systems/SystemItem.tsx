@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
+import { Button } from '../ui/button';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 import { MagnifyingGlassIcon, 
   DragHandleDots2Icon,
@@ -64,7 +64,7 @@ interface MagnifyingGlassButtonToInitiateSearchProps {
   activeSystemId: string | undefined;
 }
 
-export const MagnifyingGlassButtonToInitiateSearch: React.FC<MagnifyingGlassButtonToInitiateSearchProps> = ({
+export const TitleToInitiateSearch: React.FC<MagnifyingGlassButtonToInitiateSearchProps> = ({
   system,
   getPreppedSearchLink,
   queryObject,
@@ -75,12 +75,15 @@ export const MagnifyingGlassButtonToInitiateSearch: React.FC<MagnifyingGlassButt
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <a id={`system-search-link-${system.id}`} className="items-center flex hover:bg-blue-100 p-1 hover:rounded-md"
+          <a id={`system-search-link-${system.id}`} className="system-search-link items-center flex rounded-l-md hover:bg-blue-100 p-1 pr-2 hover:rounded-md"
             href={getPreppedSearchLink({ system, query: queryObject.query })}
             onClick={(e) => { e.preventDefault(); submitSearch({ system: system }); }}>
-            <MagnifyingGlassIcon
-              className={`flex-shrink-0 cursor-pointer
-                                  ${activeSystemId === system.id ? 'w-8 h-8' : 'w-4 h-4'}`} />
+            <SystemTitle
+              className={`px-0 flex items-center flex-grow w-full ${activeSystemId === system.id ? 'text-lg' : 'text-base'}`}
+              system={system}
+              favicon_included={true}
+              focus_mode={activeSystemId === system.id}
+            />
           </a>
         </TooltipTrigger>
         <TooltipContent side="right" className="text-base">Search with {system.name}</TooltipContent>
@@ -105,10 +108,23 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
   listeners,
   setDragHandleRef,
 }) => {
+  const handleAccordionToggle = (e: React.MouseEvent) => {
+    // Prevents the accordion from toggling when clicking on TitleToInitiateSearch
+    if ((e.target as HTMLElement).closest(`#system-search-link-${system.id}`)) {
+      e.stopPropagation();
+    } else if ((e.target as HTMLElement).closest(`#system-card-${system.id}`)) {
+      e.stopPropagation();
+    } else {
+      if (setOpenItem) {
+        setOpenItem(openItem === "item-1" ? undefined : "item-1");
+      }
+    }
+  };
   return (
-    <AccordionItem value="item-1" className={`${showDragHandle ? 'border rounded-md w-3/4 sm:w-full' : 'border-none'} ${className}`}>
+    <AccordionItem value="item-1" className={`rounded-md accordion-item-hover ${showDragHandle ? 'border rounded-md w-3/4 sm:w-full' : 'border-none'} ${className}`}
+      onClick={handleAccordionToggle}>
       <div className="w-full flex justify-between">
-        <div className="w-full flex items-center ml-1">
+        <div className="w-full flex items-center">
           {getPreppedSearchLink && submitSearch && queryObject && (
             <div>
               {system.searchLinkRequiresQuery && queryObject.query === "" ? (
@@ -120,7 +136,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
                     activeSystemId={activeSystemId}
                   />
               ) : (
-                <MagnifyingGlassButtonToInitiateSearch
+                  <TitleToInitiateSearch
                   system={system}
                   getPreppedSearchLink={getPreppedSearchLink}
                   queryObject={queryObject}
@@ -135,16 +151,12 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild className='p-0 px-0 mx-0'>
-                <AccordionTrigger className="mr-1 hover:rounded-md hover:bg-blue-100 pr-2">
-                  <SystemTitle
-                    className={`px-0 flex items-center flex-grow w-full ${activeSystemId === system.id ? 'text-lg' : 'text-base'}`}
-                    system={system}
-                    favicon_included={true}
-                    focus_mode={activeSystemId === system.id}
-                  />
+                <AccordionTrigger className="mr-0 hover:rounded-md hover:bg-blue-100 pr-0">
+                  <Button variant="ghost" className="p-0">
                     {(openItem === "item-1" && !showDragHandle) && (
-                    <ChevronDownIcon className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ml-1 ${openItem === "item-1" ? 'rotate-0' : 'rotate-180'}`} />
+                    <ChevronDownIcon className={`h-4 w-4 mx-4 shrink-0 text-muted-foreground transition-transform duration-200 ml-1 ${openItem === "item-1" ? 'rotate-0' : 'rotate-180'}`} />
                   )}
+                  </Button>
                 </AccordionTrigger>
               </TooltipTrigger>
               <TooltipContent side="top" className="text-base">Toggle system card</TooltipContent>

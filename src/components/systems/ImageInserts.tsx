@@ -23,18 +23,22 @@ export const LandingPageScreenshots: React.FC<{ system: System }> = ({ system })
   if (!system.landingPageScreenshots) return null;
 
   return (
-    <ul>
-      {system.landingPageScreenshots.map((screenshot, index) => (
-        <li key={index}>
-          <Image
-            src={`/screenshots/landing_pages/${screenshot}`}
-            alt={`Screenshot ${index + 1}`}
-            width={150}
-            height={150}
-            className="rounded-md border m-1 mx-auto"
-          />
-        </li>
-      ))}
-    </ul>
+    <div className="flex flex-col sm:flex-row justify-center">
+      {system.landingPageScreenshots.map((screenshot, index) => {
+        const isQueryExample = screenshot.includes("query_example");
+        return (
+          <div key={index} className="m-1">
+            <Image
+              src={`/screenshots/landing_pages/${screenshot}`}
+              alt={`Screenshot ${index + 1}`}
+              layout="responsive"
+              width={isQueryExample ? 300 : 100}
+              height={isQueryExample ? 300 : 100}
+              className="rounded-md border mx-auto"
+            />
+          </div>
+        );
+      })}
+    </div>
   );
 };

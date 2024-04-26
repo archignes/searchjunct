@@ -62,8 +62,8 @@ export interface System {
         {
             type: string;
             title: string;
-            description: string;
-            image: string;
+            description?: string;
+            image?: string;
             url: string;
         }
     ]
@@ -86,6 +86,10 @@ export interface System {
         author?: string;
         platform?: string;
         url: string;
+        excerpts?: [{
+            text: string;
+            system: string;
+        }];
     }[];
     githubSponsorLink?: string;
     pronunciation?: {
