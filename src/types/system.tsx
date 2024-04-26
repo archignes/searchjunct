@@ -58,6 +58,15 @@ export interface System {
     charitySearchEngine?: boolean;
     defaultPlaceholder?: string;
     tagline?: string;
+    specialFeatures?: [
+        {
+            type: string;
+            title: string;
+            description: string;
+            image: string;
+            url: string;
+        }
+    ]
     landingPageScreenshots?: string[];
     iosApp?: string;
     androidApp?: string;

@@ -15,7 +15,8 @@
     "id": "findera",
     "search_link": "https://www.findera.ai/",
     "twitter_link": "https://twitter.com/stonkyoli",
-    "special_note": "demo"
+    "special_note": "demo",
+    "landing_page_screenshots": ["screencapture-findera-ai-2024-04-26-01_08_28.png"]
   },
   {
     "name": "AskPandi",
@@ -365,6 +366,15 @@
     "chrome_extension": "https://chromewebstore.google.com/detail/karma-search-to-make-a-di/npeimmdidecgfamlonehonaimdmbnmme",
     "safari_extension": "https://apps.apple.com/us/app/karma-app-extension/id6444896254?mt=12",
     "android_choice_screen_options": true,
+    "special_features": [
+      {
+        "type": "search routing",
+        "title": "'Search different'",
+        "description": "'Search on popular and content-specific engines in one click!'",
+        "image": "search_different_karma_2024-04-26-00_11_01.png",
+        "url": "https://mykarma.notion.site/Search-different-e87288485a264586bd354c88b59758c6"
+      }
+    ],
     "ios_app": "https://apps.apple.com/us/app/karma-search/id1596470046",
     "android_app": "https://play.google.com/store/apps/details?id=com.karmasearch.app"
   },
@@ -441,7 +451,16 @@
     "special_note": "beta",
     "search_link": "https://yep.com/web?q=%s",
     "android_choice_screen_options": true,
-    "twitter_link": "https://twitter.com/yepsearch"
+    "twitter_link": "https://twitter.com/yepsearch",
+    "micro_posts": [
+      {
+        "date": "2021-06-18",
+        "text": "Ahrefs is getting closer to publicly promoting the Web Search Engine we are working on. In case you missed the previous announcement – the point of our search engine is to share ad revenue with content creators 90/10. With 90% going to creators.",
+        "url": "https://twitter.com/botsbreeder/status/1405920654877028357",
+        "author": "Dmytro Gerasymenko",
+        "author_label": "(founder and CEO at Ahrefs)"
+      }
+    ]
   },
     {
       "name": "OpenPerPlex",
@@ -488,7 +507,16 @@
     "id": "mojeek",
     "search_link": "https://www.mojeek.com/search?q=%s",
     "android_choice_screen_options": true,
-    "wikipedia_link": "https://en.wikipedia.org/wiki/Mojeek"
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Mojeek",
+        "special_features": [
+          {
+            "type": "search routing",
+            "title": "'Search Choices'",
+            "description": "'Why be constrained by the one choice selectable in your browser? [ . . . ] For this reason, we have decided to implement “Search Choices” in Mojeek and allow you to quickly and conveniently view results from other providers.'",
+            "image": "mojeek_search_choices_2024-04-26-00_33_36.png",
+            "url": "https://blog.mojeek.com/2022/02/search-choices-enable-freedom-to-seek.html"
+          }
+        ]
   },
   {
     "name": "MetaGer",

@@ -1,7 +1,7 @@
 // LeftSidebar.tsx
 
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import { GearIcon, SlashIcon, QuestionMarkIcon } from '@radix-ui/react-icons';
+import { GearIcon, Share2Icon, SlashIcon, QuestionMarkIcon } from '@radix-ui/react-icons';
 import { MainMenuButton } from './Button';
 import SettingsCard from './SettingsCard';
 import InfoCard from './Info';
@@ -18,6 +18,7 @@ import {
   useAppContext,
   useQueryContext
 } from '@/contexts';
+import ShareCard from './ShareMenu';
 
 const ACTION_BUTTON_CLASSNAME = "p-0 h-7 px-1 flex items-center justify-center hover:bg-blue-100";
 
@@ -93,11 +94,18 @@ const LeftSidebar: React.FC<{ className?: string }> = ({ className }) => {
         ButtonIndex={1}
       />
       <MainMenuButton
+        TargetTitle="Share"
+        TargetTooltip="Share"
+        TargetComponent={<ShareCard />}
+        TargetIcon={<Share2Icon />}
+        ButtonIndex={2}
+      />
+      <MainMenuButton
         TargetTitle="Shortcuts"
         TargetTooltip="Shortcuts"
         TargetComponent={<QuickShortcutsCard />}
         TargetIcon={<SlashIcon />}
-        ButtonIndex={2}
+        ButtonIndex={3}
       />
       <div id="action-buttons" className="mt-2">
         <TooltipProvider>

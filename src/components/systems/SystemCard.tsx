@@ -1,7 +1,6 @@
 // SystemCard.tsx
 import React from 'react';
 import { Button } from '../ui/button';
-import Image from 'next/image';
 import {
   Card,
   CardContent,
@@ -35,6 +34,8 @@ import SetupCustomDefaultSystemInstructions from '../cards/SetupCustomDefaultSys
 import Discussions from './Discussions';
 import { MicroPost } from '../../types/system';
 import { useSystemsContext } from '../../contexts/SystemsContext';
+import { LandingPageScreenshots, SpecialFeatureImage } from './ImageInserts';
+
 
 type PlatformIcons = {
   [key: string]: string;
@@ -170,26 +171,26 @@ const MicroPostsLinks: React.FC<SystemCardProps> = ({ system }) => {
   )
 }
 
-
-const LandingPageScreenshots: React.FC<{ system: System }> = ({ system }) => {
-  if (!system.landingPageScreenshots) return null;
-
+const SpecialFeatures: React.FC<SystemCardProps> = ({ system }) => {
+  if (!system.specialFeatures) return null;
   return (
-    <ul>
-      {system.landingPageScreenshots.map((screenshot, index) => (
-        <li key={index}>
-          <Image
-            src={`/screenshots/landing_pages/${screenshot}`}
-            alt={`Screenshot ${index + 1}`}
-            width={150}
-            height={150}
-            className="rounded-md border m-1 mx-auto"
-          />
+    <div id="special-features" className='ml-1 border-t pt-2'>
+      <span className="text-sm font-bold">Special Features</span>
+        <ul>{system.specialFeatures.map((feature, index) => (
+        <li key={feature.type.replace(/ /g, '-')} className='text-sm mx-4'>
+            <span className="font-bold">{feature.type}: </span>
+          <a href={feature.url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100">{feature.title}</a>
+            <br></br>
+            <span>{feature.description}</span>
+            <SpecialFeatureImage image={feature.image} title={feature.title} />
         </li>
       ))}
-    </ul>
-  );
-};
+      </ul>
+    </div>
+  )
+}
+
+
 
 const PermalinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => {
   return (
@@ -368,6 +369,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system }) => {
       )}
       <CardDescription>
       </CardDescription>
+        <SpecialFeatures system={system} />
       {(system.androidApp || system.iosApp || system.chromeExtension || system.safariExtension) && (
       <>
           <Alert>

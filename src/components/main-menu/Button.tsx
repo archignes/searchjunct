@@ -58,7 +58,7 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
 }: MainMenuButtonProps) => {
     const [isButtonTargetOpen, setIsButtonTargetOpen] = useState<boolean>(false);
     const { isAddSearchSystemOpen, toggleIsAddSearchSystemOpen } = useAppContext();
-
+    
     useEffect(() => {
         if (TargetTitle === "Add") {
             setIsButtonTargetOpen(isAddSearchSystemOpen);
@@ -67,7 +67,8 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
 
     const popoverContentRef = useRef<HTMLDivElement>(null);
     const { setIsMainMenuExpanded } = useAppContext();
-
+    
+    
 
     const toggleButtonTargetOpen = useCallback(() => {
         setIsButtonTargetOpen((prevState) => !prevState);
@@ -99,6 +100,12 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
             setIsMainMenuExpanded(false);
         }
     }, [isButtonTargetOpen, setIsMainMenuExpanded]);
+    
+    const [buttonWidth, setButtonWidth] = useState<number>(0);
+
+    useEffect(() => {
+        setButtonWidth(document.getElementById(`${TargetTitle.toLowerCase().replace(/ /g, "-")}-button`)?.offsetWidth || 0);
+    }, [TargetTitle]);
 
     return (
         <Popover open={isButtonTargetOpen} onOpenChange={setIsButtonTargetOpen}>
@@ -120,9 +127,9 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
                 </Tooltip>
             </TooltipProvider>
             <PopoverContent style={{ width: '92vw' }} ref={popoverContentRef}
-                side="right" sideOffset={3}
+                side="right" sideOffset={110-buttonWidth}
                 align="start" alignOffset={-28 * ButtonIndex} 
-                className="border-none w-auto rounded-md min-h-[200px] p-0 max-w-[650px]">
+                className="border-none w-auto rounded-md min-h-[200px] p-0 max-w-[610px]">
                 {TargetComponent}
             </PopoverContent>
         </Popover>

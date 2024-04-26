@@ -30,7 +30,6 @@ const Header: React.FC<{ pageTitleParts?: string[] }> = ({ pageTitleParts }) => 
         <Image className="inline" src="/searchjunct.svg" alt="Searchjunct Logo" width={32} height={32} />
         <SearchjunctTitle /></a>
       {pageTitleParts && <HeaderTitle pageTitleParts={pageTitleParts} />}
-      <ShareDropdownMenu className="col-span-1" />
     </header>
   );
 };
