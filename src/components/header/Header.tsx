@@ -1,7 +1,6 @@
 import React from 'react';
 import MainMenuToggle from './Toggle';
 import Image from 'next/image';
-import ShareDropdownMenu from './ShareMenu';
 
 export const SearchjunctTitle: React.FC = () => {
   return (
