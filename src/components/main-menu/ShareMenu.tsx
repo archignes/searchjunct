@@ -12,7 +12,7 @@ import { useQueryContext, useAddressContext } from '../../contexts';
 
 const ShareCard: React.FC<{ className?: string }> = ({ className }) => {
   const { setQueryObjectIntoURL } = useQueryContext();
-  const [isSharePopoverOpen, setIsSharePopoverOpen] = useState(false);
+  const [isSharePopoverOpen] = useState(false);
   const { baseURL, url } = useAddressContext();
   const isInitialClickRef = useRef(true);
   const [isRootCopyButtonClicked, setIsRootCopyButtonClicked] = useState(false);
@@ -39,7 +39,7 @@ const ShareCard: React.FC<{ className?: string }> = ({ className }) => {
   }, [isSharePopoverOpen, setQueryObjectIntoURL]);
 
   return (
-    <Card className='rounded-md bg-white shadow-none mx-auto'>
+    <Card className='rounded-tl-none rounded-tr-md rounded-br-md rounded-bl-md bg-white shadow-none mx-auto'>
       <CardTitle className='text-left pl-2 py-1 mb-2'>Share</CardTitle>
       <CardContent className="p-0 flex justify-center items-center flex-col">
           <Button variant="outline" id="copy-exact-url-button" className="w-[250px] hover:bg-blue-100 cursor-pointer"

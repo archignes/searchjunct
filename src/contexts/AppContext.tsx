@@ -17,6 +17,8 @@ interface AppContextType {
     toggleIsAddSearchSystemOpen: () => void;
     isMultisearchManagementSheetOpen: boolean;
     toggleIsMultisearchManagementSheetOpen: () => void;
+    isAnySettingsPopoverActive: boolean;
+    setIsAnySettingsPopoverActive: (active: boolean) => void;
 }
 
 export const AppContext = createContext<AppContextType>({
@@ -30,6 +32,8 @@ export const AppContext = createContext<AppContextType>({
     toggleIsAddSearchSystemOpen: () => {},
     isMultisearchManagementSheetOpen: false,
     toggleIsMultisearchManagementSheetOpen: () => {},
+    isAnySettingsPopoverActive: false,
+    setIsAnySettingsPopoverActive: () => {}
 });
 
 
@@ -42,6 +46,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     const [isManageLocallyStoredSearchSystemsOpen, setIsManageLocallyStoredSearchSystemsOpen] = useState<boolean>(false);
     const [isAddSearchSystemOpen, setIsAddSearchSystemOpen] = useState<boolean>(false);
     const [isMultisearchManagementSheetOpen, setIsMultisearchManagementSheetOpen] = useState<boolean>(false);
+    const [isAnySettingsPopoverActive, setIsAnySettingsPopoverActive] = useState<boolean>(false);
 
     const toggleIsMultisearchManagementSheetOpen = () => {
         setIsMultisearchManagementSheetOpen(!isMultisearchManagementSheetOpen);
@@ -62,7 +67,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
             isMainMenuExpanded, setIsMainMenuExpanded,
             isManageLocallyStoredSearchSystemsOpen, toggleIsManageLocallyStoredSearchSystemsOpen,
             isMultisearchManagementSheetOpen, toggleIsMultisearchManagementSheetOpen,
-            isAddSearchSystemOpen, toggleIsAddSearchSystemOpen
+            isAddSearchSystemOpen, toggleIsAddSearchSystemOpen,
+            isAnySettingsPopoverActive, setIsAnySettingsPopoverActive
         }}>
             {children}
         </AppContext.Provider>

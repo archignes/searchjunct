@@ -25,8 +25,6 @@ const TargetButton: React.ForwardRefRenderFunction<HTMLButtonElement, TargetButt
     { isButtonTargetOpen, TargetIcon, toggleButtonTargetOpen, TargetTitle },
     ref
 ) => {
-    const { isMainMenuExpanded } = useAppContext();
-
     return (
         <Button
             ref={ref}
@@ -34,13 +32,12 @@ const TargetButton: React.ForwardRefRenderFunction<HTMLButtonElement, TargetButt
             variant="ghost"
             size="sm"
             onClick={toggleButtonTargetOpen}
-            className={`p-0 h-7 px-1 flex items-center justify-center ${isButtonTargetOpen ? "bg-blue-500 text-white hover:bg-blue-600" : "text-current hover:bg-blue-100"
-                }`}
+            className={`inline-flex whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 rounded-md text-xs w-full px-2 mr-auto h-7 items-center justify-start ${isButtonTargetOpen ? "bg-blue-500 text-white hover:bg-blue-600" : "text-current hover:bg-blue-100"}`}
         >
             {React.cloneElement(TargetIcon, {
                 className: `w-4 h-4 ${isButtonTargetOpen ? "text-white" : "text-current"}`,
             })}
-            {isMainMenuExpanded && <span className="ml-2">{TargetTitle}</span>}
+            <span className={`ml-2 ${isButtonTargetOpen ? "text-white" : "text-current"}`}>{TargetTitle}</span>
         </Button>
     );
 };
@@ -66,9 +63,15 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
     }, [isAddSearchSystemOpen, TargetTitle]);
 
     const popoverContentRef = useRef<HTMLDivElement>(null);
-    const { setIsMainMenuExpanded } = useAppContext();
+    const { setIsAnySettingsPopoverActive } = useAppContext();
     
-    
+    useEffect(() => {
+        if (isButtonTargetOpen) {
+            setIsAnySettingsPopoverActive(true);
+        } else {
+            setIsAnySettingsPopoverActive(false);
+        }
+    }, [isButtonTargetOpen, setIsAnySettingsPopoverActive]);
 
     const toggleButtonTargetOpen = useCallback(() => {
         setIsButtonTargetOpen((prevState) => !prevState);
@@ -95,18 +98,6 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
         };
     }, [TargetTitle]);
 
-    useEffect(() => {
-        if (window.innerWidth < 640 && isButtonTargetOpen) {
-            setIsMainMenuExpanded(false);
-        }
-    }, [isButtonTargetOpen, setIsMainMenuExpanded]);
-    
-    const [buttonWidth, setButtonWidth] = useState<number>(0);
-
-    useEffect(() => {
-        setButtonWidth(document.getElementById(`${TargetTitle.toLowerCase().replace(/ /g, "-")}-button`)?.offsetWidth || 0);
-    }, [TargetTitle]);
-
     return (
         <Popover open={isButtonTargetOpen} onOpenChange={setIsButtonTargetOpen}>
             <TooltipProvider>
@@ -127,11 +118,12 @@ export const MainMenuButton: React.FC<MainMenuButtonProps> = ({
                 </Tooltip>
             </TooltipProvider>
             <PopoverContent style={{ width: '92vw' }} ref={popoverContentRef}
-                side="right" sideOffset={110-buttonWidth}
-                align="start" alignOffset={-28 * ButtonIndex} 
+                side="right" sideOffset={window.innerWidth < 640 ? -120 : -10}
+                align="start" alignOffset={(-28 * ButtonIndex) -5} 
                 className="border-none w-auto rounded-md min-h-[200px] p-0 max-w-[610px]">
                 {TargetComponent}
             </PopoverContent>
         </Popover>
     );
 };
+

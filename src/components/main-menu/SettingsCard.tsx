@@ -42,7 +42,7 @@ const SettingsCard: React.FC = () => {
 
 
   return (
-    <Card className='rounded-md bg-white shadow-none mx-auto'>
+    <Card className='rounded-tl-none rounded-tr-md rounded-br-md rounded-bl-md bg-white shadow-none mx-auto'>
       <div className="w-[320px] sm:w-full">
       <CardTitle className='text-left pl-2 py-1 mb-2'>Settings</CardTitle>
         <CardContent className="p-0 flex items-left flex-col">

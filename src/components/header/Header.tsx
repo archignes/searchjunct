@@ -1,6 +1,7 @@
 import React from 'react';
 import MainMenuToggle from './Toggle';
 import Image from 'next/image';
+import DropDownMenu from '../main-menu/DropDownMenu';
 
 export const SearchjunctTitle: React.FC = () => {
   return (
@@ -23,8 +24,9 @@ const HeaderTitle: React.FC<{ pageTitleParts: string[] }> = ({ pageTitleParts })
 
 const Header: React.FC<{ pageTitleParts?: string[] }> = ({ pageTitleParts }) => {
   return (
-    <header className="bg-gray-100 grid grid-cols-12 mb-1">
-      <MainMenuToggle className="col-span-1" />
+    <header className="bg-gray-100 grid grid-cols-12 pt-1 mb-1">
+      {/* <MainMenuToggle className="col-span-1" /> */}
+      <DropDownMenu className="col-span-1" />
       <a href="/" className={`col-span-10 text-4xl text-center ${pageTitleParts ? '' : 'mb-0'} block`}>
         <Image className="inline" src="/searchjunct.svg" alt="Searchjunct Logo" width={32} height={32} />
         <SearchjunctTitle /></a>

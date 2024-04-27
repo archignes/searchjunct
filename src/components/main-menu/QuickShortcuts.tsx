@@ -41,7 +41,7 @@ const QuickShortcutsCard: React.FC = () => {
     const { multisearchActionObjects } = useShortcutContext();
 
     return (
-      <Card className='rounded-md border-none bg-white shadow-none mx-auto'>
+      <Card className='rounded-tl-none rounded-tr-md rounded-br-md rounded-bl-md bg-white shadow-none mx-auto'>
         <CardTitle className='text-left pl-2 py-1 mb-2'>Shortcuts</CardTitle>
         <CardContent className="p-0 flex justify-start items-start flex-col">
           {multisearchActionObjects.map((actionObject: MultisearchActionObject) => (

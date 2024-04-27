@@ -276,7 +276,6 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     const index = systemsCurrentOrder.findIndex(System => System.id === system.id.toString());
     return index + 1; // Adding 1 to make it human-readable (1-indexed instead of 0-indexed)
   }, [systemsCurrentOrder, system.id]);
-  console.log(system)
   return (
 
     <div className={`w-full border rounded-md
