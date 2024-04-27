@@ -24,7 +24,7 @@ const HeaderTitle: React.FC<{ pageTitleParts: string[] }> = ({ pageTitleParts })
 
 const Header: React.FC<{ pageTitleParts?: string[] }> = ({ pageTitleParts }) => {
   return (
-    <header className="bg-gray-100 grid grid-cols-12 pt-1 mb-1">
+    <header className="grid grid-cols-12 pt-1 mb-1">
       {/* <MainMenuToggle className="col-span-1" /> */}
       <DropDownMenu className="col-span-1" />
       <a href="/" className={`col-span-10 text-4xl text-center ${pageTitleParts ? '' : 'mb-0'} block`}>

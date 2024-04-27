@@ -543,6 +543,25 @@
       }
     ]
   },
+  {
+    "name": "Presearch",
+    "id": "presearch",
+    "search_link": "https://presearch.com/search?q=%s",
+    "twitter_link": "https://twitter.com/presearchnews",
+    "discord_link": "https://discord.presearch.com/",
+    "youtube_link": "https://www.youtube.com/channel/UCgU-2uscwUP6x27mUpCGWwg",
+    "github_link": "https://github.com/presearchofficial",
+    "reddit_link": "https://www.reddit.com/r/Presearch/",
+    "facebook_link": "https://www.facebook.com/presearch.io",
+    "linkedin_link": "https://www.linkedin.com/company/presearchofficial/",
+    "open_source_license": "Mozilla Public License Version 2.0",
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Distributed_search_engine#Presearch",
+    "privacy_policy_link": "https://presearch.com/privacy",
+    "about_link": {
+      "title": "About Presearch",
+      "url": "https://presearch.io/about"
+    }
+  },
     {
       "name": "OpenPerPlex",
       "id": "openperplex",

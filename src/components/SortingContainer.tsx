@@ -21,9 +21,9 @@ const SortingContainer: React.FC<SortingContainerProps> = (
     { showDisableDeleteButtons = false, include = [], activeSystemId, showDragHandleBoolean = false, setActiveSystemRef }) => {
     const { updateDragOrder, systemsCurrentOrder } = useSortContext();
 
+    
     const sensors = useSensors(
         useSensor(PointerSensor, {
-            activationConstraint: { delay: 20, tolerance: 5 } // Default settings
         }),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,

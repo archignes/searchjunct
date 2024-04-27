@@ -46,7 +46,7 @@ const SearchBar: React.FC = () => {
       <div className="w-full justify-center items-center flex flex-wrap space-x-2">
         <form ref={formRef} className="flex flex-col sm:flex-row gap-2 w-full items-center justify-center search-bar no-link" role="search" aria-label="Website Search" id="search-form" onSubmit={onSearchSubmit}>
           <div className="flex-1 w-full sm:w-auto">
-            <Textarea ref={textareaRef} id="search-input" className={`text-base w-full ${queryObject.rawString === "" ? "bg-blue-100 border-transparent" : ""} focus:bg-white`} rows={1} placeholder="Type your query here..." value={queryObject.rawString} onChange={(e) => processTextInputForQueryObject(e.target.value)} onKeyDown={(e) => handleKeyDown(e, formRef, submitSearch)} />
+            <Textarea ref={textareaRef} id="search-input" className={`text-base w-full`} rows={1} placeholder="Type your query here..." value={queryObject.rawString} onChange={(e) => processTextInputForQueryObject(e.target.value)} onKeyDown={(e) => handleKeyDown(e, formRef, submitSearch)} />
           </div>
           <div className="w-3/4 sm:w-auto">
             <TooltipProvider>
