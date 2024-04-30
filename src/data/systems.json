@@ -9,7 +9,20 @@
     "discord_link": "https://discord.com/invite/HCShtBqbfV",
     "github_link": "https://github.com/exa-labs",
     "product_hunt_link": "https://www.producthunt.com/products/metaphor-search-api",
-    "landing_page_screenshots": ["screencapture-exa-ai-search-2024-04-26-02_00_56-edit.png"]
+    "landing_page_screenshots": ["screencapture-exa-ai-search-2024-04-26-02_00_56-edit.png"],
+    "characteristics": {
+      "list_of_links": true
+    }
+  },
+  {
+    "name": "Omniplex",
+    "id": "omniplex",
+    "add_favicon_background": "black",
+    "search_link": "https://www.omniplex.ai/",
+    "twitter_link": "https://twitter.com/Mr_BishalSaha",
+    "special_note": "beta",
+    "characteristics": {
+      "output": "generated response"}
   },
   {
     "name": "Findera",
@@ -17,7 +30,28 @@
     "search_link": "https://www.findera.ai/",
     "twitter_link": "https://twitter.com/stonkyoli",
     "special_note": "demo",
-    "landing_page_screenshots": ["screencapture-findera-ai-2024-04-26-01_08_28.png"]
+    "landing_page_screenshots": ["screencapture-findera-ai-2024-04-26-01_08_28.png"],
+    "characteristics": {
+      "output": "generated response"
+    }
+  },
+  {
+    "name": "SearchTweeks - Stract",
+    "id": "searchtweeks-stract",
+    "special_note": "experimental",
+    "search_link": "https://searchtweaks.com/stract/",
+    "theses_links": [
+      {
+        "title": "Building My Own Search Engine With the Stract API (and Sharing It With You)",
+        "url": "https://researchbuzz.me/2024/02/06/building-my-own-search-engine-with-the-stract-api-and-sharing-it-with-you/",
+        "date": "2024-02-06",
+        "author": "Tara Calishain"
+      }
+    ],
+    "characteristics": {
+      "list_of_links": true,
+      "core_index": "stract"
+    }
   },
   {
     "name": "AskPandi",
@@ -30,7 +64,10 @@
       {"name": "PandiPedia", "url": "https://askpandi.com/pandipedia/discover"},
       {"name": "Actions", "url": "https://blog.askpandi.com/2024/01/10/introducing-actions-v1/"},
       {"name": "Source Management", "url": "https://blog.askpandi.com/2023/10/02/introducing-askpandi-your-answer-engine/"}
-    ]
+    ],
+    "characteristics": {
+      "output": "generated response"
+        }
   },
   {
     "name": "Brave",
@@ -42,7 +79,11 @@
         "default_in_browser": [
           "Brave"
         ],
-    "github_link": "https://github.com/brave"
+    "github_link": "https://github.com/brave",
+    "characteristics": {
+      "list_of_links": true,
+      "core_index": "self"
+    }
   },
   {
     "name": "YouChat - Research",
@@ -50,7 +91,10 @@
     "account_required": true,
     "parent": "you-com",
     "paid_subscription_required": true,
-    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=research"
+    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=research",
+    "characteristics": {
+      "output": "generated response"
+    }
   },
   {
     "name": "YouChat - Agent",
@@ -58,7 +102,10 @@
     "parent": "you-com",
     "account_required": true,
     "paid_subscription_required": true,
-    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=agent"
+    "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=agent",
+    "characteristics": {
+      "output": "generated response"
+    }
   },
   {
     "name": "YouChat - Custom",
@@ -67,6 +114,9 @@
     "parent": "you-com",
     "paid_subscription_required": true,
     "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=custom",
+    "characteristics": {
+      "output": "generated response"
+    },
     "micro_posts":[
       {
         "date": "2024-04-11",
@@ -81,6 +131,9 @@
     "id": "perplexity-ai",
     "children": ["perplexity-ai-pro"],
     "search_link": "https://www.perplexity.ai/search/?q=%s",
+    "characteristics": {
+      "output": "generated response"
+    },
     "discussions": [
       {
         "title": "How I search in 2024",
@@ -107,6 +160,9 @@
   {
     "name": "Mojeek - RAG",
     "id": "mojeek-rag",
+        "characteristics": {
+      "output": "generated response"
+    },
     "search_link": "https://labs.mojeek.com/rag/index.html",
     "search_link_note": "(undocumented) It is possible to mock a new `rid` for each search and use `https://labs.mojeek.com/rag/search.html?q=%s&rid={mock_this}`."
   },
@@ -122,6 +178,9 @@
     "search_link": "https://you.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/You.com",
     "twitter_link": "https://twitter.com/YouSearchEngine",
+    "characteristics": {
+      "list_of_links": true
+    },
     "special_features": [
       {
         "type": "feedback",
@@ -138,7 +197,10 @@
     "wikipedia_link": "https://en.wikipedia.org/wiki/Twitter",
     "web_search_system": false,
     "account_required": true,
-    "twitter_link": "https://twitter.com/Twitter"
+    "twitter_link": "https://twitter.com/Twitter",
+    "characteristics": {
+      "output": "list of local objects"
+    }
   },
   {
     "name": "ChatGPT - 3.5",
@@ -148,6 +210,9 @@
     "wikipedia_link": "https://en.wikipedia.org/wiki/ChatGPT",
     "github_link": "https://github.com/openai/",
     "twitter_link": "https://twitter.com/OpenAI",
+    "characteristics": {
+      "output": "generated response"
+    },
     "discussions": [
       {
         "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
@@ -163,7 +228,10 @@
     "parent": "chatgpt-3-5",
     "account_required": true,
     "paid_subscription_required": "true",
-    "search_link": "https://chat.openai.com/?model=gpt-4"
+    "search_link": "https://chat.openai.com/?model=gpt-4",
+    "characteristics": {
+      "output": "generated response"
+    }
   },
   {
     "name": "Bing",
@@ -179,6 +247,9 @@
           "Safari"
         ],
     "children": ["bing-deep-search", "microsoft-copilot"],
+    "characteristics": {
+      "list_of_links": true
+    },
     "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)",
     "discussions": [
       {
@@ -196,6 +267,9 @@
     "search_link_note": "Append `?agentMode=True` for Agent Mode",
     "search_link_joiner": "%20",
     "twitter_link": "https://twitter.com/devv_ai",
+    "characteristics": {
+      "output": "generated response"
+    },
     "screenshots": ["screencapture-devv-ai-2024-04-26-01_55_05.png"]
   },
   {
@@ -203,6 +277,9 @@
     "id": "duckduckgo",
     "search_index": "bing",
     "search_link": "https://duckduckgo.com/?q=%s",
+    "characteristics": {
+      "list_of_links": true
+    },
     "android_choice_screen_options": true,
     "wikipedia_link": "https://en.wikipedia.org/wiki/DuckDuckGo",
         "default_in_browser": [
@@ -219,6 +296,9 @@
     "name": "Microsoft Copilot",
     "id": "microsoft-copilot",
     "parent": "bing",
+    "characteristics": {
+      "output": "generated response"
+    },
     "search_link": "https://copilot.microsoft.com/",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Microsoft_Copilot"
   },
@@ -227,6 +307,9 @@
     "id": "ecosia",
     "search_index": "bing",
     "charity_search_engine": true,
+    "characteristics": {
+      "list_of_links": true
+    },
     "base_url": "https://www.ecosia.org",
     "search_link": "https://www.ecosia.org/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Ecosia",
@@ -245,6 +328,11 @@
     "twitter_link": "https://twitter.com/andi_search",
     "discord_link": "https://discord.com/invite/andi",
     "linkedin_link": "https://www.linkedin.com/company/andisearch/",
+    "characteristics": {
+      "chat_interface": true,
+      "output": "generated response",
+      "list_of_links": true
+    },
     "product_hunt_link": "https://www.producthunt.com/products/andi",
     "landing_page_screenshots": ["screencapture-andisearch-2024-04-25-15_26_15.png"]
   },
@@ -258,6 +346,9 @@
     "search_link": "https://search.marginalia.nu/search?query=%s",
     "github_link": "https://github.com/Marginalia/search",
     "twitter_link": "https://twitter.com/MarginaliaNu",
+    "characteristics": {
+      "list_of_links": true
+    },
     "open_source_license": "GNU Affero General Public License v3.0",
     "discussions": [
       {
@@ -288,6 +379,9 @@
     "account_required": true,
     "mobile_app_breaks_links_warning": true,
     "trial_limit": "100 searches",
+    "characteristics": {
+      "output": "generated response"
+    },
     "paid_subscription_required": "true",
         "default_in_browser": [
           "Arc"
@@ -310,14 +404,21 @@
     "id": "qwant",
     "search_link": "https://www.qwant.com/?q=%s",
     "android_choice_screen_options": true,
-        "default_in_browser": [
-          "Brave"
-        ],
+    "characteristics": {
+      "list_of_links": true
+    },
+    "default_in_browser": [
+      "Brave"
+    ],
     "wikipedia_link": "https://en.wikipedia.org/wiki/Qwant"
   },
   {
     "name": "YouChat",
     "id": "youchat",
+    "characteristics": {
+      "chat_interface": true,
+      "output": "generated response"
+    },
     "parent": "you-com",
     "search_link": "https://you.com/search?q=%s&tbm=youchat&cfr=chat"
   },
@@ -325,11 +426,21 @@
     "name": "Phind Search",
     "id": "phind-search",
     "search_link": "https://www.phind.com/search?q=%s",
+    "characteristics": {
+      "output": "generated response"
+    },
+    "integrations": [
+      "VS Code"
+    ],
     "twitter_link": "https://twitter.com/phindsearch"
   },
   {
     "name": "Kagi",
     "id": "kagi",
+    "characteristics": {
+      "option_to_summarize_search_results": true,
+      "output": "list of links"
+    },
     "account_required": true,
     "search_link": "https://kagi.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Kagi_(search_engine)",
@@ -375,6 +486,9 @@
     "name":"Globe Explorer",
     "id":"globe-explorer",
     "special_note": "v2",
+    "characteristics": {
+      "output": "structured conceptual representation"
+    },
     "search_link": "https://explorer.globe.engineer/?q=%5B%22%s%22%5D",
     "search_link_note": "The search link pattern creates square brackets and quotes around the query string, it is possible to manually split query terms with a comma in quotes (`\",\"`).",
     "twitter_link": "https://twitter.com/globe_engineer",
@@ -385,6 +499,9 @@
     "name": "Komo",
     "id": "komo",
     "search_link": "https://komo.ai/",
+    "characteristics": {
+      "output": "generated response"
+    },
     "hugging_face_link": "https://huggingface.co/komo-ai",
     "product_hunt_link": "https://www.producthunt.com/products/komo-search",
     "twitter_link": "https://twitter.com/komo__ai",
@@ -401,6 +518,9 @@
   {
     "name": "SciPhi",
     "id": "sciphi",
+    "characteristics": {
+      "output": "generated response"
+    },
     "base_url": "https://search.sciphi.ai/",
     "search_link": "https://search.sciphi.ai/search?q=%s",
     "github_link": "https://github.com/SciPhi-AI/agent-search",
@@ -411,6 +531,9 @@
     "name": "Cohere Coral",
     "id": "cohere-coral",
     "account_required": true,
+    "characteristics": {
+      "output": "generated response"
+    },
     "search_link": "https://coral.cohere.com/",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Cohere",
     "manual_switch_required": true,
@@ -430,11 +553,28 @@
     "name": "Tavily",
     "id": "tavily",
     "account_required": true,
-    "search_link": "https://app.tavily.com/playground"
+    "search_link": "https://app.tavily.com/playground",
+    "note": [
+      {
+        "text": "Tavily is a search API. You can explore the search interface at the Playground.",
+        "links": [
+          {
+            "text": "Playground",
+            "url": "https://app.tavily.com/playground"
+          }
+        ]
+      }
+    ],
+    "characteristics": {
+      "type": "search API"
+    }
   },
   {
     "name": "KARMA",
     "id": "karma",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://karmasearch.org/search?q=%s",
     "twitter_link": "https://twitter.com/searchkarma",
     "linkedin_link": "https://www.linkedin.com/company/karmasearch/",
@@ -464,7 +604,10 @@
     "wikipedia_link": "https://en.wikipedia.org/wiki/Hugging_Face",
     "github_link": "https://github.com/huggingface/chat-ui",
     "open_source_license": "Apache License 2.0",
-    "manual_switch_required": true
+    "manual_switch_required": true,
+    "characteristics": {
+      "output": "generated response"
+    }
   },
   {
     "name": "Lepton Search",
@@ -473,11 +616,17 @@
     "search_link": "https://search.lepton.run/",
     "github_link": "https://github.com/leptonai/search_with_lepton",
     "open_source_license": "Apache License 2.0",
+    "characteristics": {
+      "output": "generated response"
+    },
     "twitter_link": "https://twitter.com/leptonai"
   },
   {
     "name": "Cynay",
     "id": "cynay",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://cynay.com/search?q=%s",
     "twitter_link": "https://twitter.com/CynayEngine",
     "instagram_link": "https://www.instagram.com/cynay.official/",
@@ -487,6 +636,9 @@
       "name": "Morphic",
       "id": "morphic",
       "special_note": "beta",
+      "characteristics": {
+        "output": "generated response"
+      },
       "search_link": "https://morphic.sh/",
       "github_link": "https://github.com/miurla/morphic",
       "open_source_license": "Apache License 2.0",
@@ -496,6 +648,10 @@
   {
     "id": "wikipedia",
     "name": "Wikipedia",
+    "type": "reference",
+    "characteristics": {
+      "output": "list of local objects"
+    },
     "search_link": "https://en.wikipedia.org/w/index.php?search=%s",
     "nondistinct_url": false,
     "wikipedia_link": "https://en.wikipedia.org/wiki/Wikipedia",
@@ -510,6 +666,9 @@
   {
     "name": "Swisscows",
     "id": "swisscows",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://swisscows.com/en/web?query=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Swisscows",
     "twitter_link": "https://twitter.com/swisscows_ch"
@@ -517,6 +676,9 @@
   {
     "name": "Yandex",
     "id": "yandex",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://yandex.com/search/?text=%s",
     "android_choice_screen_options": true,
         "default_in_browser": [
@@ -530,6 +692,9 @@
     "name": "Yep",
     "id": "yep",
     "special_note": "beta",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://yep.com/web?q=%s",
     "android_choice_screen_options": true,
     "twitter_link": "https://twitter.com/yepsearch",
@@ -546,6 +711,9 @@
   {
     "name": "Presearch",
     "id": "presearch",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://presearch.com/search?q=%s",
     "android_choice_screen_options": true,
     "twitter_link": "https://twitter.com/presearchnews",
@@ -567,6 +735,9 @@
       "name": "OpenPerPlex",
       "id": "openperplex",
       "special_note": "beta",
+      "characteristics": {
+        "output": "generated response"
+      },
       "search_link": "https://openperplex.com",
       "twitter_link": "https://twitter.com/KhazzanYassine",
       "micro_posts": [
@@ -583,6 +754,9 @@
     "name": "Bing Deep Search",
     "id": "bing-deep-search",
     "parent": "bing",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://www.bing.com/search?q=%s&shm=cr&form=DEEPSH",
     "search_link_note": "If the query is empty it is processed by Microsoft as a standard Bing search.",
     "search_link_requires_query": true,
@@ -600,6 +774,10 @@
     "name": "Wayback Machine",
     "id": "wayback-machine",
     "search_link_joiner": "%20",
+    "type": "archive",
+    "characteristics": {
+      "output": "list of local objects"
+    },
     "search_link": "https://web.archive.org/web/*/%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Wayback_Machine",
     "twitter_link": "https://twitter.com/waybackmachine"
@@ -607,6 +785,10 @@
   {
     "name": "Mojeek",
     "id": "mojeek",
+    "characteristics": {
+      "output": "list of links",
+      "index": "mojeek"
+    },
     "search_link": "https://www.mojeek.com/search?q=%s",
     "android_choice_screen_options": true,
     "wikipedia_link": "https://en.wikipedia.org/wiki/Mojeek",
@@ -623,6 +805,9 @@
   {
     "name": "MetaGer",
     "id": "metager",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://metager.org/meta/meta.ger3?eingabe=%s",
     "android_choice_screen_options": true,
     "wikipedia_link": "https://en.wikipedia.org/wiki/MetaGer"
@@ -630,6 +815,9 @@
   {
     "name": "Startpage",
     "id": "startpage",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_index": "google",
     "search_link": "https://www.startpage.com/do/search?q=%s",
     "default_in_browser": [
@@ -645,6 +833,9 @@
   {
     "id": "google-gemini",
     "name": "Google Gemini",
+    "characteristics": {
+      "output": "generated response"
+    },
     "search_link": "https://gemini.google.com/app",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Gemini_(chatbot)"
   },
@@ -652,6 +843,9 @@
     "name": "Stract",
     "id": "stract",
     "special_note": "beta",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://stract.com/search?q=%s",
     "github_link": "https://github.com/StractOrg/stract",
     "open_source_license": "GNU Affero General Public License v3.0",
@@ -660,6 +854,9 @@
   {
     "name": "Google",
     "id": "google",
+    "characteristics": {
+      "output": "list of links"
+    },
     "search_link": "https://www.google.com/search?q=%s",
     "wikipedia_link": "https://en.wikipedia.org/wiki/Google_Search",
     "twitter_link": "https://twitter.com/Google",
@@ -697,6 +894,9 @@
   {
     "name": "Yahoo",
     "id": "yahoo",
+    "characteristics": {
+      "output": "list of links"
+    },
     "default_placeholder": "Search the web...",
     "default_in_browser": [
       "Safari",
@@ -712,6 +912,9 @@
   {
     "name": "Mwmbl",
     "id": "mwmbl",
+    "characteristics": {
+      "output": "list of links"
+    },
     "default_placeholder": "Search on Mwmbl...",
     "about_link": {
       "title": "The Book of Mwmbl",

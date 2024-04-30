@@ -11,7 +11,7 @@ export const SpecialCardTitle: React.FC<{ title: string }> = ({ title }) => {
 }
 
 export const FaviconImage: React.FC<{ system: System, focus_mode?: boolean, mini_mode?: boolean }> = ({ system, focus_mode, mini_mode }) => {
-  
+
   if (system.favicon?.startsWith('http')) {
     return (
       <img src={system.favicon}
@@ -28,7 +28,7 @@ export const FaviconImage: React.FC<{ system: System, focus_mode?: boolean, mini
         loading="lazy"
         height={15}
         quality={focus_mode ? 100 : 75}
-        className={`rounded-md p-1 ${focus_mode ? 'flex-shrink-0 w-8 h-8 mr-2' : mini_mode ? 'bg-white w-4 h-4 mx-1' : 'flex-shrink-0 w-6 h-6 mr-2'}`} />
+        className={`rounded-md p-1 ${focus_mode ? 'flex-shrink-0 w-8 h-8 mr-2' : mini_mode ? 'bg-white w-4 h-4 mx-1' : 'flex-shrink-0 w-6 h-6 mr-2'} ${system.addFaviconBackground === 'black' ? 'bg-black' : ''}`} />
     )} 
   }
 

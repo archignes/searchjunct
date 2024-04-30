@@ -70,7 +70,20 @@ export interface System {
     landingPageScreenshots?: string[];
     iosApp?: string;
     androidApp?: string;
+    addFaviconBackground?: string;
     defaultInBrowser?: string[];
+    type?: string;
+    note?: {
+        text: string;
+        links: {
+            placeholder: string;
+            url: string;
+        }[];
+    };
+    characteristics?: {
+        output?: string;
+        index?: string;
+    };
     baseUrl?: string;
     specialNote?: string;
     notableFeatures?: Feature[];
