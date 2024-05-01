@@ -56,6 +56,9 @@ const SystemsSettings: React.FC = () => {
   const anyDeletedStatus = getAnyDeletedStatus(allSystems);
   const anyDisabledStatus = getAnyDisabledStatus(allSystems);
 
+ console.log("Deleted Systems:", systemsDeleted)
+
+
   return (
     <>
       <ScrollArea data-testid="systems-settings-scroll-area" className="h-[calc(100vh-45px)] sm:h-full w-[320px] sm:w-full">
@@ -111,7 +114,7 @@ const SystemsSettings: React.FC = () => {
             status={anyDeletedStatus ? "" : "No deleted systems"}
           />
           <div id="settings-systems-list">
-            {Object.values(systemsDeleted).every(Boolean) && (
+            {Object.values(systemsDeleted).some(Boolean) && (
               Object.entries(systemsDeleted)
                 .filter(([_, value]) => value)
                 .map(([systemId]) => {
@@ -129,7 +132,7 @@ const SystemsSettings: React.FC = () => {
                         showDragHandle={false}
                         activeSystemId={undefined}
                       />
-                      <DeleteSystemButton system={system} />
+                      <DeleteSystemButton system={system} inSettings={true} />
                     </div>
                   );
                 })

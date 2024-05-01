@@ -40,3 +40,49 @@ async function captureScreenshots(urls) {
 
 console.log(' - Capturing homepage...')
 captureScreenshots(["https://searchjunct.com/"]);
+
+
+async function captureShareCardScreenshots(systemIds) {
+    const browser = await puppeteer.launch();
+    const shareUrlBase = "http://localhost:3000/share/";
+    for (const systemId of systemIds) {
+        const shareUrl = `${shareUrlBase}${systemId}`;
+        const outputPath = `${publicScreenshotDir}shareCards/${systemId}.png`;
+
+        const page = await browser.newPage();
+        await page.goto(shareUrl, { waitUntil: 'networkidle2' });
+        await page.setViewport({ width: 1200, height: 630 });
+        await page.screenshot({ path: outputPath });
+        console.log(`  - url: ${shareUrl}\n  - file: ${outputPath}`);
+    }
+    await browser.close();
+}
+
+console.log(' - Capturing share card screenshots...')
+
+const fs = require('fs');
+const path = require('path');
+
+async function getSystemsMissingScreenshots() {
+    const systemsDataPath = path.join(__dirname, '..', 'src', 'data', 'systems.json');
+    const systemsData = JSON.parse(fs.readFileSync(systemsDataPath, 'utf8'));
+    const screenshotDirPath = path.join(__dirname, "..", publicScreenshotDir, 'shareCards');
+
+    const existingScreenshots = fs.readdirSync(screenshotDirPath);
+    const existingScreenshotIds = existingScreenshots.map(file => 
+        file.replace('.png', '').replace('_crop', '')
+    );
+
+    const missingScreenshotIds = systemsData
+        .filter(system => !existingScreenshotIds.includes(system.id))
+        .map(system => system.id);
+
+    return missingScreenshotIds;
+}
+
+async function main() {
+    const screenshotsToRetrieve = await getSystemsMissingScreenshots();
+    await captureShareCardScreenshots(screenshotsToRetrieve);
+}
+
+main();

@@ -20,16 +20,30 @@ export const SpecialFeatureImage: React.FC<{ image: string, title: string }> = (
     );
 };
 
-export const LandingPageScreenshots: React.FC<{ system: System }> = ({ system }) => {
+export const LandingPageScreenshots: React.FC<{ system: System, shareCard?: boolean }> = ({ system, shareCard }) => {
   const screenshots = system.landingPageScreenshots;
 
   if (!screenshots || screenshots.length === 0) {
     return null; // No images to display
   }
 
+  if (shareCard) {
+    const imageSrc = screenshots[0];
+    return (
+      <Image
+        src={`/screenshots/landing_pages/${imageSrc}`}
+        alt={`Share card screenshot`}
+        width={390}
+        height={844}
+        className="rounded-md border"
+        quality={100} // Retain high quality
+        loading="lazy"
+      />
+    )}
+
   return (
-    <div className="my-1 flex flex-col sm:flex-row gap-1 justify-center w-full">
-      {screenshots.slice(0, 2).map((screenshot, index) => {
+    <div className={`my-1 ${shareCard ? 'flex flex-col sm:flex-row gap-1 justify-center w-full' : ''}`}>
+      {screenshots.map((screenshot, index) => {
         const isWide = index === 1; // Assume second image might be wider
 
         return (
@@ -40,7 +54,7 @@ export const LandingPageScreenshots: React.FC<{ system: System }> = ({ system })
             <Image
               src={`/screenshots/landing_pages/${screenshot}`}
               alt={`Screenshot ${index + 1}`}
-              width={isWide ? 800 : 400} // Wider for second image
+              width={isWide ? 800 : 400}
               height={422}
               className="rounded-md border"
               quality={100} // Retain high quality

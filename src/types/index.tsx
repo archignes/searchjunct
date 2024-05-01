@@ -16,3 +16,4 @@ export type { HandleSearchShortcutCandidateParams } from './search';
 export type { HandleSearchProps } from './search';
 export type { SubmitSearchParams } from './search';
 
+export type { Document, MicroPost, ThesesLink, Discussion    } from './documents';

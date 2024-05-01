@@ -1,7 +1,13 @@
+"use client"
+
 import React from 'react';
-import MainMenuToggle from './Toggle';
+import Link from 'next/link';
 import Image from 'next/image';
 import DropDownMenu from '../main-menu/DropDownMenu';
+import { Button } from '../ui/button';
+import { System } from '@/types';
+import { SystemComboBox } from './SystemComboBox';
+import { useSystemsContext } from '@/contexts';
 
 export const SearchjunctTitle: React.FC = () => {
   return (
@@ -22,7 +28,8 @@ const HeaderTitle: React.FC<{ pageTitleParts: string[] }> = ({ pageTitleParts })
   )
 }
 
-const Header: React.FC<{ pageTitleParts?: string[] }> = ({ pageTitleParts }) => {
+const Header: React.FC<{ pageTitleParts?: string[], system?: System }> = ({ pageTitleParts, system }) => {
+  const {baseSystems} = useSystemsContext();
   return (
     <header className="grid grid-cols-12 pt-1 mb-1">
       {/* <MainMenuToggle className="col-span-1" /> */}
@@ -31,7 +38,13 @@ const Header: React.FC<{ pageTitleParts?: string[] }> = ({ pageTitleParts }) => 
         <Image className="inline" src="/searchjunct.svg" alt="Searchjunct Logo" width={32} height={32} />
         <SearchjunctTitle /></a>
       {pageTitleParts && <HeaderTitle pageTitleParts={pageTitleParts} />}
+      {system && 
+        <div className="col-span-12 text-center my-2">
+          <p><SystemComboBox systems={baseSystems} system={system} /></p>
+        </div>
+      }
     </header>
+
   );
 };
 

@@ -161,11 +161,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
                 <TooltipContent side="top" className="text-base">Toggle system card</TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          ) : (<SystemTitle
-            className={`px-0 flex items-center flex-grow w-full ${activeSystemId === system.id ? 'text-lg' : 'text-base'}`}
-            system={system}
-            favicon_included={true}
-          />)}
+          ) : ""}
         </div>
         {showDragHandle && (
           <div

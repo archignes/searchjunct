@@ -1,13 +1,5 @@
 // systems.tsx
 
-export interface MicroPost {
-    date: string;
-    text: string;
-    url: string;
-    author: string;
-    author_label: string;
-}
-
 export interface System {
     id: string;
     name: string;
@@ -19,6 +11,12 @@ export interface System {
     baseUrlFor?: string[];
     accountRequired?: boolean;
     searchLink: string;
+    indices?: [
+        {
+            name: string;
+            url: string;
+        }
+    ]
     searchLinkJoiner?: string;
     searchLinkNote?: string;
     searchLinkRequiresQuery?: boolean;
@@ -30,7 +28,6 @@ export interface System {
     instagramLink?: string;
     namingNote?: string;
     twitterLink?: string;
-    microPosts?: MicroPost[];
     redditLink?: string;
     matrixLink?: string;
     githubLink?: string;
@@ -39,9 +36,28 @@ export interface System {
     facebookLink?: string;
     discordLink?: string;
     youtubeLink?: string;
+    shareLinksSupported?: boolean;
+    exampleSharedLinks?: [
+        {
+            name: string;
+            url: string;
+        }
+    ]
     openSourceLicense?: string;
     openSourceLicenseUrl?: string;
     nonprofitVerification?: string;
+    citations?: [
+        {
+            names: string;
+            year: string;
+            title: string;
+            publication: string;
+            doi: string;
+            title_url: string;
+            doi_url: string;
+            abstract: string;
+        }
+    ]
     webSearchSystem?: boolean;
     productHuntLink?: string;
     favicon?: string;
@@ -87,23 +103,6 @@ export interface System {
     baseUrl?: string;
     specialNote?: string;
     notableFeatures?: Feature[];
-    thesesLinks?: {
-        title: string;
-        url: string;
-        author: string;
-        date: string;
-    }[];
-    discussions?: {
-        title: string;
-        date: string;
-        author?: string;
-        platform?: string;
-        url: string;
-        excerpts?: [{
-            text: string;
-            system: string;
-        }];
-    }[];
     githubSponsorLink?: string;
     pronunciation?: {
         string: string;

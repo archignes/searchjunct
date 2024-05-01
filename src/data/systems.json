@@ -14,13 +14,51 @@
       "list_of_links": true
     }
   },
+{
+  "name": "Chatnoir",
+  "id": "chatnoir",
+  "search_link": "https://www.chatnoir.eu/?q=%s",
+  "special_note": "academic research project",
+  "indices": [{"name":"ClueWeb", "url":"https://lemurproject.org/clueweb12.php/"}, {"name":"CommonCrawl", "url":"https://commoncrawl.org/"}],
+  "characteristics": {
+    "output": "list of links"
+  },
+  "citations": [
+    {
+            "names": "Bevendorff, J., Stein, B., Hagen, M., Potthast, M.",
+            "year": "2018",
+            "title": "Elastic ChatNoir: Search Engine for the ClueWeb and the Common Crawl",
+            "publication": "Advances in Information Retrieval",
+            "doi": "10.1007/978-3-319-76941-7_83",
+            "title_url": "https://downloads.webis.de/publications/papers/bevendorff_2018.pdf",
+            "doi_url": "https://doi.org/10.1007/978-3-319-76941-7_83",
+            "abstract": "Elastic ChatNoir is an Elasticsearch-based search engine offering a freely accessible search interface for the two ClueWeb corpora and the CommonCrawl, together about 3 billion web pages. Running across 130 nodes, Elastic ChatNoir features subsecond response times comparable to commercial search engines. Unlike most commercial search engines, it also offers a powerful API that is available free of charge to IR researchers. Elastic ChatNoir’s main purpose is to serve as a baseline for reproducible IR experiments and user studies for the coming years, empowering research at a scale not attainable to many labs beforehand, and to provide a platform for experimenting with new approaches to web search."
+    }
+  ],
+  "twitter_link": "https://twitter.com/webis_de",
+  "github_link": "https://github.com/chatnoir-eu",
+  "youtube_link": "https://www.youtube.com/webis"
+},
+
   {
     "name": "Omniplex",
     "id": "omniplex",
     "add_favicon_background": "black",
+    "tagline": "Where Knowledge Evolves",
+    "default_placeholder": "Ask anything...",
     "search_link": "https://www.omniplex.ai/",
     "twitter_link": "https://twitter.com/Mr_BishalSaha",
-    "special_note": "beta",
+    "github_link": "https://github.com/Omniplex-ai/omniplex",
+    "discord_link": "https://discord.gg/87Mh7q5ZSd",
+    "reddit_link": "https://www.reddit.com/r/omniplex_ai/",
+    "open_source_license": "GNU Affero General Public License v3.0",
+    "landing_page_screenshots": [
+      "screencapture-omniplex-ai-2024-05-01-15_23_16.png"
+    ],
+    "share_links_supported": true,
+    "example_shared_links": [
+      {"query": "How fast can an elephant run?", "url": "https://omniplex.ai/chat/zw7NGZ41WK"}
+    ],
     "characteristics": {
       "output": "generated response"}
   },
@@ -40,14 +78,6 @@
     "id": "searchtweeks-stract",
     "special_note": "experimental",
     "search_link": "https://searchtweaks.com/stract/",
-    "theses_links": [
-      {
-        "title": "Building My Own Search Engine With the Stract API (and Sharing It With You)",
-        "url": "https://researchbuzz.me/2024/02/06/building-my-own-search-engine-with-the-stract-api-and-sharing-it-with-you/",
-        "date": "2024-02-06",
-        "author": "Tara Calishain"
-      }
-    ],
     "characteristics": {
       "list_of_links": true,
       "core_index": "stract"
@@ -116,15 +146,7 @@
     "search_link": "https://you.com/search?q=%s&tbm=youchat&chatMode=custom",
     "characteristics": {
       "output": "generated response"
-    },
-    "micro_posts":[
-      {
-        "date": "2024-04-11",
-        "text": "Our AI Model Selector keeps getting better ✨\n\nWithin 24 hours of their release we added the newest version of GPT-4 Turbo, Gemini 1.5 Pro (beta), Command R, and Command R+ to http://You.com.\n\nYou can now easily compare these models along with all your other favorite LLMs in one place.\n\n#youdotcom #aimodelselector",
-        "url": "https://twitter.com/YouSearchEngine/status/1778473189376671906",
-        "author": "You.com"
-      }
-    ]
+    }
   },
   {
     "name": "Perplexity AI",
@@ -133,33 +155,12 @@
     "search_link": "https://www.perplexity.ai/search/?q=%s",
     "characteristics": {
       "output": "generated response"
-    },
-    "discussions": [
-      {
-        "title": "How I search in 2024",
-        "date": "2024-04-25",
-        "author": "Vicki Boykis",
-        "url": "https://vickiboykis.com/2024/04/25/how-i-search-in-2024/",
-        "excerpts": [
-          {
-            "text": "Perplexity has been surprisingly good for the use-case of when I want to look something technical up and also want the citations and the links because I don’t trust LLMs to just generate the answer for me.",
-            "system": "perplexity-ai"
-          }
-        ]
-      }
-    ],
-    "micro_posts":[
-      {
-        "date": "2023-01-19",
-        "text": "Announcing a major update to Perplexity Ask: the world’s first conversational search engine! Now, you can read answers with up-to-date sources and ask follow-up questions to dig deeper. In other words, you can chat with your search engine!\n\nTry it out at http://perplexity.ai",
-        "url": "https://twitter.com/perplexity_ai/status/1616120452338036736",
-        "author": "Perplexity AI"
-      }
-    ]
+    }
   },
   {
     "name": "Mojeek - RAG",
     "id": "mojeek-rag",
+    "indices": [{"name":"Mojeek"}],
         "characteristics": {
       "output": "generated response"
     },
@@ -212,15 +213,7 @@
     "twitter_link": "https://twitter.com/OpenAI",
     "characteristics": {
       "output": "generated response"
-    },
-    "discussions": [
-      {
-        "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
-        "date": "2023-12",
-        "author": "Dan Luu",
-        "url": "https://danluu.com/seo-spam/"
-      }
-    ]
+    }
   },
   {
     "name": "ChatGPT - 4",
@@ -250,15 +243,7 @@
     "characteristics": {
       "list_of_links": true
     },
-    "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)",
-    "discussions": [
-      {
-        "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
-        "date": "2023-12",
-        "author": "Dan Luu",
-        "url": "https://danluu.com/seo-spam/"
-      }
-    ]
+    "wikipedia_link": "https://en.wikipedia.org/wiki/Bing_(search_engine)"
   },
   {
     "name": "Devv",
@@ -275,7 +260,6 @@
   {
     "name": "DuckDuckGo",
     "id": "duckduckgo",
-    "search_index": "bing",
     "search_link": "https://duckduckgo.com/?q=%s",
     "characteristics": {
       "list_of_links": true
@@ -349,27 +333,7 @@
     "characteristics": {
       "list_of_links": true
     },
-    "open_source_license": "GNU Affero General Public License v3.0",
-    "discussions": [
-      {
-        "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
-        "date": "2023-12",
-        "author": "Dan Luu",
-        "url": "https://danluu.com/seo-spam/"
-      },
-      {
-        "title": "How I search in 2024",
-        "date": "2024-04-25",
-        "author": "Vicki Boykis",
-        "url": "https://vickiboykis.com/2024/04/25/how-i-search-in-2024/",
-          "excerpts": [
-            {
-              "text": "I love everything about Marginalia, which is a search engine with its own index, run by a single dude, initially on a server in his apartment.",
-              "system": "marginalia-search"
-            }
-          ]
-      }
-    ]
+    "open_source_license": "GNU Affero General Public License v3.0"
   },
   {
     "name": "Perplexity AI - Pro",
@@ -389,14 +353,6 @@
     "wikipedia_link": "https://en.wikipedia.org/wiki/Perplexity.ai",
     "twitter_link": "https://twitter.com/perplexity_ai",
     "naming_note": "The paid offering was previously known as Perplexity Copilot.",
-    "micro_posts":[
-      {
-        "date": "2023-05-18",
-        "text": "The next iteration of Perplexity has arrived: Copilot, your interactive AI search companion. 🚀🤖 Perplexity Copilot guides your search experience with interactive inputs, leading you to a rich, personalized answer, powered by GPT-4. Try it for free at http://perplexity.ai",
-        "url": "https://twitter.com/perplexity_ai/status/1659229846587711490",
-        "author": "Perplexity AI"
-      }
-    ],
     "landing_page_screenshots": ["screencapture-perplexity-ai-2024-04-26-02_06_32.png"]
   },
   {
@@ -460,26 +416,6 @@
         "image": "kagi_feedback_2024-04-26-02_52_50.png",
         "url": "https://kagifeedback.org/"
       }
-    ],
-    "discussions": [
-      {
-        "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
-        "date": "2023-12",
-        "author": "Dan Luu",
-        "url": "https://danluu.com/seo-spam/"
-      },
-      {
-        "title": "How I search in 2024",
-        "date": "2024-04-25",
-        "author": "Vicki Boykis",
-        "url": "https://vickiboykis.com/2024/04/25/how-i-search-in-2024/",
-        "excerpts": [
-          {
-            "text": "I’ve been hearing more and more about Kagi and finally decided to try it out in January. The results were so good that I immediately bought a subscription and switched my default search engine in my web and mobile browser to Kagi.",
-            "system": "kagi"
-          }
-        ]
-      }
     ]
   },
   {
@@ -505,14 +441,6 @@
     "hugging_face_link": "https://huggingface.co/komo-ai",
     "product_hunt_link": "https://www.producthunt.com/products/komo-search",
     "twitter_link": "https://twitter.com/komo__ai",
-    "micro_posts": [
-      {
-        "date": "2023-01-17",
-        "text": "Exciting updates from Komo Search! 🚀 #komo now provides more structured, up-to-date answers with sources for factual claims.🔮Besides, Komo now is divided into Chat, Explore, Search journeys for easy navigations. 1/3 #ai #aitools #openai #searchengine #chatgpt #startup",
-        "url": "https://twitter.com/komo__ai/status/1615468223390175233",
-        "author": "Komo AI"
-      }
-    ],
     "landing_page_screenshots": ["screencapture-komo-ai-2024-04-26-02_03_39.png"]
   },
   {
@@ -539,14 +467,6 @@
     "manual_switch_required": true,
     "github_link": "https://github.com/cohere-ai/cohere-toolkit/",
     "open_source_license": "MIT License",
-    "micro_posts": [
-      {
-        "author": "Cohere",
-        "text": "The Cohere Toolkit is here! We’re releasing an open-source repository for devs to build RAG applications, just like the Cohere demo. It's a game-changer for developers to accelerate and simplify building enterprise AI apps like knowledge assistants.\n\nhttps://cohere.com/blog/cohere-toolkit",
-        "date": "2024-04-24",
-        "url": "https://twitter.com/cohere/status/1783216554483855783"
-      }
-    ],
     "landing_page_screenshots": ["screencapture-coral-cohere-2024-04-26-02_25_55-edit.png"]
   },
   {
@@ -697,16 +617,7 @@
     },
     "search_link": "https://yep.com/web?q=%s",
     "android_choice_screen_options": true,
-    "twitter_link": "https://twitter.com/yepsearch",
-    "micro_posts": [
-      {
-        "date": "2021-06-18",
-        "text": "Ahrefs is getting closer to publicly promoting the Web Search Engine we are working on. In case you missed the previous announcement – the point of our search engine is to share ad revenue with content creators 90/10. With 90% going to creators.",
-        "url": "https://twitter.com/botsbreeder/status/1405920654877028357",
-        "author": "Dmytro Gerasymenko",
-        "author_label": "(founder and CEO at Ahrefs)"
-      }
-    ]
+    "twitter_link": "https://twitter.com/yepsearch"
   },
   {
     "name": "Presearch",
@@ -740,15 +651,7 @@
       },
       "search_link": "https://openperplex.com",
       "twitter_link": "https://twitter.com/KhazzanYassine",
-      "micro_posts": [
-          {
-            "date": "2024-04-19",
-            "text": "Launched a simple Perplexity clone using @GroqInc and llama3-8b. Visit https://openperplex.com\n\nI will be sharing the source code on GitHub #AI #Tech #groq #Llama3 @sundeep @GavinSherry",
-            "url": "https://twitter.com/KhazzanYassine/status/1781479335175627115",
-            "author": "Khazzan Yassine"
-          }
-        ],
-        "landing_page_screenshots": ["screencapture-openperplex-2024-04-26-02_07_44-edit.png", "openperplex-example-query-2024-04-26-03_14_04.png"]
+        "landing_page_screenshots": ["screencapture-openperplex-2024-05-01-16_14_14.png", "openperplex-example-query-2024-04-26-03_14_04.png"]
     },
   {
     "name": "Bing Deep Search",
@@ -759,22 +662,14 @@
     },
     "search_link": "https://www.bing.com/search?q=%s&shm=cr&form=DEEPSH",
     "search_link_note": "If the query is empty it is processed by Microsoft as a standard Bing search.",
-    "search_link_requires_query": true,
-    "micro_posts": [
-      {
-        "date": "2023-12-05",
-        "text": "Something I'm super-excited about: Deep Search (aka \"Search Harder\"). You know how, when researching something complicated, you try several queries, read many documents? We make GPT-4 do it for you. Already flighting:\nhttps://blogs.bing.com/search-quality-insights/december-2023/Introducing-Deep-Search",
-        "url": "https://twitter.com/MParakhin/status/1732092242012275178",
-        "author": "Mikhail Parakhin",
-        "author_label": "(at the time, Head of Bing Search)"
-      }
-    ]
+    "search_link_requires_query": true
   },
 {
     "name": "Wayback Machine",
     "id": "wayback-machine",
     "search_link_joiner": "%20",
     "type": "archive",
+    "indices": [{"name":"Archive.org", "url":"https://web.archive.org/web/*/"}],
     "characteristics": {
       "output": "list of local objects"
     },
@@ -785,9 +680,13 @@
   {
     "name": "Mojeek",
     "id": "mojeek",
+    "indices": [
+      {
+        "name": "Mojeek"
+      }
+    ],
     "characteristics": {
-      "output": "list of links",
-      "index": "mojeek"
+      "output": "list of links"
     },
     "search_link": "https://www.mojeek.com/search?q=%s",
     "android_choice_screen_options": true,
@@ -843,6 +742,7 @@
     "name": "Stract",
     "id": "stract",
     "special_note": "beta",
+    "indices": [{"name":"Stract"}],
     "characteristics": {
       "output": "list of links"
     },
@@ -868,28 +768,7 @@
           "Arc",
           "Firefox",
           "Opera"
-        ],
-    "discussions": [
-      {
-        "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
-        "date": "2023-12",
-        "author": "Dan Luu",
-        "url": "https://danluu.com/seo-spam/"
-      },
-      {
-        "title": "Google Search Really Has Gotten Worse, Researchers Find",
-        "platform": "404 Media",
-        "date": "2024-01-16",
-        "author": "Jason Koebler",
-        "url": "https://www.404media.co/google-search-really-has-gotten-worse-researchers-find/"
-      },
-      {
-        "title": "Google Search Is Dying",
-        "date": "2022-02-15",
-        "author": "Dmitri Brereton",
-        "url": "https://dkb.blog/p/google-search-is-dying"
-      }
-    ]
+        ]
   },
   {
     "name": "Yahoo",
@@ -920,14 +799,6 @@
       "title": "The Book of Mwmbl",
       "url": "https://book.mwmbl.org/"
     },
-    "theses_links": [
-      {
-       "date": "2022-07-10",
-       "title": "Why the world needs a non-profit search engine",
-       "url": "https://daoudclarke.net/search%20engines/2022/07/10/non-profit-search-engine",
-       "author": "Daoud Clarke"
-      }
-    ],
     "search_link": "https://mwmbl.org/?q=%s",
     "twitter_link": "https://twitter.com/mwmblorg",
     "linkedin_link": "https://www.linkedin.com/company/mwmbl",
@@ -941,21 +812,7 @@
     "github_sponsor_link": "https://github.com/sponsors/mwmbl",
     "open_source_license": "GNU Affero General Public License v3.0",
     "youtube_link": "https://www.youtube.com/@mwmbl",
-    "pronunciation": {"string": "mumble", "url": "https://github.com/mwmbl/mwmbl?tab=readme-ov-file#how-do-you-pronounce-mwmbl"},
-    "discussions": [
-      {
-        "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
-        "date": "2023-12",
-        "author": "Dan Luu",
-        "url": "https://danluu.com/seo-spam/"
-      },
-      {
-        "title": "Mwmbl: Free, open-source and non-profit search engine (mwmbl.org)",
-        "date": "2023-09-18",
-        "platform": "Hacker News",
-        "url": "https://news.ycombinator.com/item?id=37561155"
-      }
-    ]
+    "pronunciation": {"string": "mumble", "url": "https://github.com/mwmbl/mwmbl?tab=readme-ov-file#how-do-you-pronounce-mwmbl"}
   }
 ]
 

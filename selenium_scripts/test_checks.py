@@ -51,6 +51,9 @@ class TestLoading:
         assert "Searchjunct" in self.driver.title, "Page title verification: Failure"
 
 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 @pytest.mark.usefixtures("driver")
 class TestSearching:
     def wait_for_element(self, locator):
@@ -58,33 +61,69 @@ class TestSearching:
 
     def verify_new_tab(self):
         try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "body")))
             assert len(self.driver.window_handles) == 2
+            print("Assertion on number of window handles passed")
         except AssertionError:
+            print("Assertion on number of window handles failed")
+            print("Current window handles count:", len(self.driver.window_handles))
+            print("Full page source at failure:", self.driver.page_source)
             pytest.fail("New tab opening verification after search submit: Failure")
 
         self.driver.switch_to.window(self.driver.window_handles[1])
+        print(f"Switched to window handle: {self.driver.current_url}")
+
         try:
-            assert self.driver.current_url.startswith(
-                f"{BASE_URL}/testing"
-            ), "URL verification: Failure"
-        except AssertionError:
+            WebDriverWait(self.driver, 10).until(lambda driver: driver.current_url.startswith(f"{BASE_URL}/testing"))
+            assert self.driver.current_url.startswith(f"{BASE_URL}/testing"), "URL verification: Failure"
+            print("Assertion on URL passed")
+        except AssertionError as e:
+            print("Assertion on URL failed")
+            print("Current URL:", self.driver.current_url)
+            print("Page source at URL failure:", self.driver.page_source)
             print(self.driver.find_element_by_tag_name("body").text)
-            raise
-        assert (
-            "Click here to open the link" in self.driver.page_source
-        ), "Text presence verification: Failure"
+            raise e
+
+        try:
+            WebDriverWait(self.driver, 10).until(lambda driver: "Click here to open the link" in driver.page_source)
+            assert "Click here to open the link" in self.driver.page_source, "Text presence verification: Failure"
+            print("Assertion on page source passed")
+        except AssertionError as e:
+            print("Assertion on page source failed")
+            print("Page source at text presence failure:", self.driver.page_source)
+            raise e
+
         self.driver.close()
         self.driver.switch_to.window(self.driver.window_handles[0])
 
     def test_search_functionality_submit(self):
+        # Navigate to the base URL
         self.driver.get(BASE_URL)
+        print("Navigated to BASE_URL.")
 
+        # Locate the search box, input text, and submit the form
         search_box = self.wait_for_element((By.TAG_NAME, "textarea"))
+        if search_box:
+            print("Search box located successfully.")
+        else:
+            print("Failed to locate the search box.")
+        
         search_box.send_keys("TestSelenium")
+        print("Keys 'TestSelenium' sent to the search box.")
+        
         search_box.submit()
+        print("Form submitted.")
 
-        self.wait.until(lambda driver: len(driver.window_handles) == 2)
+        # Wait until a new tab is opened
+        new_tab_opened = self.wait.until(lambda driver: len(driver.window_handles) == 2)
+        if new_tab_opened:
+            print("New tab opened successfully.")
+        else:
+            print("New tab did not open as expected.")
+
+        # Verify the new tab's content and URL
         self.verify_new_tab()
+        print("New tab verified.")
 
     def test_search_functionality_enter(self):
         self.driver.get(BASE_URL)

@@ -10,7 +10,6 @@ import ShortcutBar from "../src/components/ShortcutBar";
 import { FeedbackAction } from "../src/components/FeedbackAction";
 import ViewMultisearchSheet from '../src/components/search/multisearch/MultisearchManagementSheet';
 import SetDefaults from '../src/components/SetDefaults';
-import { useAppContext } from '../src/contexts';
 
 
 const title = "Searchjunct"

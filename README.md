@@ -2,7 +2,8 @@
 
 
 ## Overview
-Searchjunct is a single-page application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.
+
+Searchjunct is an application designed to facilitate multi-engine search selection and routing. This tool serves as a speculative or exploratory design prototype, providing a platform for wondering, particularly around user interaction with multiple search engines and finding & supporting better tools and practices.
 
 ## Features
 - **Multi-Engine Search Selection:** Enables queries through multiple search engines based on user selection.
@@ -50,6 +51,22 @@ searchjunct % pm2 start "npm run dev" --name searchjunct
 ```
 
 See https://www.npmjs.com/package/pm2 for `pm2 list`, `pm2 stop`, `pm2 restart`, and `pm2 delete`.
+
+### Testing
+
+```
+npm run test
+```
+
+```
+p -m pytest selenium_scripts/test_checks.py
+```
+
+OR 
+
+```
+p -m pytest selenium_scripts/test_checks.py --html=report.html -n 4
+```
 
 ## Contributing
 Contributions are welcome. Please see the issues on the [GitHub](#) for areas where you can help. For new features or bug reports, create a new issue so we can track and discuss it.

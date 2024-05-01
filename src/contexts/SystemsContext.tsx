@@ -11,8 +11,6 @@ const addParentSystemData = (system: System) => {
     const skipTheseKeysForChildren = [
         "parent",
         "children",
-        "micro_posts",
-        "discussions",
         "default_in_browser",
         "android_choice_screen_options",
     ];

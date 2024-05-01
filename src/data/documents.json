@@ -1,0 +1,186 @@
+[{
+  "type": "discussion",
+  "title": "A look at search engines with their own indexes",
+  "date": "2024-04-22",
+  "author": "Rohan Kumar",
+  "url": "https://seirdy.one/posts/2021/03/10/search-engines-with-own-indexes/",
+  "systems": ["stract", "yep", "chatnoir", "brave", "qwant", "kagi", "marginalia-search", "mwmbl"],
+  "excerpts": [
+    {
+      "text": "My favorite generalist engine on this page.",
+      "system": "stract"
+    }
+  ]
+},
+{
+  "type": "thesis",
+  "systems": ["searchtweaks-stract"],
+  "title": "Building My Own Search Engine With the Stract API (and Sharing It With You)",
+  "url": "https://researchbuzz.me/2024/02/06/building-my-own-search-engine-with-the-stract-api-and-sharing-it-with-you/",
+  "date": "2024-02-06",
+  "author": "Tara Calishain"
+},
+  { "type": "micro_post",
+    "date": "2024-04-11",
+    "text": "Our AI Model Selector keeps getting better ✨\n\nWithin 24 hours of their release we added the newest version of GPT-4 Turbo, Gemini 1.5 Pro (beta), Command R, and Command R+ to http://You.com.\n\nYou can now easily compare these models along with all your other favorite LLMs in one place.\n\n#youdotcom #aimodelselector",
+    "url": "https://twitter.com/YouSearchEngine/status/1778473189376671906",
+    "author": "You.com"
+  }
+,
+  {
+    "type": "discussion",
+    "title": "How I search in 2024",
+    "date": "2024-04-25",
+    "author": "Vicki Boykis",
+    "url": "https://vickiboykis.com/2024/04/25/how-i-search-in-2024/",
+    "excerpts": [
+      {
+        "text": "Perplexity has been surprisingly good for the use-case of when I want to look something technical up and also want the citations and the links because I don’t trust LLMs to just generate the answer for me.",
+        "system": "perplexity-ai"
+      }
+    ]
+  },
+  { "type": "micro_post",
+    "date": "2023-01-19",
+    "text": "Announcing a major update to Perplexity Ask: the world’s first conversational search engine! Now, you can read answers with up-to-date sources and ask follow-up questions to dig deeper. In other words, you can chat with your search engine!\n\nTry it out at http://perplexity.ai",
+    "url": "https://twitter.com/perplexity_ai/status/1616120452338036736",
+    "author": "Perplexity AI",
+    "systems": ["perplexity-ai-pro"]
+  },
+  {
+    "type": "discussion",
+    "title": "How bad are search results? Let's compare Google, Bing, Marginalia, Kagi, Mwmbl, and ChatGPT",
+    "date": "2023-12",
+    "author": "Dan Luu",
+    "systems": ["google", "bing", "marginalia-search", "kagi", "mwmbl", "chatgpt-3-5"],
+    "url": "https://danluu.com/seo-spam/",
+    "excerpts": [
+                {
+                  "text": "I love everything about Marginalia, which is a search engine with its own index, run by a single dude, initially on a server in his apartment.",
+                  "system": "marginalia-search"
+                },
+                {
+                  "text": "I’ve been hearing more and more about Kagi and finally decided to try it out in January. The results were so good that I immediately bought a subscription and switched my default search engine in my web and mobile browser to Kagi.",
+                  "system": "kagi"
+                }
+              ]
+  },
+    {
+      "type": "micro_post",
+      "date": "2023-05-18",
+      "text": "The next iteration of Perplexity has arrived: Copilot, your interactive AI search companion. 🚀🤖 Perplexity Copilot guides your search experience with interactive inputs, leading you to a rich, personalized answer, powered by GPT-4. Try it for free at http://perplexity.ai",
+      "url": "https://twitter.com/perplexity_ai/status/1659229846587711490",
+      "author": "Perplexity AI",
+      "systems": ["perplexity-ai-pro"]
+    },
+  {
+    "type": "micro_post",
+    "date": "2023-01-17",
+      "text": "Exciting updates from Komo Search! 🚀 #komo now provides more structured, up-to-date answers with sources for factual claims.🔮Besides, Komo now is divided into Chat, Explore, Search journeys for easy navigations. 1/3 #ai #aitools #openai #searchengine #chatgpt #startup",
+      "url": "https://twitter.com/komo__ai/status/1615468223390175233",
+      "author": "Komo AI",
+      "systems": ["komo"]
+    },
+    {
+      "type": "discussion",
+      "title": "Mwmbl: Free, open-source and non-profit search engine (mwmbl.org)",
+      "date": "2023-09-18",
+      "platform": "Hacker News",
+      "url": "https://news.ycombinator.com/item?id=37561155",
+      "systems": ["mwmbl"]
+    },
+    {"type": "thesis",
+      "date": "2022-07-10",
+      "title": "Why the world needs a non-profit search engine",
+      "url": "https://daoudclarke.net/search%20engines/2022/07/10/non-profit-search-engine",
+      "author": "Daoud Clarke",
+      "systems": "mwmbl"
+    },
+    {
+      "type": "micro_post",
+      "date": "2023-12-05",
+      "text": "Something I'm super-excited about: Deep Search (aka \"Search Harder\"). You know how, when researching something complicated, you try several queries, read many documents? We make GPT-4 do it for you. Already flighting:\nhttps://blogs.bing.com/search-quality-insights/december-2023/Introducing-Deep-Search",
+      "url": "https://twitter.com/MParakhin/status/1732092242012275178",
+      "author": "Mikhail Parakhin",
+      "author_label": "(at the time, Head of Bing Search)",
+      "systems": [
+        "bing-deep-search"
+      ]
+    },
+  {
+    "type": "discussion",
+    "title": "Google Search Really Has Gotten Worse, Researchers Find",
+    "platform": "404 Media",
+    "date": "2024-01-16",
+    "author": "Jason Koebler",
+    "url": "https://www.404media.co/google-search-really-has-gotten-worse-researchers-find/",
+    "systems": ["google"]
+  },
+  {
+    "type": "discussion",
+    "title": "Google Search Is Dying",
+    "date": "2022-02-15",
+    "author": "Dmitri Brereton",
+    "url": "https://dkb.blog/p/google-search-is-dying",
+    "systems": ["google"]
+  },
+  {
+    "title": "This Guy Has Built an Open Source Search Engine as an Alternative to Google in His Spare Time",
+    "date": "2024-02-08",
+    "author": "Jason Koebler",
+    "url": "https://www.404media.co/this-guy-is-building-an-open-source-search-engine-in-real-time/",
+    "systems": ["stract"]
+  },
+    { "type": "micro_post",
+      "date": "2024-04-19",
+      "text": "Launched a simple Perplexity clone using @GroqInc and llama3-8b. Visit https://openperplex.com\n\nI will be sharing the source code on GitHub #AI #Tech #groq #Llama3 @sundeep @GavinSherry",
+      "url": "https://twitter.com/KhazzanYassine/status/1781479335175627115",
+      "author": "Khazzan Yassine",
+      "systems": ["openperplex"]
+    },
+  {
+    "type": "micro_post",
+    "author": "Cohere",
+    "text": "The Cohere Toolkit is here! We’re releasing an open-source repository for devs to build RAG applications, just like the Cohere demo. It's a game-changer for developers to accelerate and simplify building enterprise AI apps like knowledge assistants.\n\nhttps://cohere.com/blog/cohere-toolkit",
+    "date": "2024-04-24",
+    "url": "https://twitter.com/cohere/status/1783216554483855783",
+    "systems": ["cohere"]
+  },
+  { 
+    "type": "micro_post",
+    "date": "2021-06-18",
+    "text": "Ahrefs is getting closer to publicly promoting the Web Search Engine we are working on. In case you missed the previous announcement – the point of our search engine is to share ad revenue with content creators 90/10. With 90% going to creators.",
+    "url": "https://twitter.com/botsbreeder/status/1405920654877028357",
+    "author": "Dmytro Gerasymenko",
+    "author_label": "(founder and CEO at Ahrefs)",
+    "systems": ["ahrefs"]
+  },
+  {
+    "type": "micro_post",
+    "date": "2023-12-05",
+    "text": "Something I'm super-excited about: Deep Search (aka \"Search Harder\"). You know how, when researching something complicated, you try several queries, read many documents? We make GPT-4 do it for you. Already flighting:\nhttps://blogs.bing.com/search-quality-insights/december-2023/Introducing-Deep-Search",
+    "url": "https://twitter.com/MParakhin/status/1732092242012275178",
+    "author": "Mikhail Parakhin",
+    "author_label": "(at the time, Head of Bing Search)",
+    "systems": [
+      "bing-deep-search"
+    ]
+  },
+  {
+    "type": "discussion",
+    "systems": ["stract"],
+    "title": "Stract: Open-souce, non-profit search engine (stract.com)",
+    "url": "https://news.ycombinator.com/item?id=39254172",
+    "date": "2024-02-02",
+    "platform": "Hacker News"
+  },
+  {
+    "type": "micro_post",
+    "systems": ["omniplex"],
+    "text": "https://youtu.be/ocTitQa0UHw\n\n🚀 Exciting news! I'm thrilled to announce the official launch of my open-source alternative to PerplexityAI! Your feedback has been invaluable in shaping the app.\n\n#OpenSourceAI #SearchAI",
+    "url": "https://twitter.com/Mr_BishalSaha/status/1785710769360998601",
+    "author": "Bishal Saha",
+    "date": "2024-05-01"
+  }
+]
+
