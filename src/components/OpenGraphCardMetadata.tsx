@@ -7,7 +7,7 @@ const OpenGraphCardMetaData = (system: System) => {
     const description = `Systems card for the ${system.name} search system.`
     const domain = "https://searchjunct.com"
     const url = `${domain}/${system.id}`;
-    const image = `${domain}/screenshots/shareCards/${system.id}.png`;
+    const image = `${domain}/screenshots/share_cards/${system.id}.png`;
 
     const ogMetadata = { title, description, url, image };
 
