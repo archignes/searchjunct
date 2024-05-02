@@ -82,10 +82,15 @@ const SystemPage = ({ system }: { system: System }) => {
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
-                <meta property="og:image" content={`/screenshots/shareCards/${system.id}.png`} />
+                <meta property="og:image" content={image} />
 
                 {/* <!-- Twitter Meta Tags --> */}
                 <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content={image} />
+                <meta name="twitter:image:alt" content={`Share card for ${system.name}`} />
+                <meta name="twitter:title" content={title} />
+                <meta name="twitter:description" content={description} />
+                <meta name="twitter:creator" content="@ARCHIGNES" />
             </Head>
             {typeof window !== 'undefined' && !window.location.href.includes('localhost') ? (
                 <Script defer data-domain="searchjunct.com" src="https://plausible.io/js/script.js" />
