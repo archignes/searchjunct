@@ -133,6 +133,15 @@ const PermalinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => {
 }
 
 const SearchLinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => {
+    if (system.searchLink) {
+      navigator.clipboard.writeText(system.searchLink)
+        .then(() => {
+          console.log('Search link copied to clipboard!');
+        })
+        .catch(err => {
+          console.error('Failed to copy search link: ', err);
+        });
+      }
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild className="flex flex-row items-center text-xs justify-center p-0 m-0">
