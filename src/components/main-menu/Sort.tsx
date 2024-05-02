@@ -7,6 +7,7 @@ import { Switch } from '@/src/components/ui/switch';
 import SortingContainer from '@/src/components/SortingContainer';
 import { useSortContext } from '@/contexts';
 import { SettingsItem, SettingsButton, SettingsText } from './SettingsItem';
+import SystemItemDraggable from '@/src/components/systems/DraggableItem';
 
 const ShortcutsCard: React.FC = () => {
     const { 

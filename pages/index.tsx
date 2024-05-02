@@ -42,15 +42,11 @@ const HomePage = () => {
         <Script defer data-domain="searchjunct.com" src="https://plausible.io/js/script.js" />
       ) : null}
       <div className="mx-1 w-9/10 sm:w-3/4 sm:mx-auto md:w-3/7 lg:w-3/5 xl:w-2/4">
-      <Header />
         <div className="flex flex-row mx-7">
         <div className={`w-full bg-white rounded-md mr-1 p-1`}>
           <SearchBar />
           <ShortcutBar />
           <SystemList />
-          <Footer />
-          <FeedbackAction />
-          <ViewMultisearchSheet />
         </div>
         </div>
         </div>

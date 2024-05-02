@@ -6,7 +6,7 @@ import {
     SheetHeader,
     SheetTitle
 } from "@/src/components/ui/sheet"
-import { SpecialCardTitle } from '../../systems/SystemTitle';
+import { SpecialCardTitle } from '../../systems/Title';
 import ViewMultisearchShortcuts from './ViewMultisearchShortcuts';
 import AddMultisearchActionObject from './AddMultisearchActionObject';
 

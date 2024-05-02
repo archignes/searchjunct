@@ -1,16 +1,11 @@
 // ui/SystemItem.tsx 
 
-import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { Button } from '../ui/button';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
-import { DragHandleDots2Icon,
-  ChevronDownIcon
-} from '@radix-ui/react-icons';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { Query } from '../../types';
-import { useDroppable } from '@dnd-kit/core';
 import {
   Accordion,
   AccordionContent,
@@ -18,42 +13,35 @@ import {
   AccordionTrigger,
 } from "../ui/accordion-minus"
 import { System } from '../../types/system';
-import SystemCard from './SystemCard';
+import SystemCard from './Card';
 import { useSystemExpansionContext,
   useQueryContext,
   useSystemSearchContext,
   useSearchContext, 
   useStorageContext,
-  useAddressContext, 
-  useSortContext
+  useAddressContext
 } from '../../contexts';
-import { SystemTitle } from './SystemTitle';
+import { SystemTitle } from './Title';
 import AlertQueryNeeded from './AlertQueryNeeded';
 
 
-interface SortableItemProps {
-  id: string;
+interface SystemItemProps {
   system: System;
-  showDisableDeleteButtons: boolean;
-  showDragHandle: boolean;
   activeSystemId: string | undefined;
   className?: string;
+  showDisableDeleteButtons?: boolean;
 }
 
 
 interface SystemAccordionItemProps {
-  className?: string; // Ensure this line is present
+  className?: string;
   system: System;
-  showDragHandle: boolean;
   queryObject?: Query;
   activeSystemId?: string | undefined;
   submitSearch?: ({ system }: { system: System }) => void;
   getPreppedSearchLink?: ({ system, query }: { system: System; query: string }) => string;
   openItem?: string | undefined;
   setOpenItem?: (value: string | undefined) => void;
-  attributes: any;
-  listeners: any;
-  setDragHandleRef: any;
 }
 
 interface TitleToInitiateSearchProps {
@@ -96,16 +84,12 @@ export const TitleToInitiateSearch: React.FC<TitleToInitiateSearchProps> = ({
 const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
   className,
   system,
-  showDragHandle,
   queryObject,
   activeSystemId,
   submitSearch,
   getPreppedSearchLink,
   openItem,
   setOpenItem,
-  attributes,
-  listeners,
-  setDragHandleRef,
 }) => {
   const handleAccordionToggle = (e: React.MouseEvent) => {
     // Prevents the accordion from toggling when clicking on TitleToInitiateSearch
@@ -121,8 +105,9 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
   };
 
   return (
-    <AccordionItem value="item-1" className={`rounded-md accordion-item-hover ${showDragHandle ? 'border rounded-md w-3/4 sm:w-full' : 'border-none'} ${className}`}
+    <AccordionItem value="item-1" className={`rounded-md accordion-item-hover border-none ${className}`}
       onClick={handleAccordionToggle}>
+
       <div className="w-full flex justify-between">
         <div className="w-full flex items-center">
           {getPreppedSearchLink && submitSearch && queryObject && (
@@ -150,12 +135,9 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild className='p-0 px-0 mx-0'>
-                  <AccordionTrigger asChild className="mr-0 hover:rounded-md hover:bg-blue-100 pr-0">
+                  <AccordionTrigger asChild className="mr-0 pr-0">
                     <Button variant="ghost" className="p-0">
-                      {(openItem === "item-1" && !showDragHandle) && (
-                        <ChevronDownIcon className={`h-4 w-4 mx-4 shrink-0 text-muted-foreground transition-transform duration-200 ml-1 ${openItem === "item-1" ? 'rotate-0' : 'rotate-180'}`} />
-                      )}
-                    </Button>
+                      <ChevronDownIcon className={`chevron-icon h-4 w-4 mx-4 shrink-0 text-muted-foreground transition-transform duration-200 ml-1 ${openItem === "item-1" ? 'rotate-0 accordion-item-active' : 'rotate-180'}`} />                    </Button>
                   </AccordionTrigger>
                 </TooltipTrigger>
                 <TooltipContent side="top" className="text-base">Toggle system card</TooltipContent>
@@ -163,23 +145,9 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
             </TooltipProvider>
           ) : ""}
         </div>
-        {showDragHandle && (
-          <div
-            ref={setDragHandleRef}
-            id={`${system.id}-drag-handle`}
-            {...attributes}
-            {...listeners}
-            className="handle py-2 px-3 hover:bg-blue-100 hover:rounded-md"
-            aria-label="Drag handle for reordering"
-          >
-            <DragHandleDots2Icon className="w-5 h-5 text-muted-foreground" />
-          </div>
-        )}
       </div>
       <AccordionContent className="p-0 pb-1">
-        {!showDragHandle && (
-          <SystemCard system={system} />
-        )}
+        <SystemCard system={system} />
       </AccordionContent>
     </AccordionItem>
   );
@@ -187,50 +155,20 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
 
 
 
-const SearchSystemItem: React.FC<SortableItemProps> = ({
-  id,
+const SystemItem: React.FC<SystemItemProps> = ({
   system,
-  showDisableDeleteButtons,
-  showDragHandle,
   activeSystemId,
-  className
+  className,
+  showDisableDeleteButtons
 }) => {
   const { systemsSkipped} = useSystemSearchContext();
   const { getPreppedSearchLink } = useSearchContext();
   const { queryObject } = useQueryContext();
-  const {systemsDeleted, systemsDisabled, systemsSearched } = useStorageContext();
+  const { systemsDisabled, systemsSearched } = useStorageContext();
   const { expandAllStatus, setExpandedSystemCards, expandedSystemCards } = useSystemExpansionContext();
   const { submitSearch } = useSearchContext();
   
-  // only used here for expanding the system card
   const { urlSystems } = useAddressContext();
-  
-
-  const { isOver } = useDroppable({
-    id,
-  });
-  const { systemsCurrentOrder } = useSortContext();
-
-  const {
-    attributes,
-    listeners,
-    setNodeRef: setDragHandleRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
-    id: id, // Use the system ID directly
-  });
-
-  const { setNodeRef: setItemRef } = useSortable({
-    id: id, // Use the system ID directly
-  });
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    boxShadow: isDragging ? 'shadow-lg' : '',
-    zIndex: isDragging ? 'z-50' : 'z-0',
-  };
 
   const [everClickedReExpansionCollapse, setEverClickedReExpansionCollapse] = useState(false);
 
@@ -268,73 +206,33 @@ const SearchSystemItem: React.FC<SortableItemProps> = ({
     }
   }, [expandedSystemCards, urlSystems, setExpandedSystemCards, system.id, everClickedReExpansionCollapse]);
 
-  const getSortOrder = useCallback(() => {
-    const index = systemsCurrentOrder.findIndex(System => System.id === system.id.toString());
-    return index + 1; // Adding 1 to make it human-readable (1-indexed instead of 0-indexed)
-  }, [systemsCurrentOrder, system.id]);
+  
   return (
-
-    <div className={`w-full border rounded-md
-          ${activeSystemId === system.id ? 'border-blue-500' : 'border-transparent'}`
-        }>
-      <div className={`${isOver ? 'bg-blue-100' : ''}`}>
-      <div
-        ref={setItemRef}
-        id={`sortable-item-${system.id}`}
-        key={system.id}
-        style={{
-          ...style,
-          touchAction: 'none', // Add this line to apply touch-action: none
-        }}
-      >
       <Accordion value={openItem} onValueChange={setOpenItem}
+          id={`item-${system.id}`}
+          key={system.id}
           type="single"
-            className={`w-full border rounded-md
-          ${(openItem === "item-1" && !showDragHandle) ? 'shadow-sm' : 'border-transparent'}
-            ${systemsDisabled?.[system.id] ? 'bg-orange-300 border-transparent' : ''}
-            ${systemsSkipped?.[system.id] ? 'bg-yellow-300 border-transparent' : ''}
-            ${systemsSearched?.[system.id] ? 'bg-gray-200' : ''}
-            ${systemsDeleted?.[system.id] ? '' : ''}
-            ${isDragging ? 'opacity-75 z-50 border-2 border-dashed border-blue-500' : 'opacity-100'}
-            ${isOver ? 'opacity-50' : ''}
-            ${showDragHandle ? 'bg-transparent' : 'border-transparent'}
-              `}
+          className={`w-full border rounded-md
+            ${activeSystemId === system.id ? 'border-blue-500' : ''}
+            ${openItem === "item-1" || activeSystemId === system.id ? '' : 'border-transparent'}
+            ${activeSystemId === system.id ? 'min-h-10' : 'min-h-8'}
+            ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
+            ${systemsSkipped?.[system.id] ? 'bg-yellow-300' : ''}
+            ${systemsSearched?.[system.id] ? 'bg-gray-200' : ''}`}
           collapsible
         >
-          {showDragHandle ? (
-              <div className="grid grid-cols-10 items-start mx-auto w-[95%]">
-                <span className="mx-2 col-start-1 text-right align-top" style={{ minWidth: '2ch', display: 'inline-flex', alignItems: 'start', textAlign: 'right' }}>{getSortOrder()}.</span>
-                <SystemAccordionItem
-                  className={'col-span-9'}
-                  system={system}
-                  showDragHandle={showDragHandle}
-                  attributes={attributes}
-                  listeners={listeners}
-                  setDragHandleRef={setDragHandleRef}
-                  setOpenItem={setOpenItemStable}
-                />
-            </div>
-          ) : (
           <SystemAccordionItem
             className={className}
             system={system}
-            showDragHandle={showDragHandle}
             queryObject={queryObject}
             activeSystemId={activeSystemId}
             submitSearch={submitSearch}
             getPreppedSearchLink={getPreppedSearchLink}
             openItem={openItem}
             setOpenItem={setOpenItemStable}
-            attributes={attributes}
-            listeners={listeners}
-            setDragHandleRef={setDragHandleRef}
           />
-          )}
         </Accordion>
-      </div>
-      </div>
-    </div>
   );
 };
 
-export default SearchSystemItem;
+export default SystemItem;

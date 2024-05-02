@@ -8,15 +8,15 @@ import {
 import { Button } from '@/src/components/ui/button';
 import { ScrollArea } from '@/src/components/ui/scroll-area';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
-import { DeleteSystemButton } from '../systems/SystemsButtons';
+import { DeleteSystemButton } from '../systems/Buttons';
 
-import SearchSystemItem from '../systems/SystemItem';
+import SystemItem from '../systems/Item';
 import { useSystemsContext } from '@/contexts/SystemsContext';
 import { useStorageContext } from '@/contexts';
 import ManageLocallyStoredSearchSystemsSheet from '../search/ManageLocallyStoredSearchSystems';
 import AddSystem from './AddSystem';
 import { SettingsItem, SettingsText, SettingsButton, SettingsSubtitle } from './SettingsItem';
-import MiniSearchSystemItem from '../systems/MiniSearchSystemItem';
+import MiniSystemItem from '../systems/MiniItem';
 import { System } from '@/types';
 
 interface ShowFilteredSystemsProps {
@@ -32,7 +32,7 @@ const ShowFilteredSystems: React.FC<ShowFilteredSystemsProps> = ({ systems, labe
       <details className="my-2 flex flex-col" open={showing} onToggle={() => setShowing(!showing)}>
         <summary className="cursor-pointer">{showing ? 'T' : 'See t'}he {systems.length} {label} {systems.length === 1 ? 'system' : 'systems'}</summary>
         <div className="flex flex-wrap">
-          {systems.map(system => <MiniSearchSystemItem className='w-auto' key={system.id} systemId={system.id} />)}
+          {systems.map(system => <MiniSystemItem className='w-auto' key={system.id} systemId={system.id} />)}
         </div>
       </details>
     </>
@@ -125,11 +125,9 @@ const SystemsSettings: React.FC = () => {
                   }
                   return (
                     <div key={systemId} className="flex w-full">
-                      <SearchSystemItem
-                        id={systemId}
+                      <SystemItem
                         system={system}
                         showDisableDeleteButtons={true}
-                        showDragHandle={false}
                         activeSystemId={undefined}
                       />
                       <DeleteSystemButton system={system} inSettings={true} />

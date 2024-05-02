@@ -5,8 +5,9 @@ import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor,
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSortContext } from '../contexts/';
 import { System } from '../types/system';
-import SearchSystemItem from './systems/SystemItem';
+import SystemItem from './systems/Item';
 import { useForm, FormProvider } from 'react-hook-form';
+import SystemItemDraggable from './systems/DraggableItem';
 
 interface SortingContainerProps {
     showDisableDeleteButtons?: boolean;
@@ -64,13 +65,17 @@ const SortingContainer: React.FC<SortingContainerProps> = (
                 <SortableContext items={filteredSystems.map((system: System) => system.id)} strategy={verticalListSortingStrategy}>
                     {filteredSystems.map((system: System) => (
                         <div id={`${system.id}-bucket`} key={system.id} className="system-item w-full">
-                            <SearchSystemItem
+                            {showDragHandleBoolean ? (
+                            <SystemItemDraggable
                             id={system.id}
                             system={system}
                             showDisableDeleteButtons={showDisableDeleteButtons}
-                            showDragHandle={showDragHandleBoolean}
+                            />
+                            ) : (<SystemItem
+                            system={system}
                             activeSystemId={activeSystemId}
-                        />
+                            />
+                        )}
                         </div>
                     ))}
                 </SortableContext>

@@ -89,7 +89,7 @@ const DropDownMenu: React.FC<{ className?: string }> = ({ className }) => {
     <DropdownMenu
       open={isMainMenuExpanded} onOpenChange={setIsMainMenuExpanded}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className={`hover:bg-blue-10 m-0 py-0 px-2 ${isMainMenuExpanded ? 'bg-blue-500 text-white' : ''}`}>
+        <Button variant="ghost" className={`hover:bg-blue-10 m-0 py-0 px-2 ${isMainMenuExpanded ? 'bg-blue-500 text-white' : ''} ${className} justify-start ml-2 w-8`}>
           <HamburgerMenuIcon className="w-4 h-4"/>
         </Button>
       </DropdownMenuTrigger>

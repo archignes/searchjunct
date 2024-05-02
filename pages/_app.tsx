@@ -14,9 +14,13 @@ import { StorageProvider,
 } from '../src/contexts/';
 import { AppProps } from 'next/app';
 import { StrictMode } from 'react';
+import Header from '../src/components/header/Header';
+import { FeedbackAction } from '../src/components/FeedbackAction';
+import Footer from '../src/components/Footer';
+import ViewMultisearchSheet from '../src/components/search/multisearch/MultisearchManagementSheet';
 
 function MyApp({ Component, pageProps }: AppProps) {
-    return (
+    return (    
         <StrictMode>
             <AddressProvider>
             <StorageProvider>
@@ -29,7 +33,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                                         <ShortcutProvider>
                                         <QueryProvider>
                                             <SearchProvider>
+                                                <Header {...pageProps} />
                                                 <Component {...pageProps} />
+                                                <Footer />
+                                                <FeedbackAction />
+                                                <ViewMultisearchSheet />
                                             </SearchProvider>
                                         </QueryProvider>
                                             </ShortcutProvider>

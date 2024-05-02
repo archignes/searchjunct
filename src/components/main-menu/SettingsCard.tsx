@@ -18,7 +18,7 @@ import SortCard from './Sort';
 import ShortcutsCard from './Shortcuts';
 import SystemsSettings from './Systems';
 import SearchSettings from './Search';
-
+import SystemItemDraggable from '../systems/DraggableItem';
 
 import { ScrollArea } from '../ui/scroll-area';
 import { Label } from '../ui/label';
@@ -38,7 +38,7 @@ export const SettingsItemBox: React.FC<{children: React.ReactNode, label: string
 
 
 const SettingsCard: React.FC = () => {
-
+  
 
 
   return (

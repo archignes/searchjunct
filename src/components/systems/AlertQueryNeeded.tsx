@@ -13,10 +13,9 @@ import {
   AlertDialogTrigger
 } from "../ui/alert-dialog";
 import { System, Query } from "../../types";
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 
-import { SystemTitle } from "./SystemTitle";
+import { SystemTitle } from "./Title";
 
 interface AlertQueryNeededInterface {
   system: System;

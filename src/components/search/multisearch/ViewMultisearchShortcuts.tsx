@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useStorageContext } from '../../../contexts/';
 import { Card, CardContent, CardHeader, CardFooter } from '../../ui/card';
-import MiniSearchSystemItem from '../../systems/MiniSearchSystemItem';
+import MiniSystemItem from '../../systems/MiniItem';
 import { MultisearchActionObject } from '@/types';
 import { Button } from '../../ui/button';
 import { TrashIcon } from '@radix-ui/react-icons';
@@ -36,7 +36,7 @@ const MultisearchActionObjectBucket: React.FC<{ title: string, systems: string[]
             <div className="flex flex-wrap">
                 {systems.length > 0 ? systems.map((system) => (
                     <div key={system} className="chip">
-                        <MiniSearchSystemItem systemId={system} />
+                        <MiniSystemItem systemId={system} />
                     </div>
                 )) : <div className="w-[60px] h-5 mt-1 rounded-md border-white border border-dashed text-sm text-center text-gray-500">none</div>}
             </div>

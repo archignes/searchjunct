@@ -6,7 +6,7 @@ import { platform_icons } from './utilities';
 import { Document, Discussion, MicroPost, ThesesLink } from '@/types';
 import documentsRaw from '../../data/documents.json';
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader } from '../ui/card';
 
 const getExcerpts = (system: System, discussion: any) => {
   return discussion.excerpts && discussion.excerpts.map((excerpt: any, index: number) => (

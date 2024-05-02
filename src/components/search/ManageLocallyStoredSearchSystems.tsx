@@ -12,7 +12,7 @@ import {
 } from "@/src/components/ui/sheet"
 import { Button } from '../ui/button';
 import {AddSystem} from '../main-menu/AddSystem';
-import SystemItem from '../systems/SystemItem';
+import SystemItem from '../systems/Item';
 
 const ManagePrivateSystems: React.FC = () => {
 
@@ -44,7 +44,7 @@ const ManagePrivateSystems: React.FC = () => {
                             <div className="flex justify-between gap-2 items-center bg-gray-100 p-2 rounded-lg">
                                 <div className="flex flex-col">
                                     <div className="border rounded-md shadow-sm w-[200px] bg-white">
-                                        <SystemItem system={system} id={system.id} showDisableDeleteButtons={true} showDragHandle={false} activeSystemId={undefined} />
+                                        <SystemItem system={system} showDisableDeleteButtons={true} activeSystemId={undefined} />
                                     </div>
                                     <span className="mt-2 text-sm">{system.description}</span>
                                 </div>

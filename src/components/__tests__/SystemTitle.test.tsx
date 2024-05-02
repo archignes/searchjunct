@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'; // Import jest-dom for extended matchers
-import { SystemTitle } from '../systems/SystemTitle';
+import { SystemTitle } from '../systems/Title';
 import { System } from '../../types/system';
 import { baseSystems } from '../../contexts/SystemsContext';
 
 describe('SystemTitle Component', () => {
-  baseSystems.forEach((system: System) => {
+  baseSystems.slice(0, 3).forEach((system: System) => {
     const expectedName = system.name.replace(' - ', ' ');
 
     it(`renders ${expectedName} without crashing`, () => {

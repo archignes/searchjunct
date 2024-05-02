@@ -1,18 +1,18 @@
-// ui/MiniSearchSystemItem.tsx 
+// ui/MiniSystemItem.tsx 
 
 import React from 'react';
 import { System } from '../../types/system';
 import { useStorageContext } from '../../contexts/StorageContext';
-import { SystemTitle } from './SystemTitle';
+import { SystemTitle } from './Title';
 import { useSystemsContext } from '../../contexts/SystemsContext';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
-interface MiniSearchSystemItemProps {
+interface MiniSystemItemProps {
   systemId: string;
   className?: string;
 }
 
-const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId, className }) => {
+const MiniSystemItem: React.FC<MiniSystemItemProps> = ({ systemId, className }) => {
   const {systemsDeleted, systemsDisabled } = useStorageContext();
   const { allSystems } = useSystemsContext();
   const system = allSystems.find((system: System) => system.id === systemId);
@@ -49,4 +49,4 @@ const MiniSearchSystemItem: React.FC<MiniSearchSystemItemProps> = ({ systemId, c
   );
 };
 
-export default MiniSearchSystemItem;
+export default MiniSystemItem;

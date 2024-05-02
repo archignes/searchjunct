@@ -19,6 +19,7 @@ import HotkeyCard from "../cards/Info/Hotkey"
 import PrivacyCard from "../cards/Info/Privacy"
 import SetupCard from "../cards/Info/Setup"
 import AboutCard from "../cards/Info/About"
+import UpdatesCard from "../cards/Info/Updates"
 
 
 const InfoCard: React.FC = () => {
@@ -33,11 +34,12 @@ const InfoCard: React.FC = () => {
           </div> */}
           
         <Tabs defaultValue="about" className="px-1 w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="about">About</TabsTrigger>
             <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="privacy">Privacy</TabsTrigger>
             <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="setup">Setup</TabsTrigger>
             <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="hotkeys">Hotkeys</TabsTrigger>
+            <TabsTrigger className="mx-1 hover:bg-blue-100 data-[state=active]:cursor-default" value="updates">Updates</TabsTrigger>
           </TabsList>
           <ScrollArea style={{ height: `calc(100vh - 260px)` }} className="p-4">
           <TabsContent value="about">
@@ -51,7 +53,10 @@ const InfoCard: React.FC = () => {
             </TabsContent>
             <TabsContent value="hotkeys">
               <HotkeyCard/>
-        </TabsContent>
+            </TabsContent>
+            <TabsContent value="updates">
+              <UpdatesCard/>
+            </TabsContent>
           </ScrollArea>
         </Tabs>
         

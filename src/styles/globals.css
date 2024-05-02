@@ -110,8 +110,19 @@ body {
     /* Allows scrolling within the dialog if content exceeds max-height */
 }
 
-/* Apply hover effect to the entire AccordionItem */
+/* Add this CSS rule in your stylesheet */
+.chevron-icon {
+    visibility: hidden;
+    /* Hide the icon by default */
+}
 
+.accordion-item-hover:hover .chevron-icon {
+    visibility: visible;
+    /* Show the icon when the parent is hovered */
+}
+
+
+/* Apply hover effect to the entire AccordionItem */
 .accordion-item-hover:hover {
     background-color: rgb(219, 234, 254);
 }
@@ -121,3 +132,10 @@ body {
     background-color: rgb(147, 197, 253);
 }
 
+
+/* Add this CSS rule in your stylesheet */
+.accordion-item-hover:hover .chevron-icon,
+.accordion-item-active .chevron-icon {
+    display: block;
+    /* or visibility: visible; */
+}

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react"
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
 import { useRouter } from "next/router"
-import { FaviconImage } from "../systems/SystemTitle"
+import { SystemFavicon } from "../systems/Favicon"
 import { cn } from "@/lib/utils"
 import { Button } from "../ui/button"
 import {
@@ -28,19 +28,18 @@ interface SystemComboBoxProps {
 const SystemOptionLabel = ({ system }: { system: System }) => {
   return (
     <p className="flex items-center">
-      <FaviconImage system={system} className="inline-block mr-2" />
+      <SystemFavicon system={system} className="inline-block mr-2" />
       {system.name}
     </p>
   );
 }
 
-export function SystemComboBox({ systems, system }: SystemComboBoxProps) {
+export const SystemComboBox: React.FC<SystemComboBoxProps> = ({ systems, system }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(system.name);
   
   const alphaSortedSystems = [...systems].sort((a, b) => a.name.localeCompare(b.name));
   const router = useRouter();
-
 
   useEffect(() => {
     if (value !== system.name) {
