@@ -28,17 +28,17 @@ const HeaderTitle: React.FC<{ pageTitleParts: string[] }> = ({ pageTitleParts })
   )
 }
 
-const Header: React.FC<{ pageTitleParts?: string[], system?: System }> = ({ pageTitleParts, system }) => {
+const Header: React.FC<{ pageTitleParts?: string[], system?: System, sharePage?: boolean }> = ({ pageTitleParts, system, sharePage }) => {
   const {baseSystems} = useSystemsContext();
   return (
     <header className="grid grid-cols-12 pt-1 mb-1">
       {/* <MainMenuToggle className="col-span-1" /> */}
-      <DropDownMenu className="col-span-1" />
-      <a href="/" className={`col-span-10 text-4xl text-center ${pageTitleParts ? '' : 'mb-0'} block`}>
+      {!sharePage && <DropDownMenu className="col-span-1" />}
+      <a href="/" className={`${sharePage ? 'col-span-12' : 'col-span-10'} text-4xl text-center ${pageTitleParts ? '' : 'mb-0'} block`}>
         <Image className="inline" src="/searchjunct.svg" alt="Searchjunct Logo" width={32} height={32} />
         <SearchjunctTitle /></a>
       {pageTitleParts && <HeaderTitle pageTitleParts={pageTitleParts} />}
-      {system && 
+      {system && !sharePage && 
         <div className="col-span-12 text-center my-2">
           <p><SystemComboBox systems={baseSystems} system={system} /></p>
         </div>

@@ -2,9 +2,8 @@
 
 // share/[id].tsx
 import React, { useEffect, useState } from 'react';
-import Script from 'next/script';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { LandingPageScreenshots } from '../../src/components/systems/Images';
+import { PageScreenshots } from '../../src/components/systems/Images';
 import { System } from '../../src/types/system';
 import { baseSystems } from '../../src/contexts/SystemsContext';
 import { OpenSourceLicense } from '../../src/components/systems/Elements';
@@ -23,6 +22,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return {
         props: {
             system,
+            sharePage: true
         },
     };
 };
@@ -42,16 +42,6 @@ const SystemPage = ({ system }: { system: System }) => {
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && !window.location.href.includes('localhost')) {
-            const script = document.createElement('script');
-            script.defer = true;
-            script.src = "https://plausible.io/js/script.js";
-            script.setAttribute('data-domain', 'searchjunct.com');
-            document.body.appendChild(script);
-        }
-    }, []);
-
-    useEffect(() => {
         setIsClient(typeof window !== 'undefined');
     }, []);
 
@@ -61,25 +51,22 @@ const SystemPage = ({ system }: { system: System }) => {
 
     return (
         <>
-            {typeof window !== 'undefined' && !window.location.href.includes('localhost') ? (
-                <Script defer data-domain="searchjunct.com" src="https://plausible.io/js/script.js" />
-            ) : null}
-            <div className="mx-1 w-9/10 sm:w-3/4 sm:mx-auto md:w-3/7 lg:w-3/5 xl:w-2/4">
-                <div className="flex flex-row mx-7">
-                    <div className={`w-full bg-white flex flex-row rounded-md mr-1 p-1`}>
-                        <div className="mt-5 min-w-[250px] mr-4">
+            <div className="mx-1 mt-5">
+                <div className="flex flex-row">
+                    <div className={`w-full justify-center bg-white flex flex-row rounded-md mr-1 p-1`}>
+                        <div className="mt-5 min-w-[350px] mr-4">
                             <SystemTitle system={system} favicon_included={true} />
-                            <span className="ml-1">{system.searchLink.replace('https://', '').replace('/', '')}</span>
+                            <pre className="my-2 border-l-2 border-gray-300 bg-gray-100 p-2">{system.searchLink.replace('https://', '').replace('/', '')}</pre>
                             <div className="mt-5">
                                 <OpenSourceLicense system={system} />
                             {system.characteristics && system.characteristics.output && (
                                 <div>
-                                    <p className="w-[250px] text-sm ml-1">output type: {system.characteristics.output}</p>
+                                    <p className="ml-1"><span className="font-bold">output type:</span> {system.characteristics.output}</p>
                                 </div>
                             )}
                             </div>
                         </div>
-                        <LandingPageScreenshots system={system} shareCard={true} />
+                        <PageScreenshots system={system} shareCard={true}/>
                     </div>
                     
                 </div>

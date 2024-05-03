@@ -84,6 +84,7 @@ export interface System {
         }
     ]
     landingPageScreenshots?: string[];
+    exampleSerpScreenshots?: string[];
     iosApp?: string;
     androidApp?: string;
     addFaviconBackground?: string;

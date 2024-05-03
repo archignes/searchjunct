@@ -35,9 +35,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                                             <SearchProvider>
                                                 <Header {...pageProps} />
                                                 <Component {...pageProps} />
-                                                <Footer />
-                                                <FeedbackAction />
-                                                <ViewMultisearchSheet />
+                                                {!pageProps.sharePage && <Footer />}
+                                                {!pageProps.sharePage && <FeedbackAction />}
+                                                {!pageProps.sharePage && <ViewMultisearchSheet />}
                                             </SearchProvider>
                                         </QueryProvider>
                                             </ShortcutProvider>

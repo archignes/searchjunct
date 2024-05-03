@@ -429,7 +429,6 @@
   {
     "name":"Globe Explorer",
     "id":"globe-explorer",
-    "special_note": "v2",
     "characteristics": {
       "output": "structured conceptual representation"
     },
@@ -437,7 +436,8 @@
     "search_link_note": "The search link pattern creates square brackets and quotes around the query string, it is possible to manually split query terms with a comma in quotes (`\",\"`).",
     "twitter_link": "https://twitter.com/globe_engineer",
     "product_hunt_link": "https://www.producthunt.com/products/globe-explorer",
-    "landing_page_screenshots": ["screencapture-explorer-globe-engineer-2024-04-26-02_00_06.png"]
+    "landing_page_screenshots": ["screencapture-explorer-globe-engineer-2024-04-26-02_00_06.png"],
+    "example_serp_screenshots": ["screencapture-explorer-globe-engineer-2024-05-03-10_31_23-edit.png"]
   },
   {
     "name": "Komo",

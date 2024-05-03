@@ -189,6 +189,20 @@
     "url": "https://twitter.com/CalebJohn24/status/1786011529084821960",
     "author": "Caleb John",
     "date": "2024-05-02"
+  },
+  {
+    "type": "discussion",
+    "systems": ["globe-explorer"],
+    "title": "Unbundling consumer search: query-interface fit",
+    "url": "https://kojo.blog/unbundling-search/",
+    "author": "Kojo Osei",
+    "date": "2024-04-17",
+    "excerpts": [
+      {
+        "text": "One promising attempt at breadth-first research is Globe Explorer. I think of it as a self-assembling Wikipedia page. It gives you a map of all possible ideas related to your query, organized into a hierarchy that makes it easy to go deep or wide. The results feel exhaustive.",
+        "system": "globe-explorer"
+      }
+    ]
   }
 ]
 

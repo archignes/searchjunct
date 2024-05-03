@@ -20,18 +20,23 @@ export const SpecialFeatureImage: React.FC<{ image: string, title: string }> = (
     );
 };
 
-export const LandingPageScreenshots: React.FC<{ system: System, shareCard?: boolean }> = ({ system, shareCard }) => {
-  const screenshots = system.landingPageScreenshots;
+export const PageScreenshots: React.FC<{ system: System, shareCard?: boolean }> = ({ system, shareCard }) => {
+  const combinedScreenshots = [
+    ...(system.exampleSerpScreenshots?.map(ss => `example_serps/${ss}`) || []),
+    ...(system.landingPageScreenshots?.map(ss => `landing_pages/${ss}`) || [])
+  ];
+  
 
-  if (!screenshots || screenshots.length === 0) {
+
+  if (!combinedScreenshots || combinedScreenshots.length === 0) {
     return null; // No images to display
   }
 
   if (shareCard) {
-    const imageSrc = screenshots[0];
+    const imageSrc = combinedScreenshots[0];
     return (
       <Image
-        src={`/screenshots/landing_pages/${imageSrc}`}
+        src={`/screenshots/${imageSrc}`}
         alt={`Share card screenshot`}
         width={390}
         height={844}
@@ -43,16 +48,16 @@ export const LandingPageScreenshots: React.FC<{ system: System, shareCard?: bool
 
   return (
     <div className={`my-1 ${shareCard ? 'flex flex-col sm:flex-row gap-1 justify-center w-full' : ''}`}>
-      {screenshots.map((screenshot, index) => {
+      {combinedScreenshots.map((screenshot, index) => {
         const isWide = index === 1; // Assume second image might be wider
 
         return (
           <div
             key={index}
-            className={`${isWide ? 'sm:w-2/3' : 'sm:w-1/3'}`} // Adjust width for second image
+            className={`mx-auto ${isWide ? 'sm:w-2/3' : 'sm:w-1/3'}`} // Adjust width for second image
           >
             <Image
-              src={`/screenshots/landing_pages/${screenshot}`}
+              src={`/screenshots/${screenshot}`}
               alt={`Screenshot ${index + 1}`}
               width={isWide ? 800 : 400}
               height={422}

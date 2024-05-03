@@ -23,7 +23,7 @@ import { System } from "../../types/system";
 import { DeleteSystemButton, DisableSystemButton } from './Buttons';
 import { MicroPostsLinks, Discussions, ThesesLinks } from './Documents';
 import { useSystemsContext } from '../../contexts/SystemsContext';
-import { LandingPageScreenshots, SpecialFeatureImage } from './Images';
+import { PageScreenshots, SpecialFeatureImage } from './Images';
 
 import { PermalinkAlertDialog, SearchLinkAlertDialog, SearchLinkPatternAlert, NoticeAlert } from './Alerts';
 
@@ -183,7 +183,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system, systemPage }) => {
             </AlertDescription>
           </Alert>
         )}
-        <LandingPageScreenshots system={system} />
+        <PageScreenshots system={system} />
       {!settingsCardActive && (
         <div className="flex flex-col space-x-1 text-xs sm:space-y-0 sm:space-x-2 w-2/5 my-2 items-end justify-end ml-auto">
           <DisableSystemButton system={system} />
