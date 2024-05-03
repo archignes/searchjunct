@@ -181,6 +181,14 @@
     "url": "https://twitter.com/Mr_BishalSaha/status/1785710769360998601",
     "author": "Bishal Saha",
     "date": "2024-05-01"
+  },
+  {
+    "type": "micro_post",
+    "systems": ["simplicity"],
+    "text": "Last night we hacked together a clone of @perplexity_ai as a fun experiment. We used @ExaAILabs for web searches, @togethercompute to serve Llama 3, and of course used @joinpongo for semantic filtering.\n\nWe're calling it \"Simplicity\" the lightweight open-source Perplexity. Simplicity is far from the incredible and complete product that is Perplexity but it's cool to see what you can hack together just using off the shelf APIs.\n\nTry it out and view the source code below.",
+    "url": "https://twitter.com/CalebJohn24/status/1786011529084821960",
+    "author": "Caleb John",
+    "date": "2024-05-02"
   }
 ]
 

@@ -39,7 +39,15 @@
   "github_link": "https://github.com/chatnoir-eu",
   "youtube_link": "https://www.youtube.com/webis"
 },
-
+{
+  "name": "Simplicity",
+  "id": "simplicity",
+  "search_link": "https://smpl.pongo.ai/",
+  "twitter_link": "https://twitter.com/joinpongo",
+  "open_source_license": "MIT License",
+  "github_link": "https://github.com/PongoAI/simplicity",
+  "landing_page_screenshots": ["screencapture-smpl-pongo-ai-2024-05-02-22_43_38.png"]
+},
   {
     "name": "Omniplex",
     "id": "omniplex",
