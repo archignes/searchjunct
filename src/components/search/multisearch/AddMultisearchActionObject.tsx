@@ -1,6 +1,6 @@
 // cards/Settings/CustomMultisearch.tsx
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { z } from "zod";
 
 import {
@@ -28,7 +28,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '../../ui/alert-dialog';
-import { MultisearchActionObject } from '@/types';
 import { Avatar } from '@mui/material';
 
 const AddMultisearchActionObject: React.FC = () => {

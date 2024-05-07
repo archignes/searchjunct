@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import SystemCard from '../src/components/systems/Card';
+import SystemPageCard from '../src/components/systems/Card.Page';
 import OpenGraphCardMetaData from '../src/components/OpenGraphCardMetadata';
 import { System } from '../src/types/system';
 import { baseSystems } from '../src/contexts/SystemsContext';
@@ -79,7 +79,7 @@ const SystemPage = ({ system, title, description, url, image }: {
                         {shouldRenderSearchBar && (
                             <SearchBar system={system} />
                         )}
-                        <SystemCard system={system} systemPage={true} />
+                        <SystemPageCard system={system} />
                     </div>
                 </div>
             </div>

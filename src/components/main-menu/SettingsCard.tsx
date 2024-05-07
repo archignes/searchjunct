@@ -18,7 +18,6 @@ import SortCard from './Sort';
 import ShortcutsCard from './Shortcuts';
 import SystemsSettings from './Systems';
 import SearchSettings from './Search';
-import SystemItemDraggable from '../systems/DraggableItem';
 
 import { ScrollArea } from '../ui/scroll-area';
 import { Label } from '../ui/label';

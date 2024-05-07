@@ -2,15 +2,11 @@
 import React from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
-import Header from '../src/components/header/Header';
-import Footer from '../src/components/Footer';
 import SystemList from "../src/components/SystemList";
 import SearchBar from "../src/components/SearchBar";
 import ShortcutBar from "../src/components/ShortcutBar";
-import { FeedbackAction } from "../src/components/FeedbackAction";
-import ViewMultisearchSheet from '../src/components/search/multisearch/MultisearchManagementSheet';
 import SetDefaults from '../src/components/SetDefaults';
-
+import { VisibleSystemsProvider } from '../src/components/VisibleSystemsContext';
 
 const title = "Searchjunct"
 const description = "Searchjunct helps you explore possibility in search by routing your query across multiple search engines.";
@@ -46,7 +42,9 @@ const HomePage = () => {
         <div className={`w-full bg-white rounded-md mr-1 p-1`}>
           <SearchBar />
           <ShortcutBar />
-          <SystemList />
+          <VisibleSystemsProvider>
+            <SystemList />
+          </VisibleSystemsProvider>
         </div>
         </div>
         </div>

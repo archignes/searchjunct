@@ -61,6 +61,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
 
 
+
     return (
         <AppContext.Provider value={{
             settingsCardActive, setSettingsCardActive,

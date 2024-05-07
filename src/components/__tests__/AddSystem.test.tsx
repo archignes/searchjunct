@@ -5,7 +5,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AddSystem } from '../main-menu/AddSystem';
 import '@testing-library/jest-dom';
-import { useStorageContext, useSystemsContext } from '@/contexts';
 
 // Mock the required context providers
 jest.mock('@/contexts/StorageContext', () => ({

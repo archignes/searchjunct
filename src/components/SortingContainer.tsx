@@ -1,28 +1,17 @@
 // SortingContainer.tsx 
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { DndContext, closestCenter, KeyboardSensor, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSortContext } from '../contexts/';
 import { System } from '../types/system';
-import SystemItem from './systems/Item';
 import { useForm, FormProvider } from 'react-hook-form';
 import SystemItemDraggable from './systems/DraggableItem';
 
-interface SortingContainerProps {
-    showDisableDeleteButtons?: boolean;
-    include: System[];
-    isInsideSettingsCard?: boolean;
-    activeSystemId: string | undefined;
-    showDragHandleBoolean: boolean;
-    setActiveSystemRef: React.MutableRefObject<HTMLDivElement | null>;
-}
 
-const SortingContainer: React.FC<SortingContainerProps> = (
-    { showDisableDeleteButtons = false, include = [], activeSystemId, showDragHandleBoolean = false, setActiveSystemRef }) => {
+const SortingContainer: React.FC<{ visibleSystems: System[] }> = ({ visibleSystems }) => {
     const { updateDragOrder, systemsCurrentOrder } = useSortContext();
 
-    
     const sensors = useSensors(
         useSensor(PointerSensor, {
         }),
@@ -55,9 +44,7 @@ const SortingContainer: React.FC<SortingContainerProps> = (
         },
     });
 
-    const filteredSystems = useMemo(() => {
-        return systemsCurrentOrder.filter(system => include.includes(system));
-    }, [systemsCurrentOrder, include]);
+    const filteredSystems = visibleSystems.filter(system => systemsCurrentOrder.includes(system));
 
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -65,17 +52,11 @@ const SortingContainer: React.FC<SortingContainerProps> = (
                 <SortableContext items={filteredSystems.map((system: System) => system.id)} strategy={verticalListSortingStrategy}>
                     {filteredSystems.map((system: System) => (
                         <div id={`${system.id}-bucket`} key={system.id} className="system-item w-full">
-                            {showDragHandleBoolean ? (
                             <SystemItemDraggable
                             id={system.id}
                             system={system}
-                            showDisableDeleteButtons={showDisableDeleteButtons}
+                            showDisableDeleteButtons={true}
                             />
-                            ) : (<SystemItem
-                            system={system}
-                            activeSystemId={activeSystemId}
-                            />
-                        )}
                         </div>
                     ))}
                 </SortableContext>

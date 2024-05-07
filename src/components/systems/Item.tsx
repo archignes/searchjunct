@@ -13,11 +13,12 @@ import {
   AccordionTrigger,
 } from "../ui/accordion-minus"
 import { System } from '../../types/system';
-import SystemCard from './Card';
-import { useSystemExpansionContext,
+import SystemAccordionCard from './Card.Accordion';
+import {
+  useSystemExpansionContext,
   useQueryContext,
   useSystemSearchContext,
-  useSearchContext, 
+  useSearchContext,
   useStorageContext,
   useAddressContext
 } from '../../contexts';
@@ -99,7 +100,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
       e.stopPropagation();
     } else {
       if (setOpenItem) {
-          setOpenItem(openItem === "item-1" ? undefined : "item-1");
+        setOpenItem(openItem === "item-1" ? undefined : "item-1");
       }
     }
   };
@@ -147,7 +148,7 @@ const SystemAccordionItem: React.FC<SystemAccordionItemProps> = React.memo(({
         </div>
       </div>
       <AccordionContent className="p-0 pb-1">
-        <SystemCard system={system} />
+        <SystemAccordionCard system={system} />
       </AccordionContent>
     </AccordionItem>
   );
@@ -161,13 +162,13 @@ const SystemItem: React.FC<SystemItemProps> = ({
   className,
   showDisableDeleteButtons
 }) => {
-  const { systemsSkipped} = useSystemSearchContext();
+  const { systemsSkipped } = useSystemSearchContext();
   const { getPreppedSearchLink } = useSearchContext();
   const { queryObject } = useQueryContext();
   const { systemsDisabled, systemsSearched } = useStorageContext();
   const { expandAllStatus, setExpandedSystemCards, expandedSystemCards } = useSystemExpansionContext();
   const { submitSearch } = useSearchContext();
-  
+
   const { urlSystems } = useAddressContext();
 
   const [everClickedReExpansionCollapse, setEverClickedReExpansionCollapse] = useState(false);
@@ -206,32 +207,32 @@ const SystemItem: React.FC<SystemItemProps> = ({
     }
   }, [expandedSystemCards, urlSystems, setExpandedSystemCards, system.id, everClickedReExpansionCollapse]);
 
-  
+
   return (
-      <Accordion value={openItem} onValueChange={setOpenItem}
-          id={`item-${system.id}`}
-          key={system.id}
-          type="single"
-          className={`w-full border rounded-md
+    <Accordion value={openItem} onValueChange={setOpenItem}
+      id={`item-${system.id}`}
+      key={system.id}
+      type="single"
+      className={`w-full border rounded-md
             ${activeSystemId === system.id ? 'border-blue-500' : ''}
             ${openItem === "item-1" || activeSystemId === system.id ? '' : 'border-transparent'}
             ${activeSystemId === system.id ? 'min-h-10' : 'min-h-8'}
             ${systemsDisabled?.[system.id] ? 'bg-orange-300' : ''}
             ${systemsSkipped?.[system.id] ? 'bg-yellow-300' : ''}
             ${systemsSearched?.[system.id] ? 'bg-gray-200' : ''}`}
-          collapsible
-        >
-          <SystemAccordionItem
-            className={className}
-            system={system}
-            queryObject={queryObject}
-            activeSystemId={activeSystemId}
-            submitSearch={submitSearch}
-            getPreppedSearchLink={getPreppedSearchLink}
-            openItem={openItem}
-            setOpenItem={setOpenItemStable}
-          />
-        </Accordion>
+      collapsible
+    >
+      <SystemAccordionItem
+        className={className}
+        system={system}
+        queryObject={queryObject}
+        activeSystemId={activeSystemId}
+        submitSearch={submitSearch}
+        getPreppedSearchLink={getPreppedSearchLink}
+        openItem={openItem}
+        setOpenItem={setOpenItemStable}
+      />
+    </Accordion>
   );
 };
 

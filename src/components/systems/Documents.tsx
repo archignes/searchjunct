@@ -29,7 +29,7 @@ export function ThesesLinks({ system }: { system: System }) {
     <div id="theses-links" className='ml-1'>
       <span className="text-xs">Theses:</span>
       <ul className='list-outside'>{systemTheses.map((thesis, index) => (
-        <li key={`thesis-${index}`} className='text-xs mx-4 list-["-_"]'>
+        <li key={index} id={`thesis-${index}`} className='text-xs mx-4 list-["-_"]'>
           {thesis.author} <a href={thesis.url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100">
             {thesis.title}
           </a> ({thesis.date.split('-')[0]})
@@ -55,7 +55,7 @@ export function Discussions({ system }: { system: System }) {
     <div id="discussion" className='ml-1'>
       <span className="text-xs">Discussions:</span>
       <ul className='list-outside'>{systemDiscussions.map((discussion, index) => (
-        <li key={index} className='space-x-1 text-xs mx-4 list-["-_"]'>
+        <li key={index} id={`discussion-${index}`} className='space-x-1 text-xs mx-4 list-["-_"]'>
           {discussion.author && `${discussion.author} `}
           {discussion.author && discussion.platform && `on `}
           {discussion.platform && <strong>{discussion.platform}</strong>}
@@ -116,7 +116,7 @@ export function MicroPostsLinks({ system }: { system: System }) {
   return (
     <div id="micro-posts-links" className='ml-1'>
       <ul className='list-outside'>{systemMicroPosts.map((microPost, index) => (
-        <li key={`micro-post-${index}`} className='p-1 w-full sm:w-3/4'>
+        <li key={index} id={`micro-post-${index}`} className='p-1 w-full sm:w-3/4'>
           <Card className='shadow-md'>
             <CardHeader className='p-3'>
           {getAuthorLine(microPost)}

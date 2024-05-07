@@ -1,7 +1,6 @@
 // SystemTitle.tsx
 
 import React from 'react'; 
-import Image from 'next/image';
 import { System } from '../../types/system';
 import { SystemFavicon } from './Favicon';
 

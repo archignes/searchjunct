@@ -1,6 +1,6 @@
 // __tests__/SortContext.test.tsx
 import React, { useEffect } from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { SortProvider, useSortContext, shuffleSystems } from '../SortContext';
 import { StorageProvider } from '../StorageContext';
 import { SystemsProvider } from '../SystemsContext';

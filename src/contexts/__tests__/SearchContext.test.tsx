@@ -1,18 +1,4 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SearchBar from '../../components/SearchBar';
-import { AppProvider,
-    SearchProvider,
-    SystemsProvider,
-    StorageProvider,
-    SortProvider,
-    SystemSearchProvider,
-    SystemToggleProvider,
-    SystemExpansionProvider,
-    QueryProvider } from '../';
-import '@testing-library/jest-dom';
-import { useRouter } from 'next/router';
 import { getShortcutCandidate } from '../ShortcutContext';
 
 jest.mock('next/router', () => ({

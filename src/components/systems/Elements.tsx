@@ -1,4 +1,4 @@
-// SettingButtons.tsx
+// Elements.tsx
 
 import React from 'react';
 import { System } from '../../types/system';
@@ -6,7 +6,22 @@ import { Button } from '../ui/button';
 import { CheckIcon } from '@radix-ui/react-icons';
 
 
-export const OpenSourceLicense: React.FC<{ system: System }> = ({ system }) => {
+export const SystemCitations: React.FC<{ system: System }> = React.memo(({ system }) => {
+  return (
+    <div className="text-xs text-left">{system.citations?.map((citation, index) => (
+      <React.Fragment key={`citation-${index}`}>
+        <p>{citation.names} ({citation.year})
+          <a href={citation.title_url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">{citation.title}</a>
+          <span className="text-xs italic">{citation.publication}.</span>
+          <a href={citation.doi_url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">{citation.doi}</a>
+        </p>
+        <p className="text-xs mx-5 mt-2">Abstract: {citation.abstract}</p>
+      </React.Fragment>
+    ))}</div>
+  )
+});
+
+export const OpenSourceLicense: React.FC<{ system: System }> = React.memo(({ system }) => {
   if (!system.openSourceLicense) {
     return null;
   }
@@ -24,4 +39,4 @@ export const OpenSourceLicense: React.FC<{ system: System }> = ({ system }) => {
         </a>
       </div>
     )
-  }
+  })

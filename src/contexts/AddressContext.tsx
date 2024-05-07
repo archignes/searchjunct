@@ -12,6 +12,8 @@ interface AddressProviderProps {
 }
 
 interface AddressContextType {
+    systemPage: boolean;
+    shareCardPage: boolean;
     url: string;
     setURL: (url: string) => void;
     urlQuery: string;
@@ -26,6 +28,8 @@ interface AddressContextType {
 }
 
 const defaultAddressContext: AddressContextType = {
+    systemPage: false,
+    shareCardPage: false,
     url: '',
     setURL: () => { },
     urlQuery: '',
@@ -97,10 +101,22 @@ export const AddressProvider: React.FC<AddressProviderProps> = ({ children }) =>
 
     useEffect(() => {
         updateURL();    
-    }, [url, updateURL]);
+    }, [url, updateURL])
+    
+    const [systemPage, setSystemPage] = useState<boolean>(false);
+    const [shareCardPage, setShareCardPage] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        const path = url.split('/');
+        setSystemPage(path.length === 2 && path[1] !== '');
+        setShareCardPage(path.includes('/share-card'));
+    }, [url]);
 
     return (
         <AddressContext.Provider value={{
+            systemPage,
+            shareCardPage,
             url,
             setURL,
             urlQuery,

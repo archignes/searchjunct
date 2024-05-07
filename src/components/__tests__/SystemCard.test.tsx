@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SystemCard from '../systems/Card'; // Adjust the import path according to your project structure
+import SystemCard from '../systems/Card.Page'; // Adjust the import path according to your project structure
 
 
 // mock useRouter

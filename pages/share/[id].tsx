@@ -66,7 +66,7 @@ const SystemPage = ({ system }: { system: System }) => {
                             )}
                             </div>
                         </div>
-                        <PageScreenshots system={system} shareCard={true}/>
+                        <PageScreenshots system={system}/>
                     </div>
                     
                 </div>

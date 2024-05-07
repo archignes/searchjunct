@@ -1,11 +1,12 @@
 // DropDownMenu.tsx
 
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useEffect, useState, Suspense } from 'react';
 import { HamburgerMenuIcon, GearIcon, Share2Icon, SlashIcon, QuestionMarkIcon } from '@radix-ui/react-icons';
 import { MainMenuButton } from './Button';
-import SettingsCard from './SettingsCard';
-import InfoCard from './Info';
-import QuickShortcutsCard from './QuickShortcuts';
+// import SettingsCard from './SettingsCard';
+// import InfoCard from './Info';
+// import QuickShortcutsCard from './QuickShortcuts';
+// import ShareCard from './ShareMenu';
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel } from '@/src/components/ui/alert-dialog';
 import { Button } from "@/src/components/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/src/components/ui/tooltip';
@@ -18,7 +19,7 @@ import {
   useAppContext,
   useQueryContext
 } from '@/contexts';
-import ShareCard from './ShareMenu';
+
 
 
 import {
@@ -28,8 +29,15 @@ import {
   DropdownMenuSeparator
 } from "@/src/components/ui/dropdown-menu"
 
+const SettingsCard = React.lazy(() => import('./SettingsCard'));
+const InfoCard = React.lazy(() => import('./Info'));
+const QuickShortcutsCard = React.lazy(() => import('./QuickShortcuts'));
+const ShareCard = React.lazy(() => import('./ShareMenu'));
+
+
+
 const ACTION_BUTTON_CLASSNAME = "inline-flex whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground rounded-md text-xs w-full px-2 mr-auto h-7 items-center justify-start text-current hover:bg-blue-100"
-const DropDownMenu: React.FC<{ className?: string }> = ({ className }) => {
+const DropDownMenu: React.FC<{ className?: string }> = React.memo(({ className }) => {
   const { isMainMenuExpanded, setIsMainMenuExpanded } = useAppContext();
   const [isClient, setIsClient] = useState<boolean>(false);
   useEffect(() => {
@@ -94,6 +102,7 @@ const DropDownMenu: React.FC<{ className?: string }> = ({ className }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40">
+        <Suspense fallback={<div>Loading...</div>}>
             <MainMenuButton
               TargetTitle="Settings"
               TargetTooltip="Settings"
@@ -122,6 +131,7 @@ const DropDownMenu: React.FC<{ className?: string }> = ({ className }) => {
               TargetIcon={<SlashIcon />}
               ButtonIndex={3}
             />
+            </Suspense>
             <DropdownMenuSeparator className="my-2"/>
               <TooltipProvider>
                 <Tooltip>
@@ -239,6 +249,6 @@ const DropDownMenu: React.FC<{ className?: string }> = ({ className }) => {
           </DropdownMenuContent>
         </DropdownMenu>
   )
-}
+});
 
 export default DropDownMenu;

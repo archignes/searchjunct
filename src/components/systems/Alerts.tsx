@@ -1,4 +1,4 @@
-// SystemCard.tsx
+// Alerts.tsx
 import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import {
@@ -97,13 +97,18 @@ export const PermalinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => {
   )
 }
 
-export const SearchLinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => {
+export const SearchLinkAlertDialog: React.FC<SystemCardProps> = React.memo(({ system }) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Set isClient to true once the component has mounted
     setIsClient(true);
-    // Optionally, perform the clipboard operation here if needed immediately after mount
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  const handleCopySearchLink = () => {
     if (system.searchLink && typeof navigator !== 'undefined') {
       navigator.clipboard.writeText(system.searchLink)
         .then(() => {
@@ -113,18 +118,16 @@ export const SearchLinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => 
           console.error('Failed to copy search link: ', err);
         });
     }
-  }, [system.searchLink]); // Depend on system.searchLink to re-run if it changes
-
-  if (!isClient) {
-    // Render nothing or placeholder content until the component has mounted
-    return null;
-  }
+  };
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild className="flex flex-row items-center text-xs justify-center p-0 m-0">
-        <Button variant="ghost" size="sm"
+        <Button
+          variant="ghost"
+          size="sm"
           className="m-0 p-0 hover:bg-white font-normal flex-row items-center justify-center"
+          onClick={handleCopySearchLink}
         >
           <div className="grid grid-cols-[auto_24px] hover:bg-blue-100 text-left p-1 items-center justify-center rounded-md underline">
             <span className="overflow-auto max-w-full">{system.searchLink}</span>
@@ -140,7 +143,9 @@ export const SearchLinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => 
               <>
                 <SetupCustomDefaultSystemInstructions system={system} />
               </>
-            ) : (<p>Search link does not contain a <code>%s</code> placeholder so you cannot set this system as your default search engine or dynamically create search links.</p>)}
+            ) : (
+              <p>Search link does not contain a <code>%s</code> placeholder so you cannot set this system as your default search engine or dynamically create search links.</p>
+            )}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -149,4 +154,4 @@ export const SearchLinkAlertDialog: React.FC<SystemCardProps> = ({ system }) => 
       </AlertDialogContent>
     </AlertDialog>
   );
-};
+});

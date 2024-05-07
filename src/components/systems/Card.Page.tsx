@@ -1,7 +1,7 @@
-// SystemCard.tsx
+// Card.Page.tsx
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
-import { useRouter } from 'next/router';
 import {
   Card,
   CardContent,
@@ -13,23 +13,16 @@ import {
   AlertDescription,
   AlertTitle,
 } from "../ui/alert"
-
-import { OpenSourceLicense } from './Elements';
+import { OpenSourceLicense, SystemCitations } from './Elements';
 import { SystemFooterLinks } from './FooterLinks';
 import { GitHubLogoIcon, InfoCircledIcon, Link2Icon, DownloadIcon } from '@radix-ui/react-icons';
-
 import { useAppContext } from '../../contexts/AppContext';
 import { System } from "../../types/system";
 import { DeleteSystemButton, DisableSystemButton } from './Buttons';
 import { MicroPostsLinks, Discussions, ThesesLinks } from './Documents';
 import { useSystemsContext } from '../../contexts/SystemsContext';
 import { PageScreenshots, SpecialFeatureImage } from './Images';
-
 import { PermalinkAlertDialog, SearchLinkAlertDialog, SearchLinkPatternAlert, NoticeAlert } from './Alerts';
-
-
-
-
 
 
 const SpecialFeatures: React.FC<SystemCardProps> = ({ system }) => {
@@ -38,7 +31,7 @@ const SpecialFeatures: React.FC<SystemCardProps> = ({ system }) => {
     <div id="special-features" className='ml-1 border-t pt-2'>
       <span className="text-sm font-bold">Special Features</span>
         <ul>{system.specialFeatures.map((feature, index) => (
-        <li key={`${system.id}-${feature.type.replace(/ /g, '-')}`} className='text-sm mx-4'>
+          <li key={index} id={`${system.id}-${feature.type.replace(/ /g, '-')}`} className='text-sm mx-4'>
             <span className="font-bold">{feature.type}: </span>
           <a href={feature.url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100">{feature.title}</a>
             <br></br>
@@ -54,11 +47,9 @@ const SpecialFeatures: React.FC<SystemCardProps> = ({ system }) => {
 
 interface SystemCardProps {
   system: System;
-  systemPage?: boolean;
 }
 
-const SystemCard: React.FC<SystemCardProps> = ({ system, systemPage }) => {
-  const router = useRouter();
+const SystemPageCard: React.FC<SystemCardProps> = ({ system }) => {
   const { settingsCardActive } = useAppContext();
   const {allSystems} = useSystemsContext();
   const [isClient, setIsClient] = useState(false);
@@ -90,17 +81,6 @@ const SystemCard: React.FC<SystemCardProps> = ({ system, systemPage }) => {
               <PermalinkAlertDialog system={system} />
             </div>
           </div>
-        {!systemPage && <div className="flex items-center flex-wrap break-words m-0 ml-1 p-0 text-xs">
-          <span>page: </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="hover:bg-blue-100 rounded-md flex items-center justify-center flex break-words p-1"
-            onClick={() => router.push(`/${system.id}`)}
-          >
-            /{system.id}
-          </Button>
-        </div>}
         <div className="flex flex-wrap break-words m-0 p-0 text-xs">
             <SearchLinkAlertDialog system={system} />
           </div>
@@ -122,7 +102,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system, systemPage }) => {
           See: {system.seeAlso.map((relatedSystemId, index, array) => {
           const relatedSystem = allSystems.find((sys) => sys.id === relatedSystemId);
           return relatedSystem ? (
-            <React.Fragment key={relatedSystem.id}>
+            <React.Fragment key={index}>
               <a href={`${origin}/?systems=${relatedSystem.id}`}
                  className="hover:bg-blue-100 rounded-md underline p-1 block">
                 {relatedSystem.name}
@@ -151,12 +131,11 @@ const SystemCard: React.FC<SystemCardProps> = ({ system, systemPage }) => {
             <span className="text-xs bg-green-300 p-1 rounded-md mb-1">charity search engine</span>
           </div>
         )}
-        
         <ThesesLinks system={system} />
         <MicroPostsLinks system={system} />
         <Discussions system={system} />
         {system.indices && <p className="text-xs m-1">Index: {system.indices.map((index, idx, array) => (
-            <React.Fragment key={index.name}>
+            <React.Fragment key={idx}>
               {index.url ? (
                 <a href={index.url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 rounded-md">{index.name}</a>
               ) : (
@@ -248,13 +227,7 @@ const SystemCard: React.FC<SystemCardProps> = ({ system, systemPage }) => {
             </>
                     
                     )}
-        {system.citations && <p className="text-xs text-left">{system.citations.map((citation, index) => <>
-              <p key={index}>{citation.names} ({citation.year})
-                  <a href={citation.title_url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">{citation.title}</a>
-                  <span className="text-xs italic">{citation.publication}.</span>
-                  <a href={citation.doi_url} target="_blank" rel="noopener noreferrer" className="underline hover:bg-blue-100 p-1 rounded-md">{citation.doi}</a>
-                </p>
-                <p className="text-xs mx-5 mt-2">Abstract: { citation.abstract }</p></>)}</p>}
+                <SystemCitations system={system} />
               </CardContent>
               <CardFooter id="system-card-footer" data-testid="system-card-footer" className="pb-1">
                 <div className="border-t pt-1 flex flex-col items-center w-full">
@@ -267,4 +240,4 @@ const SystemCard: React.FC<SystemCardProps> = ({ system, systemPage }) => {
   </>);
 };
 
-export default SystemCard;
+export default SystemPageCard;
