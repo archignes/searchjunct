@@ -102,7 +102,7 @@ const DropDownMenu: React.FC<{ className?: string }> = React.memo(({ className }
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense>
             <MainMenuButton
               TargetTitle="Settings"
               TargetTooltip="Settings"
