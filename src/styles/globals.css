@@ -139,3 +139,20 @@ body {
     display: block;
     /* or visibility: visible; */
 }
+
+
+@layer components {
+    .arrLink {
+        text-decoration: underline;
+        /* Underline all anchor text */
+        padding-top: 0.25rem;
+        /* Add padding top, 0.25rem equivalent */
+        border-radius: 0.375rem;
+        /* Rounded-md equivalent */
+    }
+
+    .arrLink:hover {
+        background-color: rgb(219, 234, 254);
+        /* Hover background color blue-100 */
+    }
+}

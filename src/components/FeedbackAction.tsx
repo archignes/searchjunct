@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/src/components/ui/button';
-import { ChatBubbleIcon, EnvelopeClosedIcon, ExitIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
+import { ChatBubbleIcon, EnvelopeClosedIcon, ExitIcon, GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import {
   Drawer,
   DrawerClose,
@@ -14,6 +14,18 @@ import {
 
 
 export const FeedbackAction: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+
+  const projectName = process.env.NEXT_PUBLIC_DOMAIN?.split('/')[2].split('.')[0];
 
   return (
     <Drawer>
@@ -28,22 +40,33 @@ export const FeedbackAction: React.FC = () => {
           <DrawerDescription>Provide feedback.</DrawerDescription>
         </DrawerHeader>
         <div className="flex flex-col gap-1 mt-1">
-          <Button variant="outline" className="hover:bg-blue-100" onClick={() => {
-            window.open(
-              'https://twitter.com/intent/tweet?text=Hey @archignes, I just used Searchjunct.com and...', '_blank');
-          }}>
-            <EnvelopeClosedIcon className="w-4 h-4 mr-1" />Tweet @archignes</Button>
-          <Button variant="outline" className="hover:bg-blue-100" onClick={() => { window.open(
-            'mailto:daniel@archignes.com?subject=Feedback on Searchjunct.com', '_blank'); }}>
-            <EnvelopeClosedIcon className="w-4 h-4 mr-1" />Email Daniel</Button>
-          <Button variant="outline" className="hover:bg-blue-100" onClick={() => { window.open('https://github.com/archignes/searchjunct/issues/new', '_blank'); }}>
-            <GitHubLogoIcon className="w-4 h-4 mr-1"/>New GitHub issue</Button>
-          <Button variant="outline" className="hover:bg-blue-100" onClick={() => { window.open('https://github.com/archignes/searchjunct/issues', '_blank'); }}>
-            <GitHubLogoIcon className="w-4 h-4 mr-1"/>See open GitHub issues</Button>
+          <a href={`https://twitter.com/intent/tweet?text=Hey @archignes, I just used ${projectName} and...`} target="_blank" rel="noopener noreferrer">
+            <Button variant="outline" className="hover:bg-blue-100" onClick={() => {
+              window.open(
+                `https://twitter.com/intent/tweet?text=Hey @archignes, I just used ${projectName} and...`, '_blank');
+            }}>
+              <TwitterLogoIcon className="w-4 h-4 mr-1" />Tweet @archignes
+            </Button>
+          </a>
+          <a href={`mailto:daniel@archignes.com?subject=Feedback on ${projectName}`} target="_blank" rel="noopener noreferrer">
+            <Button variant="outline" className="hover:bg-blue-100">
+              <EnvelopeClosedIcon className="w-4 h-4 mr-1" />Email Daniel
+            </Button>
+          </a>
+          <a href={`https://github.com/archignes/${projectName}/issues/new`} target="_blank" rel="noopener noreferrer">
+            <Button variant="outline" className="hover:bg-blue-100">
+              <GitHubLogoIcon className="w-4 h-4 mr-1" />New GitHub issue
+            </Button>
+          </a>
+          <a href={`https://github.com/archignes/${projectName}/issues`} target="_blank" rel="noopener noreferrer">
+            <Button variant="outline" className="hover:bg-blue-100">
+              <GitHubLogoIcon className="w-4 h-4 mr-1" />See open GitHub issues
+            </Button>
+          </a>
         </div>
         <DrawerFooter>
           <DrawerClose>
-            <ExitIcon/>
+            <ExitIcon />
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

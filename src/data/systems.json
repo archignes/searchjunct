@@ -821,6 +821,17 @@
     "open_source_license": "GNU Affero General Public License v3.0",
     "youtube_link": "https://www.youtube.com/@mwmbl",
     "pronunciation": {"string": "mumble", "url": "https://github.com/mwmbl/mwmbl?tab=readme-ov-file#how-do-you-pronounce-mwmbl"}
+  },
+  {
+    "name": "Rubik's AI",
+    "id": "rubiks-ai",
+    "characteristics": {
+      "output": "generated response"
+    },
+    "search_link": "https://rubiks.ai/search/?q=%s",
+    "base_url": "https://rubiks.ai",
+    "default_placeholder": "How can I help you?",
+    "twitter_link": "https://twitter.com/RubiksAI"
   }
 ]
 
